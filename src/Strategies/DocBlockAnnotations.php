@@ -6,19 +6,30 @@ namespace DannyVanDerSluijs\JsonMapper\Strategies;
 
 use DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder;
 use DannyVanDerSluijs\JsonMapper\Enums\Visibility;
+use DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper;
+use DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper;
 use DannyVanDerSluijs\JsonMapper\JsonMapperInterface;
 use DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap;
 
-class Reflection implements JsonMapperInterface
+class DocBlockAnnotations implements JsonMapperInterface
 {
     public function mapObject(\stdClass $json, object $object): void
     {
         $propertyMap = $this->reflect($object);
         foreach ($json as $key => $value) {
-            if ($propertyMap->hasProperty($key)) {
-                $object->$key = $value;
+            if (! $propertyMap->hasProperty($key)) {
                 continue;
             }
+
+            $propertyInfo = $propertyMap->getProperty($key);
+            $type = $propertyInfo->getType();
+
+            if (TypeHelper::isBuiltinClass($type)) {
+                $value = new $type($value);
+            }
+
+            $object->$key = $value;
+            continue;
         }
     }
 
@@ -30,11 +41,12 @@ class Reflection implements JsonMapperInterface
         $map = new PropertyMap();
         foreach ($properties as $property) {
             $name = $property->getName();
+            $annotations = AnnotationHelper::parseAnnotations((string) $property->getDocComment());
 
             $property = PropertyBuilder::new()
                 ->setName($name)
-                ->setType($property->getType()->getName())
-                ->setIsNullable($property->getType()->allowsNull())
+                ->setType($annotations['var'][0])
+                ->setIsNullable(AnnotationHelper::isNullable($annotations['var'][0]))
                 ->setVisibility(self::getVisibility($property))
                 ->build();
             $map->addProperty($property);
