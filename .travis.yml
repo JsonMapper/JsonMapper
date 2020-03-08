@@ -1,0 +1,22 @@
+language: php
+php:
+  - 7.2
+  - 7.3
+  - 7.4
+  - nightly
+
+matrix:
+  allow_failures:
+    - php: nightly
+
+install:
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install --dev --no-interaction
+script:
+  - mkdir -p build/logs;
+  - composer phpunit
+after_success:
+  - travis_retry php vendor/bin/php-coveralls -v
+notifications:
+  email:
+    - danny.vandersluijs@icloud.com
