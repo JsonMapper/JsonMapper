@@ -1,7 +1,8 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace DannyVanDerSluijs\JsonMapper\Helpers;
-
 
 class TypeHelper
 {
@@ -17,5 +18,27 @@ class TypeHelper
     {
         return $type === '\\' . \DateTimeImmutable::class
             || $type === '\\' . \DateTime::class;
+    }
+
+    /**
+     * @param string|bool|int|float $value
+     * @return string|bool|int|float
+     */
+    public static function cast($value, string $type)
+    {
+        if ($type === 'string') {
+            return (string) $value;
+        }
+        if ($type === 'bool') {
+            return (bool) $value;
+        }
+        if ($type === 'int') {
+            return (int) $value;
+        }
+        if ($type === 'float') {
+            return (float) $value;
+        }
+
+        return $value;
     }
 }

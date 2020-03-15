@@ -7,7 +7,15 @@ namespace DannyVanDerSluijs\Tests\JsonMapper\Implementation;
 class SimpleObject
 {
     /** @var string */
-    public $name;
-    /** @var \DateTimeImmutable */
-    public $date;
+    private $name;
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
 }

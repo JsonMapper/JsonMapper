@@ -27,9 +27,19 @@ class DocBlockAnnotations implements JsonMapperInterface
             if (TypeHelper::isBuiltinClass($type)) {
                 $value = new $type($value);
             }
+            if (TypeHelper::isScalarType($type)) {
+                $value = TypeHelper::cast($value, $type);
+            }
 
-            $object->$key = $value;
-            continue;
+            if ($propertyInfo->getVisibility()->equals(Visibility::PUBLIC())) {
+                $object->$key = $value;
+                continue;
+            }
+
+            $setterMethod = 'set' . ucfirst($key);
+            if (method_exists($object, $setterMethod)) {
+                $object->$setterMethod($value);
+            }
         }
     }
 

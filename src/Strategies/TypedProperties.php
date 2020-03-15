@@ -6,6 +6,7 @@ namespace DannyVanDerSluijs\JsonMapper\Strategies;
 
 use DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder;
 use DannyVanDerSluijs\JsonMapper\Enums\Visibility;
+use DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper;
 use DannyVanDerSluijs\JsonMapper\JsonMapperInterface;
 use DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap;
 
@@ -15,10 +16,19 @@ class TypedProperties implements JsonMapperInterface
     {
         $propertyMap = $this->reflect($object);
         foreach ($json as $key => $value) {
-            if ($propertyMap->hasProperty($key)) {
-                $object->$key = $value;
+            if (! $propertyMap->hasProperty($key)) {
                 continue;
             }
+
+            $propertyInfo = $propertyMap->getProperty($key);
+            $type = $propertyInfo->getType();
+
+            if (TypeHelper::isScalarType($type)) {
+                $value = TypeHelper::cast($value, $type);
+            }
+
+            $object->$key = $value;
+            continue;
         }
     }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DannyVanDerSluijs\Tests\JsonMapper\Implementation\Php74;
 
-class SimpleObject
+class Popo
 {
     public string $name;
 }
