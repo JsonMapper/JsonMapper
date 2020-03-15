@@ -14,6 +14,15 @@ use PHPUnit\Framework\TestCase;
 
 class JsonMapperTest extends TestCase
 {
+    /**
+     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
+     * @covers \DannyVanDerSluijs\JsonMapper\Strategies\DocBlockAnnotations
+     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper
+     */
     public function testItCanMapAnObjectUsingAPublicProperty(): void
     {
         // Arrange
@@ -28,6 +37,15 @@ class JsonMapperTest extends TestCase
         self::assertSame(__METHOD__, $object->name);
     }
 
+    /**
+     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
+     * @covers \DannyVanDerSluijs\JsonMapper\Strategies\DocBlockAnnotations
+     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper
+     */
     public function testItAppliesTypeCastingWhenMappingAnObjectUsingAPublicProperty(): void
     {
         // Arrange
@@ -42,6 +60,15 @@ class JsonMapperTest extends TestCase
         self::assertSame('42', $object->name);
     }
 
+    /**
+     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
+     * @covers \DannyVanDerSluijs\JsonMapper\Strategies\DocBlockAnnotations
+     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper
+     */
     public function testItCanMapAnObjectUsingAPublicSetter(): void
     {
         // Arrange
@@ -56,6 +83,15 @@ class JsonMapperTest extends TestCase
         self::assertSame(__METHOD__, $object->getName());
     }
 
+    /**
+     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
+     * @covers \DannyVanDerSluijs\JsonMapper\Strategies\DocBlockAnnotations
+     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper
+     */
     public function testItAppliesTypeCastingWhenMappingAnObjectUsingAPublicSetter(): void
     {
         // Arrange
@@ -70,6 +106,15 @@ class JsonMapperTest extends TestCase
         self::assertSame('42', $object->getName());
     }
 
+    /**
+     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
+     * @covers \DannyVanDerSluijs\JsonMapper\Strategies\DocBlockAnnotations
+     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper
+     */
     public function testItCanMapAnDateTimeImmutableProperty(): void
     {
         // Arrange
@@ -86,6 +131,13 @@ class JsonMapperTest extends TestCase
 
     /**
      * @requires PHP >= 7.4
+     *
+     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
+     * @covers \DannyVanDerSluijs\JsonMapper\Strategies\TypedProperties
+     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
      */
     public function testItCanMapAnObjectWithTypedProperties(): void
     {
@@ -103,6 +155,13 @@ class JsonMapperTest extends TestCase
 
     /**
      * @requires PHP >= 7.4
+     *
+     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
+     * @covers \DannyVanDerSluijs\JsonMapper\Strategies\TypedProperties
+     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
      */
     public function testItAppliesTypeCastingMappingAnObjectWithTypedProperties(): void
     {
