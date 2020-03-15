@@ -18,4 +18,13 @@ class PropertyMap
     {
         return array_key_exists($name, $this->map);
     }
+
+    public function getProperty(string $key): Property
+    {
+        if (! $this->hasProperty($key)) {
+            throw new \Exception("There is no property named $key");
+        }
+
+        return $this->map[$key];
+    }
 }

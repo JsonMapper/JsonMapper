@@ -6,18 +6,39 @@ namespace DannyVanDerSluijs\JsonMapper\Strategies;
 
 use DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder;
 use DannyVanDerSluijs\JsonMapper\Enums\Visibility;
+use DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper;
+use DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper;
 use DannyVanDerSluijs\JsonMapper\JsonMapperInterface;
 use DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap;
 
-class Reflection implements JsonMapperInterface
+class DocBlockAnnotations implements JsonMapperInterface
 {
     public function mapObject(\stdClass $json, object $object): void
     {
         $propertyMap = $this->reflect($object);
         foreach ($json as $key => $value) {
-            if ($propertyMap->hasProperty($key)) {
+            if (! $propertyMap->hasProperty($key)) {
+                continue;
+            }
+
+            $propertyInfo = $propertyMap->getProperty($key);
+            $type = $propertyInfo->getType();
+
+            if (TypeHelper::isBuiltinClass($type)) {
+                $value = new $type($value);
+            }
+            if (TypeHelper::isScalarType($type)) {
+                $value = TypeHelper::cast($value, $type);
+            }
+
+            if ($propertyInfo->getVisibility()->equals(Visibility::PUBLIC())) {
                 $object->$key = $value;
                 continue;
+            }
+
+            $setterMethod = 'set' . ucfirst($key);
+            if (method_exists($object, $setterMethod)) {
+                $object->$setterMethod($value);
             }
         }
     }
@@ -30,11 +51,12 @@ class Reflection implements JsonMapperInterface
         $map = new PropertyMap();
         foreach ($properties as $property) {
             $name = $property->getName();
+            $annotations = AnnotationHelper::parseAnnotations((string) $property->getDocComment());
 
             $property = PropertyBuilder::new()
                 ->setName($name)
-                ->setType($property->getType()->getName())
-                ->setIsNullable($property->getType()->allowsNull())
+                ->setType($annotations['var'][0])
+                ->setIsNullable(AnnotationHelper::isNullable($annotations['var'][0]))
                 ->setVisibility(self::getVisibility($property))
                 ->build();
             $map->addProperty($property);
