@@ -8,15 +8,23 @@ php:
 matrix:
   allow_failures:
     - php: nightly
+      env: COMPOSER_INSTALL_FLAGS=--ignore-platform-reqs
+
+cache:
+  directories:
+    - $HOME/.composer/cache
 
 install:
   - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --dev --no-interaction
+  - php composer.phar install --dev --no-interaction ${COMPOSER_INSTALL_FLAGS}
+
 script:
   - mkdir -p build/logs;
   - composer phpunit
+
 after_success:
   - travis_retry php vendor/bin/php-coveralls -v
+
 notifications:
   email:
     - danny.vandersluijs@icloud.com
