@@ -1,27 +1,26 @@
 language: php
-php:
-  - 7.2
-  - 7.3
-  - 7.4
-  - nightly
-jobs:
-  fast_finish: true
-  include:
-    - php: nightly
-      env: COMPOSER_INSTALL_FLAGS=--ignore-platform-reqs
-
-matrix:
-  allow_failures:
-    - php: nightly
 
 cache:
   directories:
     - $HOME/.composer/cache
 
+matrix:
+  include:
+    # Latest dependencies with all PHP versions
+    - php: 7.2
+    - php: 7.3
+    - php: 7.4
+
+      # Ignore the platform requirements for the upcoming PHP version
+    - php: nightly
+      env: COMPOSER_FLAGS='--ignore-platform-reqs'
+  allow_failures:
+    - php: nightly
+  fast_finish: true
+
 install:
   - curl -s http://getcomposer.org/installer | php
-  - echo ${COMPOSER_UPDATE_FLAGS}
-  - php composer.phar install --dev --no-interaction ${COMPOSER_UPDATE_FLAGS}
+  - php composer.phar install --dev --no-interaction $COMPOSER_FLAGS
 
 script:
   - mkdir -p build/logs;
