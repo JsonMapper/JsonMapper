@@ -16,6 +16,7 @@ cache:
 
 install:
   - curl -s http://getcomposer.org/installer | php
+  - echo ${COMPOSER_INSTALL_FLAGS}
   - php composer.phar install --dev --no-interaction ${COMPOSER_INSTALL_FLAGS}
 
 script:
