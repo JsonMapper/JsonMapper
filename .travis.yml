@@ -4,11 +4,15 @@ php:
   - 7.3
   - 7.4
   - nightly
+jobs:
+  fast_finish: true
+  include:
+    - php: nightly
+      env: COMPOSER_INSTALL_FLAGS=--ignore-platform-reqs
 
 matrix:
   allow_failures:
     - php: nightly
-      env: COMPOSER_INSTALL_FLAGS=--ignore-platform-reqs
 
 cache:
   directories:
