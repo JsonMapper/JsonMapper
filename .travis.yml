@@ -20,8 +20,8 @@ cache:
 
 install:
   - curl -s http://getcomposer.org/installer | php
-  - echo $COMPOSER_INSTALL_FLAGS
-  - php composer.phar install --dev --no-interaction $COMPOSER_INSTALL_FLAGS
+  - echo ${COMPOSER_UPDATE_FLAGS}
+  - php composer.phar install --dev --no-interaction ${COMPOSER_UPDATE_FLAGS}
 
 script:
   - mkdir -p build/logs;
