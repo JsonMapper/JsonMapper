@@ -41,4 +41,9 @@ class TypeHelper
 
         return $value;
     }
+
+    public static function isCustomClass(string $type): bool
+    {
+        return ! self::isScalarType($type) && ! self::isBuiltinClass($type);
+    }
 }

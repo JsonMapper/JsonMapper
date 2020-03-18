@@ -3,7 +3,9 @@
 namespace DannyVanDerSluijs\JsonMapper\Strategies;
 
 
-class ObjectScannerInterface
-{
+use DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap;
 
+interface ObjectScannerInterface
+{
+    public function scan(object $object): PropertyMap;
 }
