@@ -186,7 +186,6 @@ class JsonMapperTest extends TestCase
     }
 
     /**
-     *
      * @covers \DannyVanDerSluijs\JsonMapper\Enums\Visibility::fromReflectionProperty
      * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
      * @covers \DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper
@@ -195,6 +194,7 @@ class JsonMapperTest extends TestCase
      * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
      * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
      * @covers \DannyVanDerSluijs\JsonMapper\Strategies\DocBlockAnnotations
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\UseStatementHelper::getImports
      */
     public function testItCanMapAnObjectWithACustomClassAttribute(): void
     {
@@ -208,5 +208,30 @@ class JsonMapperTest extends TestCase
 
         // Assert
         self::assertSame(__METHOD__, $object->getChild()->getName());
+    }
+
+    /**
+     * @covers \DannyVanDerSluijs\JsonMapper\Enums\Visibility::fromReflectionProperty
+     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
+     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
+     * @covers \DannyVanDerSluijs\JsonMapper\Strategies\DocBlockAnnotations
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\UseStatementHelper::getImports
+     */
+    public function testItCanMapAnObjectWithACustomClassAttributeFromAnotherNamespace(): void
+    {
+        // Arrange
+        $mapper = new JsonMapper(new DocBlockAnnotations());
+        $object = new ComplexObject();
+        $json = (object) ['user' => (object) ['name' => __METHOD__]];
+
+        // Act
+        $mapper->mapObject($json, $object);
+
+        // Assert
+        self::assertSame(__METHOD__, $object->getUser()->getName());
     }
 }

@@ -37,7 +37,7 @@ class JsonMapper implements JsonMapperInterface
                 $value = TypeHelper::cast($value, $type);
             }
             if (TypeHelper::isCustomClass($type)) {
-                $instance = new $type;
+                $instance = new $type();
                 $this->mapObject($value, $instance);
                 $value = $instance;
             }
@@ -52,6 +52,5 @@ class JsonMapper implements JsonMapperInterface
                 $object->$setterMethod($value);
             }
         }
-
     }
 }

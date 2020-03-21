@@ -1,7 +1,8 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace DannyVanDerSluijs\JsonMapper\Strategies;
-
 
 use DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap;
 
