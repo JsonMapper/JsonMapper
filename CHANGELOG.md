@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.2] - 2020-03-22
+### Added
+- Support custom classes with recursion
+- Support for custom classes with imported namespace
+- Support to map an array of objects
+### Fixed
+- Fixed missing coveralls dependency
+- Cleanup strategies from duplication
+
 ## [0.0.1] - 2020-03-15
 ### Added
 - Add PHP 7.4 typed properties based strategy

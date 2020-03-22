@@ -8,42 +8,17 @@ use DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder;
 use DannyVanDerSluijs\JsonMapper\Enums\Visibility;
 use DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper;
 use DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper;
-use DannyVanDerSluijs\JsonMapper\JsonMapperInterface;
+use DannyVanDerSluijs\JsonMapper\Helpers\UseStatementHelper;
 use DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap;
+use PhpParser\Node;
+use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitorAbstract;
+use PhpParser\Node\Stmt;
+use PhpParser\ParserFactory;
 
-class DocBlockAnnotations implements JsonMapperInterface
+class DocBlockAnnotations implements ObjectScannerInterface
 {
-    public function mapObject(\stdClass $json, object $object): void
-    {
-        $propertyMap = $this->reflect($object);
-        foreach ($json as $key => $value) {
-            if (! $propertyMap->hasProperty($key)) {
-                continue;
-            }
-
-            $propertyInfo = $propertyMap->getProperty($key);
-            $type = $propertyInfo->getType();
-
-            if (TypeHelper::isBuiltinClass($type)) {
-                $value = new $type($value);
-            }
-            if (TypeHelper::isScalarType($type)) {
-                $value = TypeHelper::cast($value, $type);
-            }
-
-            if ($propertyInfo->getVisibility()->equals(Visibility::PUBLIC())) {
-                $object->$key = $value;
-                continue;
-            }
-
-            $setterMethod = 'set' . ucfirst($key);
-            if (method_exists($object, $setterMethod)) {
-                $object->$setterMethod($value);
-            }
-        }
-    }
-
-    private function reflect(object $object): PropertyMap
+    public function scan(object $object): PropertyMap
     {
         $reflectionClass = new \ReflectionClass($object);
         $properties = $reflectionClass->getProperties();
@@ -52,12 +27,16 @@ class DocBlockAnnotations implements JsonMapperInterface
         foreach ($properties as $property) {
             $name = $property->getName();
             $annotations = AnnotationHelper::parseAnnotations((string) $property->getDocComment());
+            $type = $annotations['var'][0];
+            if (TypeHelper::isCustomClass($type)) {
+                $type = $this->resolveToFullyQualifiedClassName($type, $reflectionClass);
+            }
 
             $property = PropertyBuilder::new()
                 ->setName($name)
-                ->setType($annotations['var'][0])
+                ->setType($type)
                 ->setIsNullable(AnnotationHelper::isNullable($annotations['var'][0]))
-                ->setVisibility(self::getVisibility($property))
+                ->setVisibility(Visibility::fromReflectionProperty($property))
                 ->build();
             $map->addProperty($property);
         }
@@ -65,14 +44,19 @@ class DocBlockAnnotations implements JsonMapperInterface
         return $map;
     }
 
-    private static function getVisibility(\ReflectionProperty $property): Visibility
+    private function resolveToFullyQualifiedClassName(string $type, \ReflectionClass $reflectionClass): string
     {
-        if ($property->isPublic()) {
-            return Visibility::PUBLIC();
+        $imports = array_filter(
+            UseStatementHelper::getImports($reflectionClass),
+            static function (string $import) use ($type) {
+                return $type === substr($import, -1 * strlen($type));
+            }
+        );
+
+        if (count($imports) > 0) {
+            return $imports[0];
         }
-        if ($property->isProtected()) {
-            return Visibility::PROTECTED();
-        }
-        return Visibility::PRIVATE();
+
+        return $reflectionClass->getNamespaceName() . '\\' . $type;
     }
 }
