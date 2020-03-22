@@ -53,4 +53,15 @@ class JsonMapper implements JsonMapperInterface
             }
         }
     }
+
+    public function mapArray(\stdClass $json, object $object): array
+    {
+        $results = [];
+        foreach ($json as $key => $value) {
+            $results[$key] = clone $object;
+            $this->mapObject($value, $results[$key]);
+        }
+
+        return $results;
+    }
 }

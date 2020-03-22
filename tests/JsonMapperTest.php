@@ -234,4 +234,30 @@ class JsonMapperTest extends TestCase
         // Assert
         self::assertSame(__METHOD__, $object->getUser()->getName());
     }
+
+    /**
+     * @covers \DannyVanDerSluijs\JsonMapper\Enums\Visibility::fromReflectionProperty
+     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper
+     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
+     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
+     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
+     * @covers \DannyVanDerSluijs\JsonMapper\Strategies\DocBlockAnnotations
+     */
+    public function testItCanMapAnArrayOfObjects(): void
+    {
+        // Arrange
+        $mapper = new JsonMapper(new DocBlockAnnotations());
+        $object = new SimpleObject();
+        $json = (object) [(object) ['name' => 'one'], (object) ['name' => 'two']];
+
+        // Act
+        $result = $mapper->mapArray($json, $object);
+
+        // Assert
+        self::assertContainsOnly(SimpleObject::class, $result);
+        self::assertSame('one', $result[0]->getName());
+        self::assertSame('two', $result[1]->getName());
+    }
 }

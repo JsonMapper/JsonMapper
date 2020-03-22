@@ -18,7 +18,7 @@ class UseStatementHelper
             /** @var array|string[] */
             private $imports = [];
 
-            public function enterNode(Node $node)
+            public function enterNode(Node $node): void
             {
                 if ($node instanceof Stmt\Use_) {
                     foreach ($node->uses as $use) {

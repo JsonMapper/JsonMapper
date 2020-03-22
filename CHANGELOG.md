@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Support custom classes with recursion
+- Support for custom classes with imported namespace
+- Support to map an array of objects
 ### Fixed
 - Fixed missing coveralls dependency
 - Cleanup strategies from duplication
