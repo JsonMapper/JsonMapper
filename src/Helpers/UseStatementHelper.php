@@ -4,38 +4,15 @@ declare(strict_types=1);
 
 namespace DannyVanDerSluijs\JsonMapper\Helpers;
 
-use PhpParser\Node;
+use DannyVanDerSluijs\JsonMapper\Parser\UseNodeVisitor;
 use PhpParser\NodeTraverser;
-use PhpParser\NodeVisitorAbstract;
-use PhpParser\Node\Stmt;
 use PhpParser\ParserFactory;
 
 class UseStatementHelper
 {
     public static function getImports(\ReflectionClass $class): array
     {
-        $visitor = new class extends NodeVisitorAbstract {
-            /** @var array|string[] */
-            private $imports = [];
-
-            public function enterNode(Node $node): void
-            {
-                if ($node instanceof Stmt\Use_) {
-                    foreach ($node->uses as $use) {
-                        $this->imports[] = '\\' . $use->name;
-                    }
-                } elseif ($node instanceof Stmt\GroupUse) {
-                    foreach ($node->uses as $use) {
-                        $this->imports[] = $node->prefix . '\\' . $use;
-                    }
-                }
-            }
-
-            public function getImports(): array
-            {
-                return $this->imports;
-            }
-        };
+        $visitor = new UseNodeVisitor();
 
         $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
         $ast = $parser->parse(file_get_contents($class->getFileName()));
