@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace DannyVanDerSluijs\JsonMapper\Parser;
 
@@ -11,7 +13,10 @@ class UseNodeVisitor extends NodeVisitorAbstract
     /** @var array|string[] */
     private $imports = [];
 
-    public function enterNode(Node $node): void
+    /**
+     * @return null
+     */
+    public function enterNode(Node $node)
     {
         if ($node instanceof Stmt\Use_) {
             foreach ($node->uses as $use) {
@@ -22,10 +27,12 @@ class UseNodeVisitor extends NodeVisitorAbstract
                 $this->imports[] = $node->prefix . '\\' . $use->name;
             }
         }
+
+        return null;
     }
 
     public function getImports(): array
     {
         return $this->imports;
     }
-};
+}
