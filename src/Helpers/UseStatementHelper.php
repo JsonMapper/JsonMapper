@@ -12,12 +12,25 @@ class UseStatementHelper
 {
     public static function getImports(\ReflectionClass $class): array
     {
-        $visitor = new UseNodeVisitor();
+        $filename = $class->getFileName();
+        if ($filename === false) {
+            throw new \RuntimeException("Class {$class->getName()} has no filename available");
+        }
+
+        $contents = file_get_contents($filename);
+        if ($contents === false) {
+            throw new \RuntimeException("Unable to read {$class->getFileName()}");
+        }
 
         $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
-        $ast = $parser->parse(file_get_contents($class->getFileName()));
+        $ast = $parser->parse($contents);
+
+        if ($ast === null) {
+            throw new \RuntimeException("Something went wrong when parsing {$class->getFileName()}");
+        }
 
         $traverser = new NodeTraverser();
+        $visitor = new UseNodeVisitor();
         $traverser->addVisitor($visitor);
         $traverser->traverse($ast);
 

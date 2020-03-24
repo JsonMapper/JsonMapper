@@ -4,57 +4,55 @@ declare(strict_types=1);
 
 namespace DannyVanDerSluijs\JsonMapper;
 
-use DannyVanDerSluijs\JsonMapper\Enums\Visibility;
-use DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper;
-use DannyVanDerSluijs\JsonMapper\Strategies\ObjectScannerInterface;
+use DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap;
+use DannyVanDerSluijs\JsonMapper\Wrapper\ObjectWrapper;
 
 class JsonMapper implements JsonMapperInterface
 {
-    /** @var ObjectScannerInterface */
-    private $objectScanner;
+    /** @var callable|null */
+    private $handler;
+    /** @var array */
+    private $stack = [];
+    /** @var callable|null */
+    private $cached;
 
-    public function __construct(ObjectScannerInterface $objectScanner)
+    public function __construct(callable $handler = null)
     {
-        $this->objectScanner = $objectScanner;
+        $this->handler = $handler;
+    }
+
+    public function push(callable $middleware, string $name = ''): void
+    {
+        $this->stack[] = [$middleware, $name];
+        $this->cached = null;
+    }
+
+    public function resolve(): callable
+    {
+        if (!$this->cached) {
+            if (!($prev = $this->handler)) {
+                throw new \LogicException('No handler has been specified');
+            }
+
+            foreach (array_reverse($this->stack) as $fn) {
+                $prev = $fn[0]($prev);
+            }
+
+            $this->cached = $prev;
+        }
+
+        return $this->cached;
     }
 
     public function mapObject(\stdClass $json, object $object): void
     {
-        $propertyMap = $this->objectScanner->scan($object);
+        $propertyMap = new PropertyMap();
 
-        foreach ($json as $key => $value) {
-            if (! $propertyMap->hasProperty($key)) {
-                continue;
-            }
-
-            $propertyInfo = $propertyMap->getProperty($key);
-            $type = $propertyInfo->getType();
-
-            if (TypeHelper::isBuiltinClass($type)) {
-                $value = new $type($value);
-            }
-            if (TypeHelper::isScalarType($type)) {
-                $value = TypeHelper::cast($value, $type);
-            }
-            if (TypeHelper::isCustomClass($type)) {
-                $instance = new $type();
-                $this->mapObject($value, $instance);
-                $value = $instance;
-            }
-
-            if ($propertyInfo->getVisibility()->equals(Visibility::PUBLIC())) {
-                $object->$key = $value;
-                continue;
-            }
-
-            $setterMethod = 'set' . ucfirst($key);
-            if (method_exists($object, $setterMethod)) {
-                $object->$setterMethod($value);
-            }
-        }
+        $handler = $this->resolve();
+        $handler($json, new ObjectWrapper($object), $propertyMap, $this);
     }
 
-    public function mapArray(\stdClass $json, object $object): array
+    public function mapArray(array $json, object $object): array
     {
         $results = [];
         foreach ($json as $key => $value) {

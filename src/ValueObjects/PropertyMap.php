@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace DannyVanDerSluijs\JsonMapper\ValueObjects;
 
-class PropertyMap
+use IteratorAggregate;
+
+class PropertyMap implements IteratorAggregate
 {
     /** @var Property[] */
     private $map = [];
@@ -26,5 +28,13 @@ class PropertyMap
         }
 
         return $this->map[$key];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->map);
     }
 }
