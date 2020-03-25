@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Replaced strategies with middleware to allow chaining of multiple middleware to increase configuration
 - Readme was updated to reflect the usage and customizing of JsonMapper
+- Updated license to MIT
 
 ## [0.0.2] - 2020-03-22
 ### Added
