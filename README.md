@@ -1,5 +1,5 @@
-[![Build Status](https://api.travis-ci.com/JsonMapper/JsonMapper.svg?branch=master)](https://travis-ci.com/DannyvdSluijs/JsonMapper) 
-[![Coverage Status](https://coveralls.io/repos/github/JsonMapper/JsonMapper/badge.svg)](https://coveralls.io/github/DannyvdSluijs/JsonMapper) 
+[![Build Status](https://api.travis-ci.com/JsonMapper/JsonMapper.svg?branch=master)](https://travis-ci.com/JsonMapper/JsonMapper) 
+[![Coverage Status](https://coveralls.io/repos/github/JsonMapper/JsonMapper/badge.svg)](https://coveralls.io/github/JsonMapper/JsonMapper) 
 [![Mergify Status](https://img.shields.io/endpoint.svg?url=https://dashboard.mergify.io/badges/JsonMapper/JsonMapper&style=flat)](https://mergify.io)
 
 # What is JsonMapper
