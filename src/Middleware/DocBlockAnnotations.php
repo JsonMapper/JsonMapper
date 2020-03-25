@@ -19,7 +19,13 @@ class DocBlockAnnotations extends AbstractMiddleware
 
         foreach ($properties as $property) {
             $name = $property->getName();
-            $annotations = AnnotationHelper::parseAnnotations((string) $property->getDocComment());
+            $docblock = $property->getDocComment();
+
+            if ($docblock === false) {
+                continue;
+            }
+
+            $annotations = AnnotationHelper::parseAnnotations($docblock);
             $type = $annotations['var'][0];
 
             $property = PropertyBuilder::new()
