@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace DannyVanDerSluijs\JsonMapper;
+namespace JsonMapper;
 
-use DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap;
-use DannyVanDerSluijs\JsonMapper\Wrapper\ObjectWrapper;
+use JsonMapper\ValueObjects\PropertyMap;
+use JsonMapper\Wrapper\ObjectWrapper;
 
 class JsonMapper implements JsonMapperInterface
 {

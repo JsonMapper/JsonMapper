@@ -1,5 +1,5 @@
 {
-    "name": "dannyvandersluijs/json-mapper",
+    "name": "json-mapper/json-mapper",
     "description": "Map JSON structures to PHP classes",
     "type": "library",
     "license": "MIT",
@@ -18,12 +18,12 @@
     },
     "autoload": {
         "psr-4": {
-            "DannyVanDerSluijs\\JsonMapper\\": "src/"
+            "JsonMapper\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "DannyVanDerSluijs\\Tests\\JsonMapper\\": "tests/"
+            "JsonMapper\\Tests\\": "tests/"
         }
     },
     "scripts": {

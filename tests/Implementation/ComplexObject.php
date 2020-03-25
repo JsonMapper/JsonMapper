@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace DannyVanDerSluijs\Tests\JsonMapper\Implementation;
+namespace JsonMapper\Tests\Implementation;
 
-use DannyVanDerSluijs\Tests\JsonMapper\Implementation\Models\User;
+use JsonMapper\Tests\Implementation\Models\User;
 
 class ComplexObject
 {

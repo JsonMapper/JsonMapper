@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DannyVanDerSluijs\Tests\JsonMapper\Implementation\Php74;
+namespace JsonMapper\Tests\Implementation\Php74;
 
 class Popo
 {

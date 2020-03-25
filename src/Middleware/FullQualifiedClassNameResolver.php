@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace DannyVanDerSluijs\JsonMapper\Middleware;
+namespace JsonMapper\Middleware;
 
-use DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper;
-use DannyVanDerSluijs\JsonMapper\Helpers\UseStatementHelper;
-use DannyVanDerSluijs\JsonMapper\JsonMapperInterface;
-use DannyVanDerSluijs\JsonMapper\ValueObjects\Property;
-use DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap;
-use DannyVanDerSluijs\JsonMapper\Wrapper\ObjectWrapper;
+use JsonMapper\Helpers\TypeHelper;
+use JsonMapper\Helpers\UseStatementHelper;
+use JsonMapper\JsonMapperInterface;
+use JsonMapper\ValueObjects\Property;
+use JsonMapper\ValueObjects\PropertyMap;
+use JsonMapper\Wrapper\ObjectWrapper;
 
 class FullQualifiedClassNameResolver extends AbstractMiddleware
 {
