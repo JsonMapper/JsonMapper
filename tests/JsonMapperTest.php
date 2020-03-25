@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace DannyVanDerSluijs\Tests\JsonMapper;
 
-use DannyVanDerSluijs\JsonMapper\JsonMapper;
-use DannyVanDerSluijs\JsonMapper\Handler\PropertyMapper;
+use DannyVanDerSluijs\JsonMapper\JsonMapperFactory;
 use DannyVanDerSluijs\JsonMapper\Middleware\DocBlockAnnotations;
 use DannyVanDerSluijs\JsonMapper\Middleware\TypedProperties;
 use DannyVanDerSluijs\JsonMapper\Middleware\FullQualifiedClassNameResolver;
@@ -32,8 +31,7 @@ class JsonMapperTest extends TestCase
     public function testItCanMapAnObjectUsingAPublicProperty(): void
     {
         // Arrange
-        $mapper = new JsonMapper(new PropertyMapper());
-        $mapper->push(new DocBlockAnnotations());
+        $mapper = (new JsonMapperFactory())->bestFit();
         $object = new Popo();
         $json = (object) ['name' => __METHOD__];
 
@@ -59,8 +57,7 @@ class JsonMapperTest extends TestCase
     public function testItAppliesTypeCastingWhenMappingAnObjectUsingAPublicProperty(): void
     {
         // Arrange
-        $mapper = new JsonMapper(new PropertyMapper());
-        $mapper->push(new DocBlockAnnotations());
+        $mapper = (new JsonMapperFactory())->bestFit();
         $object = new Popo();
         $json = (object) ['name' => 42];
 
@@ -86,8 +83,7 @@ class JsonMapperTest extends TestCase
     public function testItCanMapAnObjectUsingAPublicSetter(): void
     {
         // Arrange
-        $mapper = new JsonMapper(new PropertyMapper());
-        $mapper->push(new DocBlockAnnotations());
+        $mapper = (new JsonMapperFactory())->bestFit();
         $object = new SimpleObject();
         $json = (object) ['name' => __METHOD__];
 
@@ -113,8 +109,7 @@ class JsonMapperTest extends TestCase
     public function testItAppliesTypeCastingWhenMappingAnObjectUsingAPublicSetter(): void
     {
         // Arrange
-        $mapper = new JsonMapper(new PropertyMapper());
-        $mapper->push(new DocBlockAnnotations());
+        $mapper = (new JsonMapperFactory())->bestFit();
         $object = new SimpleObject();
         $json = (object) ['name' => 42];
 
@@ -140,8 +135,7 @@ class JsonMapperTest extends TestCase
     public function testItCanMapAnDateTimeImmutableProperty(): void
     {
         // Arrange
-        $mapper = new JsonMapper(new PropertyMapper());
-        $mapper->push(new DocBlockAnnotations());
+        $mapper = (new JsonMapperFactory())->bestFit();
         $object = new Popo();
         $json = (object) ['date' => '2020-03-08 12:42:14'];
 
@@ -168,8 +162,7 @@ class JsonMapperTest extends TestCase
     public function testItCanMapAnObjectWithTypedProperties(): void
     {
         // Arrange
-        $mapper = new JsonMapper(new PropertyMapper());
-        $mapper->push(new TypedProperties());
+        $mapper = (new JsonMapperFactory())->bestFit();
         $object = new Php74Popo();
         $json = (object) ['name' => __METHOD__];
 
@@ -196,8 +189,7 @@ class JsonMapperTest extends TestCase
     public function testItAppliesTypeCastingMappingAnObjectWithTypedProperties(): void
     {
         // Arrange
-        $mapper = new JsonMapper(new PropertyMapper());
-        $mapper->push(new TypedProperties());
+        $mapper = (new JsonMapperFactory())->bestFit();
         $object = new Php74Popo();
         $json = (object) ['name' => 42];
 
@@ -226,9 +218,7 @@ class JsonMapperTest extends TestCase
     public function testItCanMapAnObjectWithACustomClassAttribute(): void
     {
         // Arrange
-        $mapper = new JsonMapper(new PropertyMapper());
-        $mapper->push(new DocBlockAnnotations());
-        $mapper->push(new FullQualifiedClassNameResolver());
+        $mapper = (new JsonMapperFactory())->bestFit();
         $object = new ComplexObject();
         $json = (object) ['child' => (object) ['name' => __METHOD__]];
 
@@ -257,9 +247,7 @@ class JsonMapperTest extends TestCase
     public function testItCanMapAnObjectWithACustomClassAttributeFromAnotherNamespace(): void
     {
         // Arrange
-        $mapper = new JsonMapper(new PropertyMapper());
-        $mapper->push(new DocBlockAnnotations());
-        $mapper->push(new FullQualifiedClassNameResolver());
+        $mapper = (new JsonMapperFactory())->bestFit();
         $object = new ComplexObject();
         $json = (object) ['user' => (object) ['name' => __METHOD__]];
 
@@ -285,8 +273,7 @@ class JsonMapperTest extends TestCase
     public function testItCanMapAnArrayOfObjects(): void
     {
         // Arrange
-        $mapper = new JsonMapper(new PropertyMapper());
-        $mapper->push(new DocBlockAnnotations());
+        $mapper = (new JsonMapperFactory())->bestFit();
         $object = new SimpleObject();
         $json = [(object) ['name' => 'one'], (object) ['name' => 'two']];
 
