@@ -2,31 +2,33 @@
 
 declare(strict_types=1);
 
-namespace DannyVanDerSluijs\Tests\JsonMapper;
+namespace JsonMapper\Tests;
 
-use DannyVanDerSluijs\JsonMapper\JsonMapperFactory;
-use DannyVanDerSluijs\JsonMapper\Middleware\DocBlockAnnotations;
-use DannyVanDerSluijs\JsonMapper\Middleware\TypedProperties;
-use DannyVanDerSluijs\JsonMapper\Middleware\FullQualifiedClassNameResolver;
-use DannyVanDerSluijs\Tests\JsonMapper\Implementation\ComplexObject;
-use DannyVanDerSluijs\Tests\JsonMapper\Implementation\Popo;
-use DannyVanDerSluijs\Tests\JsonMapper\Implementation\Php74\Popo as Php74Popo;
-use DannyVanDerSluijs\Tests\JsonMapper\Implementation\SimpleObject;
+use JsonMapper\JsonMapperFactory;
+use JsonMapper\Tests\Implementation\ComplexObject;
+use JsonMapper\Tests\Implementation\Popo;
+use JsonMapper\Tests\Implementation\Php74\Popo as Php74Popo;
+use JsonMapper\Tests\Implementation\SimpleObject;
 use PHPUnit\Framework\TestCase;
 
 class JsonMapperTest extends TestCase
 {
     /**
-     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
-     * @covers \DannyVanDerSluijs\JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \DannyVanDerSluijs\JsonMapper\Wrapper\ObjectWrapper
-     * @covers \DannyVanDerSluijs\JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\JsonMapper
+     * @covers \JsonMapper\JsonMapperFactory
+     * @covers \JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
+     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\TypedProperties<extended>
+     * @covers \JsonMapper\Parser\UseNodeVisitor
+     * @covers \JsonMapper\Builders\PropertyBuilder
+     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
+     * @covers \JsonMapper\Helpers\AnnotationHelper
+     * @covers \JsonMapper\Helpers\TypeHelper
+     * @covers \JsonMapper\Helpers\UseStatementHelper
+     * @covers \JsonMapper\ValueObjects\PropertyMap
+     * @covers \JsonMapper\ValueObjects\Property
+     * @covers \JsonMapper\Wrapper\ObjectWrapper
      */
     public function testItCanMapAnObjectUsingAPublicProperty(): void
     {
@@ -43,16 +45,21 @@ class JsonMapperTest extends TestCase
     }
 
     /**
-     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
-     * @covers \DannyVanDerSluijs\JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \DannyVanDerSluijs\JsonMapper\Wrapper\ObjectWrapper
-     * @covers \DannyVanDerSluijs\JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\JsonMapper
+     * @covers \JsonMapper\JsonMapperFactory
+     * @covers \JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
+     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\TypedProperties<extended>
+     * @covers \JsonMapper\Parser\UseNodeVisitor
+     * @covers \JsonMapper\Builders\PropertyBuilder
+     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
+     * @covers \JsonMapper\Helpers\AnnotationHelper
+     * @covers \JsonMapper\Helpers\TypeHelper
+     * @covers \JsonMapper\Helpers\UseStatementHelper
+     * @covers \JsonMapper\ValueObjects\PropertyMap
+     * @covers \JsonMapper\ValueObjects\Property
+     * @covers \JsonMapper\Wrapper\ObjectWrapper
      */
     public function testItAppliesTypeCastingWhenMappingAnObjectUsingAPublicProperty(): void
     {
@@ -69,16 +76,21 @@ class JsonMapperTest extends TestCase
     }
 
     /**
-     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
-     * @covers \DannyVanDerSluijs\JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \DannyVanDerSluijs\JsonMapper\Wrapper\ObjectWrapper
-     * @covers \DannyVanDerSluijs\JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\JsonMapper
+     * @covers \JsonMapper\JsonMapperFactory
+     * @covers \JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
+     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\TypedProperties<extended>
+     * @covers \JsonMapper\Parser\UseNodeVisitor
+     * @covers \JsonMapper\Builders\PropertyBuilder
+     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
+     * @covers \JsonMapper\Helpers\AnnotationHelper
+     * @covers \JsonMapper\Helpers\TypeHelper
+     * @covers \JsonMapper\Helpers\UseStatementHelper
+     * @covers \JsonMapper\ValueObjects\PropertyMap
+     * @covers \JsonMapper\ValueObjects\Property
+     * @covers \JsonMapper\Wrapper\ObjectWrapper
      */
     public function testItCanMapAnObjectUsingAPublicSetter(): void
     {
@@ -95,16 +107,21 @@ class JsonMapperTest extends TestCase
     }
 
     /**
-     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
-     * @covers \DannyVanDerSluijs\JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \DannyVanDerSluijs\JsonMapper\Wrapper\ObjectWrapper
-     * @covers \DannyVanDerSluijs\JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\JsonMapper
+     * @covers \JsonMapper\JsonMapperFactory
+     * @covers \JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
+     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\TypedProperties<extended>
+     * @covers \JsonMapper\Parser\UseNodeVisitor
+     * @covers \JsonMapper\Builders\PropertyBuilder
+     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
+     * @covers \JsonMapper\Helpers\AnnotationHelper
+     * @covers \JsonMapper\Helpers\TypeHelper
+     * @covers \JsonMapper\Helpers\UseStatementHelper
+     * @covers \JsonMapper\ValueObjects\PropertyMap
+     * @covers \JsonMapper\ValueObjects\Property
+     * @covers \JsonMapper\Wrapper\ObjectWrapper
      */
     public function testItAppliesTypeCastingWhenMappingAnObjectUsingAPublicSetter(): void
     {
@@ -121,16 +138,21 @@ class JsonMapperTest extends TestCase
     }
 
     /**
-     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
-     * @covers \DannyVanDerSluijs\JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \DannyVanDerSluijs\JsonMapper\Wrapper\ObjectWrapper
-     * @covers \DannyVanDerSluijs\JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\JsonMapper
+     * @covers \JsonMapper\JsonMapperFactory
+     * @covers \JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
+     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\TypedProperties<extended>
+     * @covers \JsonMapper\Parser\UseNodeVisitor
+     * @covers \JsonMapper\Builders\PropertyBuilder
+     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
+     * @covers \JsonMapper\Helpers\AnnotationHelper
+     * @covers \JsonMapper\Helpers\TypeHelper
+     * @covers \JsonMapper\Helpers\UseStatementHelper
+     * @covers \JsonMapper\ValueObjects\PropertyMap
+     * @covers \JsonMapper\ValueObjects\Property
+     * @covers \JsonMapper\Wrapper\ObjectWrapper
      */
     public function testItCanMapAnDateTimeImmutableProperty(): void
     {
@@ -149,15 +171,21 @@ class JsonMapperTest extends TestCase
     /**
      * @requires PHP >= 7.4
      *
-     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
-     * @covers \DannyVanDerSluijs\JsonMapper\Middleware\TypedProperties<extended>
-     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
-     * @covers \DannyVanDerSluijs\JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \DannyVanDerSluijs\JsonMapper\Wrapper\ObjectWrapper
-     * @covers \DannyVanDerSluijs\JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\JsonMapper
+     * @covers \JsonMapper\JsonMapperFactory
+     * @covers \JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
+     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\TypedProperties<extended>
+     * @covers \JsonMapper\Parser\UseNodeVisitor
+     * @covers \JsonMapper\Builders\PropertyBuilder
+     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
+     * @covers \JsonMapper\Helpers\AnnotationHelper
+     * @covers \JsonMapper\Helpers\TypeHelper
+     * @covers \JsonMapper\Helpers\UseStatementHelper
+     * @covers \JsonMapper\ValueObjects\PropertyMap
+     * @covers \JsonMapper\ValueObjects\Property
+     * @covers \JsonMapper\Wrapper\ObjectWrapper
      */
     public function testItCanMapAnObjectWithTypedProperties(): void
     {
@@ -176,15 +204,21 @@ class JsonMapperTest extends TestCase
     /**
      * @requires PHP >= 7.4
      *
-     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
-     * @covers \DannyVanDerSluijs\JsonMapper\Middleware\TypedProperties<extended>
-     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
-     * @covers \DannyVanDerSluijs\JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \DannyVanDerSluijs\JsonMapper\Wrapper\ObjectWrapper
-     * @covers \DannyVanDerSluijs\JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\JsonMapper
+     * @covers \JsonMapper\JsonMapperFactory
+     * @covers \JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
+     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\TypedProperties<extended>
+     * @covers \JsonMapper\Parser\UseNodeVisitor
+     * @covers \JsonMapper\Builders\PropertyBuilder
+     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
+     * @covers \JsonMapper\Helpers\AnnotationHelper
+     * @covers \JsonMapper\Helpers\TypeHelper
+     * @covers \JsonMapper\Helpers\UseStatementHelper
+     * @covers \JsonMapper\ValueObjects\PropertyMap
+     * @covers \JsonMapper\ValueObjects\Property
+     * @covers \JsonMapper\Wrapper\ObjectWrapper
      */
     public function testItAppliesTypeCastingMappingAnObjectWithTypedProperties(): void
     {
@@ -201,19 +235,21 @@ class JsonMapperTest extends TestCase
     }
 
     /**
-     * @covers \DannyVanDerSluijs\JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
-     * @covers \DannyVanDerSluijs\JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \DannyVanDerSluijs\JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\UseStatementHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\Wrapper\ObjectWrapper
-     * @covers \DannyVanDerSluijs\JsonMapper\Parser\UseNodeVisitor
-     * @covers \DannyVanDerSluijs\JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\JsonMapper
+     * @covers \JsonMapper\JsonMapperFactory
+     * @covers \JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
+     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\TypedProperties<extended>
+     * @covers \JsonMapper\Parser\UseNodeVisitor
+     * @covers \JsonMapper\Builders\PropertyBuilder
+     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
+     * @covers \JsonMapper\Helpers\AnnotationHelper
+     * @covers \JsonMapper\Helpers\TypeHelper
+     * @covers \JsonMapper\Helpers\UseStatementHelper
+     * @covers \JsonMapper\ValueObjects\PropertyMap
+     * @covers \JsonMapper\ValueObjects\Property
+     * @covers \JsonMapper\Wrapper\ObjectWrapper
      */
     public function testItCanMapAnObjectWithACustomClassAttribute(): void
     {
@@ -230,19 +266,21 @@ class JsonMapperTest extends TestCase
     }
 
     /**
-     * @covers \DannyVanDerSluijs\JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
-     * @covers \DannyVanDerSluijs\JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \DannyVanDerSluijs\JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\UseStatementHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\Wrapper\ObjectWrapper
-     * @covers \DannyVanDerSluijs\JsonMapper\Parser\UseNodeVisitor
-     * @covers \DannyVanDerSluijs\JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\JsonMapper
+     * @covers \JsonMapper\JsonMapperFactory
+     * @covers \JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
+     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\TypedProperties<extended>
+     * @covers \JsonMapper\Parser\UseNodeVisitor
+     * @covers \JsonMapper\Builders\PropertyBuilder
+     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
+     * @covers \JsonMapper\Helpers\AnnotationHelper
+     * @covers \JsonMapper\Helpers\TypeHelper
+     * @covers \JsonMapper\Helpers\UseStatementHelper
+     * @covers \JsonMapper\ValueObjects\PropertyMap
+     * @covers \JsonMapper\ValueObjects\Property
+     * @covers \JsonMapper\Wrapper\ObjectWrapper
      */
     public function testItCanMapAnObjectWithACustomClassAttributeFromAnotherNamespace(): void
     {
@@ -259,16 +297,21 @@ class JsonMapperTest extends TestCase
     }
 
     /**
-     * @covers \DannyVanDerSluijs\JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\AnnotationHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper
-     * @covers \DannyVanDerSluijs\JsonMapper\JsonMapper
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap
-     * @covers \DannyVanDerSluijs\JsonMapper\ValueObjects\Property
-     * @covers \DannyVanDerSluijs\JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \DannyVanDerSluijs\JsonMapper\Wrapper\ObjectWrapper
-     * @covers \DannyVanDerSluijs\JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\JsonMapper
+     * @covers \JsonMapper\JsonMapperFactory
+     * @covers \JsonMapper\Handler\PropertyMapper
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
+     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\TypedProperties<extended>
+     * @covers \JsonMapper\Parser\UseNodeVisitor
+     * @covers \JsonMapper\Builders\PropertyBuilder
+     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
+     * @covers \JsonMapper\Helpers\AnnotationHelper
+     * @covers \JsonMapper\Helpers\TypeHelper
+     * @covers \JsonMapper\Helpers\UseStatementHelper
+     * @covers \JsonMapper\ValueObjects\PropertyMap
+     * @covers \JsonMapper\ValueObjects\Property
+     * @covers \JsonMapper\Wrapper\ObjectWrapper
      */
     public function testItCanMapAnArrayOfObjects(): void
     {

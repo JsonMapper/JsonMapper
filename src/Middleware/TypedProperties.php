@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace DannyVanDerSluijs\JsonMapper\Middleware;
+namespace JsonMapper\Middleware;
 
-use DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder;
-use DannyVanDerSluijs\JsonMapper\Enums\Visibility;
-use DannyVanDerSluijs\JsonMapper\JsonMapperInterface;
-use DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap;
-use DannyVanDerSluijs\JsonMapper\Wrapper\ObjectWrapper;
+use JsonMapper\Builders\PropertyBuilder;
+use JsonMapper\Enums\Visibility;
+use JsonMapper\JsonMapperInterface;
+use JsonMapper\ValueObjects\PropertyMap;
+use JsonMapper\Wrapper\ObjectWrapper;
 
 class TypedProperties extends AbstractMiddleware
 {

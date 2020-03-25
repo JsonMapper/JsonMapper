@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace DannyVanDerSluijs\JsonMapper\Helpers;
+namespace JsonMapper\Helpers;
 
-use DannyVanDerSluijs\JsonMapper\Parser\UseNodeVisitor;
+use JsonMapper\Parser\UseNodeVisitor;
 use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 

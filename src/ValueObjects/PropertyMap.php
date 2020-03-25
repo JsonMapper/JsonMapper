@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DannyVanDerSluijs\JsonMapper\ValueObjects;
+namespace JsonMapper\ValueObjects;
 
 use IteratorAggregate;
 

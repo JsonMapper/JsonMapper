@@ -9,8 +9,8 @@ the imports defined at the top of your class. This is done without any additiona
 
 _Example #1 Simple mapping_
 ```php
-$mapper = (new \DannyVanDerSluijs\JsonMapper\JsonMapperFactory())->bestFit();
-$object = new \DannyVanDerSluijs\Tests\JsonMapper\Implementation\SimpleObject();
+$mapper = (new \JsonMapper\JsonMapperFactory())->bestFit();
+$object = new \Tests\JsonMapper\Implementation\SimpleObject();
 
 $mapper->mapObject(json_decode('{ "name": "John Doe" }'), $object);
 
@@ -18,7 +18,7 @@ var_dump($object);
 ```
 The above example will output:
 ```text
-class DannyVanDerSluijs\Tests\JsonMapper\Implementation\SimpleObject#1 (1) {
+class JsonMapper\Tests\Implementation\SimpleObject#1 (1) {
   private $name =>
   string(8) "John Doe"
 }
@@ -36,7 +36,7 @@ you need for your project.
 
 _Example #2 Custom middleware_
 ```php
-use DannyVanDerSluijs\JsonMapper;
+use JsonMapper;
 
 $mapper = (new JsonMapper\JsonMapperFactory())->bestFit();
 $mapper->push(new class extends JsonMapper\Middleware\AbstractMiddleware {
