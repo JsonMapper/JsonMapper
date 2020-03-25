@@ -1,6 +1,6 @@
-[![Build Status](https://api.travis-ci.com/DannyvdSluijs/JsonMapper.svg?branch=master)](https://travis-ci.com/DannyvdSluijs/JsonMapper) 
-[![Coverage Status](https://coveralls.io/repos/github/DannyvdSluijs/JsonMapper/badge.svg)](https://coveralls.io/github/DannyvdSluijs/JsonMapper) 
-[![Mergify Status](https://img.shields.io/endpoint.svg?url=https://dashboard.mergify.io/badges/DannyvdSluijs/JsonMapper&style=flat)](https://mergify.io)
+[![Build Status](https://api.travis-ci.com/JsonMapper/JsonMapper.svg?branch=master)](https://travis-ci.com/DannyvdSluijs/JsonMapper) 
+[![Coverage Status](https://coveralls.io/repos/github/JsonMapper/JsonMapper/badge.svg)](https://coveralls.io/github/DannyvdSluijs/JsonMapper) 
+[![Mergify Status](https://img.shields.io/endpoint.svg?url=https://dashboard.mergify.io/badges/JsonMapper/JsonMapper&style=flat)](https://mergify.io)
 
 # What is JsonMapper
 JsonMapper allows you to easily map a JSON response to your own objects. Out of the box it can map to plain old PHP 
