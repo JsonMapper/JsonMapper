@@ -1,12 +1,14 @@
-<?php declare(strict_types=1);
+<?php
 
-namespace DannyVanDerSluijs\JsonMapper;
+declare(strict_types=1);
 
-use DannyVanDerSluijs\JsonMapper\Handler\PropertyMapper;
-use DannyVanDerSluijs\JsonMapper\Middleware\DocBlockAnnotations;
-use DannyVanDerSluijs\JsonMapper\Middleware\FullQualifiedClassNameResolver;
-use DannyVanDerSluijs\JsonMapper\Middleware\MiddlewareInterface;
-use DannyVanDerSluijs\JsonMapper\Middleware\TypedProperties;
+namespace JsonMapper;
+
+use JsonMapper\Handler\PropertyMapper;
+use JsonMapper\Middleware\DocBlockAnnotations;
+use JsonMapper\Middleware\FullQualifiedClassNameResolver;
+use JsonMapper\Middleware\MiddlewareInterface;
+use JsonMapper\Middleware\TypedProperties;
 
 class JsonMapperFactory
 {

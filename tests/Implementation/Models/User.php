@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DannyVanDerSluijs\Tests\JsonMapper\Implementation\Models;
+namespace JsonMapper\Tests\Implementation\Models;
 
 class User
 {

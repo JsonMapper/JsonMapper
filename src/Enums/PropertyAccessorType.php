@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DannyVanDerSluijs\JsonMapper\Enums;
+namespace JsonMapper\Enums;
 
 class PropertyAccessorType
 {

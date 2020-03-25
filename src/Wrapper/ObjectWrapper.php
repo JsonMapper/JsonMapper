@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DannyVanDerSluijs\JsonMapper\Wrapper;
+namespace JsonMapper\Wrapper;
 
 class ObjectWrapper
 {

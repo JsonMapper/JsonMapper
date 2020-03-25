@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace DannyVanDerSluijs\JsonMapper\ValueObjects;
+namespace JsonMapper\ValueObjects;
 
-use DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder;
-use DannyVanDerSluijs\JsonMapper\Enums\Visibility;
+use JsonMapper\Builders\PropertyBuilder;
+use JsonMapper\Enums\Visibility;
 
 class Property
 {

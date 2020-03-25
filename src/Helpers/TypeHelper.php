@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DannyVanDerSluijs\JsonMapper\Helpers;
+namespace JsonMapper\Helpers;
 
 class TypeHelper
 {

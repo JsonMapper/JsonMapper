@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DannyVanDerSluijs\JsonMapper\Parser;
+namespace JsonMapper\Parser;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;

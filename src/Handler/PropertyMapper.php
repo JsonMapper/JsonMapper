@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace DannyVanDerSluijs\JsonMapper\Handler;
+namespace JsonMapper\Handler;
 
-use DannyVanDerSluijs\JsonMapper\Enums\Visibility;
-use DannyVanDerSluijs\JsonMapper\Helpers\TypeHelper;
-use DannyVanDerSluijs\JsonMapper\JsonMapperInterface;
-use DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap;
-use DannyVanDerSluijs\JsonMapper\Wrapper\ObjectWrapper;
+use JsonMapper\Enums\Visibility;
+use JsonMapper\Helpers\TypeHelper;
+use JsonMapper\JsonMapperInterface;
+use JsonMapper\ValueObjects\PropertyMap;
+use JsonMapper\Wrapper\ObjectWrapper;
 
 class PropertyMapper
 {

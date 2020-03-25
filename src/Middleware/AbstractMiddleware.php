@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace DannyVanDerSluijs\JsonMapper\Middleware;
+namespace JsonMapper\Middleware;
 
-use DannyVanDerSluijs\JsonMapper\JsonMapperInterface;
-use DannyVanDerSluijs\JsonMapper\ValueObjects\PropertyMap;
-use DannyVanDerSluijs\JsonMapper\Wrapper\ObjectWrapper;
+use JsonMapper\JsonMapperInterface;
+use JsonMapper\ValueObjects\PropertyMap;
+use JsonMapper\Wrapper\ObjectWrapper;
 
 abstract class AbstractMiddleware implements MiddlewareInterface, MiddlewareLogicInterface
 {
