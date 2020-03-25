@@ -2,7 +2,7 @@
     "name": "dannyvandersluijs/json-mapper",
     "description": "Map JSON structures to PHP classes",
     "type": "library",
-    "license": "GPL-3.0-or-later",
+    "license": "MIT",
     "minimum-stability": "stable",
     "require": {
         "php": "^7.2 || ^8.0",

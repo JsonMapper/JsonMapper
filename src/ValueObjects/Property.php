@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DannyVanDerSluijs\JsonMapper\ValueObjects;
 
+use DannyVanDerSluijs\JsonMapper\Builders\PropertyBuilder;
 use DannyVanDerSluijs\JsonMapper\Enums\Visibility;
 
 class Property
@@ -43,5 +44,14 @@ class Property
     public function getVisibility(): Visibility
     {
         return $this->visibility;
+    }
+
+    public function asBuilder(): PropertyBuilder
+    {
+        return PropertyBuilder::new()
+            ->setName($this->name)
+            ->setType($this->type)
+            ->setIsNullable($this->isNullable)
+            ->setVisibility($this->visibility);
     }
 }

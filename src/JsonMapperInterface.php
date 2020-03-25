@@ -8,5 +8,5 @@ interface JsonMapperInterface
 {
     public function mapObject(\stdClass $json, object $object): void;
 
-    public function mapArray(\stdClass $json, object $object): array;
+    public function mapArray(array $json, object $object): array;
 }

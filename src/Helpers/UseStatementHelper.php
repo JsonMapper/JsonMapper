@@ -4,43 +4,33 @@ declare(strict_types=1);
 
 namespace DannyVanDerSluijs\JsonMapper\Helpers;
 
-use PhpParser\Node;
+use DannyVanDerSluijs\JsonMapper\Parser\UseNodeVisitor;
 use PhpParser\NodeTraverser;
-use PhpParser\NodeVisitorAbstract;
-use PhpParser\Node\Stmt;
 use PhpParser\ParserFactory;
 
 class UseStatementHelper
 {
     public static function getImports(\ReflectionClass $class): array
     {
-        $visitor = new class extends NodeVisitorAbstract {
-            /** @var array|string[] */
-            private $imports = [];
+        $filename = $class->getFileName();
+        if ($filename === false) {
+            throw new \RuntimeException("Class {$class->getName()} has no filename available");
+        }
 
-            public function enterNode(Node $node): void
-            {
-                if ($node instanceof Stmt\Use_) {
-                    foreach ($node->uses as $use) {
-                        $this->imports[] = '\\' . $use->name;
-                    }
-                } elseif ($node instanceof Stmt\GroupUse) {
-                    foreach ($node->uses as $use) {
-                        $this->imports[] = $node->prefix . '\\' . $use;
-                    }
-                }
-            }
-
-            public function getImports(): array
-            {
-                return $this->imports;
-            }
-        };
+        $contents = file_get_contents($filename);
+        if ($contents === false) {
+            throw new \RuntimeException("Unable to read {$class->getFileName()}");
+        }
 
         $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
-        $ast = $parser->parse(file_get_contents($class->getFileName()));
+        $ast = $parser->parse($contents);
+
+        if ($ast === null) {
+            throw new \RuntimeException("Something went wrong when parsing {$class->getFileName()}");
+        }
 
         $traverser = new NodeTraverser();
+        $visitor = new UseNodeVisitor();
         $traverser->addVisitor($visitor);
         $traverser->traverse($ast);
 
