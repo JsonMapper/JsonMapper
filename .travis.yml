@@ -28,7 +28,7 @@ script:
   - composer integration-tests
 
 after_success:
-  - travis_retry php vendor/bin/php-coveralls -v
+  - travis_retry php vendor/bin/php-coveralls -vvv --coverage_clover=COVERAGE_CLOVER=build/logs/clover-unit-tests.xml,build/logs/clover-integration-tests.xml
 
 notifications:
   email:
