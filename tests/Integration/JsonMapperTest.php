@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace JsonMapper\Tests;
+namespace JsonMapper\Tests\Integration;
 
 use JsonMapper\JsonMapperFactory;
 use JsonMapper\Tests\Implementation\ComplexObject;
