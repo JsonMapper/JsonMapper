@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace JsonMapper\Tests\ValueObjects;
+namespace JsonMapper\Tests\Unit\ValueObjects;
 
 use JsonMapper\Enums\Visibility;
 use JsonMapper\ValueObjects\Property;

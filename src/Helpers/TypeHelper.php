@@ -16,8 +16,11 @@ class TypeHelper
 
     public static function isBuiltinClass(string $type): bool
     {
-        return $type === '\\' . \DateTimeImmutable::class
-            || $type === '\\' . \DateTime::class;
+        if (strpos($type, '\\') === 0) {
+            $type = substr($type, 1);
+        }
+        return $type === \DateTimeImmutable::class
+            || $type === \DateTime::class;
     }
 
     /**

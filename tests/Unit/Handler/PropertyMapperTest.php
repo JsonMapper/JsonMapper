@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace JsonMapper\Tests\Handler;
+namespace JsonMapper\Tests\Unit\Handler;
 
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapperInterface;
