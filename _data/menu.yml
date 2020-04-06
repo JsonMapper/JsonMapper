@@ -1,5 +1,5 @@
 General:
-  Introduction: '/docs/'
+  Introduction: '/'
   Architecture: '/docs/architecture/'
 
 Usage:
@@ -11,9 +11,9 @@ Guides:
   Deterministic Code: '/docs/guides/deterministic-programming/'
 
 Middleware:
-  DocBlockAnnotations: '/docs/middleware/doc-block-annotations/'
-  TypedProperties: '/docs/middleware/typed-properties/'
-  FullQualifiedClassNameResolver: '/docs/middleware/full-qualified-class-name-resolver/'
+  DocBlock annotations: '/docs/middleware/doc-block-annotations/'
+  Typed properties: '/docs/middleware/typed-properties/'
+  Namespace resolver: '/docs/middleware/namespace-resolver/'
 
 Advanced Usage:
   Performance: '/docs/advanced/performance/'
