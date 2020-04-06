@@ -1,0 +1,19 @@
+General:
+  Introduction: '/docs/'
+  Architecture: '/docs/architecture/'
+
+Usage:
+  Setup: '/docs/usage/setup/'
+
+Guides:
+  Laravel Usage: '/docs/guides/laravel-usage/'
+  Symfony Usage: '/docs/guides/symfony-usage/'
+  Deterministic Code: '/docs/guides/deterministic-programming/'
+
+Middleware:
+  DocBlockAnnotations: '/docs/middleware/doc-block-annotations/'
+  TypedProperties: '/docs/middleware/typed-properties/'
+  FullQualifiedClassNameResolver: '/docs/middleware/full-qualified-class-name-resolver/'
+
+Advanced Usage:
+  Performance: '/docs/advanced/performance/'

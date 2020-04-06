@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/{{ site.data.manifest['docs.css'] }}">
+    <title>JsonMapper</title>
+</head>
+<body class="text-base pt-12 leading-normal bg-grey-100 p-4">
+    <div class="flex flex-col">
+        <header class="">
+            <a href="/">
+                <img src="/images/jsonmapper.png"/>
+            </a>
+        </header>
+        <main class="">
+            <div class="flex flex-row h-screen">
+                <nav class="w-1/6 pl-2 pt-2 hidden md:block">
+                    {% for section in site.data.menu %}
+                    <h2 class="tracking-wide text-xs leading-loose uppercase">{{ section[0] }}</h2>
+                    <ul class="list-reset pl-4 mb-6">
+                        {% for link in section[1] %}
+                        <li class="tracking-wide text-md rounded">
+                            <a href="{{ link[1] }}">{{ link[0] }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endfor %}
+                </nav>
+                <article class="w-full m-4">
+                    <h1 class="mb-4">{{ page.title }}</h1>
+                    {{ content }}
+                </article>
+            </div>
+        </main>
+        <footer>
+
+        </footer>
+    </div>
+</body>
+</html>

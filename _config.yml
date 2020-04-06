@@ -1,0 +1,17 @@
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+  - scope:
+      path: "assets/images"
+    values:
+      image: true
+
+exclude:
+  - "*.config.js"
+  - "package*.json"
+  - assets
+  - node_modules
+  - .idea
+
