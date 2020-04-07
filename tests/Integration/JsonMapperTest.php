@@ -13,23 +13,6 @@ use PHPUnit\Framework\TestCase;
 
 class JsonMapperTest extends TestCase
 {
-    /**
-     * @covers \JsonMapper\JsonMapper
-     * @covers \JsonMapper\JsonMapperFactory
-     * @covers \JsonMapper\Handler\PropertyMapper
-     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
-     * @covers \JsonMapper\Middleware\TypedProperties<extended>
-     * @covers \JsonMapper\Parser\UseNodeVisitor
-     * @covers \JsonMapper\Builders\PropertyBuilder
-     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \JsonMapper\Helpers\AnnotationHelper
-     * @covers \JsonMapper\Helpers\TypeHelper
-     * @covers \JsonMapper\Helpers\UseStatementHelper
-     * @covers \JsonMapper\ValueObjects\PropertyMap
-     * @covers \JsonMapper\ValueObjects\Property
-     * @covers \JsonMapper\Wrapper\ObjectWrapper
-     */
     public function testItCanMapAnObjectUsingAPublicProperty(): void
     {
         // Arrange
@@ -44,23 +27,6 @@ class JsonMapperTest extends TestCase
         self::assertSame(__METHOD__, $object->name);
     }
 
-    /**
-     * @covers \JsonMapper\JsonMapper
-     * @covers \JsonMapper\JsonMapperFactory
-     * @covers \JsonMapper\Handler\PropertyMapper
-     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
-     * @covers \JsonMapper\Middleware\TypedProperties<extended>
-     * @covers \JsonMapper\Parser\UseNodeVisitor
-     * @covers \JsonMapper\Builders\PropertyBuilder
-     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \JsonMapper\Helpers\AnnotationHelper
-     * @covers \JsonMapper\Helpers\TypeHelper
-     * @covers \JsonMapper\Helpers\UseStatementHelper
-     * @covers \JsonMapper\ValueObjects\PropertyMap
-     * @covers \JsonMapper\ValueObjects\Property
-     * @covers \JsonMapper\Wrapper\ObjectWrapper
-     */
     public function testItAppliesTypeCastingWhenMappingAnObjectUsingAPublicProperty(): void
     {
         // Arrange
@@ -75,23 +41,6 @@ class JsonMapperTest extends TestCase
         self::assertSame('42', $object->name);
     }
 
-    /**
-     * @covers \JsonMapper\JsonMapper
-     * @covers \JsonMapper\JsonMapperFactory
-     * @covers \JsonMapper\Handler\PropertyMapper
-     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
-     * @covers \JsonMapper\Middleware\TypedProperties<extended>
-     * @covers \JsonMapper\Parser\UseNodeVisitor
-     * @covers \JsonMapper\Builders\PropertyBuilder
-     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \JsonMapper\Helpers\AnnotationHelper
-     * @covers \JsonMapper\Helpers\TypeHelper
-     * @covers \JsonMapper\Helpers\UseStatementHelper
-     * @covers \JsonMapper\ValueObjects\PropertyMap
-     * @covers \JsonMapper\ValueObjects\Property
-     * @covers \JsonMapper\Wrapper\ObjectWrapper
-     */
     public function testItCanMapAnObjectUsingAPublicSetter(): void
     {
         // Arrange
@@ -106,23 +55,6 @@ class JsonMapperTest extends TestCase
         self::assertSame(__METHOD__, $object->getName());
     }
 
-    /**
-     * @covers \JsonMapper\JsonMapper
-     * @covers \JsonMapper\JsonMapperFactory
-     * @covers \JsonMapper\Handler\PropertyMapper
-     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
-     * @covers \JsonMapper\Middleware\TypedProperties<extended>
-     * @covers \JsonMapper\Parser\UseNodeVisitor
-     * @covers \JsonMapper\Builders\PropertyBuilder
-     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \JsonMapper\Helpers\AnnotationHelper
-     * @covers \JsonMapper\Helpers\TypeHelper
-     * @covers \JsonMapper\Helpers\UseStatementHelper
-     * @covers \JsonMapper\ValueObjects\PropertyMap
-     * @covers \JsonMapper\ValueObjects\Property
-     * @covers \JsonMapper\Wrapper\ObjectWrapper
-     */
     public function testItAppliesTypeCastingWhenMappingAnObjectUsingAPublicSetter(): void
     {
         // Arrange
@@ -137,23 +69,6 @@ class JsonMapperTest extends TestCase
         self::assertSame('42', $object->getName());
     }
 
-    /**
-     * @covers \JsonMapper\JsonMapper
-     * @covers \JsonMapper\JsonMapperFactory
-     * @covers \JsonMapper\Handler\PropertyMapper
-     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
-     * @covers \JsonMapper\Middleware\TypedProperties<extended>
-     * @covers \JsonMapper\Parser\UseNodeVisitor
-     * @covers \JsonMapper\Builders\PropertyBuilder
-     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \JsonMapper\Helpers\AnnotationHelper
-     * @covers \JsonMapper\Helpers\TypeHelper
-     * @covers \JsonMapper\Helpers\UseStatementHelper
-     * @covers \JsonMapper\ValueObjects\PropertyMap
-     * @covers \JsonMapper\ValueObjects\Property
-     * @covers \JsonMapper\Wrapper\ObjectWrapper
-     */
     public function testItCanMapAnDateTimeImmutableProperty(): void
     {
         // Arrange
@@ -170,22 +85,6 @@ class JsonMapperTest extends TestCase
 
     /**
      * @requires PHP >= 7.4
-     *
-     * @covers \JsonMapper\JsonMapper
-     * @covers \JsonMapper\JsonMapperFactory
-     * @covers \JsonMapper\Handler\PropertyMapper
-     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
-     * @covers \JsonMapper\Middleware\TypedProperties<extended>
-     * @covers \JsonMapper\Parser\UseNodeVisitor
-     * @covers \JsonMapper\Builders\PropertyBuilder
-     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \JsonMapper\Helpers\AnnotationHelper
-     * @covers \JsonMapper\Helpers\TypeHelper
-     * @covers \JsonMapper\Helpers\UseStatementHelper
-     * @covers \JsonMapper\ValueObjects\PropertyMap
-     * @covers \JsonMapper\ValueObjects\Property
-     * @covers \JsonMapper\Wrapper\ObjectWrapper
      */
     public function testItCanMapAnObjectWithTypedProperties(): void
     {
@@ -203,22 +102,6 @@ class JsonMapperTest extends TestCase
 
     /**
      * @requires PHP >= 7.4
-     *
-     * @covers \JsonMapper\JsonMapper
-     * @covers \JsonMapper\JsonMapperFactory
-     * @covers \JsonMapper\Handler\PropertyMapper
-     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
-     * @covers \JsonMapper\Middleware\TypedProperties<extended>
-     * @covers \JsonMapper\Parser\UseNodeVisitor
-     * @covers \JsonMapper\Builders\PropertyBuilder
-     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \JsonMapper\Helpers\AnnotationHelper
-     * @covers \JsonMapper\Helpers\TypeHelper
-     * @covers \JsonMapper\Helpers\UseStatementHelper
-     * @covers \JsonMapper\ValueObjects\PropertyMap
-     * @covers \JsonMapper\ValueObjects\Property
-     * @covers \JsonMapper\Wrapper\ObjectWrapper
      */
     public function testItAppliesTypeCastingMappingAnObjectWithTypedProperties(): void
     {
@@ -234,23 +117,7 @@ class JsonMapperTest extends TestCase
         self::assertSame('42', $object->name);
     }
 
-    /**
-     * @covers \JsonMapper\JsonMapper
-     * @covers \JsonMapper\JsonMapperFactory
-     * @covers \JsonMapper\Handler\PropertyMapper
-     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
-     * @covers \JsonMapper\Middleware\TypedProperties<extended>
-     * @covers \JsonMapper\Parser\UseNodeVisitor
-     * @covers \JsonMapper\Builders\PropertyBuilder
-     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \JsonMapper\Helpers\AnnotationHelper
-     * @covers \JsonMapper\Helpers\TypeHelper
-     * @covers \JsonMapper\Helpers\UseStatementHelper
-     * @covers \JsonMapper\ValueObjects\PropertyMap
-     * @covers \JsonMapper\ValueObjects\Property
-     * @covers \JsonMapper\Wrapper\ObjectWrapper
-     */
+
     public function testItCanMapAnObjectWithACustomClassAttribute(): void
     {
         // Arrange
@@ -265,23 +132,6 @@ class JsonMapperTest extends TestCase
         self::assertSame(__METHOD__, $object->getChild()->getName());
     }
 
-    /**
-     * @covers \JsonMapper\JsonMapper
-     * @covers \JsonMapper\JsonMapperFactory
-     * @covers \JsonMapper\Handler\PropertyMapper
-     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
-     * @covers \JsonMapper\Middleware\TypedProperties<extended>
-     * @covers \JsonMapper\Parser\UseNodeVisitor
-     * @covers \JsonMapper\Builders\PropertyBuilder
-     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \JsonMapper\Helpers\AnnotationHelper
-     * @covers \JsonMapper\Helpers\TypeHelper
-     * @covers \JsonMapper\Helpers\UseStatementHelper
-     * @covers \JsonMapper\ValueObjects\PropertyMap
-     * @covers \JsonMapper\ValueObjects\Property
-     * @covers \JsonMapper\Wrapper\ObjectWrapper
-     */
     public function testItCanMapAnObjectWithACustomClassAttributeFromAnotherNamespace(): void
     {
         // Arrange
@@ -296,23 +146,6 @@ class JsonMapperTest extends TestCase
         self::assertSame(__METHOD__, $object->getUser()->getName());
     }
 
-    /**
-     * @covers \JsonMapper\JsonMapper
-     * @covers \JsonMapper\JsonMapperFactory
-     * @covers \JsonMapper\Handler\PropertyMapper
-     * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
-     * @covers \JsonMapper\Middleware\TypedProperties<extended>
-     * @covers \JsonMapper\Parser\UseNodeVisitor
-     * @covers \JsonMapper\Builders\PropertyBuilder
-     * @covers \JsonMapper\Enums\Visibility::fromReflectionProperty
-     * @covers \JsonMapper\Helpers\AnnotationHelper
-     * @covers \JsonMapper\Helpers\TypeHelper
-     * @covers \JsonMapper\Helpers\UseStatementHelper
-     * @covers \JsonMapper\ValueObjects\PropertyMap
-     * @covers \JsonMapper\ValueObjects\Property
-     * @covers \JsonMapper\Wrapper\ObjectWrapper
-     */
     public function testItCanMapAnArrayOfObjects(): void
     {
         // Arrange

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JsonMapper\Tests\Parser;
 
@@ -20,7 +22,9 @@ class UseNodeVisitorTest extends TestCase
     {
         $visitor = new UseNodeVisitor();
         $uses = [\DateTime::class, \stdClass::class];
-        $node = new Use_(array_map(static function ($use) { return new UseUse(new Name($use)); }, $uses));
+        $node = new Use_(array_map(static function ($use) {
+            return new UseUse(new Name($use));
+        }, $uses));
 
         $result = $visitor->enterNode($node);
         $imports = $visitor->getImports();
@@ -36,7 +40,9 @@ class UseNodeVisitorTest extends TestCase
     {
         $visitor = new UseNodeVisitor();
         $uses = ['ComplexObject', 'SimpleObject'];
-        $node = new GroupUse(new Name('JsonMapper\Tests\Implementation'), array_map(static function ($use) { return new UseUse(new Name($use)); }, $uses));
+        $node = new GroupUse(new Name('JsonMapper\Tests\Implementation'), array_map(static function ($use) {
+            return new UseUse(new Name($use));
+        }, $uses));
 
         $result = $visitor->enterNode($node);
         $imports = $visitor->getImports();
@@ -44,5 +50,4 @@ class UseNodeVisitorTest extends TestCase
         self::assertNull($result);
         self::assertEquals([ComplexObject::class, SimpleObject::class], $imports);
     }
-
 }
