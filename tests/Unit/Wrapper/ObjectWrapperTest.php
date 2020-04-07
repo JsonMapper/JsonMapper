@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit\Wrapper;
 
@@ -29,6 +31,4 @@ class ObjectWrapperTest extends TestCase
 
         self::assertEquals(get_class($object), $reflectedObject->getName());
     }
-
-
 }

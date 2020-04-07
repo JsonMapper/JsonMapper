@@ -18,7 +18,7 @@ class JsonMapperTest extends TestCase
      * @covers \JsonMapper\JsonMapperFactory
      * @covers \JsonMapper\Handler\PropertyMapper
      * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
      * @covers \JsonMapper\Middleware\TypedProperties<extended>
      * @covers \JsonMapper\Parser\UseNodeVisitor
      * @covers \JsonMapper\Builders\PropertyBuilder
@@ -49,7 +49,7 @@ class JsonMapperTest extends TestCase
      * @covers \JsonMapper\JsonMapperFactory
      * @covers \JsonMapper\Handler\PropertyMapper
      * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
      * @covers \JsonMapper\Middleware\TypedProperties<extended>
      * @covers \JsonMapper\Parser\UseNodeVisitor
      * @covers \JsonMapper\Builders\PropertyBuilder
@@ -80,7 +80,7 @@ class JsonMapperTest extends TestCase
      * @covers \JsonMapper\JsonMapperFactory
      * @covers \JsonMapper\Handler\PropertyMapper
      * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
      * @covers \JsonMapper\Middleware\TypedProperties<extended>
      * @covers \JsonMapper\Parser\UseNodeVisitor
      * @covers \JsonMapper\Builders\PropertyBuilder
@@ -111,7 +111,7 @@ class JsonMapperTest extends TestCase
      * @covers \JsonMapper\JsonMapperFactory
      * @covers \JsonMapper\Handler\PropertyMapper
      * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
      * @covers \JsonMapper\Middleware\TypedProperties<extended>
      * @covers \JsonMapper\Parser\UseNodeVisitor
      * @covers \JsonMapper\Builders\PropertyBuilder
@@ -142,7 +142,7 @@ class JsonMapperTest extends TestCase
      * @covers \JsonMapper\JsonMapperFactory
      * @covers \JsonMapper\Handler\PropertyMapper
      * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
      * @covers \JsonMapper\Middleware\TypedProperties<extended>
      * @covers \JsonMapper\Parser\UseNodeVisitor
      * @covers \JsonMapper\Builders\PropertyBuilder
@@ -175,7 +175,7 @@ class JsonMapperTest extends TestCase
      * @covers \JsonMapper\JsonMapperFactory
      * @covers \JsonMapper\Handler\PropertyMapper
      * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
      * @covers \JsonMapper\Middleware\TypedProperties<extended>
      * @covers \JsonMapper\Parser\UseNodeVisitor
      * @covers \JsonMapper\Builders\PropertyBuilder
@@ -208,7 +208,7 @@ class JsonMapperTest extends TestCase
      * @covers \JsonMapper\JsonMapperFactory
      * @covers \JsonMapper\Handler\PropertyMapper
      * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
      * @covers \JsonMapper\Middleware\TypedProperties<extended>
      * @covers \JsonMapper\Parser\UseNodeVisitor
      * @covers \JsonMapper\Builders\PropertyBuilder
@@ -239,7 +239,7 @@ class JsonMapperTest extends TestCase
      * @covers \JsonMapper\JsonMapperFactory
      * @covers \JsonMapper\Handler\PropertyMapper
      * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
      * @covers \JsonMapper\Middleware\TypedProperties<extended>
      * @covers \JsonMapper\Parser\UseNodeVisitor
      * @covers \JsonMapper\Builders\PropertyBuilder
@@ -270,7 +270,7 @@ class JsonMapperTest extends TestCase
      * @covers \JsonMapper\JsonMapperFactory
      * @covers \JsonMapper\Handler\PropertyMapper
      * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
      * @covers \JsonMapper\Middleware\TypedProperties<extended>
      * @covers \JsonMapper\Parser\UseNodeVisitor
      * @covers \JsonMapper\Builders\PropertyBuilder
@@ -301,7 +301,7 @@ class JsonMapperTest extends TestCase
      * @covers \JsonMapper\JsonMapperFactory
      * @covers \JsonMapper\Handler\PropertyMapper
      * @covers \JsonMapper\Middleware\DocBlockAnnotations<extended>
-     * @covers \JsonMapper\Middleware\FullQualifiedClassNameResolver<extended>
+     * @covers \JsonMapper\Middleware\NamespaceResolver<extended>
      * @covers \JsonMapper\Middleware\TypedProperties<extended>
      * @covers \JsonMapper\Parser\UseNodeVisitor
      * @covers \JsonMapper\Builders\PropertyBuilder

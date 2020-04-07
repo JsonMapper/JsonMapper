@@ -6,7 +6,7 @@ namespace JsonMapper;
 
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\Middleware\DocBlockAnnotations;
-use JsonMapper\Middleware\FullQualifiedClassNameResolver;
+use JsonMapper\Middleware\NamespaceResolver;
 use JsonMapper\Middleware\MiddlewareInterface;
 use JsonMapper\Middleware\TypedProperties;
 
@@ -26,7 +26,7 @@ class JsonMapperFactory
     {
         return (new JsonMapper(new PropertyMapper()))
             ->push(new DocBlockAnnotations())
-            ->push(new FullQualifiedClassNameResolver());
+            ->push(new NamespaceResolver());
     }
 
     public function bestFit(): JsonMapperInterface
@@ -39,7 +39,7 @@ class JsonMapperFactory
             $mapper->push(new TypedProperties());
         }
 
-        $mapper->push(new FullQualifiedClassNameResolver());
+        $mapper->push(new NamespaceResolver());
 
         return $mapper;
     }

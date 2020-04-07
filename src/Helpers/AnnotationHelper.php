@@ -11,18 +11,6 @@ class AnnotationHelper
         return stripos('|' . $type . '|', '|null|') !== false;
     }
 
-    public static function removeNullable(?string $type): ?string
-    {
-        if ($type === null) {
-            return null;
-        }
-        return substr(
-            str_ireplace('|null|', '|', '|' . $type . '|'),
-            1,
-            -1
-        );
-    }
-
     public static function parseAnnotations(string $docblock): array
     {
         $annotations = [];
@@ -40,10 +28,5 @@ class AnnotationHelper
         }
 
         return $annotations;
-    }
-
-    public static function isArrayOfType(string $strType): bool
-    {
-        return substr($strType, -2) === '[]';
     }
 }

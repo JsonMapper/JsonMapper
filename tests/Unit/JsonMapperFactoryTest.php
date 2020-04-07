@@ -1,4 +1,8 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+namespace JsonMapper\Tests\Unit;
 
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapper;
@@ -45,5 +49,4 @@ class JsonMapperFactoryTest extends TestCase
 
         self::assertInstanceOf(JsonMapper::class, $mapper);
     }
-
 }

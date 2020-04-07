@@ -1,6 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
-namespace JsonMapper\Tests\Unit\Builders;
+declare(strict_types=1);
+
+namespace JsonMapper\Tests\Unit\Builder;
 
 use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Enums\Visibility;
@@ -25,5 +27,4 @@ class PropertyBuilderTest extends TestCase
         self::assertTrue($property->isNullable());
         self::assertTrue($property->getVisibility()->equals(Visibility::PRIVATE()));
     }
-
 }

@@ -11,7 +11,7 @@ use JsonMapper\ValueObjects\Property;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 
-class FullQualifiedClassNameResolver extends AbstractMiddleware
+class NamespaceResolver extends AbstractMiddleware
 {
     public function handle(\stdClass $json, ObjectWrapper $object, PropertyMap $map, JsonMapperInterface $mapper): void
     {

@@ -1,6 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
-namespace JsonMapper\Tests\Helpers\Unit;
+declare(strict_types=1);
+
+namespace JsonMapper\Tests\Unit\Helpers;
 
 use JsonMapper\Helpers\TypeHelper;
 use PHPUnit\Framework\TestCase;
@@ -69,5 +71,4 @@ class TypeHelperTest extends TestCase
             'cast to float' => ['34.567', 'float', 34.567],
         ];
     }
-
 }

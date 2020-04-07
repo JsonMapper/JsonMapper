@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit\ValueObjects;
 
@@ -31,6 +33,4 @@ class PropertyTest extends TestCase
 
         self::assertEquals($property, $builder->build());
     }
-
-
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit\ValueObjects;
 
@@ -45,6 +47,5 @@ class PropertyMapTest extends TestCase
 
         self::assertCount(1, $iterator);
         self::assertSame($property, $iterator->current());
-
     }
 }
