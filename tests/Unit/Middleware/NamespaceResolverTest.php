@@ -20,7 +20,7 @@ class NamespaceResolverTest extends TestCase
     /**
      * @covers \JsonMapper\Middleware\NamespaceResolver
      */
-    public function testItResolvesNamespacesForComplexClasses(): void
+    public function testItResolvesNamespacesForImportedNamespace(): void
     {
         $middleware = new NamespaceResolver();
         $object = new ComplexObject();
@@ -38,6 +38,29 @@ class NamespaceResolverTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('user'));
         self::assertEquals(User::class, $propertyMap->getProperty('user')->getType());
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\NamespaceResolver
+     */
+    public function testItResolvesNamespacesWithinSameNamespace(): void
+    {
+        $middleware = new NamespaceResolver();
+        $object = new ComplexObject();
+        $property = PropertyBuilder::new()
+            ->setName('child')
+            ->setType('SimpleObject')
+            ->setVisibility(Visibility::PRIVATE())
+            ->setIsNullable(false)
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertTrue($propertyMap->hasProperty('child'));
+        self::assertEquals(SimpleObject::class, $propertyMap->getProperty('child')->getType());
     }
 
     /**

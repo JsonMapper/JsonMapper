@@ -17,7 +17,7 @@ class DocBlockAnnotationsTest extends TestCase
     /**
      * @covers \JsonMapper\Middleware\DocBlockAnnotations
      */
-    public function testHandlesMethod(): void
+    public function testUpdatesThePropertyMap(): void
     {
         $middleware = new DocBlockAnnotations();
         $object = new SimpleObject();
@@ -30,5 +30,23 @@ class DocBlockAnnotationsTest extends TestCase
         self::assertEquals('string', $propertyMap->getProperty('name')->getType());
         self::assertEquals(Visibility::PRIVATE(), $propertyMap->getProperty('name')->getVisibility());
         self::assertFalse($propertyMap->getProperty('name')->isNullable());
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations
+     */
+    public function testItCanHandleMissingDocBlock(): void
+    {
+        $middleware = new DocBlockAnnotations();
+        $object = new class {
+            public $number;
+        };
+
+        $propertyMap = new PropertyMap();
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertEmpty($propertyMap->getIterator());
     }
 }
