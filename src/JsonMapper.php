@@ -9,14 +9,14 @@ use JsonMapper\Wrapper\ObjectWrapper;
 
 class JsonMapper implements JsonMapperInterface
 {
-    /** @var callable|null */
+    /** @var callable */
     private $handler;
     /** @var array */
     private $stack = [];
     /** @var callable|null */
     private $cached;
 
-    public function __construct(callable $handler = null)
+    public function __construct(callable $handler)
     {
         $this->handler = $handler;
     }
@@ -32,10 +32,7 @@ class JsonMapper implements JsonMapperInterface
     public function resolve(): callable
     {
         if (!$this->cached) {
-            if (!($prev = $this->handler)) {
-                throw new \LogicException('No handler has been specified');
-            }
-
+            $prev = $this->handler;
             foreach (array_reverse($this->stack) as $fn) {
                 $prev = $fn[0]($prev);
             }
