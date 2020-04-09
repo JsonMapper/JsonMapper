@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace JsonMapper\Tests\Parser;
+namespace JsonMapper\Tests\Unit\Parser;
 
 use JsonMapper\Parser\UseNodeVisitor;
 use JsonMapper\Tests\Implementation\ComplexObject;

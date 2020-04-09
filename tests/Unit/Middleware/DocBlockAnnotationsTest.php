@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace JsonMapper\Tests\Middleware;
+namespace JsonMapper\Tests\Unit\Middleware;
 
 use JsonMapper\Enums\Visibility;
 use JsonMapper\JsonMapperInterface;

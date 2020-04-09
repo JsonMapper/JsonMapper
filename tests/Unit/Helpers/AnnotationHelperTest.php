@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace JsonMapper\Tests\Helpers;
+namespace JsonMapper\Tests\Unit\Helpers;
 
 use JsonMapper\Helpers\AnnotationHelper;
 use PHPUnit\Framework\TestCase;
