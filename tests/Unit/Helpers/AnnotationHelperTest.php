@@ -27,6 +27,35 @@ class AnnotationHelperTest extends TestCase
         self::assertFalse(AnnotationHelper::isNullable($annotation));
     }
 
+    /**
+     * @covers \JsonMapper\Helpers\AnnotationHelper
+     */
+    public function testTraditionalAnnotationsCanBeParsed(): void
+    {
+        $annotation = <<<'EOL'
+            /**
+             * @var bool
+             */
+EOL;
+
+        $parsedAnnotation = AnnotationHelper::parseAnnotations($annotation);
+
+        self::assertEquals(['var' => ['bool']], $parsedAnnotation);
+    }
+
+    /**
+     * @covers \JsonMapper\Helpers\AnnotationHelper
+     */
+    public function testShortAnnotationsCanBeParsed(): void
+    {
+        $annotation = '/**  */@var bool */';
+
+        $parsedAnnotation = AnnotationHelper::parseAnnotations($annotation);
+
+        self::assertEquals(['var' => ['bool']], $parsedAnnotation);
+    }
+
+
     public function nullableAnnotations(): array
     {
         return [

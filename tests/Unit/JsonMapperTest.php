@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit;
 
-
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapper;
 use JsonMapper\JsonMapperInterface;
