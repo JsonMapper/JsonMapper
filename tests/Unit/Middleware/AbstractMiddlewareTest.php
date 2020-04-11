@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Middleware;
+namespace JsonMapper\Tests\Unit\Middleware;
 
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\AbstractMiddleware;

@@ -34,6 +34,9 @@ class TypeHelperTest extends TestCase
     /**
      * @covers \JsonMapper\Helpers\TypeHelper
      * @dataProvider castOperationDataProvider
+     *
+     * @param mixed $value
+     * @param mixed $expected
      */
     public function testCastOperationReturnsTheCorrectValue($value, string $castTo, $expected): void
     {
@@ -56,8 +59,10 @@ class TypeHelperTest extends TestCase
     public function builtinTypesDataProvider(): array
     {
         return [
-            \DateTime::class => [\DateTime::class],
-            \DateTimeImmutable::class => [\DateTimeImmutable::class],
+            \DateTime::class . ' as class constant' => [\DateTime::class],
+            \DateTime::class . ' as string' => ['\DateTime'],
+            \DateTimeImmutable::class . ' as class constant' => [\DateTimeImmutable::class],
+            \DateTimeImmutable::class . ' as string' => ['\DateTimeImmutable'],
         ];
     }
 
@@ -69,6 +74,7 @@ class TypeHelperTest extends TestCase
             'cast to boolean false' => [0, 'bool', false],
             'cast to int' => ['42', 'int', 42],
             'cast to float' => ['34.567', 'float', 34.567],
+            'cast to  unsupported type' => ['34.567', 'bigint', '34.567'],
         ];
     }
 }

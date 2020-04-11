@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+namespace JsonMapper\Tests\Unit;
+
+
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapper;
 use JsonMapper\JsonMapperInterface;
@@ -20,6 +23,7 @@ class JsonMapperTest extends TestCase
     protected function setUp(): void
     {
         $this->handler = new class {
+            /** @var bool */
             private $called = false;
 
             public function __invoke(): void
@@ -34,6 +38,7 @@ class JsonMapperTest extends TestCase
         };
 
         $this->middleware = new class extends AbstractMiddleware{
+            /** @var bool */
             private $called = false;
 
             public function isCalled(): bool
@@ -59,7 +64,7 @@ class JsonMapperTest extends TestCase
     {
         $jsonMapper = new JsonMapper($this->handler);
 
-        $jsonMapper->mapObject(new stdClass(), new stdClass());
+        $jsonMapper->mapObject(new \stdClass(), new \stdClass());
 
         self::assertTrue($this->handler->isCalled());
     }
@@ -71,7 +76,7 @@ class JsonMapperTest extends TestCase
     {
         $jsonMapper = new JsonMapper($this->handler);
 
-        $jsonMapper->mapArray([new stdClass()], new stdClass());
+        $jsonMapper->mapArray([new \stdClass()], new \stdClass());
 
         self::assertTrue($this->handler->isCalled());
     }
@@ -84,7 +89,7 @@ class JsonMapperTest extends TestCase
         $jsonMapper = new JsonMapper(new PropertyMapper());
         $jsonMapper->push($this->middleware);
 
-        $jsonMapper->mapObject(new stdClass(), new stdClass());
+        $jsonMapper->mapObject(new \stdClass(), new \stdClass());
 
         self::assertTrue($this->middleware->isCalled());
     }
@@ -92,12 +97,12 @@ class JsonMapperTest extends TestCase
     /**
      * @covers \JsonMapper\JsonMapper
      */
-    public function testPushedMiddleareIsInvokedWhenMappingArray(): void
+    public function testPushedMiddlewareIsInvokedWhenMappingArray(): void
     {
         $jsonMapper = new JsonMapper(new PropertyMapper());
         $jsonMapper->push($this->middleware);
 
-        $jsonMapper->mapObject(new stdClass(), new stdClass());
+        $jsonMapper->mapObject(new \stdClass(), new \stdClass());
 
         self::assertTrue($this->middleware->isCalled());
     }
