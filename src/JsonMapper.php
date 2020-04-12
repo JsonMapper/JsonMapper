@@ -21,7 +21,7 @@ class JsonMapper implements JsonMapperInterface
         $this->handler = $handler;
     }
 
-    public function push(callable $middleware, string $name = ''): self
+    public function push(callable $middleware, string $name = ''): JsonMapperInterface
     {
         $this->stack[] = [$middleware, $name];
         $this->cached = null;
