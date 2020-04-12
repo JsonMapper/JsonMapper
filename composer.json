@@ -30,6 +30,7 @@
         "phpcs": ["./vendor/bin/phpcs --standard=PSR12 src tests"],
         "phpcbf": ["./vendor/bin/phpcbf --standard=PSR12 src tests"],
         "phpstan": "./vendor/bin/phpstan analyse",
-        "phpunit": "./vendor/bin/phpunit"
+        "unit-tests": "./vendor/bin/phpunit --testsuite unit --testdox --coverage-clover=build/logs/clover-unit-tests.xml",
+        "integration-tests": "./vendor/bin/phpunit --testsuite integration --testdox  --coverage-clover=build/logs/clover-integration-tests.xml"
     }
 }
