@@ -28,7 +28,7 @@ script:
   - composer integration-tests
 
 after_success:
-  - travis_retry php vendor/bin/php-coveralls -vvv
+  - travis_retry php vendor/bin/php-coveralls
 
 notifications:
   email:
