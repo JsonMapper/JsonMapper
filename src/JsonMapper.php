@@ -29,20 +29,6 @@ class JsonMapper implements JsonMapperInterface
         return $this;
     }
 
-    public function resolve(): callable
-    {
-        if (!$this->cached) {
-            $prev = $this->handler;
-            foreach (array_reverse($this->stack) as $fn) {
-                $prev = $fn[0]($prev);
-            }
-
-            $this->cached = $prev;
-        }
-
-        return $this->cached;
-    }
-
     public function mapObject(\stdClass $json, object $object): void
     {
         $propertyMap = new PropertyMap();
@@ -60,5 +46,19 @@ class JsonMapper implements JsonMapperInterface
         }
 
         return $results;
+    }
+
+    private function resolve(): callable
+    {
+        if (!$this->cached) {
+            $prev = $this->handler;
+            foreach (array_reverse($this->stack) as $fn) {
+                $prev = $fn[0]($prev);
+            }
+
+            $this->cached = $prev;
+        }
+
+        return $this->cached;
     }
 }
