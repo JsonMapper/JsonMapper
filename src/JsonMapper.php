@@ -21,26 +21,12 @@ class JsonMapper implements JsonMapperInterface
         $this->handler = $handler;
     }
 
-    public function push(callable $middleware, string $name = ''): self
+    public function push(callable $middleware, string $name = ''): JsonMapperInterface
     {
         $this->stack[] = [$middleware, $name];
         $this->cached = null;
 
         return $this;
-    }
-
-    public function resolve(): callable
-    {
-        if (!$this->cached) {
-            $prev = $this->handler;
-            foreach (array_reverse($this->stack) as $fn) {
-                $prev = $fn[0]($prev);
-            }
-
-            $this->cached = $prev;
-        }
-
-        return $this->cached;
     }
 
     public function mapObject(\stdClass $json, object $object): void
@@ -60,5 +46,19 @@ class JsonMapper implements JsonMapperInterface
         }
 
         return $results;
+    }
+
+    private function resolve(): callable
+    {
+        if (!$this->cached) {
+            $prev = $this->handler;
+            foreach (array_reverse($this->stack) as $fn) {
+                $prev = $fn[0]($prev);
+            }
+
+            $this->cached = $prev;
+        }
+
+        return $this->cached;
     }
 }
