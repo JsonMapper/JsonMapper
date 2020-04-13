@@ -20,7 +20,7 @@ class UseNodeVisitor extends NodeVisitorAbstract
     {
         if ($node instanceof Stmt\Use_) {
             foreach ($node->uses as $use) {
-                $this->imports[] = '\\' . $use->name;
+                $this->imports[] = $use->name->toString();
             }
         } elseif ($node instanceof Stmt\GroupUse) {
             foreach ($node->uses as $use) {
