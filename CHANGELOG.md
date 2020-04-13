@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added 
 - New FinalCallback middleware to invoke a final callback when mapping is completed.
+- New CaseConversion middleware to handle difference between text notation in JSON and object
 
 ## [0.2.1] - 2020-03-25
 ### Fixed
