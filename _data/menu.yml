@@ -12,9 +12,12 @@ Guides:
   Deterministic Code: '/docs/guides/deterministic-programming/'
 
 Middleware:
+  Case conversion: '/docs/middleware/case-conversion/'
   DocBlock annotations: '/docs/middleware/doc-block-annotations/'
-  Typed properties: '/docs/middleware/typed-properties/'
+  Final callback: '/docs/middleware/final-callback/'
   Namespace resolver: '/docs/middleware/namespace-resolver/'
+  Typed properties: '/docs/middleware/typed-properties/'
+
 
 Advanced Usage:
   Performance: '/docs/advanced/performance/'

@@ -1,6 +1,6 @@
 ---
 permalink: /docs/middleware/namespace-resolver/  
-title: Full qualified class name resolver  
+title: Namespace resolver  
 ---
 
 Something about namespace resolver

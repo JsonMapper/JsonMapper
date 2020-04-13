@@ -10,22 +10,14 @@ h1, h2, h3, h4, h5, h6 {
     @apply font-extrabold font-bold leading-tight text-gray-900;
 }
 
-/*div.highlighter-rouge + table {*/
-/*    @apply -mt-4 border-t-4 border-indigo-900;*/
-/*}*/
-
-/*h3 + div.highlighter-rouge {*/
-/*    @apply mt-4;*/
-/*}*/
-
-/*
- * GitHub style for Pygments syntax highlighter, for use with Jekyll
- * Courtesy of GitHub.com
- */
+article > p > a {
+    @apply underline
+}
 
 div.highlighter-rouge {
     font-family: Courier, monospace;
-    @apply bg-gray-200  p-2 shadow  block;
+    @apply bg-gray-200 p-2 shadow block;
+    @apply text-xs p-2 mb-8;
 }
 
 div.highlighter-rouge > div {
@@ -40,11 +32,6 @@ code.highlighter-rouge {
     font-family: Courier, monospace;
     text-shadow: 1px 1px 0px #fff, -1px 1px 0px #fff;
 }
-
-/*div.highlighter-rouge.language-bash {*/
-/*    @apply bg-indigo-700 text-white shadow-inner;*/
-/*    text-shadow: 1px 1px 2px #253461, -1px 1px 2px #253461;*/
-/*}*/
 
 .highlight .gd {
     color: #b31d28;
