@@ -3,4 +3,24 @@ permalink: /docs/usage/setup
 title: Setup
 ---
 
-Something about setup
+Setting up JsonMapper for your project is simple. JsonMapper comes with a factory that
+offers three methods to create a JsonMapper instance.
+
+```php
+<?php
+
+// Simply use default, whcih offers the most light weigth JsonMapper
+$default = (new \JsonMapper\JsonMapperFactory())->default();
+
+// Use the `bestfit` to get the JsonMapper that fits best// 
+// to the PHP runtime.
+$bestfit = (new \JsonMapper\JsonMapperFactory())->bestFit();
+
+// Use create to build a new instance with a custom// 
+// property mapper and middleware
+$custom = (new \JsonMapper\JsonMapperFactory())->create(
+  new PropertyMapper, 
+  new \JsonMapper\Middleware\DocBlockAnnotations(),   
+  ...
+);
+```  

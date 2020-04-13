@@ -3,6 +3,7 @@ General:
   Architecture: '/docs/architecture/'
 
 Usage:
+  Installation: '/docs/usage/installation/'
   Setup: '/docs/usage/setup/'
 
 Guides:
