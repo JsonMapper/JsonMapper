@@ -57,12 +57,29 @@ class PropertyMapTest extends TestCase
         $map = new PropertyMap();
         $map->addProperty(new Property('id', 'int', false, Visibility::PUBLIC()));
 
-        $propertyAsJson = json_encode($map);
+        $mapAsJson = json_encode($map);
 
-        self::assertIsString($propertyAsJson);
+        self::assertIsString($mapAsJson);
         self::assertJsonStringEqualsJsonString(
             '{"properties":{"id":{"name":"id","type":"int","isNullable":false,"visibility":"public"}}}',
-            (string) $propertyAsJson
+            (string) $mapAsJson
+        );
+    }
+
+    /**
+     * @covers \JsonMapper\ValueObjects\PropertyMap
+     */
+    public function testCanBeConvertedToString(): void
+    {
+        $map = new PropertyMap();
+        $map->addProperty(new Property('id', 'int', false, Visibility::PUBLIC()));
+
+        $mapAsString = $map->toString();
+
+        self::assertIsString($mapAsString);
+        self::assertJsonStringEqualsJsonString(
+            '{"properties":{"id":{"name":"id","type":"int","isNullable":false,"visibility":"public"}}}',
+            (string) $mapAsString
         );
     }
 }
