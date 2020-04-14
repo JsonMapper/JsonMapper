@@ -33,4 +33,20 @@ class PropertyTest extends TestCase
 
         self::assertEquals($property, $builder->build());
     }
+
+    /**
+     * @covers \JsonMapper\ValueObjects\Property
+     */
+    public function testCanBeConvertedToJson(): void
+    {
+        $property = new Property('id', 'int', false, Visibility::PUBLIC());
+
+        $propertyAsJson = json_encode($property);
+
+        self::assertIsString($propertyAsJson);
+        self::assertJsonStringEqualsJsonString(
+            '{"name":"id","type":"int","isNullable":false,"visibility":"public"}',
+            (string) $propertyAsJson
+        );
+    }
 }

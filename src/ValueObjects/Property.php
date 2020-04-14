@@ -7,7 +7,7 @@ namespace JsonMapper\ValueObjects;
 use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Enums\Visibility;
 
-class Property
+class Property implements \JsonSerializable
 {
     /** @var string */
     private $name;
@@ -53,5 +53,15 @@ class Property
             ->setType($this->type)
             ->setIsNullable($this->isNullable)
             ->setVisibility($this->visibility);
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'name' => $this->name,
+            'type' => $this->type,
+            'isNullable' => $this->isNullable,
+            'visibility' => $this->visibility,
+        ];
     }
 }
