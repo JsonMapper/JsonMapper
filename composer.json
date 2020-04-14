@@ -1,6 +1,12 @@
 {
     "name": "json-mapper/json-mapper",
     "description": "Map JSON structures to PHP classes",
+    "keywords": [
+        "json",
+        "mapper",
+        "JsonMapper",
+        "middleware"
+    ],
     "type": "library",
     "license": "MIT",
     "minimum-stability": "stable",
