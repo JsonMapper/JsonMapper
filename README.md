@@ -1,16 +1,61 @@
+![Logo](https://jsonmapper.github.io/JsonMapper/images/jsonmapper.png)
+---
+JsonMapper is a PHP library that allows you to map a JSON response to your PHP objects that are either annotated using doc blocks or use typed properties.
+For more information see the project website: https://jsonmapper.github.io/JsonMapper/
+
+![GitHub](https://img.shields.io/github/license/JsonMapper/JsonMapper)
+![Packagist Version](https://img.shields.io/packagist/v/json-mapper/json-mapper)
+![PHP from Packagist](https://img.shields.io/packagist/php-v/json-mapper/json-mapper)
 [![Build Status](https://api.travis-ci.com/JsonMapper/JsonMapper.svg?branch=master)](https://travis-ci.com/JsonMapper/JsonMapper) 
 [![Coverage Status](https://coveralls.io/repos/github/JsonMapper/JsonMapper/badge.svg?branch=develop)](https://coveralls.io/github/JsonMapper/JsonMapper?branch=develop)
-[![Mergify Status](https://img.shields.io/endpoint.svg?url=https://dashboard.mergify.io/badges/JsonMapper/JsonMapper&style=flat)](https://mergify.io)
 
-# What is JsonMapper
-JsonMapper allows you to easily map a JSON response to your own objects. Out of the box it can map to plain old PHP 
-objects that are either annotated using doc blocks or typed properties, complete with namespace resolution based in 
-the imports defined at the top of your class. This is done without any additional code in your classes.
+# Why use JsonMapper
+Continuously mapping your JSON responses to your own objects becomes tedious and is error prone. Not mentioning the
+tests that needs to be written for said mapping.
 
-_Example #1 Simple mapping_
+JsonMapper has been build with the most common usages in mind. In order to allow for those edge cases which are not 
+supported by default, it can easily be extended as its core has been designed using middleware.
+
+JsonMapper supports the following features
+ * Case conversion
+ * Debugging
+ * DocBlock annotations
+ * Final callback
+ * Namespace resolving
+ * PHP 7.4 Types properties
+  
+# Installing JsonMapper
+The installation of JsonMapper can easily be done with [Composer](https://getcomposer.org)
+```bash
+$ composer require json-mapper/json-mapper
+```
+The example shown above assumes that `composer` is on your `$PATH`.
+
+# How do I use JsonMapper
+Given the following class definition
 ```php
-$mapper = (new \JsonMapper\JsonMapperFactory())->bestFit();
-$object = new \Tests\JsonMapper\Implementation\SimpleObject();
+namespace JsonMapper\Tests\Implementation;
+
+class SimpleObject
+{
+    /** @var string */
+    private $name;
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+}
+```
+Combined with the following JsonMapper code as part of your application
+```php
+$mapper = (new \JsonMapper\JsonMapperFactory())->default();
+$object = new \JsonMapper\Tests\Implementation\SimpleObject();
 
 $mapper->mapObject(json_decode('{ "name": "John Doe" }'), $object);
 
@@ -24,17 +69,11 @@ class JsonMapper\Tests\Implementation\SimpleObject#1 (1) {
 }
 ```  
 
-# Why user JsonMapper
-Continuously mapping your JSON responses to your own objects becomes tedious and is error prone. Not mentioning the
-tests that needs to be written for said mapping.
-
 # Customizing JsonMapper
-JsonMapper has been build with the most common usages in mind. In order to allow for those edge cases which are not 
-supported by default, JsonMapper can easily be extended as its core was designed using middleware. Writing your own 
+. Writing your own 
 middleware has been made as easy as possible with an `AbstractMiddleware` that can be extended with the functionality 
 you need for your project.
 
-_Example #2 Custom middleware_
 ```php
 use JsonMapper;
 
@@ -50,3 +89,12 @@ $mapper->push(new class extends JsonMapper\Middleware\AbstractMiddleware {
     }
 });
 ```
+
+# Contributing
+Please refer to [CONTRIBUTING.md](https://github.com/JsonMapper/JsonMapper/blob/master/CONTRIBUTING.md) for information on how to contribute to JsonMapper.
+
+## List of Contributors
+Thanks to everyone who has contributed to JsonMapper! You can find a detailed list of contributors of JsonMapper on [GitHub](https://github.com/JsonMapper/JsonMapper/graphs/contributors).
+
+# License
+The MIT License (MIT). Please see [License File](https://github.com/JsonMapper/JsonMapper/blob/master/LICENSE) for more information.
