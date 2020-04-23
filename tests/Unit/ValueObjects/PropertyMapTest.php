@@ -82,4 +82,21 @@ class PropertyMapTest extends TestCase
             (string) $mapAsString
         );
     }
+
+    /**
+     * @covers \JsonMapper\ValueObjects\PropertyMap
+     */
+    public function testCanBeMergedWithOtherPropertyMap(): void
+    {
+        $map = new PropertyMap();
+        $map->addProperty(new Property('id', 'int', false, Visibility::PUBLIC()));
+        $other = new PropertyMap();
+        $other->addProperty(new Property('uuid', 'string', false, Visibility::PUBLIC()));
+
+        $map->merge($other);
+
+        self::assertTrue($map->hasProperty('id'));
+        self::assertTrue($map->hasProperty('uuid'));
+
+    }
 }

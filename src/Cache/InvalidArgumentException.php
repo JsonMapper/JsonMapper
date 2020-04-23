@@ -13,4 +13,9 @@ class InvalidArgumentException extends \InvalidArgumentException implements \Psr
 
         return $e;
     }
+
+    public function getInvalidArgument()
+    {
+        return $this->invalidArgument;
+    }
 }
