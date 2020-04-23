@@ -10,12 +10,31 @@ use JsonMapper\Helpers\AnnotationHelper;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
+use Psr\SimpleCache\CacheInterface;
 
 class DocBlockAnnotations extends AbstractMiddleware
 {
-    public function handle(\stdClass $json, ObjectWrapper $object, PropertyMap $map, JsonMapperInterface $mapper): void
+    /** @var CacheInterface */
+    private $cache;
+
+    public function __construct(CacheInterface $cache)
     {
+        $this->cache = $cache;
+    }
+
+    public function handle(\stdClass $json, ObjectWrapper $object, PropertyMap $propertyMap, JsonMapperInterface $mapper): void
+    {
+        $propertyMap->merge($this->fetchPropertyMapForObject($object));
+    }
+
+    private function fetchPropertyMapForObject(ObjectWrapper $object): PropertyMap
+    {
+        if ($this->cache->has($object->getName())) {
+            return $this->cache->get($object->getName());
+        }
+
         $properties = $object->getReflectedObject()->getProperties();
+        $intermediatePropertyMap = new PropertyMap();
 
         foreach ($properties as $property) {
             $name = $property->getName();
@@ -34,7 +53,12 @@ class DocBlockAnnotations extends AbstractMiddleware
                 ->setIsNullable(AnnotationHelper::isNullable($annotations['var'][0]))
                 ->setVisibility(Visibility::fromReflectionProperty($property))
                 ->build();
-            $map->addProperty($property);
+            $intermediatePropertyMap->addProperty($property);
         }
+
+        $this->cache->set($object->getName(), $intermediatePropertyMap);
+
+        return $intermediatePropertyMap;
     }
+
 }

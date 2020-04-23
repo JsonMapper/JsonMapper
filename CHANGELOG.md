@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2020-04-23
+### Added
+- New Debugger middleware to help debug the in between middleware
+- Caching support to the DocBlockAnnotations and TypedProperties middleware
+
 ## [0.3.0] - 2020-04-13
 ### Added 
 - New FinalCallback middleware to invoke a final callback when mapping is completed.

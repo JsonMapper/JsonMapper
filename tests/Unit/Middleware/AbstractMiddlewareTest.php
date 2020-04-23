@@ -30,7 +30,7 @@ class AbstractMiddlewareTest extends TestCase
             public function handle(
                 \stdClass $json,
                 ObjectWrapper $object,
-                PropertyMap $map,
+                PropertyMap $propertyMap,
                 JsonMapperInterface $mapper
             ): void {
                 $this->called = true;

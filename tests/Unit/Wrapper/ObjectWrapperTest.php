@@ -31,4 +31,15 @@ class ObjectWrapperTest extends TestCase
 
         self::assertEquals(get_class($object), $reflectedObject->getName());
     }
+
+    /**
+     * @covers \JsonMapper\Wrapper\ObjectWrapper
+     */
+    public function testCanGetNameOfWrappedObject(): void
+    {
+        $object = new \stdClass();
+        $wrapper = new ObjectWrapper($object);
+
+        self::assertEquals(\stdClass::class, $wrapper->getName());
+    }
 }

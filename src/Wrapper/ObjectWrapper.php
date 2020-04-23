@@ -29,4 +29,9 @@ class ObjectWrapper
 
         return $this->reflectedObject;
     }
+
+    public function getName(): string
+    {
+        return $this->getReflectedObject()->getName();
+    }
 }

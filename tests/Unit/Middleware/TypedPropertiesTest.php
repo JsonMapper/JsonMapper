@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit\Middleware;
 
+use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\TypedProperties;
@@ -21,7 +22,7 @@ class TypedPropertiesTest extends TestCase
      */
     public function testTypedPropertyIsCorrectlyDiscovered(): void
     {
-        $middleware = new TypedProperties();
+        $middleware = new TypedProperties(new NullCache());
         $object = new Popo();
         $propertyMap = new PropertyMap();
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
@@ -40,7 +41,7 @@ class TypedPropertiesTest extends TestCase
      */
     public function testDoesntBreakOnMissingTypeDefinition(): void
     {
-        $middleware = new TypedProperties();
+        $middleware = new TypedProperties(new NullCache());
         $object = new SimpleObject();
         $propertyMap = new PropertyMap();
         $jsonMapper = $this->createMock(JsonMapperInterface::class);

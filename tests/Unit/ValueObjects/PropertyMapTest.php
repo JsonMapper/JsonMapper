@@ -48,4 +48,55 @@ class PropertyMapTest extends TestCase
         self::assertCount(1, $iterator);
         self::assertSame($property, $iterator->current());
     }
+
+    /**
+     * @covers \JsonMapper\ValueObjects\PropertyMap
+     */
+    public function testCanBeConvertedToJson(): void
+    {
+        $map = new PropertyMap();
+        $map->addProperty(new Property('id', 'int', false, Visibility::PUBLIC()));
+
+        $mapAsJson = json_encode($map);
+
+        self::assertIsString($mapAsJson);
+        self::assertJsonStringEqualsJsonString(
+            '{"properties":{"id":{"name":"id","type":"int","isNullable":false,"visibility":"public"}}}',
+            (string) $mapAsJson
+        );
+    }
+
+    /**
+     * @covers \JsonMapper\ValueObjects\PropertyMap
+     */
+    public function testCanBeConvertedToString(): void
+    {
+        $map = new PropertyMap();
+        $map->addProperty(new Property('id', 'int', false, Visibility::PUBLIC()));
+
+        $mapAsString = $map->toString();
+
+        self::assertIsString($mapAsString);
+        self::assertJsonStringEqualsJsonString(
+            '{"properties":{"id":{"name":"id","type":"int","isNullable":false,"visibility":"public"}}}',
+            (string) $mapAsString
+        );
+    }
+
+    /**
+     * @covers \JsonMapper\ValueObjects\PropertyMap
+     */
+    public function testCanBeMergedWithOtherPropertyMap(): void
+    {
+        $map = new PropertyMap();
+        $map->addProperty(new Property('id', 'int', false, Visibility::PUBLIC()));
+        $other = new PropertyMap();
+        $other->addProperty(new Property('uuid', 'string', false, Visibility::PUBLIC()));
+
+        $map->merge($other);
+
+        self::assertTrue($map->hasProperty('id'));
+        self::assertTrue($map->hasProperty('uuid'));
+
+    }
 }

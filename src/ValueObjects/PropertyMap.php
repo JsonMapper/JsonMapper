@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace JsonMapper\ValueObjects;
 
-use IteratorAggregate;
-
-class PropertyMap implements IteratorAggregate
+class PropertyMap implements \IteratorAggregate, \JsonSerializable
 {
     /** @var Property[] */
     private $map = [];
@@ -30,11 +28,30 @@ class PropertyMap implements IteratorAggregate
         return $this->map[$key];
     }
 
+    public function merge(self $other): void
+    {
+        foreach ($other as $property) {
+            $this->addProperty($property);
+        }
+    }
+
     /**
      * @inheritDoc
      */
     public function getIterator()
     {
         return new \ArrayIterator($this->map);
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'properties' => $this->map,
+        ];
+    }
+
+    public function toString(): string
+    {
+        return (string) json_encode($this);
     }
 }

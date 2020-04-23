@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit;
 
+use JsonMapper\Cache\NullCache;
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapper;
 use JsonMapper\JsonMapperFactory;
@@ -19,7 +20,7 @@ class JsonMapperFactoryTest extends TestCase
     {
         $factory = new JsonMapperFactory();
         $propertyMapper = new PropertyMapper();
-        $docBlockMiddleware = new DocBlockAnnotations();
+        $docBlockMiddleware = new DocBlockAnnotations(new NullCache());
 
         $mapper = $factory->create($propertyMapper, $docBlockMiddleware);
 
