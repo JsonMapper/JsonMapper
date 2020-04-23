@@ -48,6 +48,9 @@ class ArrayCache implements CacheInterface
 
     public function setMultiple($values, $ttl = null)
     {
+        if (! is_array($values) && ! $values instanceof \Traversable) {
+            throw InvalidArgumentException::forCacheKey($values);
+        }
         self::ensureKeyArgumentIsValidSetOfKeys(array_keys($values));
 
         $this->cache = array_merge($this->cache, $values);
@@ -79,8 +82,7 @@ class ArrayCache implements CacheInterface
     private static function ensureKeyArgumentIsValidSetOfKeys($keys): void
     {
         if (is_array($keys) || $keys instanceof \Traversable) {
-
-            array_walk($keys, function ($key) {
+            array_walk($keys, static function ($key) {
                 self::ensureKeyArgumentIsValidSingleKey($key);
             });
             return;

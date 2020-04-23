@@ -11,7 +11,7 @@ class ArrayCacheTest extends TestCase
     /**
      * @covers \JsonMapper\Cache\ArrayCache
      */
-    public function testCanRetrieveSingleValueStoredInCache()
+    public function testCanRetrieveSingleValueStoredInCache(): void
     {
         $cache = new ArrayCache();
         $value = new \stdClass();
@@ -26,7 +26,7 @@ class ArrayCacheTest extends TestCase
     /**
      * @covers \JsonMapper\Cache\ArrayCache
      */
-    public function testReturnsDefaultIfKeyIsNotInCache()
+    public function testReturnsDefaultIfKeyIsNotInCache(): void
     {
         $cache = new ArrayCache();
         $default = new \stdClass();
@@ -39,7 +39,7 @@ class ArrayCacheTest extends TestCase
     /**
      * @covers \JsonMapper\Cache\ArrayCache
      */
-    public function testWhenFetchingFromCacheWithInvalidKeyItThrowsAnException()
+    public function testWhenFetchingFromCacheWithInvalidKeyItThrowsAnException(): void
     {
         $cache = new ArrayCache();
 
@@ -50,7 +50,7 @@ class ArrayCacheTest extends TestCase
     /**
      * @covers \JsonMapper\Cache\ArrayCache
      */
-    public function testWhenStoringIntoCacheWithInvalidKeyItThrowsAnException()
+    public function testWhenStoringIntoCacheWithInvalidKeyItThrowsAnException(): void
     {
         $cache = new ArrayCache();
 
@@ -61,7 +61,7 @@ class ArrayCacheTest extends TestCase
     /**
      * @covers \JsonMapper\Cache\ArrayCache
      */
-    public function testDeleteFromCacheRemovesIt()
+    public function testDeleteFromCacheRemovesIt(): void
     {
         $cache = new ArrayCache();
         $value = new \stdClass();
@@ -77,7 +77,7 @@ class ArrayCacheTest extends TestCase
     /**
      * @covers \JsonMapper\Cache\ArrayCache
      */
-    public function testWhenDeletingFromCacheWithInvalidKeyItThrowsAnException()
+    public function testWhenDeletingFromCacheWithInvalidKeyItThrowsAnException(): void
     {
         $cache = new ArrayCache();
 
@@ -88,7 +88,7 @@ class ArrayCacheTest extends TestCase
     /**
      * @covers \JsonMapper\Cache\ArrayCache
      */
-    public function testClearCacheRemovesAllItems()
+    public function testClearCacheRemovesAllItems(): void
     {
         $cache = new ArrayCache();
         $value = new \stdClass();
@@ -106,7 +106,7 @@ class ArrayCacheTest extends TestCase
     /**
      * @covers \JsonMapper\Cache\ArrayCache
      */
-    public function testWhenSeeingIfCacheHasKeyWithInvalidKeyItThrowsAnException()
+    public function testWhenSeeingIfCacheHasKeyWithInvalidKeyItThrowsAnException(): void
     {
         $cache = new ArrayCache();
 
@@ -117,7 +117,7 @@ class ArrayCacheTest extends TestCase
     /**
      * @covers \JsonMapper\Cache\ArrayCache
      */
-    public function testCanRetrieveMultipleKeysFromCache()
+    public function testCanRetrieveMultipleKeysFromCache(): void
     {
         $cache = new ArrayCache();
         $value = new \stdClass();
@@ -136,22 +136,50 @@ class ArrayCacheTest extends TestCase
     /**
      * @covers \JsonMapper\Cache\ArrayCache
      */
-    public function testWhenStoringMultipleIntoCacheWithInvalidKeyItThrowsAnException()
+    public function testCanDeleteMultipleKeysFromCache(): void
     {
         $cache = new ArrayCache();
+        $value = new \stdClass();
+        $data = [__NAMESPACE__ => $value, __CLASS__ => $value, __FUNCTION__ => $value];
 
-        $this->expectException(InvalidArgumentException::class);
-        $cache->setMultiple([new \stdClass()]);
+        $cache->setMultiple($data);
+        $cache->deleteMultiple([__NAMESPACE__, __CLASS__]);
+
+        self::assertFalse($cache->has(__NAMESPACE__));
+        self::assertFalse($cache->has(__CLASS__));
+        self::assertTrue($cache->has(__FUNCTION__));
     }
 
     /**
      * @covers \JsonMapper\Cache\ArrayCache
      */
-    public function testWhenRetrievingMultipleFromCacheWithInvalidKeyItThrowsAnException()
+    public function testWhenStoringMultipleIntoCacheWithInvalidKeyItThrowsAnException(): void
     {
         $cache = new ArrayCache();
 
         $this->expectException(InvalidArgumentException::class);
-        $cache->setMultiple([new \stdClass()]);
+        $cache->setMultiple(new \stdClass());
+    }
+
+    /**
+     * @covers \JsonMapper\Cache\ArrayCache
+     */
+    public function testWhenRetrievingMultipleFromCacheWithInvalidKeyItThrowsAnException(): void
+    {
+        $cache = new ArrayCache();
+
+        $this->expectException(InvalidArgumentException::class);
+        $cache->setMultiple(new \stdClass());
+    }
+
+    /**
+     * @covers \JsonMapper\Cache\ArrayCache
+     */
+    public function testWhenDeletingMultipleFromCacheWithInvalidKeyItThrowsAnException(): void
+    {
+        $cache = new ArrayCache();
+
+        $this->expectException(InvalidArgumentException::class);
+        $cache->deleteMultiple(new \stdClass());
     }
 }
