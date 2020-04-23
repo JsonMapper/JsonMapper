@@ -28,6 +28,13 @@ class PropertyMap implements \IteratorAggregate, \JsonSerializable
         return $this->map[$key];
     }
 
+    public function merge(self $other): void
+    {
+        foreach ($other as $property) {
+            $this->addProperty($property);
+        }
+    }
+
     /**
      * @inheritDoc
      */

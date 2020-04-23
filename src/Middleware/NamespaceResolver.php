@@ -13,12 +13,12 @@ use JsonMapper\Wrapper\ObjectWrapper;
 
 class NamespaceResolver extends AbstractMiddleware
 {
-    public function handle(\stdClass $json, ObjectWrapper $object, PropertyMap $map, JsonMapperInterface $mapper): void
+    public function handle(\stdClass $json, ObjectWrapper $object, PropertyMap $propertyMap, JsonMapperInterface $mapper): void
     {
         $imports = UseStatementHelper::getImports($object->getReflectedObject());
 
         /** @var Property $property */
-        foreach ($map as &$property) {
+        foreach ($propertyMap as &$property) {
             if (! TypeHelper::isCustomClass($property->getType())) {
                 continue;
             }
@@ -32,12 +32,12 @@ class NamespaceResolver extends AbstractMiddleware
 
             if (count($matches) > 0) {
                 $type = array_shift($matches);
-                $map->addProperty($property->asBuilder()->setType($type)->build());
+                $propertyMap->addProperty($property->asBuilder()->setType($type)->build());
                 continue;
             }
 
             $type = $object->getReflectedObject()->getNamespaceName() . '\\' . $property->getType();
-            $map->addProperty($property->asBuilder()->setType($type)->build());
+            $propertyMap->addProperty($property->asBuilder()->setType($type)->build());
         }
     }
 }

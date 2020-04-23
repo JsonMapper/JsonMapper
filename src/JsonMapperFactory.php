@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonMapper;
 
+use JsonMapper\Cache\ArrayCache;
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\Middleware\DocBlockAnnotations;
 use JsonMapper\Middleware\NamespaceResolver;
@@ -25,7 +26,7 @@ class JsonMapperFactory
     public function default(): JsonMapperInterface
     {
         return (new JsonMapper(new PropertyMapper()))
-            ->push(new DocBlockAnnotations())
+            ->push(new DocBlockAnnotations(new ArrayCache()))
             ->push(new NamespaceResolver());
     }
 
@@ -33,10 +34,10 @@ class JsonMapperFactory
     {
         $mapper = new JsonMapper(new PropertyMapper());
 
-        $mapper->push(new DocBlockAnnotations());
+        $mapper->push(new DocBlockAnnotations(new ArrayCache()));
 
         if (PHP_VERSION_ID >= 70400) {
-            $mapper->push(new TypedProperties());
+            $mapper->push(new TypedProperties(new ArrayCache()));
         }
 
         $mapper->push(new NamespaceResolver());

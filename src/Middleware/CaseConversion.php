@@ -22,7 +22,7 @@ class CaseConversion extends AbstractMiddleware
         $this->replacementSeparator = $replacementSeparator;
     }
 
-    public function handle(\stdClass $json, ObjectWrapper $object, PropertyMap $map, JsonMapperInterface $mapper): void
+    public function handle(\stdClass $json, ObjectWrapper $object, PropertyMap $propertyMap, JsonMapperInterface $mapper): void
     {
         if ($this->searchSeparator->equals($this->replacementSeparator)) {
             return;
