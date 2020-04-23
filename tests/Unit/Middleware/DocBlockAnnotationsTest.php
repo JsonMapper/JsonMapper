@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit\Middleware;
 
+use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\DocBlockAnnotations;
@@ -19,7 +20,7 @@ class DocBlockAnnotationsTest extends TestCase
      */
     public function testUpdatesThePropertyMap(): void
     {
-        $middleware = new DocBlockAnnotations();
+        $middleware = new DocBlockAnnotations(new NullCache());
         $object = new SimpleObject();
         $propertyMap = new PropertyMap();
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
@@ -37,7 +38,7 @@ class DocBlockAnnotationsTest extends TestCase
      */
     public function testItCanHandleMissingDocBlock(): void
     {
-        $middleware = new DocBlockAnnotations();
+        $middleware = new DocBlockAnnotations(new NullCache());
         $object = new class {
             public $number;
         };
