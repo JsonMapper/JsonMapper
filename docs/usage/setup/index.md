@@ -9,15 +9,15 @@ offers three methods to create a JsonMapper instance.
 ```php
 <?php
 
-// Simply use default, whcih offers the most light weigth JsonMapper
+// Simply use `default` which offers the most light weigth JsonMapper
 $default = (new \JsonMapper\JsonMapperFactory())->default();
 
-// Use the `bestfit` to get the JsonMapper that fits best// 
-// to the PHP runtime.
+// Use the `bestFit` to get the JsonMapper that fits best 
+// to your PHP runtime version.  
 $bestfit = (new \JsonMapper\JsonMapperFactory())->bestFit();
 
-// Use create to build a new instance with a custom// 
-// property mapper and middleware
+// Use `create` to build a new instance with a custom 
+// property mapper and series of middleware
 $custom = (new \JsonMapper\JsonMapperFactory())->create(
   new PropertyMapper, 
   new \JsonMapper\Middleware\DocBlockAnnotations(),   

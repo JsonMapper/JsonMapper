@@ -8,4 +8,4 @@ for properties and their [DocBlock](https://docs.phpdoc.org/latest/references/ph
 Using the annotations it will determine the property type and amend these results to the property map.
 The property map is utilised by the PropertyMapper when applying the data from the JSON object to the target object. 
 
-This middleware is part of both the default and best fit factory methods as it provides elementary functionality to JsonMapper 
+_This middleware is part of both the default and best fit factory methods as it provides elementary functionality to JsonMapper_ 

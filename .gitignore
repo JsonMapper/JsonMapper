@@ -1,4 +1,8 @@
 /node_modules/
 /.DS_Store
 /.jekyll-cache
-/_site
+/_site/
+/.idea/
+/vendor/
+/composer.lock
+/.phpunit.result.cache

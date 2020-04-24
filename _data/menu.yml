@@ -12,10 +12,11 @@ Guides:
 
 Middleware:
   Case conversion: '/docs/middleware/case-conversion'
+  Debugging: '/docs/middleware/debugging'
   DocBlock annotations: '/docs/middleware/doc-block-annotations'
   Final callback: '/docs/middleware/final-callback'
   Namespace resolver: '/docs/middleware/namespace-resolver'
-  Typed properties: '/docs/middleware/typed-properties'
+  PHP 7.4 Typed properties: '/docs/middleware/typed-properties'
 
 Advanced Usage:
   Performance: '/docs/advanced/performance'
