@@ -3,28 +3,14 @@ permalink: /docs/guides/laravel-usage/
 title: Laravel usage  
 ---
 
-In order to use JsonMapper with your [Laravel](https://laravel.com){:target="_blank"} application you only need to 
-add it to the service container which can be done using the [Service Providers](https://laravel.com/docs/7.x/providers){:target="_blank"} 
+In order to use JsonMapper with your [Laravel](https://laravel.com){:target="_blank"} application you only need 
+JsonMapper's [LaravelPackage](https://github.com/JsonMapper/LaravelPackage){:target="_blank"}. 
 
-```php
-<?php
-
-namespace App\Providers;
-
-use Illuminate\Support\ServiceProvider;
-use JsonMapper\JsonMapper;
-use JsonMapper\JsonMapperFactory;
-
-class JsonMapperServiceProvider extends ServiceProvider
-{
-    public function register()
-    {
-        $this->app->singleton(JsonMapper::class, function ($app) {
-             return (new JsonMapperFactory())->default();
-         });
-    }
-}
+The installation of JsonMapper Laravel package can easily be done with [Composer](https://getcomposer.org){:target="_blank"}
+```bash
+$ composer require json-mapper/laravel-package
 ```
+The example shown above assumes that `composer` is on your `$PATH`.
 
 Now JsonMapper will be automatically injected if it is provided as one of the constructor arguments.
 
