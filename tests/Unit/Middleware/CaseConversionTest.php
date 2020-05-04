@@ -50,6 +50,23 @@ class CaseConversionTest extends TestCase
         self::assertObjectHasAttribute($key, $json);
     }
 
+    /**
+     * @covers \JsonMapper\Middleware\CaseConversion
+     * @dataProvider conversionDataProvider
+     */
+    public function testWillRemainUntouchedOnSameReplacementKeyAsOriginalKey(): void
+    {
+        $middleware = new CaseConversion(TextNotation::UNDERSCORE(), TextNotation::CAMEL_CASE());
+        $key = 'name';
+        $json = (object) [$key => 'placeholder'];
+        $object = new ObjectWrapper(new \stdClass());
+
+        $middleware->handle($json, $object, new PropertyMap(), $this->createMock(JsonMapperInterface::class));
+
+        self::assertObjectHasAttribute($key, $json);
+        self::assertEquals('placeholder', $json->$key);
+    }
+
     public function conversionDataProvider(): array
     {
         return [

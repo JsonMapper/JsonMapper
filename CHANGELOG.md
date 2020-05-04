@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2020-05-04
+### Fixed
+- Case conversion removing attribute when replacement key is same as the original key
+
 ## [1.0.0] - 2020-04-23
 ### Added
 - New Debugger middleware to help debug the in between middleware

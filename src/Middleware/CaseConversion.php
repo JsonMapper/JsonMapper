@@ -32,6 +32,10 @@ class CaseConversion extends AbstractMiddleware
         foreach ($keys as $key) {
             $replacementKey = $this->getReplacementKey($key);
 
+            if ($replacementKey === $key) {
+                continue;
+            }
+
             $json->$replacementKey = $json->$key;
             unset($json->$key);
         }
