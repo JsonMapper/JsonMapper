@@ -39,7 +39,7 @@ class ArrayCache implements CacheInterface
         self::ensureKeyArgumentIsValidSetOfKeys($keys);
 
         $values = [];
-        array_walk($keys, function($key) use ($default, &$values) {
+        array_walk($keys, function ($key) use ($default, &$values) {
             $values[$key] = $this->cache[$key] ?? $default;
         });
 
@@ -60,7 +60,9 @@ class ArrayCache implements CacheInterface
     {
         self::ensureKeyArgumentIsValidSetOfKeys($keys);
 
-        array_walk($keys, function ($key) { unset($this->cache[$key]); });
+        array_walk($keys, function ($key) {
+            unset($this->cache[$key]);
+        });
     }
 
     public function has($key)

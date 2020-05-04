@@ -97,6 +97,5 @@ class PropertyMapTest extends TestCase
 
         self::assertTrue($map->hasProperty('id'));
         self::assertTrue($map->hasProperty('uuid'));
-
     }
 }
