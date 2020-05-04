@@ -60,5 +60,4 @@ class DocBlockAnnotations extends AbstractMiddleware
 
         return $intermediatePropertyMap;
     }
-
 }
