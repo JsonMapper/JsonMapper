@@ -23,7 +23,7 @@ matrix:
     - php: nightly
       env:
         - COMPOSER_FLAGS='--ignore-platform-reqs'
-          COMPOSER_UPDATE_FLAGS='--prefer-lowest --prefer-stable'
+          COMPOSER_UPDATE_FLAGS='--prefer-lowest --prefer-stable --ignore-platform-reqs'
   allow_failures:
     - php: nightly
   fast_finish: true
