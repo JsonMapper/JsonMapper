@@ -31,7 +31,7 @@ matrix:
 install:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install --no-interaction $COMPOSER_FLAGS
-  - if [[ -n "COMPOSER_UPDATE_FLAGS" ]]; then php composer.phar update $COMPOSER_UPDATE_FLAGS; fi
+  - if [[ -n $COMPOSER_UPDATE_FLAGS ]]; then php composer.phar update $COMPOSER_UPDATE_FLAGS; fi
 
 script:
   - mkdir -p build/logs;
