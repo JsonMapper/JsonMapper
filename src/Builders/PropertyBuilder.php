@@ -17,6 +17,8 @@ class PropertyBuilder
     private $isNullable;
     /** @var Visibility */
     private $visibility;
+    /** @var bool */
+    private $isArray;
 
     private function __construct()
     {
@@ -29,7 +31,7 @@ class PropertyBuilder
 
     public function build(): Property
     {
-        return new Property($this->name, $this->type, $this->isNullable, $this->visibility);
+        return new Property($this->name, $this->type, $this->isNullable, $this->visibility, $this->isArray);
     }
 
     public function setName(string $name): self
@@ -53,6 +55,12 @@ class PropertyBuilder
     public function setVisibility(Visibility $visibility): self
     {
         $this->visibility = $visibility;
+        return $this;
+    }
+
+    public function setIsArray(bool $isArray): self
+    {
+        $this->isArray = $isArray;
         return $this;
     }
 }

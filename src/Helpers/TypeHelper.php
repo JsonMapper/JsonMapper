@@ -47,17 +47,6 @@ class TypeHelper
 
     public static function isCustomClass(string $type): bool
     {
-        return ! self::isScalarType($type) && ! self::isBuiltinClass($type) && ! self::isArray($type);
-    }
-
-    public static function isArray(string $type, ?string &$innertype = null): bool
-    {
-        if (strlen($type) <= 2 || substr_compare($type, '[]', -2, 2) !== 0) {
-            return false;
-        }
-
-        $innertype = substr($type, 0, -2);
-
-        return true;
+        return ! self::isScalarType($type) && ! self::isBuiltinClass($type) && $type !== 'mixed';
     }
 }

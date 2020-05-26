@@ -19,27 +19,19 @@ class NamespaceResolver extends AbstractMiddleware
 
         /** @var Property $property */
         foreach ($propertyMap as &$property) {
-            $type = $property->getType();
-            if ($isArray = TypeHelper::isArray($type, $innerType)) {
-                $type = $innerType;
-            }
-
-            if (! TypeHelper::isCustomClass($type)) {
+            if (! TypeHelper::isCustomClass($property->getType())) {
                 continue;
             }
 
             $matches = array_filter(
                 $imports,
-                static function (string $import) use ($type) {
-                    return $type === substr($import, -1 * strlen($type));
+                static function (string $import) use ($property) {
+                    return $property->getType() === substr($import, -1 * strlen($property->getType()));
                 }
             );
 
             if (count($matches) > 0) {
                 $type = array_shift($matches);
-                if ($isArray) {
-                    $type .= '[]';
-                }
                 $propertyMap->addProperty($property->asBuilder()->setType($type)->build());
                 continue;
             }

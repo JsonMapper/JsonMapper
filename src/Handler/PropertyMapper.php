@@ -27,12 +27,12 @@ class PropertyMapper
             $propertyInfo = $propertyMap->getProperty($key);
             $type = $propertyInfo->getType();
 
-            if (TypeHelper::isArray($type, $innerType)) {
-                $value = array_map(function ($value) use ($mapper, $innerType) {
-                    return self::mapPropertyValue($mapper, $innerType, $value);
+            if ($propertyInfo->isArray()) {
+                $value = array_map(function ($value) use ($mapper, $type) {
+                    return $this->mapPropertyValue($mapper, $type, $value);
                 }, $value);
             } else {
-                $value = self::mapPropertyValue($mapper, $type, $value);
+                $value = $this->mapPropertyValue($mapper, $type, $value);
             }
 
             if ($propertyInfo->getVisibility()->equals(Visibility::PUBLIC())) {
@@ -46,8 +46,12 @@ class PropertyMapper
             }
         }
     }
-    
-    private static function mapPropertyValue(JsonMapperInterface $mapper, string $type, $value)
+
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    private function mapPropertyValue(JsonMapperInterface $mapper, string $type, $value)
     {
         if (TypeHelper::isBuiltinClass($type)) {
             return new $type($value);
@@ -61,8 +65,6 @@ class PropertyMapper
             return $instance;
         }
 
-        // @codeCoverageIgnoreStart
-        return null;
-        // @codeCoverageIgnoreEnd
+        return $value;
     }
 }

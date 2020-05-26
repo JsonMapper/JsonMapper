@@ -29,6 +29,7 @@ class NamespaceResolverTest extends TestCase
             ->setType('User')
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
+            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -52,6 +53,7 @@ class NamespaceResolverTest extends TestCase
             ->setType('SimpleObject')
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
+            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -95,9 +97,10 @@ class NamespaceResolverTest extends TestCase
         $object = new ComplexObject();
         $property = PropertyBuilder::new()
             ->setName('user')
-            ->setType('User[]')
+            ->setType('User')
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
+            ->setIsArray(true)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -106,7 +109,8 @@ class NamespaceResolverTest extends TestCase
         $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
 
         self::assertTrue($propertyMap->hasProperty('user'));
-        self::assertEquals(User::class . '[]', $propertyMap->getProperty('user')->getType());
+        self::assertEquals(User::class, $propertyMap->getProperty('user')->getType());
+        self::assertTrue($propertyMap->getProperty('user')->isArray());
     }
 
     /**
@@ -121,6 +125,7 @@ class NamespaceResolverTest extends TestCase
             ->setType('SimpleObject[]')
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
+            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);

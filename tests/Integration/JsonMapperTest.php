@@ -117,6 +117,22 @@ class JsonMapperTest extends TestCase
         self::assertSame('42', $object->name);
     }
 
+    /**
+     * @requires PHP >= 7.4
+     */
+    public function testItHandlesPropertyTypedAsArray(): void
+    {
+        // Arrange
+        $mapper = (new JsonMapperFactory())->bestFit();
+        $object = new Php74Popo();
+        $json = (object) ['friends' => [__METHOD__, __CLASS__]];
+
+        // Act
+        $mapper->mapObject($json, $object);
+
+        // Assert
+        self::assertSame([__METHOD__, __CLASS__], $object->friends);
+    }
 
     public function testItCanMapAnObjectWithACustomClassAttribute(): void
     {
@@ -144,6 +160,26 @@ class JsonMapperTest extends TestCase
 
         // Assert
         self::assertSame(__METHOD__, $object->getUser()->getName());
+    }
+
+    public function testItCanMapAnObjectWithAnArrayOfScalarValues(): void
+    {
+        // Arrange
+        $mapper = (new JsonMapperFactory())->bestFit();
+        $object = new ComplexObject();
+        $one = new SimpleObject();
+        $one->setName('ONE');
+        $two = new SimpleObject();
+        $two->setName('TWO');
+        $json = (object) ['children' => [(object) ['name' => 'ONE'], (object) ['name' => 'TWO']]];
+
+        // Act
+        $mapper->mapObject($json, $object);
+
+        // Assert
+        self::assertIsArray($object->getChildren());
+        self::assertContainsOnly(SimpleObject::class, $object->getChildren());
+        self::assertEquals([$one, $two], $object->getChildren());
     }
 
     public function testItCanMapAnArrayOfObjects(): void

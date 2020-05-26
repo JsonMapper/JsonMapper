@@ -45,7 +45,7 @@ class PropertyTest extends TestCase
 
         self::assertIsString($propertyAsJson);
         self::assertJsonStringEqualsJsonString(
-            '{"name":"id","type":"int","isNullable":false,"visibility":"public"}',
+            '{"name":"id","type":"int","isNullable":false,"visibility":"public","isArray":false}',
             (string) $propertyAsJson
         );
     }
