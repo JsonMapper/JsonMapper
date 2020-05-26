@@ -20,7 +20,7 @@ class NamespaceResolver extends AbstractMiddleware
         /** @var Property $property */
         foreach ($propertyMap as &$property) {
             $type = $property->getType();
-            if (TypeHelper::isArray($type, $innerType)) {
+            if ($isArray = TypeHelper::isArray($type, $innerType)) {
                 $type = $innerType;
             }
 
@@ -30,13 +30,16 @@ class NamespaceResolver extends AbstractMiddleware
 
             $matches = array_filter(
                 $imports,
-                static function (string $import) use ($property) {
-                    return $property->getType() === substr($import, -1 * strlen($property->getType()));
+                static function (string $import) use ($type) {
+                    return $type === substr($import, -1 * strlen($type));
                 }
             );
 
             if (count($matches) > 0) {
                 $type = array_shift($matches);
+                if ($isArray) {
+                    $type .= '[]';
+                }
                 $propertyMap->addProperty($property->asBuilder()->setType($type)->build());
                 continue;
             }
