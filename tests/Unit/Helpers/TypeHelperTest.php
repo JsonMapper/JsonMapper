@@ -43,6 +43,22 @@ class TypeHelperTest extends TestCase
         self::assertEquals($expected, TypeHelper::cast($value, $castTo));
     }
 
+    /**
+     * @covers       \JsonMapper\Helpers\TypeHelper
+     * @dataProvider arrayTypesDataProvider
+     *
+     * @param mixed $value
+     * @param bool $expectedResult
+     * @param string|null $expectedInnerType
+     */
+    public function testArraysAreSeenAsArray(string $value, bool $expectedResult, ?string $expectedInnerType): void
+    {
+        $result = TypeHelper::isArray($value, $innerType);
+        
+        self::assertEquals($expectedResult, $result);
+        self::assertEquals($expectedInnerType, $innerType);
+    }
+
     public function scalarTypesDataProvider(): array
     {
         return [
@@ -75,6 +91,15 @@ class TypeHelperTest extends TestCase
             'cast to int' => ['42', 'int', 42],
             'cast to float' => ['34.567', 'float', 34.567],
             'cast to  unsupported type' => ['34.567', 'bigint', '34.567'],
+        ];
+    }
+
+    public function arrayTypesDataProvider(): array
+    {
+        return [
+            'class array' => ['DateTime[]', true, 'DateTime'],
+            'int array' => ['int[]', true, 'int'],
+            'bad array' => ['[]', false, null],
         ];
     }
 }

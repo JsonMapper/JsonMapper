@@ -10,6 +10,8 @@ class ComplexObject
 {
     /** @var SimpleObject */
     private $child;
+    /** @var SimpleObject[] */
+    private $children;
     /** @var User */
     private $user;
 
@@ -21,6 +23,16 @@ class ComplexObject
     public function setChild(SimpleObject $child): void
     {
         $this->child = $child;
+    }
+
+    public function getChildren(): array
+    {
+        return $this->children;
+    }
+
+    public function setChildren(array $children): void
+    {
+        $this->children = $children;
     }
 
     public function getUser(): User

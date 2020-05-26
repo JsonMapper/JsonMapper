@@ -19,7 +19,12 @@ class NamespaceResolver extends AbstractMiddleware
 
         /** @var Property $property */
         foreach ($propertyMap as &$property) {
-            if (! TypeHelper::isCustomClass($property->getType())) {
+            $type = $property->getType();
+            if (TypeHelper::isArray($type, $innerType)) {
+                $type = $innerType;
+            }
+
+            if (! TypeHelper::isCustomClass($type)) {
                 continue;
             }
 

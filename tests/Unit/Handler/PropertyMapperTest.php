@@ -107,4 +107,57 @@ class PropertyMapperTest extends TestCase
 
         self::assertEquals(__FUNCTION__, $object->getChild()->getName());
     }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testPublicScalarValueArrayIsSet(): void
+    {
+        $fileProperty = PropertyBuilder::new()
+            ->setName('ids')
+            ->setType('int[]')
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($fileProperty);
+        $json = (object) ['ids' => [1, 2, 3]];
+        $object = new \stdClass();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $this->createMock(JsonMapperInterface::class));
+
+        self::assertEquals([1, 2, 3], $object->ids);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testPublicCustomClassArrayIsSet(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('children')
+            ->setType(SimpleObject::class . '[]')
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PRIVATE())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $jsonMapper->expects($this->exactly(2))
+            ->method('mapObject')
+            ->with((object) ['name' => __FUNCTION__], self::isInstanceOf(SimpleObject::class))
+            ->willReturnCallback(static function (\stdClass $json, SimpleObject $object) {
+                $object->setName($json->name);
+            });
+        $json = (object) ['children' => [(object) ['name' => __FUNCTION__], (object) ['name' => __FUNCTION__]]];
+        $object = new ComplexObject();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals(2, count($object->getChildren()));
+    }
 }
