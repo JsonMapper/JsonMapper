@@ -14,6 +14,7 @@ use JsonMapper\Tests\Implementation\SimpleObject;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 use PHPUnit\Framework\TestCase;
+use Psr\SimpleCache\CacheInterface;
 
 class DocBlockAnnotationsTest extends TestCase
 {
@@ -62,5 +63,23 @@ class DocBlockAnnotationsTest extends TestCase
         $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
 
         self::assertEmpty($propertyMap->getIterator());
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations
+     */
+    public function testReturnsFromCacheWhenAvailable(): void
+    {
+        $propertyMap = new PropertyMap();
+        $objectWrapper = $this->createMock(ObjectWrapper::class);
+        $objectWrapper->method('getName')->willReturn(__METHOD__);
+        $objectWrapper->expects($this->never())->method('getReflectedObject');
+        $cache = $this->createMock(CacheInterface::class);
+        $cache->method('has')->with(__METHOD__)->willReturn(true);
+        $cache->method('get')->with(__METHOD__)->willReturn($propertyMap);
+        $middleware = new DocBlockAnnotations($cache);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), $objectWrapper, $propertyMap, $jsonMapper);
     }
 }
