@@ -46,12 +46,17 @@ class DocBlockAnnotations extends AbstractMiddleware
 
             $annotations = AnnotationHelper::parseAnnotations($docblock);
             $type = $annotations['var'][0];
+            $isArray = substr($type, -2) === '[]';
+            if ($isArray) {
+                $type = substr($type, 0, -2);
+            }
 
             $property = PropertyBuilder::new()
                 ->setName($name)
                 ->setType($type)
                 ->setIsNullable(AnnotationHelper::isNullable($annotations['var'][0]))
                 ->setVisibility(Visibility::fromReflectionProperty($property))
+                ->setIsArray($isArray)
                 ->build();
             $intermediatePropertyMap->addProperty($property);
         }

@@ -15,12 +15,13 @@ class PropertyTest extends TestCase
      */
     public function testGettersReturnConstructorValues(): void
     {
-        $property = new Property('id', 'int', false, Visibility::PUBLIC());
+        $property = new Property('id', 'int', false, Visibility::PUBLIC(), false);
 
         self::assertSame('id', $property->getName());
         self::assertSame('int', $property->getType());
         self::assertFalse($property->isNullable());
         self::assertTrue($property->getVisibility()->equals(Visibility::PUBLIC()));
+        self::assertFalse($property->isArray());
     }
 
     /**
@@ -28,7 +29,7 @@ class PropertyTest extends TestCase
      */
     public function testPropertyCanBeConvertedToBuilderAndBack(): void
     {
-        $property = new Property('id', 'int', false, Visibility::PUBLIC());
+        $property = new Property('id', 'int', false, Visibility::PUBLIC(), true);
         $builder = $property->asBuilder();
 
         self::assertEquals($property, $builder->build());
@@ -39,13 +40,13 @@ class PropertyTest extends TestCase
      */
     public function testCanBeConvertedToJson(): void
     {
-        $property = new Property('id', 'int', false, Visibility::PUBLIC());
+        $property = new Property('id', 'int', false, Visibility::PUBLIC(), true);
 
         $propertyAsJson = json_encode($property);
 
         self::assertIsString($propertyAsJson);
         self::assertJsonStringEqualsJsonString(
-            '{"name":"id","type":"int","isNullable":false,"visibility":"public"}',
+            '{"name":"id","type":"int","isNullable":false,"visibility":"public","isArray":true}',
             (string) $propertyAsJson
         );
     }

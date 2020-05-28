@@ -29,6 +29,7 @@ class NamespaceResolverTest extends TestCase
             ->setType('User')
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
+            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -52,6 +53,7 @@ class NamespaceResolverTest extends TestCase
             ->setType('SimpleObject')
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
+            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -84,5 +86,54 @@ class NamespaceResolverTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('name'));
         self::assertEquals('string', $propertyMap->getProperty('name')->getType());
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\NamespaceResolver
+     */
+    public function testItResolvesNamespacesForImportedNamespaceWithArray(): void
+    {
+        $middleware = new NamespaceResolver();
+        $object = new ComplexObject();
+        $property = PropertyBuilder::new()
+            ->setName('user')
+            ->setType('User')
+            ->setVisibility(Visibility::PRIVATE())
+            ->setIsNullable(false)
+            ->setIsArray(true)
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertTrue($propertyMap->hasProperty('user'));
+        self::assertEquals(User::class, $propertyMap->getProperty('user')->getType());
+        self::assertTrue($propertyMap->getProperty('user')->isArray());
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\NamespaceResolver
+     */
+    public function testItResolvesNamespacesWithinSameNamespaceWithArray(): void
+    {
+        $middleware = new NamespaceResolver();
+        $object = new ComplexObject();
+        $property = PropertyBuilder::new()
+            ->setName('child')
+            ->setType('SimpleObject[]')
+            ->setVisibility(Visibility::PRIVATE())
+            ->setIsNullable(false)
+            ->setIsArray(false)
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertTrue($propertyMap->hasProperty('child'));
+        self::assertEquals(SimpleObject::class . '[]', $propertyMap->getProperty('child')->getType());
     }
 }
