@@ -20,11 +20,13 @@ class PropertyBuilderTest extends TestCase
             ->setType('boolean')
             ->setIsNullable(true)
             ->setVisibility(Visibility::PRIVATE())
+            ->setIsArray(false)
             ->build();
 
         self::assertSame('enabled', $property->getName());
         self::assertSame('boolean', $property->getType());
         self::assertTrue($property->isNullable());
         self::assertTrue($property->getVisibility()->equals(Visibility::PRIVATE()));
+        self::assertFalse($property->isArray());
     }
 }
