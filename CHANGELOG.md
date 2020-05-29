@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2020-05-29
+### Added 
+- Support for arrays using square bracket notation (e.g. User[]) in DocBlockAnnotations middleware. (PR#27/#28)
+
 ## [1.0.1] - 2020-05-04
 ### Fixed
 - Case conversion removing attribute when replacement key is same as the original key

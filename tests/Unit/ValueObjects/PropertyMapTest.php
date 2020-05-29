@@ -61,7 +61,7 @@ class PropertyMapTest extends TestCase
 
         self::assertIsString($mapAsJson);
         self::assertJsonStringEqualsJsonString(
-            '{"properties":{"id":{"name":"id","type":"int","isNullable":false,"visibility":"public"}}}',
+            '{"properties":{"id":{"name":"id","type":"int","isNullable":false,"visibility":"public","isArray":false}}}',
             (string) $mapAsJson
         );
     }
@@ -78,7 +78,7 @@ class PropertyMapTest extends TestCase
 
         self::assertIsString($mapAsString);
         self::assertJsonStringEqualsJsonString(
-            '{"properties":{"id":{"name":"id","type":"int","isNullable":false,"visibility":"public"}}}',
+            '{"properties":{"id":{"name":"id","type":"int","isNullable":false,"visibility":"public","isArray":false}}}',
             (string) $mapAsString
         );
     }

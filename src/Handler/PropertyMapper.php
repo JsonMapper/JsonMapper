@@ -27,16 +27,12 @@ class PropertyMapper
             $propertyInfo = $propertyMap->getProperty($key);
             $type = $propertyInfo->getType();
 
-            if (TypeHelper::isBuiltinClass($type)) {
-                $value = new $type($value);
-            }
-            if (TypeHelper::isScalarType($type)) {
-                $value = TypeHelper::cast($value, $type);
-            }
-            if (TypeHelper::isCustomClass($type)) {
-                $instance = new $type();
-                $mapper->mapObject($value, $instance);
-                $value = $instance;
+            if ($propertyInfo->isArray()) {
+                $value = array_map(function ($value) use ($mapper, $type) {
+                    return $this->mapPropertyValue($mapper, $type, $value);
+                }, $value);
+            } else {
+                $value = $this->mapPropertyValue($mapper, $type, $value);
             }
 
             if ($propertyInfo->getVisibility()->equals(Visibility::PUBLIC())) {
@@ -49,5 +45,26 @@ class PropertyMapper
                 $object->getObject()->$setterMethod($value);
             }
         }
+    }
+
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    private function mapPropertyValue(JsonMapperInterface $mapper, string $type, $value)
+    {
+        if (TypeHelper::isBuiltinClass($type)) {
+            return new $type($value);
+        }
+        if (TypeHelper::isScalarType($type)) {
+            return TypeHelper::cast($value, $type);
+        }
+        if (TypeHelper::isCustomClass($type)) {
+            $instance = new $type();
+            $mapper->mapObject($value, $instance);
+            return $instance;
+        }
+
+        return $value;
     }
 }

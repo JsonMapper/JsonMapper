@@ -13,6 +13,7 @@ use JsonMapper\Tests\Implementation\SimpleObject;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 use PHPUnit\Framework\TestCase;
+use Psr\SimpleCache\CacheInterface;
 
 class TypedPropertiesTest extends TestCase
 {
@@ -49,5 +50,24 @@ class TypedPropertiesTest extends TestCase
         $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
 
         self::assertCount(0, $propertyMap);
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\TypedProperties
+     * @requires PHP >= 7.4
+     */
+    public function testReturnsFromCacheWhenAvailable(): void
+    {
+        $propertyMap = new PropertyMap();
+        $objectWrapper = $this->createMock(ObjectWrapper::class);
+        $objectWrapper->method('getName')->willReturn(__METHOD__);
+        $objectWrapper->expects($this->never())->method('getReflectedObject');
+        $cache = $this->createMock(CacheInterface::class);
+        $cache->method('has')->with(__METHOD__)->willReturn(true);
+        $cache->method('get')->with(__METHOD__)->willReturn($propertyMap);
+        $middleware = new TypedProperties($cache);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), $objectWrapper, $propertyMap, $jsonMapper);
     }
 }
