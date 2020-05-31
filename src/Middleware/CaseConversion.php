@@ -22,8 +22,12 @@ class CaseConversion extends AbstractMiddleware
         $this->replacementSeparator = $replacementSeparator;
     }
 
-    public function handle(\stdClass $json, ObjectWrapper $object, PropertyMap $propertyMap, JsonMapperInterface $mapper): void
-    {
+    public function handle(
+        \stdClass $json,
+        ObjectWrapper $object,
+        PropertyMap $propertyMap,
+        JsonMapperInterface $mapper
+    ): void {
         if ($this->searchSeparator->equals($this->replacementSeparator)) {
             return;
         }
@@ -63,9 +67,9 @@ class CaseConversion extends AbstractMiddleware
             case TextNotation::STUDLY_CAPS():
                 return ucfirst($key);
             case TextNotation::UNDERSCORE():
-                return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $key));
+                return strtolower((string) preg_replace('/(?<!^)[A-Z]/', '_$0', $key));
             case TextNotation::KEBAB_CASE():
-                return strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $key));
+                return strtolower((string) preg_replace('/(?<!^)[A-Z]/', '-$0', $key));
             case TextNotation::CAMEL_CASE():
             default:
                 return $key;
@@ -78,9 +82,9 @@ class CaseConversion extends AbstractMiddleware
             case TextNotation::CAMEL_CASE():
                 return lcfirst($key);
             case TextNotation::UNDERSCORE():
-                return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $key));
+                return strtolower((string) preg_replace('/(?<!^)[A-Z]/', '_$0', $key));
             case TextNotation::KEBAB_CASE():
-                return strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $key));
+                return strtolower((string) preg_replace('/(?<!^)[A-Z]/', '-$0', $key));
             case TextNotation::STUDLY_CAPS():
             default:
                 return $key;

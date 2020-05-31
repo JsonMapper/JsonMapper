@@ -20,6 +20,7 @@ class AbstractMiddlewareTest extends TestCase
     {
         $middleware = new class extends AbstractMiddleware
         {
+            /** @var bool */
             private $called = false;
 
             public function isCalled(): bool

@@ -20,8 +20,13 @@ class Property implements \JsonSerializable
     /** @var bool */
     private $isArray;
 
-    public function __construct(string $name, string $type, bool $isNullable, Visibility $visibility, $isArray = false)
-    {
+    public function __construct(
+        string $name,
+        string $type,
+        bool $isNullable,
+        Visibility $visibility,
+        bool $isArray = false
+    ) {
         $this->name = $name;
         $this->type = $type;
         $this->isNullable = $isNullable;

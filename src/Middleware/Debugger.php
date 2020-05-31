@@ -19,8 +19,12 @@ class Debugger extends AbstractMiddleware
         $this->logger = $logger;
     }
 
-    public function handle(\stdClass $json, ObjectWrapper $object, PropertyMap $propertyMap, JsonMapperInterface $mapper): void
-    {
+    public function handle(
+        \stdClass $json,
+        ObjectWrapper $object,
+        PropertyMap $propertyMap,
+        JsonMapperInterface $mapper
+    ): void {
         $this->logger->debug(
             'Current state attributes passed through JsonMapper middleware',
             [

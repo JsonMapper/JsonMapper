@@ -22,8 +22,12 @@ class DocBlockAnnotations extends AbstractMiddleware
         $this->cache = $cache;
     }
 
-    public function handle(\stdClass $json, ObjectWrapper $object, PropertyMap $propertyMap, JsonMapperInterface $mapper): void
-    {
+    public function handle(
+        \stdClass $json,
+        ObjectWrapper $object,
+        PropertyMap $propertyMap,
+        JsonMapperInterface $mapper
+    ): void {
         $propertyMap->merge($this->fetchPropertyMapForObject($object));
     }
 
