@@ -21,8 +21,12 @@ class TypedProperties extends AbstractMiddleware
         $this->cache = $cache;
     }
 
-    public function handle(\stdClass $json, ObjectWrapper $object, PropertyMap $propertyMap, JsonMapperInterface $mapper): void
-    {
+    public function handle(
+        \stdClass $json,
+        ObjectWrapper $object,
+        PropertyMap $propertyMap,
+        JsonMapperInterface $mapper
+    ): void {
         $propertyMap->merge($this->fetchPropertyMapForObject($object));
     }
 
@@ -38,7 +42,7 @@ class TypedProperties extends AbstractMiddleware
         foreach ($reflectionProperties as $reflectionProperty) {
             $type = $reflectionProperty->getType();
 
-            if ($type === null) {
+            if ($type === null || ! $type instanceof \ReflectionNamedType) {
                 continue;
             }
 

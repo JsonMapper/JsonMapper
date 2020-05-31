@@ -77,6 +77,7 @@ class NamespaceResolverTest extends TestCase
             ->setType('string')
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
+            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);

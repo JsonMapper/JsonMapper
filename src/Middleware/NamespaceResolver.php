@@ -13,8 +13,12 @@ use JsonMapper\Wrapper\ObjectWrapper;
 
 class NamespaceResolver extends AbstractMiddleware
 {
-    public function handle(\stdClass $json, ObjectWrapper $object, PropertyMap $propertyMap, JsonMapperInterface $mapper): void
-    {
+    public function handle(
+        \stdClass $json,
+        ObjectWrapper $object,
+        PropertyMap $propertyMap,
+        JsonMapperInterface $mapper
+    ): void {
         $imports = UseStatementHelper::getImports($object->getReflectedObject());
 
         /** @var Property $property */

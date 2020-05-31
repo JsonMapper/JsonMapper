@@ -97,7 +97,7 @@ class ArrayCacheTest extends TestCase
         $cache->set($keyOne, $value);
         $cache->set($keyTwo, $value);
 
-        $cache->clear($keyOne);
+        $cache->clear();
 
         self::assertFalse($cache->has($keyOne));
         self::assertFalse($cache->has($keyTwo));
@@ -169,7 +169,7 @@ class ArrayCacheTest extends TestCase
         $cache = new ArrayCache();
 
         $this->expectException(InvalidArgumentException::class);
-        $cache->setMultiple(new \stdClass());
+        $cache->getMultiple(new \stdClass());
     }
 
     /**
