@@ -169,7 +169,7 @@ class ArrayCacheTest extends TestCase
         $cache = new ArrayCache();
 
         $this->expectException(InvalidArgumentException::class);
-        $cache->setMultiple(new \stdClass());
+        $cache->getMultiple(new \stdClass());
     }
 
     /**
