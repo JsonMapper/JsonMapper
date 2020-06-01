@@ -14,6 +14,8 @@ use Psr\SimpleCache\CacheInterface;
 
 class DocBlockAnnotations extends AbstractMiddleware
 {
+    private const ANNOTATION_REGEX = '/@(?P<name>[A-Za-z_-]+)(?:[ \t]+(?P<value>.*?))?[ \t]*\r?$/m';
+
     /** @var CacheInterface */
     private $cache;
 
@@ -48,17 +50,11 @@ class DocBlockAnnotations extends AbstractMiddleware
                 continue;
             }
 
-            $annotations = AnnotationHelper::parseAnnotations($docblock);
-            $type = $annotations['var'][0];
-            $isArray = substr($type, -2) === '[]';
-            if ($isArray) {
-                $type = substr($type, 0, -2);
-            }
-
+            [$type, $nullable, $isArray] = $this->parsePropertyDocBlock($docblock);
             $property = PropertyBuilder::new()
                 ->setName($name)
                 ->setType($type)
-                ->setIsNullable(AnnotationHelper::isNullable($annotations['var'][0]))
+                ->setIsNullable($nullable)
                 ->setVisibility(Visibility::fromReflectionProperty($property))
                 ->setIsArray($isArray)
                 ->build();
@@ -68,5 +64,41 @@ class DocBlockAnnotations extends AbstractMiddleware
         $this->cache->set($object->getName(), $intermediatePropertyMap);
 
         return $intermediatePropertyMap;
+    }
+
+    private function parsePropertyDocBlock(string $docBlock): array
+    {
+        $annotations = $this->parseAnnotations($docBlock);
+        $type = $annotations['var'][0];
+        $isArray = substr($type, -2) === '[]';
+        if ($isArray) {
+            $type = substr($type, 0, -2);
+        }
+
+        $nullable = stripos('|' . $type . '|', '|null|') !== false;
+
+        return [$type, $nullable, $isArray];
+    }
+
+    private function parseAnnotations(string $docBlock): array
+    {
+        // Strip away the start "/**' and ending "*/"
+        if (strpos($docBlock, '/**') === 0) {
+            $docBlock = substr($docBlock, 3);
+        }
+        if (substr($docBlock, -2) === '*/') {
+            $docBlock = substr($docBlock, 0, -2);
+        }
+
+        $annotations = [];
+        if (preg_match_all(self::ANNOTATION_REGEX, $docBlock, $matches)) {
+            $numMatches = count($matches[0]);
+
+            for ($i = 0; $i < $numMatches; ++$i) {
+                $annotations[$matches['name'][$i]][] = $matches['value'][$i];
+            }
+        }
+
+        return $annotations;
     }
 }
