@@ -33,18 +33,4 @@ class AnnotationMapTest extends TestCase
         self::assertEmpty($property->getParams());
         self::assertFalse($property->hasReturn());
     }
-
-    /**
-     * @covers \JsonMapper\ValueObjects\AnnotationMap
-     * @todo extend with data provider
-     */
-    public function testFromDocBlockParseCorrectly(): void
-    {
-        $property = AnnotationMap::fromDocBlock('/** @var string */');
-
-        self::assertTrue($property->hasVar());
-        self::assertEquals('string', $property->getVar());
-        self::assertEmpty($property->getParams());
-        self::assertFalse($property->hasReturn());
-    }
 }

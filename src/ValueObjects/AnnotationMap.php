@@ -6,8 +6,6 @@ namespace JsonMapper\ValueObjects;
 
 class AnnotationMap
 {
-    private const DOC_BLOCK_REGEX = '/@(?P<name>[A-Za-z_-]+)(?:[ \t]+(?P<value>.*?))?[ \t]*\r?$/m';
-
     /** @var string|null */
     private $var;
     /** @var string[] */
@@ -51,35 +49,5 @@ class AnnotationMap
             throw new \Exception('Annotation map doesnt contain valid value for return');
         }
         return $this->return;
-    }
-
-    public static function fromDocBlock(string $docBlock): self
-    {
-        // Strip away the start "/**' and ending "*/"
-        if (strpos($docBlock, '/**') === 0) {
-            $docBlock = substr($docBlock, 3);
-        }
-        if (substr($docBlock, -2) === '*/') {
-            $docBlock = substr($docBlock, 0, -2);
-        }
-        $docBlock = trim($docBlock);
-
-        if (preg_match_all(self::DOC_BLOCK_REGEX, $docBlock, $matches)) {
-            for ($x = 0, $max = count($matches[0]); $x < $max; $x++) {
-                switch ($matches['name'][$x]) {
-                    case 'var':
-                        $var = $matches['value'][$x];
-                        break;
-                    case 'param':
-                        $params = $matches['value'];
-                        break;
-                    case 'return':
-                        $return = $matches['value'][$x];
-                        break;
-                }
-            }
-        }
-
-        return new self($var ?? null, $params ?? [], $return ?? null);
     }
 }

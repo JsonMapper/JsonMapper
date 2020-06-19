@@ -6,7 +6,6 @@ namespace JsonMapper\Middleware;
 
 use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Enums\Visibility;
-use JsonMapper\Helpers\AnnotationHelper;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\ValueObjects\AnnotationMap;
 use JsonMapper\ValueObjects\PropertyMap;
@@ -16,7 +15,7 @@ use Psr\SimpleCache\CacheInterface;
 
 class DocBlockAnnotations extends AbstractMiddleware
 {
-
+    private const DOC_BLOCK_REGEX = '/@(?P<name>[A-Za-z_-]+)(?:[ \t]+(?P<value>.*?))?[ \t]*\r?$/m';
 
     /** @var CacheInterface */
     private $cache;
@@ -74,7 +73,7 @@ class DocBlockAnnotations extends AbstractMiddleware
             return null;
         }
 
-        $annotations = AnnotationMap::fromDocBlock($docBlock);
+        $annotations = self::parseDocBlockToAnnotationMap($docBlock);
 
         if (! $annotations->hasVar()) {
             return null;
@@ -90,5 +89,35 @@ class DocBlockAnnotations extends AbstractMiddleware
         $nullable = stripos('|' . $type . '|', '|null|') !== false;
 
         return new PropertyType($type, $nullable, $isArray);
+    }
+
+    public static function parseDocBlockToAnnotationMap(string $docBlock): AnnotationMap
+    {
+        // Strip away the start "/**' and ending "*/"
+        if (strpos($docBlock, '/**') === 0) {
+            $docBlock = substr($docBlock, 3);
+        }
+        if (substr($docBlock, -2) === '*/') {
+            $docBlock = substr($docBlock, 0, -2);
+        }
+        $docBlock = trim($docBlock);
+
+        if (preg_match_all(self::DOC_BLOCK_REGEX, $docBlock, $matches)) {
+            for ($x = 0, $max = count($matches[0]); $x < $max; $x++) {
+                switch ($matches['name'][$x]) {
+                    case 'var':
+                        $var = $matches['value'][$x];
+                        break;
+                    case 'param':
+                        $params = $matches['value'];
+                        break;
+                    case 'return':
+                        $return = $matches['value'][$x];
+                        break;
+                }
+            }
+        }
+
+        return new AnnotationMap($var ?? null, $params ?? [], $return ?? null);
     }
 }
