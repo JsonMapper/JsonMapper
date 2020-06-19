@@ -8,13 +8,15 @@ use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\Helpers\AnnotationHelper;
 use JsonMapper\JsonMapperInterface;
+use JsonMapper\ValueObjects\AnnotationMap;
 use JsonMapper\ValueObjects\PropertyMap;
+use JsonMapper\ValueObjects\PropertyType;
 use JsonMapper\Wrapper\ObjectWrapper;
 use Psr\SimpleCache\CacheInterface;
 
 class DocBlockAnnotations extends AbstractMiddleware
 {
-    private const ANNOTATION_REGEX = '/@(?P<name>[A-Za-z_-]+)(?:[ \t]+(?P<value>.*?))?[ \t]*\r?$/m';
+
 
     /** @var CacheInterface */
     private $cache;
@@ -44,19 +46,18 @@ class DocBlockAnnotations extends AbstractMiddleware
 
         foreach ($properties as $property) {
             $name = $property->getName();
-            $docblock = $property->getDocComment();
+            $propertyDetails = $this->derivePropertyDetailsFromReflectionProperty($property);
 
-            if ($docblock === false) {
+            if (is_null($propertyDetails)) {
                 continue;
             }
 
-            [$type, $nullable, $isArray] = $this->parsePropertyDocBlock($docblock);
             $property = PropertyBuilder::new()
                 ->setName($name)
-                ->setType($type)
-                ->setIsNullable($nullable)
+                ->setType($propertyDetails->getType())
+                ->setIsNullable($propertyDetails->isNullable())
                 ->setVisibility(Visibility::fromReflectionProperty($property))
-                ->setIsArray($isArray)
+                ->setIsArray($propertyDetails->isArray())
                 ->build();
             $intermediatePropertyMap->addProperty($property);
         }
@@ -66,10 +67,21 @@ class DocBlockAnnotations extends AbstractMiddleware
         return $intermediatePropertyMap;
     }
 
-    private function parsePropertyDocBlock(string $docBlock): array
+    private function derivePropertyDetailsFromReflectionProperty(\ReflectionProperty $property): ?PropertyType
     {
-        $annotations = $this->parseAnnotations($docBlock);
-        $type = $annotations['var'][0];
+        $docBlock = $property->getDocComment();
+        if ($docBlock === false) {
+            return null;
+        }
+
+        $annotations = AnnotationMap::fromDocBlock($docBlock);
+
+        if (! $annotations->hasVar()) {
+            return null;
+        }
+
+        $type = $annotations->getVar();
+
         $isArray = substr($type, -2) === '[]';
         if ($isArray) {
             $type = substr($type, 0, -2);
@@ -77,28 +89,6 @@ class DocBlockAnnotations extends AbstractMiddleware
 
         $nullable = stripos('|' . $type . '|', '|null|') !== false;
 
-        return [$type, $nullable, $isArray];
-    }
-
-    private function parseAnnotations(string $docBlock): array
-    {
-        // Strip away the start "/**' and ending "*/"
-        if (strpos($docBlock, '/**') === 0) {
-            $docBlock = substr($docBlock, 3);
-        }
-        if (substr($docBlock, -2) === '*/') {
-            $docBlock = substr($docBlock, 0, -2);
-        }
-
-        $annotations = [];
-        if (preg_match_all(self::ANNOTATION_REGEX, $docBlock, $matches)) {
-            $numMatches = count($matches[0]);
-
-            for ($i = 0; $i < $numMatches; ++$i) {
-                $annotations[$matches['name'][$i]][] = $matches['value'][$i];
-            }
-        }
-
-        return $annotations;
+        return new PropertyType($type, $nullable, $isArray);
     }
 }

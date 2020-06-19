@@ -11,27 +11,19 @@ class Property implements \JsonSerializable
 {
     /** @var string */
     private $name;
-    /** @var string */
-    private $type;
-    /** @var bool */
-    private $isNullable;
+    /** @var PropertyType */
+    private $propertyType;
     /** @var Visibility */
     private $visibility;
-    /** @var bool */
-    private $isArray;
 
     public function __construct(
         string $name,
-        string $type,
-        bool $isNullable,
-        Visibility $visibility,
-        bool $isArray = false
+        PropertyType $type,
+        Visibility $visibility
     ) {
         $this->name = $name;
-        $this->type = $type;
-        $this->isNullable = $isNullable;
+        $this->propertyType = $type;
         $this->visibility = $visibility;
-        $this->isArray = $isArray;
     }
 
     public function getName(): string
@@ -39,14 +31,9 @@ class Property implements \JsonSerializable
         return $this->name;
     }
 
-    public function getType(): string
+    public function getPropertyType(): PropertyType
     {
-        return $this->type;
-    }
-
-    public function isNullable(): bool
-    {
-        return $this->isNullable;
+        return $this->propertyType;
     }
 
     public function getVisibility(): Visibility
@@ -54,29 +41,37 @@ class Property implements \JsonSerializable
         return $this->visibility;
     }
 
-    public function isArray(): bool
-    {
-        return $this->isArray;
-    }
-
     public function asBuilder(): PropertyBuilder
     {
         return PropertyBuilder::new()
             ->setName($this->name)
-            ->setType($this->type)
-            ->setIsNullable($this->isNullable)
+            ->setType($this->propertyType->getType())
+            ->setIsNullable($this->propertyType->isNullable())
             ->setVisibility($this->visibility)
-            ->setIsArray($this->isArray);
+            ->setIsArray($this->propertyType->isArray());
     }
 
     public function jsonSerialize(): array
     {
         return [
             'name' => $this->name,
-            'type' => $this->type,
-            'isNullable' => $this->isNullable,
+            'type' => $this->propertyType,
             'visibility' => $this->visibility,
-            'isArray' => $this->isArray,
         ];
+    }
+
+    public function getType(): string
+    {
+        return $this->propertyType->getType();
+    }
+
+    public function isNullable(): bool
+    {
+        return $this->propertyType->isNullable();
+    }
+
+    public function isArray(): bool
+    {
+        return $this->propertyType->isArray();
     }
 }

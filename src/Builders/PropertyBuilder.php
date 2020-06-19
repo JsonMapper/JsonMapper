@@ -6,6 +6,7 @@ namespace JsonMapper\Builders;
 
 use JsonMapper\Enums\Visibility;
 use JsonMapper\ValueObjects\Property;
+use JsonMapper\ValueObjects\PropertyType;
 
 class PropertyBuilder
 {
@@ -31,7 +32,7 @@ class PropertyBuilder
 
     public function build(): Property
     {
-        return new Property($this->name, $this->type, $this->isNullable, $this->visibility, $this->isArray);
+        return new Property($this->name, new PropertyType($this->type, $this->isNullable, $this->isArray), $this->visibility);
     }
 
     public function setName(string $name): self
