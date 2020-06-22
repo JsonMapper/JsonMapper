@@ -104,20 +104,12 @@ class DocBlockAnnotations extends AbstractMiddleware
 
         if (preg_match_all(self::DOC_BLOCK_REGEX, $docBlock, $matches)) {
             for ($x = 0, $max = count($matches[0]); $x < $max; $x++) {
-                switch ($matches['name'][$x]) {
-                    case 'var':
-                        $var = $matches['value'][$x];
-                        break;
-                    case 'param':
-                        $params = $matches['value'];
-                        break;
-                    case 'return':
-                        $return = $matches['value'][$x];
-                        break;
+                if ($matches['name'][$x] == 'var') {
+                    $var = $matches['value'][$x];
                 }
             }
         }
 
-        return new AnnotationMap($var ?? null, $params ?? [], $return ?? null);
+        return new AnnotationMap($var ?? null, [], null);
     }
 }
