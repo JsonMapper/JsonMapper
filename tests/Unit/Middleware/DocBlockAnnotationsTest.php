@@ -68,6 +68,44 @@ class DocBlockAnnotationsTest extends TestCase
     /**
      * @covers \JsonMapper\Middleware\DocBlockAnnotations
      */
+    public function testItCanHandleEmptyDocBlock(): void
+    {
+        $middleware = new DocBlockAnnotations(new NullCache());
+        $object = new class {
+            /** */
+            public $number;
+        };
+
+        $propertyMap = new PropertyMap();
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertEmpty($propertyMap->getIterator());
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations
+     */
+    public function testItCanHandleIncompleteDocBlock(): void
+    {
+        $middleware = new DocBlockAnnotations(new NullCache());
+        $object = new class {
+            /** @var */
+            public $number;
+        };
+
+        $propertyMap = new PropertyMap();
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertEmpty($propertyMap->getIterator());
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations
+     */
     public function testReturnsFromCacheWhenAvailable(): void
     {
         $propertyMap = new PropertyMap();
