@@ -33,4 +33,28 @@ class AnnotationMapTest extends TestCase
         self::assertEmpty($property->getParams());
         self::assertFalse($property->hasReturn());
     }
+
+    /**
+     * @covers \JsonMapper\ValueObjects\AnnotationMap
+     */
+    public function testGetVarThrowsErrorWhenNoVarAvailable(): void
+    {
+        $property = new AnnotationMap();
+
+        self::assertFalse($property->hasVar());
+        $this->expectException(\Exception::class);
+        $property->getVar();
+    }
+
+    /**
+     * @covers \JsonMapper\ValueObjects\AnnotationMap
+     */
+    public function testGetReturnThrowsErrorWhenNoReturnAvailable(): void
+    {
+        $property = new AnnotationMap();
+
+        self::assertFalse($property->hasReturn());
+        $this->expectException(\Exception::class);
+        $property->getReturn();
+    }
 }

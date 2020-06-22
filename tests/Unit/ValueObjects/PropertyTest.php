@@ -16,9 +16,11 @@ class PropertyTest extends TestCase
      */
     public function testGettersReturnConstructorValues(): void
     {
-        $property = new Property('id', new PropertyType('int', false, false), Visibility::PUBLIC());
+        $propertyType = new PropertyType('int', false, false);
+        $property = new Property('id', $propertyType, Visibility::PUBLIC());
 
         self::assertSame('id', $property->getName());
+        self::assertSame($propertyType, $property->getPropertyType());
         self::assertSame('int', $property->getType());
         self::assertFalse($property->isNullable());
         self::assertTrue($property->getVisibility()->equals(Visibility::PUBLIC()));
