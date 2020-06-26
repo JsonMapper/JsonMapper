@@ -53,6 +53,14 @@ class ClassHelperTest extends TestCase
         self::assertFalse(ClassHelper::isCustom('asdf'));
     }
 
+    /**
+     * @covers \JsonMapper\Helpers\ClassHelper
+     */
+    public function testScalarTypeIsNotSeenAsCustomClass(): void
+    {
+        self::assertFalse(ClassHelper::isCustom(ScalarType::INT()->getValue()));
+    }
+
     public function builtinClassDataProvider(): array
     {
         return [

@@ -5,12 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- Improved internal representation of scalar types, introducing ScalarType Enum class. [PR#30](https://github.com/JsonMapper/JsonMapper/pull/34)
 
 ## [1.2.0] - 2020-07-12
 ### Added
-- Introduce pop, unshift, shift, remove, removeByName methods to the JsonMapperInterface
+- Introduce pop, unshift, shift, remove, removeByName methods to the JsonMapperInterface [PR#30](https://github.com/JsonMapper/JsonMapper/pull/32)
 ### Fixed
-- Resolved several issues found by PHPStan
+- Resolved several issues found by PHPStan [PR#29](https://github.com/JsonMapper/JsonMapper/pull/29)
 - Properties marked as array are casted to enable object to array mapping
 ### Changed
 - Reduced a single used helper splitting into the core and into the doc block middleware. [PR#30](https://github.com/JsonMapper/JsonMapper/pull/30)
