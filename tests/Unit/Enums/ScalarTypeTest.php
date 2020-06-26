@@ -22,6 +22,24 @@ class ScalarTypeTest extends TestCase
         self::assertEquals($expected, (new ScalarType($castTo))->cast($value));
     }
 
+    /**
+     * @covers \JsonMapper\Enums\ScalarType
+     */
+    public function testCastOperationReturnsThowsExceptionWhenCastOperationNotSupported(): void
+    {
+        $extension = new class extends ScalarType {
+            private const RANDOM = 'random';
+
+            public function __construct()
+            {
+                parent::__construct(self::RANDOM);
+            }
+        };
+
+        $this->expectException(\LogicException::class);
+        (new $extension('random'))->cast('');
+    }
+
     public function castOperationDataProvider(): array
     {
         return [
