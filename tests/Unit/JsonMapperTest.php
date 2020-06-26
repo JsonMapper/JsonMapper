@@ -133,4 +133,32 @@ class JsonMapperTest extends TestCase
 
         self::assertFalse($this->middleware->isCalled());
     }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testShiftedMiddlewareIsNotInvokedWhenMappingObject(): void
+    {
+        $jsonMapper = new JsonMapper(new PropertyMapper());
+        $jsonMapper->unshift($this->middleware, __METHOD__);
+        $jsonMapper->shift();
+
+        $jsonMapper->mapObject(new \stdClass(), new \stdClass());
+
+        self::assertFalse($this->middleware->isCalled());
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testPoppedMiddlewareIsNotInvokedWhenMappingObject(): void
+    {
+        $jsonMapper = new JsonMapper(new PropertyMapper());
+        $jsonMapper->push($this->middleware, __METHOD__);
+        $jsonMapper->pop();
+
+        $jsonMapper->mapObject(new \stdClass(), new \stdClass());
+
+        self::assertFalse($this->middleware->isCalled());
+    }
 }
