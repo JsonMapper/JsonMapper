@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit\Helpers;
 
+use JsonMapper\Enums\ScalarType;
 use JsonMapper\Helpers\ClassHelper;
 use JsonMapper\Tests\Implementation\ComplexObject;
 use PHPUnit\Framework\TestCase;
@@ -25,6 +26,14 @@ class ClassHelperTest extends TestCase
     public function testNonExistingClassNameIsNotSeenAsBuiltinClass(): void
     {
         self::assertFalse(ClassHelper::isBuiltin('asdf'));
+    }
+
+    /**
+     * @covers \JsonMapper\Helpers\ClassHelper
+     */
+    public function testScalarTypeIsNotSeenAsBuiltinClass(): void
+    {
+        self::assertFalse(ClassHelper::isBuiltin(ScalarType::INT()->getValue()));
     }
 
     /**

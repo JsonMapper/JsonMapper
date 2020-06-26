@@ -15,7 +15,7 @@ class ClassHelper
 
     public static function isBuiltin(string $type): bool
     {
-        if (ScalarType::isValid($type)) {
+        if (ScalarType::isValid($type) || $type === 'mixed') {
             return false;
         }
 
@@ -32,10 +32,14 @@ class ClassHelper
 
     public static function isCustom(string $type): bool
     {
+        if (ScalarType::isValid($type) || $type === 'mixed') {
+            return false;
+        }
+
         if (!class_exists($type)) {
             return false;
         }
 
-        return ! ScalarType::isValid($type) && ! self::isBuiltin($type) && $type !== 'mixed';
+        return !self::isBuiltin($type);
     }
 }
