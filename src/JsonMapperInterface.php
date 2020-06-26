@@ -8,6 +8,16 @@ interface JsonMapperInterface
 {
     public function push(callable $middleware, string $name = ''): self;
 
+    public function pop(): self;
+
+    public function unshift(callable $middleware, string $name = null): self;
+
+    public function shift(): self;
+
+    public function remove(callable $remove): self;
+
+    public function removeByName(string $remove): self;
+
     public function mapObject(\stdClass $json, object $object): void;
 
     public function mapArray(array $json, object $object): array;
