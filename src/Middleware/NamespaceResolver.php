@@ -24,7 +24,7 @@ class NamespaceResolver extends AbstractMiddleware
 
         /** @var Property $property */
         foreach ($propertyMap as &$property) {
-            if (ScalarType::isValid($property->getType())) {
+            if (ScalarType::isValid($property->getType()) || ClassHelper::isBuiltin($property->getType())) {
                 continue;
             }
 
