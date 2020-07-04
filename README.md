@@ -96,5 +96,10 @@ Please refer to [CONTRIBUTING.md](https://github.com/JsonMapper/JsonMapper/blob/
 ## List of Contributors
 Thanks to everyone who has contributed to JsonMapper! You can find a detailed list of contributors of JsonMapper on [GitHub](https://github.com/JsonMapper/JsonMapper/graphs/contributors).
 
+## Sponsoring
+[![JetBrains](https://jsonmapper.net/images/jetbrains-variant-3.png?)](https://www.jetbrains.com/?from=JsonMapper)
+
+This project is sponsored by JetBrains providing a open source license to continue building on JsonMapper without cost.     
+
 # License
 The MIT License (MIT). Please see [License File](https://github.com/JsonMapper/JsonMapper/blob/master/LICENSE) for more information.
