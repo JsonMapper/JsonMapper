@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.2.0] - 2020-05-29
+## [1.2.0] - 2020-07-12
 ### Added
 - Introduce pop, unshift, shift, remove, removeByName methods to the JsonMapperInterface
 ### Fixed
