@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Introduce pop, unshift, shift, remove, removeByName methods to the JsonMapperInterface
 ### Fixed
 - Resolved several issues found by PHPStan
+- Properties marked as array are casted to enable object to array mapping
 ### Changed
 - Reduced a single used helper splitting into the core and into the doc block middleware. [PR#30](https://github.com/JsonMapper/JsonMapper/pull/30)
 
