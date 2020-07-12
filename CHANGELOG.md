@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2020-05-29
+### Added
+- Introduce pop, unshift, shift, remove, removeByName methods to the JsonMapperInterface
+### Fixed
+- Resolved several issues found by PHPStan
+- Properties marked as array are casted to enable object to array mapping
+### Changed
+- Reduced a single used helper splitting into the core and into the doc block middleware. [PR#30](https://github.com/JsonMapper/JsonMapper/pull/30)
+
 ## [1.1.0] - 2020-05-29
 ### Added 
 - Support for arrays using square bracket notation (e.g. User[]) in DocBlockAnnotations middleware. (PR#27/#28)

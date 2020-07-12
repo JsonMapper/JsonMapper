@@ -10,4 +10,6 @@ class Popo
     public $name;
     /** @var \DateTimeImmutable */
     public $date;
+    /** @var string[] */
+    public $notes;
 }

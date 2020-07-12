@@ -14,10 +14,12 @@ class VisibilityTest extends TestCase
      */
     public function testDetectsPublicPropertyAsPublic(): void
     {
-        $reflectionClass = new \ReflectionClass(new class {
-            /** @var int */
-            public $id;
-        });
+        $reflectionClass = new \ReflectionClass(
+            new class {
+                /** @var int */
+                public $id;
+            }
+        );
         $reflectionProperty = $reflectionClass->getProperty('id');
 
         $visibility = Visibility::fromReflectionProperty($reflectionProperty);
@@ -30,10 +32,12 @@ class VisibilityTest extends TestCase
      */
     public function testDetectsProtectedPropertyAsProtected(): void
     {
-        $reflectionClass = new \ReflectionClass(new class {
-            /** @var int */
-            protected $id;
-        });
+        $reflectionClass = new \ReflectionClass(
+            new class {
+                /** @var int */
+                protected $id;
+            }
+        );
         $reflectionProperty = $reflectionClass->getProperty('id');
 
         $visibility = Visibility::fromReflectionProperty($reflectionProperty);
@@ -46,10 +50,12 @@ class VisibilityTest extends TestCase
      */
     public function testDetectsPrivatePropertyAsPrivate(): void
     {
-        $reflectionClass = new \ReflectionClass(new class {
-            /** @var int */
-            private $id;
-        });
+        $reflectionClass = new \ReflectionClass(
+            new class {
+                /** @var int */
+                private $id;
+            }
+        );
         $reflectionProperty = $reflectionClass->getProperty('id');
 
         $visibility = Visibility::fromReflectionProperty($reflectionProperty);

@@ -29,6 +29,56 @@ class JsonMapper implements JsonMapperInterface
         return $this;
     }
 
+    public function pop(): JsonMapperInterface
+    {
+        array_pop($this->stack);
+        $this->cached = null;
+
+        return $this;
+    }
+
+    public function unshift(callable $middleware, string $name = null): JsonMapperInterface
+    {
+        array_unshift($this->stack, [$middleware, $name]);
+        $this->cached = null;
+
+        return $this;
+    }
+
+    public function shift(): JsonMapperInterface
+    {
+        array_shift($this->stack);
+        $this->cached = null;
+
+        return $this;
+    }
+
+    public function remove(callable $remove): JsonMapperInterface
+    {
+        $this->stack = array_values(array_filter(
+            $this->stack,
+            static function ($tuple) use ($remove) {
+                return $tuple[0] !== $remove;
+            }
+        ));
+        $this->cached = null;
+
+        return $this;
+    }
+
+    public function removeByName(string $remove): JsonMapperInterface
+    {
+        $this->stack = array_values(array_filter(
+            $this->stack,
+            static function ($tuple) use ($remove) {
+                return $tuple[1] !== $remove;
+            }
+        ));
+        $this->cached = null;
+
+        return $this;
+    }
+
     public function mapObject(\stdClass $json, object $object): void
     {
         $propertyMap = new PropertyMap();
