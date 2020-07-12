@@ -9,6 +9,7 @@ use JsonMapper\Enums\Visibility;
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Tests\Implementation\ComplexObject;
+use JsonMapper\Tests\Implementation\Popo;
 use JsonMapper\Tests\Implementation\SimpleObject;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
@@ -164,5 +165,30 @@ class PropertyMapperTest extends TestCase
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
 
         self::assertEquals(2, count($object->getChildren()));
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testArrayPropertyIsCasted(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('notes')
+            ->setType('string')
+            ->setIsArray(true)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $json = (object) ['notes' =>(object) ['note_one' => __FUNCTION__, 'note_two' => __CLASS__]];
+        $object = new Popo();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals(['note_one' => __FUNCTION__, 'note_two' => __CLASS__], $object->notes);
     }
 }
