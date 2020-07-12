@@ -134,6 +134,20 @@ class JsonMapperTest extends TestCase
         self::assertSame([__METHOD__, __CLASS__], $object->friends);
     }
 
+    public function testItHandlesPropertyDocumentedAsArrayProvidedAsObject(): void
+    {
+        // Arrange
+        $mapper = (new JsonMapperFactory())->bestFit();
+        $object = new Popo();
+        $json = (object) ['notes' => (object) ['one' => __METHOD__, 'two' => __CLASS__]];
+
+        // Act
+        $mapper->mapObject($json, $object);
+
+        // Assert
+        self::assertSame(['one' => __METHOD__, 'two' => __CLASS__], $object->notes);
+    }
+
     public function testItCanMapAnObjectWithACustomClassAttribute(): void
     {
         // Arrange

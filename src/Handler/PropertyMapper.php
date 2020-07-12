@@ -30,7 +30,7 @@ class PropertyMapper
             if ($propertyInfo->isArray()) {
                 $value = array_map(function ($value) use ($mapper, $type) {
                     return $this->mapPropertyValue($mapper, $type, $value);
-                }, $value);
+                }, (array) $value);
             } else {
                 $value = $this->mapPropertyValue($mapper, $type, $value);
             }
