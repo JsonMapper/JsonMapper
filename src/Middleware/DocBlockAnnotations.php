@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace JsonMapper\Middleware;
 
 use JsonMapper\Builders\PropertyBuilder;
-use JsonMapper\Enums\ScalarType;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\ValueObjects\AnnotationMap;
