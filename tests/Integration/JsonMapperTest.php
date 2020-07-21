@@ -211,4 +211,31 @@ class JsonMapperTest extends TestCase
         self::assertSame('one', $result[0]->getName());
         self::assertSame('two', $result[1]->getName());
     }
+
+    /**
+     * @dataProvider scalarValueDataTypes
+     */
+    public function testItSetsTheValueAsIsForMixedType($value): void
+    {
+        // Arrange
+        $mapper = (new JsonMapperFactory())->bestFit();
+        $object = new ComplexObject();
+        $json = (object) ['mixedParam' => $value];
+
+        // Act
+        $mapper->mapObject($json, $object);
+
+        // Assert
+        self::assertSame($value, $object->mixedParam);
+    }
+
+    public function scalarValueDataTypes(): array
+    {
+        return [
+            'string' => 'Some string',
+            'boolean' => true,
+            'integer' => 1,
+            'float' => M_PI,
+        ];
+    }
 }

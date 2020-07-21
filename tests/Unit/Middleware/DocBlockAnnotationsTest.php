@@ -45,6 +45,12 @@ class DocBlockAnnotationsTest extends TestCase
         self::assertEquals(Visibility::PRIVATE(), $propertyMap->getProperty('user')->getVisibility());
         self::assertFalse($propertyMap->getProperty('user')->isNullable());
         self::assertFalse($propertyMap->getProperty('user')->isArray());
+        self::assertTrue($propertyMap->hasProperty('mixedParam'));
+        self::assertEquals('mixed', $propertyMap->getProperty('mixedParam')->getType());
+        self::assertEquals('mixed', $propertyMap->getProperty('mixedParam')->getPropertyType()->getType());
+        self::assertEquals(Visibility::PUBLIC(), $propertyMap->getProperty('mixedParam')->getVisibility());
+        self::assertFalse($propertyMap->getProperty('mixedParam')->isNullable());
+        self::assertFalse($propertyMap->getProperty('mixedParam')->isArray());
     }
 
     /**
