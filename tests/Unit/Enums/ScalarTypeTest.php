@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class ScalarTypeTest extends TestCase
 {
-
     /**
      * @covers \JsonMapper\Enums\ScalarType
      * @dataProvider castOperationDataProvider
@@ -25,7 +24,7 @@ class ScalarTypeTest extends TestCase
     /**
      * @covers \JsonMapper\Enums\ScalarType
      */
-    public function testCastOperationReturnsThowsExceptionWhenCastOperationNotSupported(): void
+    public function testCastOperationThrowsExceptionWhenCastOperationNotSupported(): void
     {
         $extension = new class extends ScalarType {
             private const RANDOM = 'random';
@@ -48,6 +47,7 @@ class ScalarTypeTest extends TestCase
             'cast to boolean false' => [0, 'bool', false],
             'cast to int' => ['42', 'int', 42],
             'cast to float' => ['34.567', 'float', 34.567],
+            'cast to mixed' => ['34.567', 'mixed', '34.567'],
         ];
     }
 }
