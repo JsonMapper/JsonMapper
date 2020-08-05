@@ -20,8 +20,7 @@ class TypedPropertiesTest extends TestCase
 {
     /**
      * @covers \JsonMapper\Middleware\TypedProperties
-     * @requires PHP >= 7.4
-     * @requires PHP < 8.0
+     * @requires PHP == 7.4
      */
     public function testTypedPropertyIsCorrectlyDiscoveredWithPhp74(): void
     {
