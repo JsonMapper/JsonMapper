@@ -96,7 +96,7 @@ class PropertyMapperTest extends TestCase
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
-        $jsonMapper->expects($this->once())
+        $jsonMapper->expects(self::once())
             ->method('mapObject')
             ->with((object) ['name' => __FUNCTION__], self::isInstanceOf(SimpleObject::class))
             ->willReturnCallback(static function (\stdClass $json, SimpleObject $object) {
@@ -151,7 +151,7 @@ class PropertyMapperTest extends TestCase
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
-        $jsonMapper->expects($this->exactly(2))
+        $jsonMapper->expects(self::exactly(2))
             ->method('mapObject')
             ->with((object) ['name' => __FUNCTION__], self::isInstanceOf(SimpleObject::class))
             ->willReturnCallback(static function (\stdClass $json, SimpleObject $object) {

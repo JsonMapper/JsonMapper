@@ -5,7 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Add support for mixed type [PR#39](https://github.com/JsonMapper/JsonMapper/pull/39)
+### Changed
 - Improved internal representation of scalar types, introducing ScalarType Enum class. [PR#34](https://github.com/JsonMapper/JsonMapper/pull/34)
+
 
 ## [1.2.0] - 2020-07-12
 ### Added

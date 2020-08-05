@@ -8,7 +8,8 @@ use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\TypedProperties;
-use JsonMapper\Tests\Implementation\Php74\Popo;
+use JsonMapper\Tests\Implementation\Php74;
+use JsonMapper\Tests\Implementation\Php80;
 use JsonMapper\Tests\Implementation\SimpleObject;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
@@ -19,12 +20,12 @@ class TypedPropertiesTest extends TestCase
 {
     /**
      * @covers \JsonMapper\Middleware\TypedProperties
-     * @requires PHP >= 7.4
+     * @requires PHP 7.4
      */
-    public function testTypedPropertyIsCorrectlyDiscovered(): void
+    public function testTypedPropertyIsCorrectlyDiscoveredWithPhp74(): void
     {
         $middleware = new TypedProperties(new NullCache());
-        $object = new Popo();
+        $object = new Php74\Popo();
         $propertyMap = new PropertyMap();
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
 
@@ -34,6 +35,31 @@ class TypedPropertiesTest extends TestCase
         self::assertEquals('string', $propertyMap->getProperty('name')->getType());
         self::assertEquals(Visibility::PUBLIC(), $propertyMap->getProperty('name')->getVisibility());
         self::assertFalse($propertyMap->getProperty('name')->isNullable());
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\TypedProperties
+     * @requires PHP >= 8.0
+     */
+    public function testTypedPropertyIsCorrectlyDiscoveredWithPhp80AndGreater(): void
+    {
+        $middleware = new TypedProperties(new NullCache());
+        $object = new Php80\Popo();
+        $propertyMap = new PropertyMap();
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertTrue($propertyMap->hasProperty('name'));
+        self::assertEquals('string', $propertyMap->getProperty('name')->getType());
+        self::assertEquals(Visibility::PUBLIC(), $propertyMap->getProperty('name')->getVisibility());
+        self::assertFalse($propertyMap->getProperty('name')->isNullable());
+        self::assertTrue($propertyMap->hasProperty('mixedParam'));
+        self::assertEquals('mixed', $propertyMap->getProperty('mixedParam')->getType());
+        self::assertEquals('mixed', $propertyMap->getProperty('mixedParam')->getPropertyType()->getType());
+        self::assertEquals(Visibility::PUBLIC(), $propertyMap->getProperty('mixedParam')->getVisibility());
+        self::assertTrue($propertyMap->getProperty('mixedParam')->isNullable());
+        self::assertFalse($propertyMap->getProperty('mixedParam')->isArray());
     }
 
     /**
@@ -61,7 +87,7 @@ class TypedPropertiesTest extends TestCase
         $propertyMap = new PropertyMap();
         $objectWrapper = $this->createMock(ObjectWrapper::class);
         $objectWrapper->method('getName')->willReturn(__METHOD__);
-        $objectWrapper->expects($this->never())->method('getReflectedObject');
+        $objectWrapper->expects(self::never())->method('getReflectedObject');
         $cache = $this->createMock(CacheInterface::class);
         $cache->method('has')->with(__METHOD__)->willReturn(true);
         $cache->method('get')->with(__METHOD__)->willReturn($propertyMap);

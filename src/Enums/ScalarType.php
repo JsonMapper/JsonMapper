@@ -14,16 +14,18 @@ use MyCLabs\Enum\Enum;
  * @method static ScalarType INT()
  * @method static ScalarType DOUBLE()
  * @method static ScalarType FLOAT()
+ * @method static ScalarType MIXED()
  */
 class ScalarType extends Enum
 {
-    private const STRING = 'string';
-    private const BOOLEAN = 'boolean';
-    private const BOOL = 'bool';
-    private const INTEGER = 'integer';
-    private const INT = 'int';
-    private const DOUBLE = 'double';
-    private const FLOAT = 'float';
+    protected const STRING = 'string';
+    protected const BOOLEAN = 'boolean';
+    protected const BOOL = 'bool';
+    protected const INTEGER = 'integer';
+    protected const INT = 'int';
+    protected const DOUBLE = 'double';
+    protected const FLOAT = 'float';
+    protected const MIXED = 'mixed';
 
     /**
      * @param string|bool|int|float $value
@@ -31,16 +33,19 @@ class ScalarType extends Enum
      */
     public function cast($value)
     {
-        if ($this->value === self::STRING) {
+        if ($this->equals(self::MIXED())) {
+            return $value;
+        }
+        if ($this->equals(self::STRING())) {
             return (string) $value;
         }
-        if ($this->value === self::BOOLEAN || $this->value === self::BOOL) {
+        if ($this->equals(self::BOOLEAN()) || $this->equals(self::BOOL())) {
             return (bool) $value;
         }
-        if ($this->value === self::INTEGER || $this->value === self::INT) {
+        if ($this->equals(self::INTEGER()) || $this->equals(self::INT())) {
             return (int) $value;
         }
-        if ($this->value === self::DOUBLE || $this->value === self::FLOAT) {
+        if ($this->equals(self::DOUBLE()) || $this->equals(self::FLOAT())) {
             return (float) $value;
         }
 
