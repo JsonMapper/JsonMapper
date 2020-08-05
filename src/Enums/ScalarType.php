@@ -18,14 +18,14 @@ use MyCLabs\Enum\Enum;
  */
 class ScalarType extends Enum
 {
-    private const STRING = 'string';
-    private const BOOLEAN = 'boolean';
-    private const BOOL = 'bool';
-    private const INTEGER = 'integer';
-    private const INT = 'int';
-    private const DOUBLE = 'double';
-    private const FLOAT = 'float';
-    private const MIXED = 'mixed';
+    protected const STRING = 'string';
+    protected const BOOLEAN = 'boolean';
+    protected const BOOL = 'bool';
+    protected const INTEGER = 'integer';
+    protected const INT = 'int';
+    protected const DOUBLE = 'double';
+    protected const FLOAT = 'float';
+    protected const MIXED = 'mixed';
 
     /**
      * @param string|bool|int|float $value

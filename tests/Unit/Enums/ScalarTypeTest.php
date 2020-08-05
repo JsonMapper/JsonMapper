@@ -26,17 +26,12 @@ class ScalarTypeTest extends TestCase
      */
     public function testCastOperationThrowsExceptionWhenCastOperationNotSupported(): void
     {
-        $extension = new class extends ScalarType {
-            private const RANDOM = 'random';
-
-            public function __construct()
-            {
-                parent::__construct(self::RANDOM);
-            }
+        $extension = new class('random') extends ScalarType {
+            protected const RANDOM = 'random';
         };
 
         $this->expectException(\LogicException::class);
-        (new $extension('random'))->cast('');
+        $extension->cast('');
     }
 
     public function castOperationDataProvider(): array
