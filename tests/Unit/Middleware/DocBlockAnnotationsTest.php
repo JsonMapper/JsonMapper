@@ -117,7 +117,7 @@ class DocBlockAnnotationsTest extends TestCase
         $propertyMap = new PropertyMap();
         $objectWrapper = $this->createMock(ObjectWrapper::class);
         $objectWrapper->method('getName')->willReturn(__METHOD__);
-        $objectWrapper->expects($this->never())->method('getReflectedObject');
+        $objectWrapper->expects(self::never())->method('getReflectedObject');
         $cache = $this->createMock(CacheInterface::class);
         $cache->method('has')->with(__METHOD__)->willReturn(true);
         $cache->method('get')->with(__METHOD__)->willReturn($propertyMap);

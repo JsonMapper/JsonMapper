@@ -232,10 +232,10 @@ class JsonMapperTest extends TestCase
     public function scalarValueDataTypes(): array
     {
         return [
-            'string' => 'Some string',
-            'boolean' => true,
-            'integer' => 1,
-            'float' => M_PI,
+            'string' => ['Some string'],
+            'boolean' => [true],
+            'integer' => [1],
+            'float' => [M_PI],
         ];
     }
 }
