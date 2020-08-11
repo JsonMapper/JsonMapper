@@ -41,8 +41,10 @@ class NamespaceResolver extends AbstractMiddleware
                 continue;
             }
 
-            $type = $object->getReflectedObject()->getNamespaceName() . '\\' . $property->getType();
-            $propertyMap->addProperty($property->asBuilder()->setType($type)->build());
+            if (!class_exists($property->getType())) {
+                $type = $object->getReflectedObject()->getNamespaceName() . '\\' . $property->getType();
+                $propertyMap->addProperty($property->asBuilder()->setType($type)->build());
+            }
         }
     }
 }

@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add support for mixed type [PR#39](https://github.com/JsonMapper/JsonMapper/pull/39)
 ### Changed
 - Improved internal representation of scalar types, introducing ScalarType Enum class. [PR#34](https://github.com/JsonMapper/JsonMapper/pull/34)
-
+## Fixed
+- Fix mapping to a class from the same namespace when using PHP 7.4 namespace is prefixed twice. [PR#41](https://github.com/JsonMapper/JsonMapper/pull/41)
 
 ## [1.2.0] - 2020-07-12
 ### Added
