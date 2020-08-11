@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace JsonMapper\Middleware;
 
-use JsonMapper\Helpers\TypeHelper;
+use JsonMapper\Enums\ScalarType;
+use JsonMapper\Helpers\ClassHelper;
 use JsonMapper\Helpers\UseStatementHelper;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\ValueObjects\Property;
@@ -23,7 +24,7 @@ class NamespaceResolver extends AbstractMiddleware
 
         /** @var Property $property */
         foreach ($propertyMap as &$property) {
-            if (! TypeHelper::isCustomClass($property->getType())) {
+            if (ScalarType::isValid($property->getType()) || ClassHelper::isBuiltin($property->getType())) {
                 continue;
             }
 
@@ -40,8 +41,10 @@ class NamespaceResolver extends AbstractMiddleware
                 continue;
             }
 
-            $type = $object->getReflectedObject()->getNamespaceName() . '\\' . $property->getType();
-            $propertyMap->addProperty($property->asBuilder()->setType($type)->build());
+            if (!class_exists($property->getType())) {
+                $type = $object->getReflectedObject()->getNamespaceName() . '\\' . $property->getType();
+                $propertyMap->addProperty($property->asBuilder()->setType($type)->build());
+            }
         }
     }
 }

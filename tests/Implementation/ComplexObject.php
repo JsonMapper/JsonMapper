@@ -14,6 +14,8 @@ class ComplexObject
     private $children;
     /** @var User */
     private $user;
+    /** @var mixed  */
+    public $mixedParam;
 
     public function getChild(): SimpleObject
     {

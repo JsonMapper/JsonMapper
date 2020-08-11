@@ -45,6 +45,12 @@ class DocBlockAnnotationsTest extends TestCase
         self::assertEquals(Visibility::PRIVATE(), $propertyMap->getProperty('user')->getVisibility());
         self::assertFalse($propertyMap->getProperty('user')->isNullable());
         self::assertFalse($propertyMap->getProperty('user')->isArray());
+        self::assertTrue($propertyMap->hasProperty('mixedParam'));
+        self::assertEquals('mixed', $propertyMap->getProperty('mixedParam')->getType());
+        self::assertEquals('mixed', $propertyMap->getProperty('mixedParam')->getPropertyType()->getType());
+        self::assertEquals(Visibility::PUBLIC(), $propertyMap->getProperty('mixedParam')->getVisibility());
+        self::assertFalse($propertyMap->getProperty('mixedParam')->isNullable());
+        self::assertFalse($propertyMap->getProperty('mixedParam')->isArray());
     }
 
     /**
@@ -111,7 +117,7 @@ class DocBlockAnnotationsTest extends TestCase
         $propertyMap = new PropertyMap();
         $objectWrapper = $this->createMock(ObjectWrapper::class);
         $objectWrapper->method('getName')->willReturn(__METHOD__);
-        $objectWrapper->expects($this->never())->method('getReflectedObject');
+        $objectWrapper->expects(self::never())->method('getReflectedObject');
         $cache = $this->createMock(CacheInterface::class);
         $cache->method('has')->with(__METHOD__)->willReturn(true);
         $cache->method('get')->with(__METHOD__)->willReturn($propertyMap);

@@ -6,12 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2020-08-11
+### Added
+- Add support for mixed type [PR#39](https://github.com/JsonMapper/JsonMapper/pull/39)
+### Changed
+- Improved internal representation of scalar types, introducing ScalarType Enum class. [PR#34](https://github.com/JsonMapper/JsonMapper/pull/34)
+## Fixed
+- Fix mapping to a class from the same namespace when using PHP 7.4 namespace is prefixed twice. [PR#41](https://github.com/JsonMapper/JsonMapper/pull/41)
+
 ## [1.2.0] - 2020-07-12
 ### Added
-- Introduce pop, unshift, shift, remove, removeByName methods to the JsonMapperInterface
+- Introduce pop, unshift, shift, remove, removeByName methods to the JsonMapperInterface [PR#32](https://github.com/JsonMapper/JsonMapper/pull/32)
 ### Fixed
-- Resolved several issues found by PHPStan
-- Properties marked as array are casted to enable object to array mapping
+- Resolved several issues found by PHPStan [PR#29](https://github.com/JsonMapper/JsonMapper/pull/29)
+- Properties marked as array are casted to enable object to array mapping [PR#36](https://github.com/JsonMapper/JsonMapper/pull/36)
 ### Changed
 - Reduced a single used helper splitting into the core and into the doc block middleware. [PR#30](https://github.com/JsonMapper/JsonMapper/pull/30)
 

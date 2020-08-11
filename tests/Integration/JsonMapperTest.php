@@ -7,7 +7,7 @@ namespace JsonMapper\Tests\Integration;
 use JsonMapper\JsonMapperFactory;
 use JsonMapper\Tests\Implementation\ComplexObject;
 use JsonMapper\Tests\Implementation\Popo;
-use JsonMapper\Tests\Implementation\Php74\Popo as Php74Popo;
+use JsonMapper\Tests\Implementation\Php74;
 use JsonMapper\Tests\Implementation\SimpleObject;
 use PHPUnit\Framework\TestCase;
 
@@ -90,7 +90,7 @@ class JsonMapperTest extends TestCase
     {
         // Arrange
         $mapper = (new JsonMapperFactory())->bestFit();
-        $object = new Php74Popo();
+        $object = new Php74\Popo();
         $json = (object) ['name' => __METHOD__];
 
         // Act
@@ -107,7 +107,7 @@ class JsonMapperTest extends TestCase
     {
         // Arrange
         $mapper = (new JsonMapperFactory())->bestFit();
-        $object = new Php74Popo();
+        $object = new Php74\Popo();
         $json = (object) ['name' => 42];
 
         // Act
@@ -124,7 +124,7 @@ class JsonMapperTest extends TestCase
     {
         // Arrange
         $mapper = (new JsonMapperFactory())->bestFit();
-        $object = new Php74Popo();
+        $object = new Php74\Popo();
         $json = (object) ['friends' => [__METHOD__, __CLASS__]];
 
         // Act
@@ -210,5 +210,50 @@ class JsonMapperTest extends TestCase
         self::assertContainsOnly(SimpleObject::class, $result);
         self::assertSame('one', $result[0]->getName());
         self::assertSame('two', $result[1]->getName());
+    }
+
+    /**
+     * @dataProvider scalarValueDataTypes
+     */
+    public function testItSetsTheValueAsIsForMixedType($value): void
+    {
+        // Arrange
+        $mapper = (new JsonMapperFactory())->bestFit();
+        $object = new ComplexObject();
+        $json = (object) ['mixedParam' => $value];
+
+        // Act
+        $mapper->mapObject($json, $object);
+
+        // Assert
+        self::assertSame($value, $object->mixedParam);
+    }
+
+    /**
+     * @requires PHP >= 7.4
+     */
+    public function testItMapsClassFromTheSameNamespace(): void
+    {
+        // Arrange
+        $mapper = (new JsonMapperFactory())->bestFit();
+        $object = new Php74\PopoWrapper();
+        $json = (object) ['wrappee' => (object) ['name' => 'two']];
+
+        // Act
+        $mapper->mapObject($json, $object);
+
+        // Assert
+        self::assertNotNull($object->wrappee);
+        self::assertSame('two', $object->wrappee->name);
+    }
+
+    public function scalarValueDataTypes(): array
+    {
+        return [
+            'string' => ['Some string'],
+            'boolean' => [true],
+            'integer' => [1],
+            'float' => [M_PI],
+        ];
     }
 }
