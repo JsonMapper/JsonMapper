@@ -98,6 +98,21 @@ class JsonMapper implements JsonMapperInterface
         return $results;
     }
 
+    public function mapObjectFromString(string $jsonString, object $object): void
+    {
+        $this->mapObject(\json_decode($jsonString), $object);
+    }
+
+    public function mapArrayFromString(array $jsonStrings, object $object): array
+    {
+        $json = [];
+        foreach ($jsonStrings as $jsonString) {
+            $json[] = \json_decode($jsonString);
+        }
+
+        return $this->mapArray($json, $object);
+    }
+
     private function resolve(): callable
     {
         if (!$this->cached) {
