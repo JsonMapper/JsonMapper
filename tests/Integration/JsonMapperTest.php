@@ -196,6 +196,34 @@ class JsonMapperTest extends TestCase
         self::assertEquals([$one, $two], $object->getChildren());
     }
 
+	public function testItCanMapAnObjectFromString(): void
+	{
+		// Arrange
+		$mapper = (new JsonMapperFactory())->bestFit();
+		$object = new Popo();
+		$jsonString =  '{"name": "one"}';
+
+		// Act
+		$mapper->mapObjectFromString($jsonString, $object);
+
+		// Assert
+		self::assertSame('one', $object->name);
+	}
+
+	public function testItCanMapAnObjectFromANotValidString(): void
+	{
+		// Arrange
+		$mapper = (new JsonMapperFactory())->bestFit();
+		$object = new Popo();
+		$jsonString =  '{"name": one}';
+
+		// Act
+		$mapper->mapObjectFromString($jsonString, $object);
+
+		// Assert
+		self::assertSame(null, $object->name);
+	}
+
     public function testItCanMapAnArrayOfObjects(): void
     {
         // Arrange
@@ -211,6 +239,22 @@ class JsonMapperTest extends TestCase
         self::assertSame('one', $result[0]->getName());
         self::assertSame('two', $result[1]->getName());
     }
+
+	public function testItCanMapAnArrayOfString(): void
+	{
+		// Arrange
+		$mapper = (new JsonMapperFactory())->bestFit();
+		$object = new SimpleObject();
+		$jsonString = ['{"name": "one"}', '{"name": "two"}'];
+
+		// Act
+		$result = $mapper->mapArrayFromString($jsonString, $object);
+
+		// Assert
+		self::assertContainsOnly(SimpleObject::class, $result);
+		self::assertSame('one', $result[0]->getName());
+		self::assertSame('two', $result[1]->getName());
+	}
 
     /**
      * @dataProvider scalarValueDataTypes
