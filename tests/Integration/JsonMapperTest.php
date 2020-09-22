@@ -201,27 +201,26 @@ class JsonMapperTest extends TestCase
 		// Arrange
 		$mapper = (new JsonMapperFactory())->bestFit();
 		$object = new Popo();
-		$jsonString =  '{"name": "one"}';
+		$json =  '{"name": "one"}';
 
 		// Act
-		$mapper->mapObjectFromString($jsonString, $object);
+		$mapper->mapObjectFromString($json, $object);
 
 		// Assert
 		self::assertSame('one', $object->name);
 	}
 
-	public function testItCanMapAnObjectFromANotValidString(): void
+	public function testItCanLaunchExceptionOnInvalidJson(): void
 	{
 		// Arrange
 		$mapper = (new JsonMapperFactory())->bestFit();
 		$object = new Popo();
 		$jsonString =  '{"name": one}';
 
+		$this->expectException(\JsonException::class);
+
 		// Act
 		$mapper->mapObjectFromString($jsonString, $object);
-
-		// Assert
-		self::assertSame(null, $object->name);
 	}
 
     public function testItCanMapAnArrayOfObjects(): void
@@ -245,10 +244,10 @@ class JsonMapperTest extends TestCase
 		// Arrange
 		$mapper = (new JsonMapperFactory())->bestFit();
 		$object = new SimpleObject();
-		$jsonString = ['{"name": "one"}', '{"name": "two"}'];
+		$json = '[{"name": "one"}, {"name": "two"}]';
 
 		// Act
-		$result = $mapper->mapArrayFromString($jsonString, $object);
+		$result = $mapper->mapArrayFromString($json, $object);
 
 		// Assert
 		self::assertContainsOnly(SimpleObject::class, $result);
