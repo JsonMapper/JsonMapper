@@ -24,5 +24,5 @@ interface JsonMapperInterface
 
     public function mapObjectFromString(string $jsonString, object $object): void;
 
-    public function mapArrayFromString(array $jsonStrings, object $object): array;
+    public function mapArrayFromString(string $jsonStrings, object $object): array;
 }
