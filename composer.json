@@ -16,7 +16,8 @@
         "myclabs/php-enum": "^1.7",
         "nikic/php-parser": "^4.3",
         "psr/log": "^1.1",
-        "psr/simple-cache": "^1.0"
+        "psr/simple-cache": "^1.0",
+        "symfony/polyfill-php73": "^1.18"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.5",
