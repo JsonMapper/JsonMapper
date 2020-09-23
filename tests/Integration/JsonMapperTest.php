@@ -11,6 +11,9 @@ use JsonMapper\Tests\Implementation\Php74;
 use JsonMapper\Tests\Implementation\SimpleObject;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \JsonMapper\JsonMapper
+ */
 class JsonMapperTest extends TestCase
 {
     public function testItCanMapAnObjectUsingAPublicProperty(): void

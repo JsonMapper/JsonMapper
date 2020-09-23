@@ -104,7 +104,7 @@ class JsonMapper implements JsonMapperInterface
         $data = $this->decodeJsonString($json);
 
         if (! $data instanceof \stdClass) {
-            throw new \RuntimeException('string is not a json encoded object');
+            throw new \RuntimeException('Provided string is not a json encoded object');
         }
 
     	$this->mapObject($data, $object);
@@ -115,7 +115,7 @@ class JsonMapper implements JsonMapperInterface
 	    $data = $this->decodeJsonString($json);
 
         if (! is_array($data)) {
-            throw new \RuntimeException('string is not a json encoded array');
+            throw new \RuntimeException('Provided string is not a json encoded array');
         }
 
     	$results = [];
