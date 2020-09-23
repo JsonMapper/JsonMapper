@@ -210,13 +210,24 @@ class JsonMapperTest extends TestCase
 		self::assertSame('one', $object->name);
 	}
 
-	public function testItCanLaunchExceptionOnInvalidJson(): void
+    public function testItWillThrowAnExceptionWhenMappingObjectFromStringWithJsonArray(): void
+    {
+        // Arrange
+        $mapper = (new JsonMapperFactory())->bestFit();
+        $object = new Popo();
+        $json = '[{"name": "one"}, {"name": "two"}]';
+        $this->expectException(\RuntimeException::class);
+
+        // Act
+        $mapper->mapObjectFromString($json, $object);
+    }
+
+	public function testItWillThrowExceptionOnInvalidJson(): void
 	{
 		// Arrange
 		$mapper = (new JsonMapperFactory())->bestFit();
 		$object = new Popo();
 		$jsonString =  '{"name": one}';
-
 		$this->expectException(\JsonException::class);
 
 		// Act
@@ -239,7 +250,7 @@ class JsonMapperTest extends TestCase
         self::assertSame('two', $result[1]->getName());
     }
 
-	public function testItCanMapAnArrayOfString(): void
+	public function testItCanMapArrayFromString(): void
 	{
 		// Arrange
 		$mapper = (new JsonMapperFactory())->bestFit();
@@ -254,6 +265,18 @@ class JsonMapperTest extends TestCase
 		self::assertSame('one', $result[0]->getName());
 		self::assertSame('two', $result[1]->getName());
 	}
+
+    public function testItWillThrowAnExceptionWhenMappingArrayFromStringWithJsonObject(): void
+    {
+        // Arrange
+        $mapper = (new JsonMapperFactory())->bestFit();
+        $object = new Popo();
+        $json = '{"name": "one"}';
+        $this->expectException(\RuntimeException::class);
+
+        // Act
+        $mapper->mapArrayFromString($json, $object);
+    }
 
     /**
      * @dataProvider scalarValueDataTypes

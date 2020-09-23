@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonMapper;
 
+use JsonException;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 
@@ -102,8 +103,8 @@ class JsonMapper implements JsonMapperInterface
     {
         $data = $this->decodeJsonString($json);
 
-        if (!($data instanceof \stdClass)) {
-	        $data = new \stdClass();
+        if (! $data instanceof \stdClass) {
+            throw new \RuntimeException('string is not a json encoded object');
         }
 
     	$this->mapObject($data, $object);
@@ -113,13 +114,9 @@ class JsonMapper implements JsonMapperInterface
     {
 	    $data = $this->decodeJsonString($json);
 
-	    if ($data instanceof \stdClass) {
-	    	$data = [$data];
-	    }
-
-	    if (!is_array($data)) {
-	    	$data = [];
-	    }
+        if (! is_array($data)) {
+            throw new \RuntimeException('string is not a json encoded array');
+        }
 
     	$results = [];
 	    foreach ($data as $key => $value) {
@@ -130,12 +127,16 @@ class JsonMapper implements JsonMapperInterface
 	    return $results;
     }
 
-    private function decodeJsonString($json)
+    /** @return \stdClass|\stdClass[] */
+    private function decodeJsonString(string $json)
     {
-	    if (version_compare(PHP_VERSION, '7.3.0', '>=')) {
-		    $data = \json_decode($json, false, 512, JSON_THROW_ON_ERROR);
+	    if (PHP_VERSION_ID >= 70300) {
+		    $data = json_decode($json, false, 512, JSON_THROW_ON_ERROR);
 	    } else {
-		    $data = \json_decode($json);
+		    $data = json_decode($json, false);
+		    if (json_last_error() !== JSON_ERROR_NONE) {
+		        throw new JsonException(json_last_error_msg(), json_last_error());
+            }
 	    }
 
 		return $data;
