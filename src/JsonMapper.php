@@ -107,39 +107,39 @@ class JsonMapper implements JsonMapperInterface
             throw new \RuntimeException('Provided string is not a json encoded object');
         }
 
-    	$this->mapObject($data, $object);
+        $this->mapObject($data, $object);
     }
 
     public function mapArrayFromString(string $json, object $object): array
     {
-	    $data = $this->decodeJsonString($json);
+        $data = $this->decodeJsonString($json);
 
         if (! is_array($data)) {
             throw new \RuntimeException('Provided string is not a json encoded array');
         }
 
-    	$results = [];
-	    foreach ($data as $key => $value) {
-		    $results[$key] = clone $object;
-		    $this->mapObject($value, $results[$key]);
-	    }
+        $results = [];
+        foreach ($data as $key => $value) {
+            $results[$key] = clone $object;
+            $this->mapObject($value, $results[$key]);
+        }
 
-	    return $results;
+        return $results;
     }
 
     /** @return \stdClass|\stdClass[] */
     private function decodeJsonString(string $json)
     {
-	    if (PHP_VERSION_ID >= 70300) {
-		    $data = json_decode($json, false, 512, JSON_THROW_ON_ERROR);
-	    } else {
-		    $data = json_decode($json, false);
-		    if (json_last_error() !== JSON_ERROR_NONE) {
-		        throw new JsonException(json_last_error_msg(), json_last_error());
+        if (PHP_VERSION_ID >= 70300) {
+            $data = json_decode($json, false, 512, JSON_THROW_ON_ERROR);
+        } else {
+            $data = json_decode($json, false);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new JsonException(json_last_error_msg(), json_last_error());
             }
-	    }
+        }
 
-		return $data;
+        return $data;
     }
 
     private function resolve(): callable

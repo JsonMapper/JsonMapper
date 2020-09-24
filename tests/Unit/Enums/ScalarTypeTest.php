@@ -26,7 +26,7 @@ class ScalarTypeTest extends TestCase
      */
     public function testCastOperationThrowsExceptionWhenCastOperationNotSupported(): void
     {
-        $extension = new class('random') extends ScalarType {
+        $extension = new class ('random') extends ScalarType {
             protected const RANDOM = 'random';
         };
 
