@@ -182,7 +182,7 @@ class PropertyMapperTest extends TestCase
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
-        $json = (object) ['notes' =>(object) ['note_one' => __FUNCTION__, 'note_two' => __CLASS__]];
+        $json = (object) ['notes' => (object) ['note_one' => __FUNCTION__, 'note_two' => __CLASS__]];
         $object = new Popo();
         $wrapped = new ObjectWrapper($object);
         $propertyMapper = new PropertyMapper();
