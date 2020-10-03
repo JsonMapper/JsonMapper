@@ -1,0 +1,64 @@
+name: PHP Composer
+
+on:
+  push:
+    branches: [ develop, master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        php: ["7.2", "7.3", "7.4", "8.0"]
+        include: 
+          - php: "7.2"
+            composer_update_flags: '--prefer-lowest --prefer-stable'
+          - php: "7.3"
+            composer_update_flags: '--prefer-lowest --prefer-stable'
+          - php: "7.4"
+            composer_update_flags: '--prefer-lowest --prefer-stable'
+          - php: "8.0"
+            composer_flags: '--ignore-platform-reqs'
+          - php: "8.0"
+            composer_flags: '--ignore-platform-reqs'
+            composer_update_flags: '--prefer-lowest --prefer-stable --ignore-platform-reqs'
+            
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+          
+    - name: Setup PHP ${{ matrix.php }}
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+
+    - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: composer install
+      env: 
+        COMPOSER_UPDATE_FLAGS: ${{ matrix.composer_update_flags }}    
+        COMPOSER_FLAGS: ${{ matrix.composer_flags }}
+    
+    - name: Create log folder
+      run: mkdir -p build/logs;
+    
+    - name: Run unit tests
+      run: composer unit-tests
+      
+    - name: Run integration tests
+      run: composer integration-tests
+
