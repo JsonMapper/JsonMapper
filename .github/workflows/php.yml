@@ -68,3 +68,16 @@ jobs:
     - name: Run integration tests
       run: composer integration-tests
       continue-on-error: ${{ matrix.allow_fail }}
+   
+  finish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload coverage results to Coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          composer global require twinh/php-coveralls
+          php-coveralls --coverage_clover=build/logs/clover.xml -v
+    
+      
