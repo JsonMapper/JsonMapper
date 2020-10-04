@@ -72,11 +72,12 @@ jobs:
   finish:
     needs: build
     runs-on: ubuntu-latest
-    matrix:
-      php: [ "7.4" ]
-      include:
-        - php: "7.4"
-          composer_update_flags: '--prefer-lowest --prefer-stable'
+    strategy:
+      matrix:
+        php: [ "7.4" ]
+        include:
+          - php: "7.4"
+            composer_update_flags: '--prefer-lowest --prefer-stable'
     steps:
       - uses: actions/checkout@v2
 
@@ -108,5 +109,3 @@ jobs:
         run: |
           composer global require twinh/php-coveralls
           php-coveralls --coverage_clover=build/logs/clover.xml -v
-    
-      
