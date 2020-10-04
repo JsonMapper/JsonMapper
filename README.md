@@ -3,9 +3,9 @@
 JsonMapper is a PHP library that allows you to map a JSON response to your PHP objects that are either annotated using doc blocks or use typed properties.
 For more information see the project website: https://jsonmapper.net/
 
-![GitHub](https://img.shields.io/github/license/JsonMapper/JsonMapper)
+[![GitHub](https://img.shields.io/github/license/JsonMapper/JsonMapper)](https://choosealicense.com/licenses/mit/)
 [![Packagist Version](https://img.shields.io/packagist/v/json-mapper/json-mapper)](https://packagist.org/packages/json-mapper/json-mapper) 
-[![PHP from Packagist](https://img.shields.io/packagist/php-v/json-mapper/json-mapper)](https://choosealicense.com/licenses/mit/)
+![PHP from Packagist](https://img.shields.io/packagist/php-v/json-mapper/json-mapper)
 [![Build Status](https://api.travis-ci.com/JsonMapper/JsonMapper.svg?branch=master)](https://travis-ci.com/JsonMapper/JsonMapper) 
 [![Coverage Status](https://coveralls.io/repos/github/JsonMapper/JsonMapper/badge.svg?branch=develop)](https://coveralls.io/github/JsonMapper/JsonMapper?branch=develop)
 
