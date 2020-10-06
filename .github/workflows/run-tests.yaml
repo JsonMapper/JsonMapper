@@ -79,7 +79,6 @@ jobs:
 
     - name: Upload coverage results to Coveralls
       env:
-        COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         COVERALLS_PARALLEL: true
         GITHUB_ACTIONS: true
         COVERALLS_FLAG_NAME: run-${{ matrix.php }}-${{ matrix.composer_update_flags }}
