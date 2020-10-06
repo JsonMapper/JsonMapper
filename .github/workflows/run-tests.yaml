@@ -81,6 +81,7 @@ jobs:
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.github_token }}
+        path-to-lcov: build/logs/clover-*.xml
         flag-name: run-${{ matrix.php }}-{{ matrix.composer_update_flags }}
         parallel: true
 
