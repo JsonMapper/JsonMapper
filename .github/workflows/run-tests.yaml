@@ -84,11 +84,3 @@ jobs:
     - name: Run integration tests
       run: composer integration-tests
       continue-on-error: ${{ matrix.allow_fail }}
-
-    - name: Upload coverage results to Coveralls
-      env:
-        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
-        COVERALLS_PARALLEL: true
-        COVERALLS_FLAG_NAME: run-${{ matrix.php }}-${{ matrix.composer_update_flags }}
-      run: ./vendor/bin/php-coveralls -vvv
-      continue-on-error: ${{ matrix.allow_fail }}
