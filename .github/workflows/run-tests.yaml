@@ -28,10 +28,8 @@ jobs:
             composer_update_flags: '--prefer-lowest --prefer-stable'
           - php: 8.0
             allow_fail: true
-#            composer_flags: '--ignore-platform-reqs'
           - php: 8.0
             allow_fail: true
-#            composer_flags: '--ignore-platform-reqs'
             composer_update_flags: '--prefer-lowest --prefer-stable'
 
     runs-on: ubuntu-latest
@@ -58,7 +56,7 @@ jobs:
         coverage: xdebug
 
     - name: Install dependencies
-#      if: steps.composer-cache.outputs.cache-hit != 'true'
+      if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install ${{ matrix.composer_flags }}
       continue-on-error: ${{ matrix.allow_fail }}
 
