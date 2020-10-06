@@ -10,24 +10,29 @@ jobs:
   build:
     strategy:
       matrix:
-        php: ["7.2", "7.3", "7.4", "8.0", "8.0"]
-        include: 
-          - php: "7.2"
-            composer_update_flags: '--prefer-lowest --prefer-stable'
+        include:
+          - php: 7.2
             allow_fail: false
-          - php: "7.3"
-            composer_update_flags: '--prefer-lowest --prefer-stable'
+          - php: 7.2
             allow_fail: false
-          - php: "7.4"
             composer_update_flags: '--prefer-lowest --prefer-stable'
+          - php: 7.3
             allow_fail: false
-          - php: "8.0"
-            composer_flags: '--ignore-platform-reqs'
+          - php: 7.3
+            allow_fail: false
+            composer_update_flags: '--prefer-lowest --prefer-stable'
+          - php: 7.4
+            allow_fail: false
+          - php: 7.4
+            allow_fail: false
+            composer_update_flags: '--prefer-lowest --prefer-stable'
+          - php: 8.0
             allow_fail: true
-          - php: "8.0"
             composer_flags: '--ignore-platform-reqs'
-            composer_update_flags: '--prefer-lowest --prefer-stable --ignore-platform-reqs'
+          - php: 8.0
             allow_fail: true
+            composer_flags: '--ignore-platform-reqs'
+            composer_update_flags: '--prefer-lowest --prefer-stable'
 
     runs-on: ubuntu-latest
 
@@ -72,43 +77,7 @@ jobs:
       run: composer integration-tests
       continue-on-error: ${{ matrix.allow_fail }}
 
-  finish:
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php: [ "7.4" ]
-        include:
-          - php: "7.4"
-            composer_update_flags: '--prefer-lowest --prefer-stable'
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup PHP 7.4
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.4
-
-      - name: Install dependencies
-        if: steps.composer-cache.outputs.cache-hit != 'true'
-        run: composer install
-
-      - name: Update dependencies
-        if: matrix.composer_update_flags
-        run: composer update ${{ matrix.composer_update_flags }}
-
-      - name: Create log folder
-        run: mkdir -p build/logs;
-
-      - name: Run unit tests
-        run: composer unit-tests
-
-      - name: Run integration tests
-        run: composer integration-tests
-
-      - name: Upload coverage results to Coveralls
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          composer global require twinh/php-coveralls
-          php-coveralls -v
+    - name: Upload coverage results to Coveralls
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: ./vendor/bin/php-coveralls
