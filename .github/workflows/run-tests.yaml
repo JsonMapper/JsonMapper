@@ -57,7 +57,7 @@ jobs:
         php-version: ${{ matrix.php }}
 
     - name: Install dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
+#      if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install ${{ matrix.composer_flags }}
       continue-on-error: ${{ matrix.allow_fail }}
 
