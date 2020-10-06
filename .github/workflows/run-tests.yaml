@@ -81,5 +81,7 @@ jobs:
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         COVERALLS_PARALLEL: true
-        COVERALLS_FLAG_NAME run-${{ matrix.php }}-${{ matrix.composer_update_flags }}
+        GITHUB_ACTIONS: true
+        COVERALLS_FLAG_NAME: run-${{ matrix.php }}-${{ matrix.composer_update_flags }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: ./vendor/bin/php-coveralls -vvv
