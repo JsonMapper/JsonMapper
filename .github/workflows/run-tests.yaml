@@ -55,6 +55,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
+        coverage: xdebug
 
     - name: Install dependencies
 #      if: steps.composer-cache.outputs.cache-hit != 'true'
