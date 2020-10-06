@@ -31,7 +31,7 @@ jobs:
 #            composer_flags: '--ignore-platform-reqs'
           - php: 8.0
             allow_fail: true
-            composer_flags: '--ignore-platform-reqs'
+#            composer_flags: '--ignore-platform-reqs'
             composer_update_flags: '--prefer-lowest --prefer-stable'
 
     runs-on: ubuntu-latest
