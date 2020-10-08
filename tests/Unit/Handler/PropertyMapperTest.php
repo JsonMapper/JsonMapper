@@ -6,11 +6,15 @@ namespace JsonMapper\Tests\Unit\Handler;
 
 use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Enums\Visibility;
+use JsonMapper\Exception\ClassFactoryException;
+use JsonMapper\Handler\ClassFactoryRegistry;
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Tests\Implementation\ComplexObject;
+use JsonMapper\Tests\Implementation\Models\UserWithConstructor;
 use JsonMapper\Tests\Implementation\Popo;
 use JsonMapper\Tests\Implementation\SimpleObject;
+use JsonMapper\Tests\Implementation\UserWithConstructorParent;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 use PHPUnit\Framework\TestCase;
@@ -190,5 +194,38 @@ class PropertyMapperTest extends TestCase
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
 
         self::assertEquals(['note_one' => __FUNCTION__, 'note_two' => __CLASS__], $object->notes);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testCanMapPropertyWithClassFactory(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('user')
+            ->setType(UserWithConstructor::class)
+            ->setIsArray(false)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $json = (object) ['user' => (object) ['id' => 1234, 'name' => 'John Doe']];
+        $object = new UserWithConstructorParent();
+        $wrapped = new ObjectWrapper($object);
+        $classFactoryRegistry = new ClassFactoryRegistry();
+        $classFactoryRegistry->loadNativePhpClassFactories();
+        $classFactoryRegistry->addFactory(
+            UserWithConstructor::class,
+            static function($params) {
+                return new UserWithConstructor($params->id, $params->name);
+            }
+        );
+        $propertyMapper = new PropertyMapper($classFactoryRegistry);
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals(new UserWithConstructor(1234, 'John Doe'), $object->user);
     }
 }
