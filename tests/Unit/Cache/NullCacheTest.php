@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit\Cache;
 
+use JsonMapper\Cache\InvalidArgumentException;
 use JsonMapper\Cache\NullCache;
 use PHPUnit\Framework\TestCase;
 
@@ -82,5 +83,16 @@ class NullCacheTest extends TestCase
             __CLASS__ => null,
             __FUNCTION__ => null,
         ]);
+    }
+
+    /**
+     * @covers \JsonMapper\Cache\NullCache
+     */
+    public function testWhenRetrievingMultipleFromCacheWithInvalidKeyItThrowsAnException(): void
+    {
+        $cache = new NullCache();
+
+        $this->expectException(InvalidArgumentException::class);
+        $cache->getMultiple(new \stdClass());
     }
 }
