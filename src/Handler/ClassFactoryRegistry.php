@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace JsonMapper\Handler;
 
-
 use JsonMapper\Exception\ClassFactoryException;
 
 class ClassFactoryRegistry
@@ -14,8 +13,12 @@ class ClassFactoryRegistry
 
     public function loadNativePhpClassFactories(): self
     {
-        $this->addFactory(\DateTime::class, static function(string $value) { return new \DateTime($value); });
-        $this->addFactory(\DateTimeImmutable::class, static function(string $value) { return new \DateTimeImmutable($value); });
+        $this->addFactory(\DateTime::class, static function (string $value) {
+            return new \DateTime($value);
+        });
+        $this->addFactory(\DateTimeImmutable::class, static function (string $value) {
+            return new \DateTimeImmutable($value);
+        });
 
         return $this;
     }

@@ -218,7 +218,7 @@ class PropertyMapperTest extends TestCase
         $classFactoryRegistry->loadNativePhpClassFactories();
         $classFactoryRegistry->addFactory(
             UserWithConstructor::class,
-            static function($params) {
+            static function ($params) {
                 return new UserWithConstructor($params->id, $params->name);
             }
         );

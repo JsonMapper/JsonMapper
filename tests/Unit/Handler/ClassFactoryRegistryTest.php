@@ -28,7 +28,8 @@ class ClassFactoryRegistryTest extends TestCase
     public function testAddFactoryAddsFactory(): void
     {
         $classFactoryRegistry = new ClassFactoryRegistry();
-        $classFactoryRegistry->addFactory(__CLASS__, static function() {});
+        $classFactoryRegistry->addFactory(__CLASS__, static function () {
+        });
 
         self::assertTrue($classFactoryRegistry->hasFactory(__CLASS__));
     }
@@ -49,11 +50,13 @@ class ClassFactoryRegistryTest extends TestCase
     public function testAddFactoryThrowsExceptionWhenDuplicateClassNameIsAdded(): void
     {
         $classFactoryRegistry = new ClassFactoryRegistry();
-        $classFactoryRegistry->addFactory(__CLASS__, static function () {});
+        $classFactoryRegistry->addFactory(__CLASS__, static function () {
+        });
 
         $this->expectExceptionObject(ClassFactoryException::forDuplicateClassname(__CLASS__));
 
-        $classFactoryRegistry->addFactory(__CLASS__, static function () {});
+        $classFactoryRegistry->addFactory(__CLASS__, static function () {
+        });
     }
 
     /**
@@ -63,7 +66,9 @@ class ClassFactoryRegistryTest extends TestCase
     {
         $classFactoryRegistry = new ClassFactoryRegistry();
         $object = new \stdClass();
-        $classFactoryRegistry->addFactory(__CLASS__, static function() use ($object) { return $object; });
+        $classFactoryRegistry->addFactory(__CLASS__, static function () use ($object) {
+            return $object;
+        });
 
         self::assertSame($object, $classFactoryRegistry->create(__CLASS__, new \stdClass()));
     }
@@ -75,7 +80,9 @@ class ClassFactoryRegistryTest extends TestCase
     {
         $classFactoryRegistry = new ClassFactoryRegistry();
         $object = new \stdClass();
-        $classFactoryRegistry->addFactory(\DateTimeImmutable::class, static function() use ($object) { return $object; });
+        $classFactoryRegistry->addFactory(\DateTimeImmutable::class, static function () use ($object) {
+            return $object;
+        });
 
         self::assertSame($object, $classFactoryRegistry->create('\DateTimeImmutable', new \stdClass()));
     }
@@ -91,6 +98,4 @@ class ClassFactoryRegistryTest extends TestCase
 
         $classFactoryRegistry->create(__CLASS__, new \stdClass());
     }
-
-
 }
