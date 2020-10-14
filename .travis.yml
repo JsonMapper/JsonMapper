@@ -19,11 +19,9 @@ matrix:
 
       # Ignore the platform requirements for the upcoming PHP version
     - php: nightly
-      env: COMPOSER_FLAGS='--ignore-platform-reqs'
     - php: nightly
       env:
-        - COMPOSER_FLAGS='--ignore-platform-reqs'
-          COMPOSER_UPDATE_FLAGS='--prefer-lowest --prefer-stable --ignore-platform-reqs'
+          COMPOSER_UPDATE_FLAGS='--prefer-lowest --prefer-stable'
   allow_failures:
     - php: nightly
   fast_finish: true
@@ -35,7 +33,7 @@ branches:
 
 install:
   - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --no-interaction $COMPOSER_FLAGS
+  - php composer.phar install --no-interaction
   - if [[ -n $COMPOSER_UPDATE_FLAGS ]]; then php composer.phar update $COMPOSER_UPDATE_FLAGS; fi
 
 script:
