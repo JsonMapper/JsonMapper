@@ -29,8 +29,10 @@ class Attributes extends AbstractMiddleware
                     continue;
                 }
 
-                $json->$target = $json->$source;
-                unset($json->$source);
+                if (isset($json->$source)) {
+                    $json->$target = $json->$source;
+                    unset($json->$source);
+                }
             }
         }
     }

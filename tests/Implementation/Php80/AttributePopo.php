@@ -12,4 +12,6 @@ class AttributePopo
     public int $id;
     #[MapFrom("UserName")]
     public string $name;
+    #[MapFrom("email")]
+    public string $email;
 }

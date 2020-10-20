@@ -28,6 +28,39 @@ class AttributesTest extends TestCase
         $middleware->handle($json, new ObjectWrapper($object), $propertyMap, $mapper);
 
         self::assertEquals((object) ['id' => 42, 'name' => 'John Doe'], $json);
+    }
 
+    /**
+     * @covers \JsonMapper\Middleware\Attributes\Attributes
+     * @requires PHP >= 8.0
+     */
+    public function testAttributesMiddlewareWithPartialDataDoesMapFrom(): void
+    {
+        $json = (object) ['Identifier' => 42];
+        $object = new AttributePopo();
+        $propertyMap = new PropertyMap();
+        $middleware = new Attributes();
+        $mapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle($json, new ObjectWrapper($object), $propertyMap, $mapper);
+
+        self::assertEquals((object) ['id' => 42], $json);
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\Attributes\Attributes
+     * @requires PHP >= 8.0
+     */
+    public function testAttributesMiddlewareWhenSourceAndTargetAreEqualDoesntRemoveSource(): void
+    {
+        $json = (object) ['email' => 'JohnDoe@example.org'];
+        $object = new AttributePopo();
+        $propertyMap = new PropertyMap();
+        $middleware = new Attributes();
+        $mapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle($json, new ObjectWrapper($object), $propertyMap, $mapper);
+
+        self::assertEquals((object) ['email' => 'JohnDoe@example.org'], $json);
     }
 }
