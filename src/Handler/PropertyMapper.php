@@ -6,13 +6,25 @@ namespace JsonMapper\Handler;
 
 use JsonMapper\Enums\ScalarType;
 use JsonMapper\Enums\Visibility;
-use JsonMapper\Helpers\ClassHelper;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 
 class PropertyMapper
 {
+    /** @var ClassFactoryRegistry */
+    private $classFactoryRegistry;
+
+    public function __construct(ClassFactoryRegistry $classFactoryRegistry = null)
+    {
+        if ($classFactoryRegistry === null) {
+            $classFactoryRegistry = new ClassFactoryRegistry();
+            $classFactoryRegistry->loadNativePhpClassFactories();
+        }
+
+        $this->classFactoryRegistry = $classFactoryRegistry;
+    }
+
     public function __invoke(
         \stdClass $json,
         ObjectWrapper $object,
@@ -54,18 +66,16 @@ class PropertyMapper
      */
     private function mapPropertyValue(JsonMapperInterface $mapper, string $type, $value)
     {
-        if (ClassHelper::isBuiltin($type)) {
-            return new $type($value);
-        }
         if (ScalarType::isValid($type)) {
             return (new ScalarType($type))->cast($value);
         }
-        if (ClassHelper::isCustom($type)) {
-            $instance = new $type();
-            $mapper->mapObject($value, $instance);
-            return $instance;
+
+        if ($this->classFactoryRegistry->hasFactory($type)) {
+            return $this->classFactoryRegistry->create($type, $value);
         }
 
-        return $value;
+        $instance = new $type();
+        $mapper->mapObject($value, $instance);
+        return $instance;
     }
 }

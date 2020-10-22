@@ -21,4 +21,8 @@ interface JsonMapperInterface
     public function mapObject(\stdClass $json, object $object): void;
 
     public function mapArray(array $json, object $object): array;
+
+    public function mapObjectFromString(string $jsonString, object $object): void;
+
+    public function mapArrayFromString(string $jsonStrings, object $object): array;
 }

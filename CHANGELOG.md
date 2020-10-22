@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2020-10-22
+### Added
+- Add support for mapping from strings [PR#46](https://github.com/JsonMapper/JsonMapper/pull/46)
+- Add support for class factories [PR#54](https://github.com/JsonMapper/JsonMapper/pull/54)
+- Add Attributes middleware [PR#55](https://github.com/JsonMapper/JsonMapper/pull/55)
+
 ## [1.3.0] - 2020-08-11
 ### Added
 - Add support for mixed type [PR#39](https://github.com/JsonMapper/JsonMapper/pull/39)
