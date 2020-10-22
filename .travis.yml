@@ -19,11 +19,12 @@ matrix:
 
       # Ignore the platform requirements for the upcoming PHP version
     - php: nightly
-      env: COMPOSER_FLAGS='--ignore-platform-reqs'
+      env:
+          PHP_INI='xdebug.mode=coverage'
     - php: nightly
       env:
-        - COMPOSER_FLAGS='--ignore-platform-reqs'
-          COMPOSER_UPDATE_FLAGS='--prefer-lowest --prefer-stable --ignore-platform-reqs'
+          COMPOSER_UPDATE_FLAGS='--prefer-lowest --prefer-stable'
+          PHP_INI='xdebug.mode=coverage'
   allow_failures:
     - php: nightly
   fast_finish: true
@@ -35,8 +36,9 @@ branches:
 
 install:
   - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --no-interaction $COMPOSER_FLAGS
+  - php composer.phar install --no-interaction
   - if [[ -n $COMPOSER_UPDATE_FLAGS ]]; then php composer.phar update $COMPOSER_UPDATE_FLAGS; fi
+  - if [[ -n $PHP_INI ]]; then echo $PHP_INI >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
 
 script:
   - mkdir -p build/logs;

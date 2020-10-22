@@ -35,10 +35,12 @@ jobs:
             name: 'PHP 7.4 with lowest stable deps'
           - php: 8.0
             allow_fail: true
+            php_ini: 'xdebug.coverage_enable=On'
             name: 'PHP 8.0 with latest deps'
           - php: 8.0
             allow_fail: true
             composer_update_flags: '--prefer-lowest --prefer-stable'
+            php_ini: 'xdebug.coverage_enable=On'
             name: 'PHP 8.0 with lowest stable deps'
 
     runs-on: ubuntu-latest
@@ -49,23 +51,14 @@ jobs:
     - name: Validate composer.json and composer.lock
       run: composer validate
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v2
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
-
     - name: Setup PHP ${{ matrix.php }}
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
         coverage: xdebug
+        ini-values: ${{ matrix.php_ini }}
 
     - name: Install dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install ${{ matrix.composer_flags }}
       continue-on-error: ${{ matrix.allow_fail }}
 
