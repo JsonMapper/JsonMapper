@@ -51,15 +51,6 @@ jobs:
     - name: Validate composer.json and composer.lock
       run: composer validate
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v2
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
-
     - name: Setup PHP ${{ matrix.php }}
       uses: shivammathur/setup-php@v2
       with:
@@ -68,7 +59,6 @@ jobs:
         ini-values: ${{ matrix.php_ini }}
 
     - name: Install dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install ${{ matrix.composer_flags }}
       continue-on-error: ${{ matrix.allow_fail }}
 
