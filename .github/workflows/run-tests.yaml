@@ -65,10 +65,7 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
         coverage: xdebug
-
-    - name: Update php.ini
-      if: matrix.php_ini
-      run: echo ${{ matrix.php_ini }} >> $ini_file
+        ini-values: ${{ matrix.php_ini }}
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
