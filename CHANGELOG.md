@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.4.0] - 2020-10-22
 ### Added
 - Add support for mapping from strings [PR#46](https://github.com/JsonMapper/JsonMapper/pull/46)
 - Add support for class factories [PR#54](https://github.com/JsonMapper/JsonMapper/pull/54)
