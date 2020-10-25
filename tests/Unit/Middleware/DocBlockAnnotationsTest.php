@@ -144,6 +144,7 @@ class DocBlockAnnotationsTest extends TestCase
         $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
 
         self::assertEquals('NullableNumber', $propertyMap->getProperty('nullableNumber')->getType());
+        self::assertTrue($propertyMap->getProperty('nullableNumber')->isNullable());
     }
 
 }
