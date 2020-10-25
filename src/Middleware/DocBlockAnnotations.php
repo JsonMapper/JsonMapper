@@ -86,7 +86,7 @@ class DocBlockAnnotations extends AbstractMiddleware
             $type = substr($type, 0, -2);
         }
 
-        $nullable = stripos('|' . $type . '|', '|null|') !== false;
+        $nullable = stripos($docBlock, '|null') !== false;
 
         return new PropertyType($type, $nullable, $isArray);
     }
