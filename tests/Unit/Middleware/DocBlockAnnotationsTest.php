@@ -33,7 +33,7 @@ class DocBlockAnnotationsTest extends TestCase
         self::assertTrue($propertyMap->hasProperty('child'));
         self::assertEquals('SimpleObject', $propertyMap->getProperty('child')->getType());
         self::assertEquals(Visibility::PRIVATE(), $propertyMap->getProperty('child')->getVisibility());
-        self::assertFalse($propertyMap->getProperty('child')->isNullable());
+        self::assertTrue($propertyMap->getProperty('child')->isNullable());
         self::assertFalse($propertyMap->getProperty('child')->isArray());
         self::assertTrue($propertyMap->hasProperty('children'));
         self::assertEquals('SimpleObject', $propertyMap->getProperty('children')->getType());
