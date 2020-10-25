@@ -40,6 +40,10 @@ class PropertyMapper
             $propertyInfo = $propertyMap->getProperty($key);
             $type = $propertyInfo->getType();
 
+			if ($propertyInfo->isNullable() && is_null($value)) {
+				continue;
+			}
+
             if ($propertyInfo->isArray()) {
                 $value = array_map(function ($value) use ($mapper, $type) {
                     return $this->mapPropertyValue($mapper, $type, $value);
