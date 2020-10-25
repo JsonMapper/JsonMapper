@@ -126,4 +126,24 @@ class DocBlockAnnotationsTest extends TestCase
 
         $middleware->handle(new \stdClass(), $objectWrapper, $propertyMap, $jsonMapper);
     }
+
+    /**
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations
+     */
+    public function testTypeIsCorrectlyCalculatedForNullableVars(): void
+    {
+        $middleware = new DocBlockAnnotations(new NullCache());
+        $object = new class {
+            /** @var nullableNumber|null This is a nullable number*/
+            public $nullableNumber;
+        };
+
+        $propertyMap = new PropertyMap();
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertEquals('nullableNumber', $propertyMap->getProperty('nullableNumber')->getType());
+    }
+
 }
