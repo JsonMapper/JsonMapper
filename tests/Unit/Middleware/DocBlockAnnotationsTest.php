@@ -134,7 +134,7 @@ class DocBlockAnnotationsTest extends TestCase
     {
         $middleware = new DocBlockAnnotations(new NullCache());
         $object = new class {
-            /** @var nullableNumber|null This is a nullable number*/
+            /** @var NullableNumber|null This is a nullable number*/
             public $nullableNumber;
         };
 
@@ -143,7 +143,7 @@ class DocBlockAnnotationsTest extends TestCase
 
         $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
 
-        self::assertEquals('nullableNumber', $propertyMap->getProperty('nullableNumber')->getType());
+        self::assertEquals('NullableNumber', $propertyMap->getProperty('nullableNumber')->getType());
     }
 
 }
