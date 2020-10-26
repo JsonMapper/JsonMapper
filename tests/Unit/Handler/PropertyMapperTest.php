@@ -228,4 +228,52 @@ class PropertyMapperTest extends TestCase
 
         self::assertEquals(new UserWithConstructor(1234, 'John Doe'), $object->user);
     }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testPublicNullableCustomClassNullIsNotSet(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('child')
+            ->setType(SimpleObject::class)
+            ->setIsNullable(true)
+            ->setVisibility(Visibility::PRIVATE())
+            ->setIsArray(false)
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $json = (object) ['child' => null];
+        $object = new ComplexObject();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertNull($object->getChild());
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testPublicNotNullableCustomClassThrowsException(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('child')
+            ->setType(SimpleObject::class)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PRIVATE())
+            ->setIsArray(false)
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $json = (object) ['child' => null];
+        $object = new ComplexObject();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+		self::expectException(\Throwable::class);
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+    }
 }
