@@ -232,7 +232,7 @@ class PropertyMapperTest extends TestCase
     /**
      * @covers \JsonMapper\Handler\PropertyMapper
      */
-    public function testPublicNullableCustomClassNullIsNotSet(): void
+    public function testWillSetNullOnNullablePropertyIfNullProvided(): void
     {
         $property = PropertyBuilder::new()
             ->setName('child')
@@ -246,6 +246,7 @@ class PropertyMapperTest extends TestCase
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
         $json = (object) ['child' => null];
         $object = new ComplexObject();
+        $object->setChild(new SimpleObject());
         $wrapped = new ObjectWrapper($object);
         $propertyMapper = new PropertyMapper();
 
@@ -273,7 +274,10 @@ class PropertyMapperTest extends TestCase
         $object = new ComplexObject();
         $wrapped = new ObjectWrapper($object);
         $propertyMapper = new PropertyMapper();
-		self::expectException(\Throwable::class);
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage("Null provided in json where JsonMapper\Tests\Implementation\ComplexObject::child doesn't allow null value");
+
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
     }
 }
