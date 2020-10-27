@@ -22,7 +22,7 @@ class ComplexObject
         return $this->child;
     }
 
-    public function setChild(SimpleObject $child): void
+    public function setChild(?SimpleObject $child): void
     {
         $this->child = $child;
     }
