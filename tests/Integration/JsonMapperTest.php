@@ -165,6 +165,20 @@ class JsonMapperTest extends TestCase
         self::assertSame(__METHOD__, $object->getChild()->getName());
     }
 
+    public function testItCanMapAnObjectWithANullClassAttribute(): void
+    {
+        // Arrange
+        $mapper = (new JsonMapperFactory())->bestFit();
+        $object = new ComplexObject();
+        $json = (object) ['child' => null];
+
+        // Act
+        $mapper->mapObject($json, $object);
+
+        // Assert
+        self::assertNull($object->getChild());
+    }
+
     public function testItCanMapAnObjectWithACustomClassAttributeFromAnotherNamespace(): void
     {
         // Arrange

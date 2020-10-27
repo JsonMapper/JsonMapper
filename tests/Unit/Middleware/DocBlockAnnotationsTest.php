@@ -33,7 +33,7 @@ class DocBlockAnnotationsTest extends TestCase
         self::assertTrue($propertyMap->hasProperty('child'));
         self::assertEquals('SimpleObject', $propertyMap->getProperty('child')->getType());
         self::assertEquals(Visibility::PRIVATE(), $propertyMap->getProperty('child')->getVisibility());
-        self::assertFalse($propertyMap->getProperty('child')->isNullable());
+        self::assertTrue($propertyMap->getProperty('child')->isNullable());
         self::assertFalse($propertyMap->getProperty('child')->isArray());
         self::assertTrue($propertyMap->hasProperty('children'));
         self::assertEquals('SimpleObject', $propertyMap->getProperty('children')->getType());
@@ -125,5 +125,24 @@ class DocBlockAnnotationsTest extends TestCase
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
 
         $middleware->handle(new \stdClass(), $objectWrapper, $propertyMap, $jsonMapper);
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations
+     */
+    public function testTypeIsCorrectlyCalculatedForNullableVars(): void
+    {
+        $middleware = new DocBlockAnnotations(new NullCache());
+        $object = new class {
+            /** @var NullableNumber|null This is a nullable number*/
+            public $nullableNumber;
+        };
+        $propertyMap = new PropertyMap();
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertEquals('NullableNumber', $propertyMap->getProperty('nullableNumber')->getType());
+        self::assertTrue($propertyMap->getProperty('nullableNumber')->isNullable());
     }
 }

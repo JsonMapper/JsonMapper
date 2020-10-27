@@ -8,7 +8,7 @@ use JsonMapper\Tests\Implementation\Models\User;
 
 class ComplexObject
 {
-    /** @var SimpleObject */
+    /** @var SimpleObject|null */
     private $child;
     /** @var SimpleObject[] */
     private $children;
@@ -17,12 +17,12 @@ class ComplexObject
     /** @var mixed  */
     public $mixedParam;
 
-    public function getChild(): SimpleObject
+    public function getChild(): ?SimpleObject
     {
         return $this->child;
     }
 
-    public function setChild(SimpleObject $child): void
+    public function setChild(?SimpleObject $child): void
     {
         $this->child = $child;
     }

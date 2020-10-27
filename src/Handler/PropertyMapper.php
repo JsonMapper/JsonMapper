@@ -7,6 +7,7 @@ namespace JsonMapper\Handler;
 use JsonMapper\Enums\ScalarType;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\JsonMapperInterface;
+use JsonMapper\ValueObjects\Property;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 
@@ -40,6 +41,15 @@ class PropertyMapper
             $propertyInfo = $propertyMap->getProperty($key);
             $type = $propertyInfo->getType();
 
+            if (! $propertyInfo->isNullable() && is_null($value)) {
+                throw new \RuntimeException("Null provided in json where {$object->getName()}::{$key} doesn't allow null value");
+            }
+
+            if ($propertyInfo->isNullable() && is_null($value)) {
+                $this->setValue($object, $propertyInfo, null);
+                continue;
+            }
+
             if ($propertyInfo->isArray()) {
                 $value = array_map(function ($value) use ($mapper, $type) {
                     return $this->mapPropertyValue($mapper, $type, $value);
@@ -48,16 +58,27 @@ class PropertyMapper
                 $value = $this->mapPropertyValue($mapper, $type, $value);
             }
 
-            if ($propertyInfo->getVisibility()->equals(Visibility::PUBLIC())) {
-                $object->getObject()->$key = $value;
-                continue;
-            }
-
-            $setterMethod = 'set' . ucfirst($key);
-            if (method_exists($object->getObject(), $setterMethod)) {
-                $object->getObject()->$setterMethod($value);
-            }
+            $this->setValue($object, $propertyInfo, $value);
         }
+    }
+
+    /**
+     * @param mixed $value
+     */
+    private function setValue(ObjectWrapper $object, Property $propertyInfo, $value): void
+    {
+        if ($propertyInfo->getVisibility()->equals(Visibility::PUBLIC())) {
+            $object->getObject()->{$propertyInfo->getName()} = $value;
+            return;
+        }
+
+        $setterMethod = 'set' . ucfirst($propertyInfo->getName());
+        if (method_exists($object->getObject(), $setterMethod)) {
+            $object->getObject()->$setterMethod($value);
+            return;
+        }
+
+        throw new \RuntimeException("{$object->getName()}::{$propertyInfo->getName()} is non-public and no setter method was found");
     }
 
     /**
