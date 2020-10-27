@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.1] - 2020-10-27
+## Fixed
+- Fix null values provided from JSON. [PR#59](https://github.com/JsonMapper/JsonMapper/pull/59)
+
 ## [1.4.0] - 2020-10-22
 ### Added
 - Add support for mapping from strings [PR#46](https://github.com/JsonMapper/JsonMapper/pull/46)

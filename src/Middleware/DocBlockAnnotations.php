@@ -15,7 +15,7 @@ use Psr\SimpleCache\CacheInterface;
 
 class DocBlockAnnotations extends AbstractMiddleware
 {
-    private const DOC_BLOCK_REGEX = '/@(?P<name>[A-Za-z_-]+)(?:[ \t]+(?P<value>.*?))?[ \t]*\r?$/m';
+    private const DOC_BLOCK_REGEX = '/@(?P<name>[A-Za-z_-]+)[ \t]+(?P<value>[\w\[\]\\\\|]*).*$/m';
 
     /** @var CacheInterface */
     private $cache;
@@ -86,9 +86,10 @@ class DocBlockAnnotations extends AbstractMiddleware
             $type = substr($type, 0, -2);
         }
 
-        $nullable = stripos('|' . $type . '|', '|null|') !== false;
+        $nullable = stripos($docBlock, '|null') !== false;
+        $cleanedType = str_replace(['null|', '|null'], '', $type);
 
-        return new PropertyType($type, $nullable, $isArray);
+        return new PropertyType($cleanedType, $nullable, $isArray);
     }
 
     public static function parseDocBlockToAnnotationMap(string $docBlock): AnnotationMap
