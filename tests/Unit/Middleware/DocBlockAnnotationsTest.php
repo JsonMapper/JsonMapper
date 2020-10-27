@@ -137,7 +137,6 @@ class DocBlockAnnotationsTest extends TestCase
             /** @var NullableNumber|null This is a nullable number*/
             public $nullableNumber;
         };
-
         $propertyMap = new PropertyMap();
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
 
@@ -146,5 +145,4 @@ class DocBlockAnnotationsTest extends TestCase
         self::assertEquals('NullableNumber', $propertyMap->getProperty('nullableNumber')->getType());
         self::assertTrue($propertyMap->getProperty('nullableNumber')->isNullable());
     }
-
 }
