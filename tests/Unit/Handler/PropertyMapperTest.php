@@ -13,6 +13,7 @@ use JsonMapper\JsonMapperInterface;
 use JsonMapper\Tests\Implementation\ComplexObject;
 use JsonMapper\Tests\Implementation\Models\UserWithConstructor;
 use JsonMapper\Tests\Implementation\Popo;
+use JsonMapper\Tests\Implementation\PrivatePropertyWithoutSetter;
 use JsonMapper\Tests\Implementation\SimpleObject;
 use JsonMapper\Tests\Implementation\UserWithConstructorParent;
 use JsonMapper\ValueObjects\PropertyMap;
@@ -277,6 +278,32 @@ class PropertyMapperTest extends TestCase
 
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage("Null provided in json where JsonMapper\Tests\Implementation\ComplexObject::child doesn't allow null value");
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testNonPublicPropertyWithoutSetterThrowsException(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('number')
+            ->setType('int')
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PRIVATE())
+            ->setIsArray(false)
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $json = (object) ['number' => 42];
+        $object = new PrivatePropertyWithoutSetter();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage("JsonMapper\Tests\Implementation\PrivatePropertyWithoutSetter::number is non-public and no setter method was found");
 
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
     }

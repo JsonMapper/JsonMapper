@@ -77,6 +77,8 @@ class PropertyMapper
             $object->getObject()->$setterMethod($value);
             return;
         }
+
+        throw new \RuntimeException("{$object->getName()}::{$propertyInfo->getName()} is non-public and no setter method was found");
     }
 
     /**
