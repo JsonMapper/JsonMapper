@@ -144,5 +144,46 @@ class DocBlockAnnotationsTest extends TestCase
 
         self::assertEquals('NullableNumber', $propertyMap->getProperty('nullableNumber')->getType());
         self::assertTrue($propertyMap->getProperty('nullableNumber')->isNullable());
+        self::assertFalse($propertyMap->getProperty('nullableNumber')->isArray());
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations
+     */
+    public function testTypeIsCorrectlyCalculatedForNullableArray(): void
+    {
+        $middleware = new DocBlockAnnotations(new NullCache());
+        $object = new class {
+            /** @var Number[]|null This is a nullable array number*/
+            public $numbers;
+        };
+        $propertyMap = new PropertyMap();
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertEquals('Number', $propertyMap->getProperty('numbers')->getType());
+        self::assertTrue($propertyMap->getProperty('numbers')->isNullable());
+        self::assertTrue($propertyMap->getProperty('numbers')->isArray());
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations
+     */
+    public function testTypeIsCorrectlyCalculatedForNullableArrayWhenNullIsProvidedFirst(): void
+    {
+        $middleware = new DocBlockAnnotations(new NullCache());
+        $object = new class {
+            /** @var null|Number[] This is a nullable array number*/
+            public $numbers;
+        };
+        $propertyMap = new PropertyMap();
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertEquals('Number', $propertyMap->getProperty('numbers')->getType());
+        self::assertTrue($propertyMap->getProperty('numbers')->isNullable());
+        self::assertTrue($propertyMap->getProperty('numbers')->isArray());
     }
 }
