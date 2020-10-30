@@ -6,10 +6,13 @@ namespace JsonMapper\Tests\Unit\Builder;
 
 use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Enums\Visibility;
+use JsonMapper\Tests\Helpers\AssertThatPropertyTrait;
 use PHPUnit\Framework\TestCase;
 
 class PropertyBuilderTest extends TestCase
 {
+    use AssertThatPropertyTrait;
+
     /**
      * @covers \JsonMapper\Builders\PropertyBuilder
      */
@@ -23,10 +26,11 @@ class PropertyBuilderTest extends TestCase
             ->setIsArray(false)
             ->build();
 
-        self::assertSame('enabled', $property->getName());
-        self::assertSame('boolean', $property->getType());
-        self::assertTrue($property->isNullable());
-        self::assertTrue($property->getVisibility()->equals(Visibility::PRIVATE()));
-        self::assertFalse($property->isArray());
+        self::assertThatProperty($property)
+            ->hasName('enabled')
+            ->hasType('boolean')
+            ->hasVisibility(Visibility::PRIVATE())
+            ->isNullable()
+            ->isNotArray();
     }
 }
