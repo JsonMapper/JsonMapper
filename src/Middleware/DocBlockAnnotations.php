@@ -80,14 +80,13 @@ class DocBlockAnnotations extends AbstractMiddleware
         }
 
         $type = $annotations->getVar();
-
-        $isArray = substr($type, -2) === '[]';
-        if ($isArray) {
-            $type = substr($type, 0, -2);
-        }
-
-        $nullable = stripos($docBlock, '|null') !== false;
+        $nullable = stripos('|' . $type . '|', '|null|') !== false;
         $cleanedType = str_replace(['null|', '|null'], '', $type);
+
+        $isArray = substr($cleanedType, -2) === '[]';
+        if ($isArray) {
+            $cleanedType = substr($cleanedType, 0, -2);
+        }
 
         return new PropertyType($cleanedType, $nullable, $isArray);
     }
