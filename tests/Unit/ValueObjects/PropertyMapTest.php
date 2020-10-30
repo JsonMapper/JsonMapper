@@ -17,7 +17,11 @@ class PropertyMapTest extends TestCase
      */
     public function testPropertyCanBeAdded(): void
     {
-        $property = new Property('name', new PropertyType('string', true, false), Visibility::PUBLIC());
+        $property = new Property(
+            'name',
+            new PropertyType('string', true, false),
+            Visibility::PUBLIC()
+        );
         $map = new PropertyMap();
         $map->addProperty($property);
 
@@ -41,7 +45,11 @@ class PropertyMapTest extends TestCase
      */
     public function testMapReturnsCorrectIterator(): void
     {
-        $property = new Property('name', new PropertyType('string', true, false), Visibility::PUBLIC());
+        $property = new Property(
+            'name',
+            new PropertyType('string', true, false),
+            Visibility::PUBLIC()
+        );
         $map = new PropertyMap();
         $map->addProperty($property);
         $iterator = $map->getIterator();
@@ -62,7 +70,9 @@ class PropertyMapTest extends TestCase
 
         self::assertIsString($mapAsJson);
         self::assertJsonStringEqualsJsonString(
+            // phpcs:disable Generic.Files.LineLength
             '{"properties":{"id":{"name":"id","type":{"type":"int","isNullable":false,"isArray":false},"visibility":"public"}}}',
+            // phpcs:enable 
             (string) $mapAsJson
         );
     }
@@ -79,7 +89,9 @@ class PropertyMapTest extends TestCase
 
         self::assertIsString($mapAsString);
         self::assertJsonStringEqualsJsonString(
+            // phpcs:disable Generic.Files.LineLength
             '{"properties":{"id":{"name":"id","type":{"type":"int","isNullable":false,"isArray":false},"visibility":"public"}}}',
+            // phpcs:enable 
             (string) $mapAsString
         );
     }

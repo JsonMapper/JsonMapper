@@ -12,8 +12,12 @@ use ReflectionClass;
 
 class Attributes extends AbstractMiddleware
 {
-    public function handle(\stdClass $json, ObjectWrapper $object, PropertyMap $propertyMap, JsonMapperInterface $mapper): void
-    {
+    public function handle(
+        \stdClass $json,
+        ObjectWrapper $object,
+        PropertyMap $propertyMap,
+        JsonMapperInterface $mapper
+    ): void {
         $reflectionClass = new ReflectionClass($object->getObject());
 
         foreach ($reflectionClass->getProperties() as $property) {

@@ -69,6 +69,7 @@ class CaseConversionTest extends TestCase
 
     public function conversionDataProvider(): array
     {
+        // phpcs:disable Generic.Files.LineLength
         return [
             'Studly caps to camel case' => [TextNotation::STUDLY_CAPS(), TextNotation::CAMEL_CASE(), 'DeliveryAddress', 'deliveryAddress'],
             'Studly caps to underscore' => [TextNotation::STUDLY_CAPS(), TextNotation::UNDERSCORE(), 'DeliveryAddress', 'delivery_address'],
@@ -83,6 +84,7 @@ class CaseConversionTest extends TestCase
             'Kebab case to camel case' => [TextNotation::KEBAB_CASE(), TextNotation::CAMEL_CASE(), 'delivery-address', 'deliveryAddress'],
             'Kebab case to underscore' => [TextNotation::KEBAB_CASE(), TextNotation::UNDERSCORE(), 'delivery-address', 'delivery_address'],
         ];
+        // phpcs:enable 
     }
 
     public function possibleTextNotationDataProvider(): array
