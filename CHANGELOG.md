@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.4.1] - 2020-10-30
+## [1.4.2] - 2020-10-30
 ## Fixed
 - Fix null array support in DocBlock middleware. [PR#60](https://github.com/JsonMapper/JsonMapper/pull/60)
 
