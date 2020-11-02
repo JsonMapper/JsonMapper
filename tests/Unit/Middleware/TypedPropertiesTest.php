@@ -41,6 +41,11 @@ class TypedPropertiesTest extends TestCase
             ->isNotNullable()
             ->isNotArray();
         self::assertTrue($propertyMap->hasProperty('friends'));
+        self::assertThatProperty($propertyMap->getProperty('friends'))
+            ->hasType('mixed')
+            ->hasVisibility(Visibility::PUBLIC())
+            ->isNullable()
+            ->isArray();
     }
 
     /**
