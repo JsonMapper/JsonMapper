@@ -70,9 +70,7 @@ class PropertyMapTest extends TestCase
 
         self::assertIsString($mapAsJson);
         self::assertJsonStringEqualsJsonString(
-            // phpcs:disable Generic.Files.LineLength
             '{"properties":{"id":{"name":"id","type":{"type":"int","isNullable":false,"isArray":false},"visibility":"public"}}}',
-            // phpcs:enable 
             (string) $mapAsJson
         );
     }
@@ -89,9 +87,7 @@ class PropertyMapTest extends TestCase
 
         self::assertIsString($mapAsString);
         self::assertJsonStringEqualsJsonString(
-            // phpcs:disable Generic.Files.LineLength
             '{"properties":{"id":{"name":"id","type":{"type":"int","isNullable":false,"isArray":false},"visibility":"public"}}}',
-            // phpcs:enable 
             (string) $mapAsString
         );
     }

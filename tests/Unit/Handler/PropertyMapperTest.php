@@ -277,9 +277,8 @@ class PropertyMapperTest extends TestCase
         $propertyMapper = new PropertyMapper();
 
         $this->expectException(\RuntimeException::class);
-        // phpcs:disable Generic.Files.LineLength
-        $this->expectExceptionMessage("Null provided in json where JsonMapper\Tests\Implementation\ComplexObject::child doesn't allow null value");
-        // phpcs:enable
+        $message = "Null provided in json where " . ComplexObject::class . "::child doesn't allow null value";
+        $this->expectExceptionMessage($message);
 
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
     }
@@ -305,9 +304,8 @@ class PropertyMapperTest extends TestCase
         $propertyMapper = new PropertyMapper();
 
         $this->expectException(\RuntimeException::class);
-        // phpcs:disable Generic.Files.LineLength
-        $this->expectExceptionMessage("JsonMapper\Tests\Implementation\PrivatePropertyWithoutSetter::number is non-public and no setter method was found");
-        // phpcs:enable
+        $message = PrivatePropertyWithoutSetter::class . "::number is non-public and no setter method was found";
+        $this->expectExceptionMessage($message);
 
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
     }
