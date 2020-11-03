@@ -8,6 +8,7 @@ use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\TypedProperties;
+use JsonMapper\Tests\Helpers\AssertThatPropertyTrait;
 use JsonMapper\Tests\Implementation\Php74;
 use JsonMapper\Tests\Implementation\Php80;
 use JsonMapper\Tests\Implementation\SimpleObject;
@@ -18,6 +19,8 @@ use Psr\SimpleCache\CacheInterface;
 
 class TypedPropertiesTest extends TestCase
 {
+    use AssertThatPropertyTrait;
+
     /**
      * @covers \JsonMapper\Middleware\TypedProperties
      * @requires PHP 7.4
@@ -32,9 +35,17 @@ class TypedPropertiesTest extends TestCase
         $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
 
         self::assertTrue($propertyMap->hasProperty('name'));
-        self::assertEquals('string', $propertyMap->getProperty('name')->getType());
-        self::assertEquals(Visibility::PUBLIC(), $propertyMap->getProperty('name')->getVisibility());
-        self::assertFalse($propertyMap->getProperty('name')->isNullable());
+        self::assertThatProperty($propertyMap->getProperty('name'))
+            ->hasType('string')
+            ->hasVisibility(Visibility::PUBLIC())
+            ->isNotNullable()
+            ->isNotArray();
+        self::assertTrue($propertyMap->hasProperty('friends'));
+        self::assertThatProperty($propertyMap->getProperty('friends'))
+            ->hasType('mixed')
+            ->hasVisibility(Visibility::PUBLIC())
+            ->isNullable()
+            ->isArray();
     }
 
     /**
@@ -51,15 +62,18 @@ class TypedPropertiesTest extends TestCase
         $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
 
         self::assertTrue($propertyMap->hasProperty('name'));
-        self::assertEquals('string', $propertyMap->getProperty('name')->getType());
-        self::assertEquals(Visibility::PUBLIC(), $propertyMap->getProperty('name')->getVisibility());
-        self::assertFalse($propertyMap->getProperty('name')->isNullable());
+        self::assertThatProperty($propertyMap->getProperty('name'))
+            ->hasType('string')
+            ->hasVisibility(Visibility::PUBLIC())
+            ->isNotNullable()
+            ->isNotArray();
         self::assertTrue($propertyMap->hasProperty('mixedParam'));
-        self::assertEquals('mixed', $propertyMap->getProperty('mixedParam')->getType());
-        self::assertEquals('mixed', $propertyMap->getProperty('mixedParam')->getPropertyType()->getType());
-        self::assertEquals(Visibility::PUBLIC(), $propertyMap->getProperty('mixedParam')->getVisibility());
-        self::assertTrue($propertyMap->getProperty('mixedParam')->isNullable());
-        self::assertFalse($propertyMap->getProperty('mixedParam')->isArray());
+        self::assertThatProperty($propertyMap->getProperty('mixedParam'))
+            ->hasType('mixed')
+            ->hasPropertyType('mixed')
+            ->hasVisibility(Visibility::PUBLIC())
+            ->isNullable()
+            ->isNotArray();
     }
 
     /**

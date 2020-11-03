@@ -17,7 +17,11 @@ class PropertyMapTest extends TestCase
      */
     public function testPropertyCanBeAdded(): void
     {
-        $property = new Property('name', new PropertyType('string', true, false), Visibility::PUBLIC());
+        $property = new Property(
+            'name',
+            new PropertyType('string', true, false),
+            Visibility::PUBLIC()
+        );
         $map = new PropertyMap();
         $map->addProperty($property);
 
@@ -41,7 +45,11 @@ class PropertyMapTest extends TestCase
      */
     public function testMapReturnsCorrectIterator(): void
     {
-        $property = new Property('name', new PropertyType('string', true, false), Visibility::PUBLIC());
+        $property = new Property(
+            'name',
+            new PropertyType('string', true, false),
+            Visibility::PUBLIC()
+        );
         $map = new PropertyMap();
         $map->addProperty($property);
         $iterator = $map->getIterator();

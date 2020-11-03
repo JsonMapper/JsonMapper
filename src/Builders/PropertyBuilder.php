@@ -32,7 +32,11 @@ class PropertyBuilder
 
     public function build(): Property
     {
-        return new Property($this->name, new PropertyType($this->type, $this->isNullable, $this->isArray), $this->visibility);
+        return new Property(
+            $this->name,
+            new PropertyType($this->type, $this->isNullable, $this->isArray),
+            $this->visibility
+        );
     }
 
     public function setName(string $name): self

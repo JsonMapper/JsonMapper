@@ -42,7 +42,9 @@ class PropertyMapper
             $type = $propertyInfo->getType();
 
             if (! $propertyInfo->isNullable() && is_null($value)) {
-                throw new \RuntimeException("Null provided in json where {$object->getName()}::{$key} doesn't allow null value");
+                throw new \RuntimeException(
+                    "Null provided in json where {$object->getName()}::{$key} doesn't allow null value"
+                );
             }
 
             if ($propertyInfo->isNullable() && is_null($value)) {
@@ -78,7 +80,9 @@ class PropertyMapper
             return;
         }
 
-        throw new \RuntimeException("{$object->getName()}::{$propertyInfo->getName()} is non-public and no setter method was found");
+        throw new \RuntimeException(
+            "{$object->getName()}::{$propertyInfo->getName()} is non-public and no setter method was found"
+        );
     }
 
     /**
