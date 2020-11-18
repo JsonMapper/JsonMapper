@@ -45,18 +45,32 @@ class DocBlockAnnotations extends AbstractMiddleware
 
         foreach ($properties as $property) {
             $name = $property->getName();
-            $propertyDetails = $this->derivePropertyDetailsFromReflectionProperty($property);
-
-            if (is_null($propertyDetails)) {
+            $docBlock = $property->getDocComment();
+            if ($docBlock === false) {
                 continue;
+            }
+
+            $annotations = self::parseDocBlockToAnnotationMap($docBlock);
+
+            if (! $annotations->hasVar()) {
+                continue;
+            }
+
+            $type = $annotations->getVar();
+            $nullable = stripos('|' . $type . '|', '|null|') !== false;
+            $cleanedType = str_replace(['null|', '|null'], '', $type);
+
+            $isArray = substr($cleanedType, -2) === '[]';
+            if ($isArray) {
+                $cleanedType = substr($cleanedType, 0, -2);
             }
 
             $property = PropertyBuilder::new()
                 ->setName($name)
-                ->setType($propertyDetails->getType())
-                ->setIsNullable($propertyDetails->isNullable())
+                ->setType($cleanedType)
+                ->setIsNullable($nullable)
                 ->setVisibility(Visibility::fromReflectionProperty($property))
-                ->setIsArray($propertyDetails->isArray())
+                ->setIsArray($isArray)
                 ->build();
             $intermediatePropertyMap->addProperty($property);
         }
@@ -64,31 +78,6 @@ class DocBlockAnnotations extends AbstractMiddleware
         $this->cache->set($object->getName(), $intermediatePropertyMap);
 
         return $intermediatePropertyMap;
-    }
-
-    private function derivePropertyDetailsFromReflectionProperty(\ReflectionProperty $property): ?PropertyType
-    {
-        $docBlock = $property->getDocComment();
-        if ($docBlock === false) {
-            return null;
-        }
-
-        $annotations = self::parseDocBlockToAnnotationMap($docBlock);
-
-        if (! $annotations->hasVar()) {
-            return null;
-        }
-
-        $type = $annotations->getVar();
-        $nullable = stripos('|' . $type . '|', '|null|') !== false;
-        $cleanedType = str_replace(['null|', '|null'], '', $type);
-
-        $isArray = substr($cleanedType, -2) === '[]';
-        if ($isArray) {
-            $cleanedType = substr($cleanedType, 0, -2);
-        }
-
-        return new PropertyType($cleanedType, $nullable, $isArray);
     }
 
     public static function parseDocBlockToAnnotationMap(string $docBlock): AnnotationMap

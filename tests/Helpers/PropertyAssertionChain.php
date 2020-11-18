@@ -48,14 +48,14 @@ class PropertyAssertionChain
 
     public function isNullable(): PropertyAssertionChain
     {
-        Assert::assertTrue($this->property->getPropertyType()->isNullable());
+        Assert::assertTrue($this->property->isNullable());
 
         return $this;
     }
 
     public function isNotNullable(): PropertyAssertionChain
     {
-        Assert::assertFalse($this->property->getPropertyType()->isNullable());
+        Assert::assertFalse($this->property->isNullable());
 
         return $this;
     }

@@ -41,13 +41,13 @@ class PropertyMapper
             $propertyInfo = $propertyMap->getProperty($key);
             $type = $propertyInfo->getPropertyType()->getType();
 
-            if (! $propertyInfo->getPropertyType()->isNullable() && is_null($value)) {
+            if (! $propertyInfo->isNullable() && is_null($value)) {
                 throw new \RuntimeException(
                     "Null provided in json where {$object->getName()}::{$key} doesn't allow null value"
                 );
             }
 
-            if ($propertyInfo->getPropertyType()->isNullable() && is_null($value)) {
+            if ($propertyInfo->isNullable() && is_null($value)) {
                 $this->setValue($object, $propertyInfo, null);
                 continue;
             }

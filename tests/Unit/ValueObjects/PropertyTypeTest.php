@@ -14,10 +14,9 @@ class PropertyTypeTest extends TestCase
      */
     public function testGettersReturnConstructorValues(): void
     {
-        $propertyType = new PropertyType('int', false, false);
+        $propertyType = new PropertyType('int', false);
 
         self::assertSame('int', $propertyType->getType());
-        self::assertFalse($propertyType->isNullable());
         self::assertFalse($propertyType->isArray());
     }
 
@@ -26,13 +25,13 @@ class PropertyTypeTest extends TestCase
      */
     public function testCanBeConvertedToJson(): void
     {
-        $propertyType = new PropertyType('int', false, false);
+        $propertyType = new PropertyType('int', false);
 
         $propertyAsJson = json_encode($propertyType);
 
         self::assertIsString($propertyAsJson);
         self::assertJsonStringEqualsJsonString(
-            '{"type":"int","isNullable":false,"isArray":false}',
+            '{"type":"int","isArray":false}',
             (string) $propertyAsJson
         );
     }

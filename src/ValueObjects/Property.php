@@ -15,15 +15,19 @@ class Property implements \JsonSerializable
     private $propertyType;
     /** @var Visibility */
     private $visibility;
+    /** @var bool */
+    private $isNullable;
 
     public function __construct(
         string $name,
         PropertyType $type,
-        Visibility $visibility
+        Visibility $visibility,
+        bool $isNullable
     ) {
         $this->name = $name;
         $this->propertyType = $type;
         $this->visibility = $visibility;
+        $this->isNullable = $isNullable;
     }
 
     public function getName(): string
@@ -41,12 +45,17 @@ class Property implements \JsonSerializable
         return $this->visibility;
     }
 
+    public function isNullable(): bool
+    {
+        return $this->isNullable;
+    }
+
     public function asBuilder(): PropertyBuilder
     {
         return PropertyBuilder::new()
             ->setName($this->name)
             ->setType($this->propertyType->getType())
-            ->setIsNullable($this->propertyType->isNullable())
+            ->setIsNullable($this->isNullable())
             ->setVisibility($this->visibility)
             ->setIsArray($this->propertyType->isArray());
     }
@@ -57,6 +66,7 @@ class Property implements \JsonSerializable
             'name' => $this->name,
             'type' => $this->propertyType,
             'visibility' => $this->visibility,
+            'isNullable' => $this->isNullable,
         ];
     }
 }

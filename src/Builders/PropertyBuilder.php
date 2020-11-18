@@ -34,8 +34,9 @@ class PropertyBuilder
     {
         return new Property(
             $this->name,
-            new PropertyType($this->type, $this->isNullable, $this->isArray),
-            $this->visibility
+            new PropertyType($this->type, $this->isArray),
+            $this->visibility,
+            $this->isNullable
         );
     }
 

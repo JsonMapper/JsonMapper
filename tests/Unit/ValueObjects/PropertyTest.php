@@ -16,13 +16,13 @@ class PropertyTest extends TestCase
      */
     public function testGettersReturnConstructorValues(): void
     {
-        $propertyType = new PropertyType('int', false, false);
-        $property = new Property('id', $propertyType, Visibility::PUBLIC());
+        $propertyType = new PropertyType('int', false);
+        $property = new Property('id', $propertyType, Visibility::PUBLIC(), false);
 
         self::assertSame('id', $property->getName());
         self::assertSame($propertyType, $property->getPropertyType());
         self::assertSame('int', $property->getPropertyType()->getType());
-        self::assertFalse($property->getPropertyType()->isNullable());
+        self::assertFalse($property->isNullable());
         self::assertTrue($property->getVisibility()->equals(Visibility::PUBLIC()));
         self::assertFalse($property->getPropertyType()->isArray());
     }
@@ -32,7 +32,7 @@ class PropertyTest extends TestCase
      */
     public function testPropertyCanBeConvertedToBuilderAndBack(): void
     {
-        $property = new Property('id', new PropertyType('int', false, false), Visibility::PUBLIC());
+        $property = new Property('id', new PropertyType('int', false), Visibility::PUBLIC(), false);
         $builder = $property->asBuilder();
 
         self::assertEquals($property, $builder->build());
@@ -43,13 +43,13 @@ class PropertyTest extends TestCase
      */
     public function testCanBeConvertedToJson(): void
     {
-        $property = new Property('id', new PropertyType('int', false, false), Visibility::PUBLIC());
+        $property = new Property('id', new PropertyType('int', false), Visibility::PUBLIC(), false);
 
         $propertyAsJson = json_encode($property);
 
         self::assertIsString($propertyAsJson);
         self::assertJsonStringEqualsJsonString(
-            '{"name":"id","type":{"type":"int","isNullable":false,"isArray":false},"visibility":"public"}',
+            '{"name":"id","type":{"type":"int","isArray":false},"visibility":"public","isNullable":false}',
             (string) $propertyAsJson
         );
     }
