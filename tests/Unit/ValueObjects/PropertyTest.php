@@ -21,10 +21,10 @@ class PropertyTest extends TestCase
 
         self::assertSame('id', $property->getName());
         self::assertSame($propertyType, $property->getPropertyType());
-        self::assertSame('int', $property->getType());
-        self::assertFalse($property->isNullable());
+        self::assertSame('int', $property->getPropertyType()->getType());
+        self::assertFalse($property->getPropertyType()->isNullable());
         self::assertTrue($property->getVisibility()->equals(Visibility::PUBLIC()));
-        self::assertFalse($property->isArray());
+        self::assertFalse($property->getPropertyType()->isArray());
     }
 
     /**

@@ -59,19 +59,4 @@ class Property implements \JsonSerializable
             'visibility' => $this->visibility,
         ];
     }
-
-    public function getType(): string
-    {
-        return $this->propertyType->getType();
-    }
-
-    public function isNullable(): bool
-    {
-        return $this->propertyType->isNullable();
-    }
-
-    public function isArray(): bool
-    {
-        return $this->propertyType->isArray();
-    }
 }

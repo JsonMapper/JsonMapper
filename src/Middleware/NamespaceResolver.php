@@ -24,14 +24,14 @@ class NamespaceResolver extends AbstractMiddleware
 
         /** @var Property $property */
         foreach ($propertyMap as &$property) {
-            if (ScalarType::isValid($property->getType()) || ClassHelper::isBuiltin($property->getType())) {
+            if (ScalarType::isValid($property->getPropertyType()->getType()) || ClassHelper::isBuiltin($property->getPropertyType()->getType())) {
                 continue;
             }
 
             $matches = array_filter(
                 $imports,
                 static function (string $import) use ($property) {
-                    return $property->getType() === substr($import, -1 * strlen($property->getType()));
+                    return $property->getPropertyType()->getType() === substr($import, -1 * strlen($property->getPropertyType()->getType()));
                 }
             );
 
@@ -41,8 +41,8 @@ class NamespaceResolver extends AbstractMiddleware
                 continue;
             }
 
-            if (!class_exists($property->getType())) {
-                $type = $object->getReflectedObject()->getNamespaceName() . '\\' . $property->getType();
+            if (!class_exists($property->getPropertyType()->getType())) {
+                $type = $object->getReflectedObject()->getNamespaceName() . '\\' . $property->getPropertyType()->getType();
                 $propertyMap->addProperty($property->asBuilder()->setType($type)->build());
             }
         }

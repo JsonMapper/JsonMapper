@@ -39,20 +39,20 @@ class PropertyMapper
             }
 
             $propertyInfo = $propertyMap->getProperty($key);
-            $type = $propertyInfo->getType();
+            $type = $propertyInfo->getPropertyType()->getType();
 
-            if (! $propertyInfo->isNullable() && is_null($value)) {
+            if (! $propertyInfo->getPropertyType()->isNullable() && is_null($value)) {
                 throw new \RuntimeException(
                     "Null provided in json where {$object->getName()}::{$key} doesn't allow null value"
                 );
             }
 
-            if ($propertyInfo->isNullable() && is_null($value)) {
+            if ($propertyInfo->getPropertyType()->isNullable() && is_null($value)) {
                 $this->setValue($object, $propertyInfo, null);
                 continue;
             }
 
-            if ($propertyInfo->isArray()) {
+            if ($propertyInfo->getPropertyType()->isArray()) {
                 $value = array_map(function ($value) use ($mapper, $type) {
                     return $this->mapPropertyValue($mapper, $type, $value);
                 }, (array) $value);

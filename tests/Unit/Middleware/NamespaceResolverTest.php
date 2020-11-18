@@ -38,7 +38,7 @@ class NamespaceResolverTest extends TestCase
         $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
 
         self::assertTrue($propertyMap->hasProperty('user'));
-        self::assertEquals(User::class, $propertyMap->getProperty('user')->getType());
+        self::assertEquals(User::class, $propertyMap->getProperty('user')->getPropertyType()->getType());
     }
 
     /**
@@ -62,7 +62,7 @@ class NamespaceResolverTest extends TestCase
         $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
 
         self::assertTrue($propertyMap->hasProperty('child'));
-        self::assertEquals(SimpleObject::class, $propertyMap->getProperty('child')->getType());
+        self::assertEquals(SimpleObject::class, $propertyMap->getProperty('child')->getPropertyType()->getType());
     }
 
     /**
@@ -86,7 +86,7 @@ class NamespaceResolverTest extends TestCase
         $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
 
         self::assertTrue($propertyMap->hasProperty('name'));
-        self::assertEquals('string', $propertyMap->getProperty('name')->getType());
+        self::assertEquals('string', $propertyMap->getProperty('name')->getPropertyType()->getType());
     }
 
     /**
@@ -110,8 +110,8 @@ class NamespaceResolverTest extends TestCase
         $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
 
         self::assertTrue($propertyMap->hasProperty('user'));
-        self::assertEquals(User::class, $propertyMap->getProperty('user')->getType());
-        self::assertTrue($propertyMap->getProperty('user')->isArray());
+        self::assertEquals(User::class, $propertyMap->getProperty('user')->getPropertyType()->getType());
+        self::assertTrue($propertyMap->getProperty('user')->getPropertyType()->isArray());
     }
 
     /**
@@ -135,6 +135,6 @@ class NamespaceResolverTest extends TestCase
         $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
 
         self::assertTrue($propertyMap->hasProperty('child'));
-        self::assertEquals(SimpleObject::class . '[]', $propertyMap->getProperty('child')->getType());
+        self::assertEquals(SimpleObject::class . '[]', $propertyMap->getProperty('child')->getPropertyType()->getType());
     }
 }
