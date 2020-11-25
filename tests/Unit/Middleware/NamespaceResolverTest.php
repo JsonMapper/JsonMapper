@@ -95,6 +95,30 @@ class NamespaceResolverTest extends TestCase
     /**
      * @covers \JsonMapper\Middleware\NamespaceResolver
      */
+    public function testItDoesntApplyResolvingToFullyQualifiedClassName(): void
+    {
+        $middleware = new NamespaceResolver();
+        $object = new SimpleObject();
+        $property = PropertyBuilder::new()
+            ->setName('name')
+            ->addType(__CLASS__, false)
+            ->setVisibility(Visibility::PRIVATE())
+            ->setIsNullable(false)
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertTrue($propertyMap->hasProperty('name'));
+        $this->assertThatProperty($propertyMap->getProperty('name'))
+            ->hasType(__CLASS__, false);
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\NamespaceResolver
+     */
     public function testItResolvesNamespacesForImportedNamespaceWithArray(): void
     {
         $middleware = new NamespaceResolver();

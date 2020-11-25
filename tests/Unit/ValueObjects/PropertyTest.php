@@ -28,6 +28,29 @@ class PropertyTest extends TestCase
     /**
      * @covers \JsonMapper\ValueObjects\Property
      */
+    public function testIsUnionReturnsTrueWhenMoreThanOneType(): void
+    {
+        $int = new PropertyType('int', false);
+        $float = new PropertyType('float', false);
+        $property = new Property('id', Visibility::PUBLIC(), false, $int, $float);
+
+        self::assertTrue($property->isUnion());
+    }
+
+    /**
+     * @covers \JsonMapper\ValueObjects\Property
+     */
+    public function testIsUnionReturnsFalseWhenOneType(): void
+    {
+        $int = new PropertyType('int', false);
+        $property = new Property('id', Visibility::PUBLIC(), false, $int);
+
+        self::assertFalse($property->isUnion());
+    }
+
+    /**
+     * @covers \JsonMapper\ValueObjects\Property
+     */
     public function testPropertyCanBeConvertedToBuilderAndBack(): void
     {
         $property = new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', false));

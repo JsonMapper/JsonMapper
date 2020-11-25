@@ -9,7 +9,6 @@ use JsonMapper\Enums\Visibility;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\ValueObjects\Property;
 use JsonMapper\ValueObjects\PropertyMap;
-use JsonMapper\ValueObjects\PropertyType;
 use JsonMapper\Wrapper\ObjectWrapper;
 
 class PropertyMapper
@@ -84,9 +83,10 @@ class PropertyMapper
      */
     private function mapPropertyValue(JsonMapperInterface $mapper, Property $property, $value)
     {
+        /* @todo implement the union mapping */
         // For union types, loop through and see if value is a match with the type
-        if (count($property->getPropertyTypes()) > 1) {
-            foreach ($property->getPropertyTypes() as $type) {
+//        if (count($property->getPropertyTypes()) > 1) {
+//            foreach ($property->getPropertyTypes() as $type) {
 //                /* If one side is an array and the other isn't continue to next type */
 //                if (is_array($value) !== $type->isArray() && is_a($value, \stdClass::class) !== $type->isArray()) {
 //                    continue;
@@ -114,9 +114,8 @@ class PropertyMapper
 //                    $mapper->mapObject($value, $instance);
 //                    return $instance;
 //                }
-            }
-        }
-
+//            }
+//        }
 
         // No match was found lets assume the first is the right one.
         $types = $property->getPropertyTypes();

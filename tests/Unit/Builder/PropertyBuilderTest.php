@@ -7,6 +7,7 @@ namespace JsonMapper\Tests\Unit\Builder;
 use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\Tests\Helpers\AssertThatPropertyTrait;
+use JsonMapper\ValueObjects\PropertyType;
 use PHPUnit\Framework\TestCase;
 
 class PropertyBuilderTest extends TestCase
@@ -25,9 +26,29 @@ class PropertyBuilderTest extends TestCase
             ->setVisibility(Visibility::PRIVATE())
             ->build();
 
-        self::assertThatProperty($property)
+        $this->assertThatProperty($property)
             ->hasName('enabled')
             ->hasType('boolean', false)
+            ->hasVisibility(Visibility::PRIVATE())
+            ->isNullable();
+    }
+
+    /**
+     * @covers \JsonMapper\Builders\PropertyBuilder
+     */
+    public function testCanBuildPropertyWithAllPropertiesSetUsingSetTypes(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('enabled')
+            ->setTypes(new PropertyType('string', true), new PropertyType('int', false))
+            ->setIsNullable(true)
+            ->setVisibility(Visibility::PRIVATE())
+            ->build();
+
+        $this->assertThatProperty($property)
+            ->hasName('enabled')
+            ->hasType('string', true)
+            ->hasType('int', false)
             ->hasVisibility(Visibility::PRIVATE())
             ->isNullable();
     }
