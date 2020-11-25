@@ -17,14 +17,12 @@ class PropertyTest extends TestCase
     public function testGettersReturnConstructorValues(): void
     {
         $propertyType = new PropertyType('int', false);
-        $property = new Property('id', $propertyType, Visibility::PUBLIC(), false);
+        $property = new Property('id', Visibility::PUBLIC(), false, $propertyType);
 
         self::assertSame('id', $property->getName());
-        self::assertSame($propertyType, $property->getPropertyType());
-        self::assertSame('int', $property->getPropertyType()->getType());
+        self::assertSame([$propertyType], $property->getPropertyTypes());
         self::assertFalse($property->isNullable());
         self::assertTrue($property->getVisibility()->equals(Visibility::PUBLIC()));
-        self::assertFalse($property->getPropertyType()->isArray());
     }
 
     /**
@@ -32,7 +30,7 @@ class PropertyTest extends TestCase
      */
     public function testPropertyCanBeConvertedToBuilderAndBack(): void
     {
-        $property = new Property('id', new PropertyType('int', false), Visibility::PUBLIC(), false);
+        $property = new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', false));
         $builder = $property->asBuilder();
 
         self::assertEquals($property, $builder->build());
@@ -43,13 +41,13 @@ class PropertyTest extends TestCase
      */
     public function testCanBeConvertedToJson(): void
     {
-        $property = new Property('id', new PropertyType('int', false), Visibility::PUBLIC(), false);
+        $property = new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', false));
 
         $propertyAsJson = json_encode($property);
 
         self::assertIsString($propertyAsJson);
         self::assertJsonStringEqualsJsonString(
-            '{"name":"id","type":{"type":"int","isArray":false},"visibility":"public","isNullable":false}',
+            '{"name":"id","types":[{"type":"int","isArray":false}],"visibility":"public","isNullable":false}',
             (string) $propertyAsJson
         );
     }

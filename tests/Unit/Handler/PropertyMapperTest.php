@@ -44,10 +44,9 @@ class PropertyMapperTest extends TestCase
     {
         $fileProperty = PropertyBuilder::new()
             ->setName('file')
-            ->setType('string')
+            ->addType('string', false)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
-            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($fileProperty);
@@ -68,10 +67,9 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('createdAt')
-            ->setType(\DateTimeImmutable::class)
+            ->addType(\DateTimeImmutable::class, false)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
-            ->setIsArray(false)
             ->build();
         $now = new \DateTimeImmutable();
         $propertyMap = new PropertyMap();
@@ -93,10 +91,9 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('child')
-            ->setType(SimpleObject::class)
+            ->addType(SimpleObject::class, false)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PRIVATE())
-            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -124,8 +121,7 @@ class PropertyMapperTest extends TestCase
     {
         $fileProperty = PropertyBuilder::new()
             ->setName('ids')
-            ->setType('int')
-            ->setIsArray(true)
+            ->addType('int', true)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -148,8 +144,7 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('children')
-            ->setType(SimpleObject::class)
-            ->setIsArray(true)
+            ->addType(SimpleObject::class, true)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PRIVATE())
             ->build();
@@ -179,8 +174,7 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('notes')
-            ->setType('string')
-            ->setIsArray(true)
+            ->addType('string', true)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -204,8 +198,7 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('user')
-            ->setType(UserWithConstructor::class)
-            ->setIsArray(false)
+            ->addType(UserWithConstructor::class, false)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -237,10 +230,9 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('child')
-            ->setType(SimpleObject::class)
+            ->addType(SimpleObject::class, false)
             ->setIsNullable(true)
             ->setVisibility(Visibility::PRIVATE())
-            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -263,10 +255,9 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('child')
-            ->setType(SimpleObject::class)
+            ->addType(SimpleObject::class, false)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PRIVATE())
-            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -290,10 +281,9 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('number')
-            ->setType('int')
+            ->addType('int', false)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PRIVATE())
-            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);

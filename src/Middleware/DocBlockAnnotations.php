@@ -67,10 +67,9 @@ class DocBlockAnnotations extends AbstractMiddleware
 
             $property = PropertyBuilder::new()
                 ->setName($name)
-                ->setType($cleanedType)
+                ->addType($cleanedType, $isArray)
                 ->setIsNullable($nullable)
                 ->setVisibility(Visibility::fromReflectionProperty($property))
-                ->setIsArray($isArray)
                 ->build();
             $intermediatePropertyMap->addProperty($property);
         }

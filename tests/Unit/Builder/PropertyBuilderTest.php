@@ -20,17 +20,15 @@ class PropertyBuilderTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('enabled')
-            ->setType('boolean')
+            ->addType('boolean', false)
             ->setIsNullable(true)
             ->setVisibility(Visibility::PRIVATE())
-            ->setIsArray(false)
             ->build();
 
         self::assertThatProperty($property)
             ->hasName('enabled')
-            ->hasType('boolean')
+            ->hasType('boolean', false)
             ->hasVisibility(Visibility::PRIVATE())
-            ->isNullable()
-            ->isNotArray();
+            ->isNullable();
     }
 }

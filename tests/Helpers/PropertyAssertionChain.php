@@ -25,16 +25,14 @@ class PropertyAssertionChain
         return $this;
     }
 
-    public function hasType(string $type): PropertyAssertionChain
+    public function hasType(string $type, bool $isArray): PropertyAssertionChain
     {
-        Assert::assertSame($type, $this->property->getPropertyType()->getType());
+        $matches = array_filter(
+            $this->property->getPropertyTypes(),
+            static function($p) use ($type, $isArray) { return $p->getType() === $type && $p->isArray() === $isArray; }
+        );
 
-        return $this;
-    }
-
-    public function hasPropertyType(string $type): PropertyAssertionChain
-    {
-        Assert::assertSame($type, $this->property->getPropertyType()->getType());
+        Assert::assertGreaterThanOrEqual(1, count($matches));
 
         return $this;
     }
@@ -56,20 +54,6 @@ class PropertyAssertionChain
     public function isNotNullable(): PropertyAssertionChain
     {
         Assert::assertFalse($this->property->isNullable());
-
-        return $this;
-    }
-
-    public function isArray(): PropertyAssertionChain
-    {
-        Assert::assertTrue($this->property->getPropertyType()->isArray());
-
-        return $this;
-    }
-
-    public function isNotArray(): PropertyAssertionChain
-    {
-        Assert::assertFalse($this->property->getPropertyType()->isArray());
 
         return $this;
     }

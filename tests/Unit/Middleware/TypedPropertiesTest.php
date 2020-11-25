@@ -36,16 +36,14 @@ class TypedPropertiesTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('name'));
         self::assertThatProperty($propertyMap->getProperty('name'))
-            ->hasType('string')
+            ->hasType('string', false)
             ->hasVisibility(Visibility::PUBLIC())
-            ->isNotNullable()
-            ->isNotArray();
+            ->isNotNullable();
         self::assertTrue($propertyMap->hasProperty('friends'));
         self::assertThatProperty($propertyMap->getProperty('friends'))
-            ->hasType('mixed')
+            ->hasType('mixed', true)
             ->hasVisibility(Visibility::PUBLIC())
-            ->isNotNullable()
-            ->isArray();
+            ->isNotNullable();
     }
 
     /**
@@ -63,17 +61,14 @@ class TypedPropertiesTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('name'));
         self::assertThatProperty($propertyMap->getProperty('name'))
-            ->hasType('string')
+            ->hasType('string', false)
             ->hasVisibility(Visibility::PUBLIC())
-            ->isNotNullable()
-            ->isNotArray();
+            ->isNotNullable();
         self::assertTrue($propertyMap->hasProperty('mixedParam'));
         self::assertThatProperty($propertyMap->getProperty('mixedParam'))
-            ->hasType('mixed')
-            ->hasPropertyType('mixed')
+            ->hasType('mixed', false)
             ->hasVisibility(Visibility::PUBLIC())
-            ->isNullable()
-            ->isNotArray();
+            ->isNullable();
     }
 
     /**
