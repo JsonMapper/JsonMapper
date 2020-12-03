@@ -6,6 +6,7 @@ namespace JsonMapper\Tests\Helpers;
 
 use JsonMapper\Enums\Visibility;
 use JsonMapper\ValueObjects\Property;
+use JsonMapper\ValueObjects\PropertyType;
 use PHPUnit\Framework\Assert;
 
 class PropertyAssertionChain
@@ -33,6 +34,13 @@ class PropertyAssertionChain
         );
 
         Assert::assertGreaterThanOrEqual(1, count($matches));
+
+        return $this;
+    }
+
+    public function onlyHasType(string $type, bool $isArray): PropertyAssertionChain
+    {
+        Assert::assertEquals([new PropertyType($type, $isArray)], $this->property->getPropertyTypes());
 
         return $this;
     }

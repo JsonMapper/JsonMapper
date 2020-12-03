@@ -105,4 +105,45 @@ class TypedPropertiesTest extends TestCase
 
         $middleware->handle(new \stdClass(), $objectWrapper, $propertyMap, $jsonMapper);
     }
+
+    /**
+     * @covers \JsonMapper\Middleware\TypedProperties
+     * @requires PHP >= 8.0
+     */
+    public function testTypedUnionPropertyIsCorrectlyDiscovered(): void
+    {
+        $middleware = new TypedProperties(new NullCache());
+        $object = new Php80\Popo();
+        $propertyMap = new PropertyMap();
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertTrue($propertyMap->hasProperty('amount'));
+        $this->assertThatProperty($propertyMap->getProperty('amount'))
+            ->hasType('int', false)
+            ->hasType('float', false)
+            ->hasVisibility(Visibility::PUBLIC())
+            ->isNotNullable();
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\TypedProperties
+     * @requires PHP >= 8.0
+     */
+    public function testComplexUnionWithArrayTypedUnionPropertyIsCorrectlyDiscovered(): void
+    {
+        $middleware = new TypedProperties(new NullCache());
+        $object = new Php80\Popo();
+        $propertyMap = new PropertyMap();
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertTrue($propertyMap->hasProperty('complexUnionWithArray'));
+        $this->assertThatProperty($propertyMap->getProperty('complexUnionWithArray'))
+            ->onlyHasType('mixed', true)
+            ->hasVisibility(Visibility::PUBLIC())
+            ->isNotNullable();
+    }
 }
