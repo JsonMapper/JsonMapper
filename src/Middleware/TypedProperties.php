@@ -71,9 +71,7 @@ class TypedProperties extends AbstractMiddleware
 
                 /* A union type that has one of its types defined as array is to complex to understand */
                 if ($isArray) {
-                    $property = $builder->addType('mixed', true)
-
-                        ->build();
+                    $property = $builder->addType('mixed', true)->build();
                     $intermediatePropertyMap->addProperty($property);
                     continue;
                 }

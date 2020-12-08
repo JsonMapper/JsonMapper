@@ -9,7 +9,6 @@ use JsonMapper\Enums\Visibility;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\ValueObjects\AnnotationMap;
 use JsonMapper\ValueObjects\PropertyMap;
-use JsonMapper\ValueObjects\PropertyType;
 use JsonMapper\Wrapper\ObjectWrapper;
 use Psr\SimpleCache\CacheInterface;
 
@@ -56,21 +55,34 @@ class DocBlockAnnotations extends AbstractMiddleware
                 continue;
             }
 
-            $type = $annotations->getVar();
-            $nullable = stripos('|' . $type . '|', '|null|') !== false;
-            $cleanedType = str_replace(['null|', '|null'], '', $type);
+            $types = explode('|', $annotations->getVar());
+            $nullable = in_array('null', $types, true);
+            $types = array_filter($types, static function(string $type) {
+                return $type !== 'null';
+            });
 
-            $isArray = substr($cleanedType, -2) === '[]';
-            if ($isArray) {
-                $cleanedType = substr($cleanedType, 0, -2);
+            $builder = PropertyBuilder::new()
+                ->setName($name)
+                ->setIsNullable($nullable)
+                ->setVisibility(Visibility::fromReflectionProperty($property));
+
+            /* A union type that has one of its types defined as array is to complex to understand */
+            if (in_array('array', $types, true)) {
+                $property = $builder->addType('mixed', true)->build();
+                $intermediatePropertyMap->addProperty($property);
+                continue;
             }
 
-            $property = PropertyBuilder::new()
-                ->setName($name)
-                ->addType($cleanedType, $isArray)
-                ->setIsNullable($nullable)
-                ->setVisibility(Visibility::fromReflectionProperty($property))
-                ->build();
+            foreach ($types as $type) {
+                $type = trim($type);
+                $isArray = substr($type, -2) === '[]';
+                if ($isArray) {
+                    $type = substr($type, 0, -2);
+                }
+                $builder->addType($type, $isArray);
+            }
+
+            $property = $builder->build();
             $intermediatePropertyMap->addProperty($property);
         }
 

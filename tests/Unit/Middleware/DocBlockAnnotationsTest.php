@@ -192,4 +192,49 @@ class DocBlockAnnotationsTest extends TestCase
             ->hasVisibility(Visibility::PUBLIC())
             ->isNullable();
     }
+
+    /**
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations
+     */
+    public function testTypedUnionPropertyIsCorrectlyDiscovered(): void
+    {
+        $middleware = new DocBlockAnnotations(new NullCache());
+        $object = new class {
+            /** @var float|int */
+            public $amount;
+        };
+        $propertyMap = new PropertyMap();
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertTrue($propertyMap->hasProperty('amount'));
+        $this->assertThatProperty($propertyMap->getProperty('amount'))
+            ->hasType('int', false)
+            ->hasType('float', false)
+            ->hasVisibility(Visibility::PUBLIC())
+            ->isNotNullable();
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations
+     */
+    public function testComplexUnionTypeIsCorrectlyDiscovered(): void
+    {
+        $middleware = new DocBlockAnnotations(new NullCache());
+        $object = new class {
+            /** @var string|int|float|array */
+            public $complexUnionWithArray;
+        };
+        $propertyMap = new PropertyMap();
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertTrue($propertyMap->hasProperty('complexUnionWithArray'));
+        $this->assertThatProperty($propertyMap->getProperty('complexUnionWithArray'))
+            ->onlyHasType('mixed', true)
+            ->hasVisibility(Visibility::PUBLIC())
+            ->isNotNullable();
+    }
 }
