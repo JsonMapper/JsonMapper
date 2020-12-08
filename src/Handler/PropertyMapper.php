@@ -9,6 +9,7 @@ use JsonMapper\Enums\Visibility;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\ValueObjects\Property;
 use JsonMapper\ValueObjects\PropertyMap;
+use JsonMapper\ValueObjects\PropertyType;
 use JsonMapper\Wrapper\ObjectWrapper;
 
 class PropertyMapper
@@ -83,43 +84,68 @@ class PropertyMapper
      */
     private function mapPropertyValue(JsonMapperInterface $mapper, Property $property, $value)
     {
-        /* @todo implement the union mapping */
         // For union types, loop through and see if value is a match with the type
-//        if (count($property->getPropertyTypes()) > 1) {
-//            foreach ($property->getPropertyTypes() as $type) {
-//                /* If one side is an array and the other isn't continue to next type */
-//                if (is_array($value) !== $type->isArray() && is_a($value, \stdClass::class) !== $type->isArray()) {
-//                    continue;
-//                }
-//
-//                /* Array of scalar values */
-//                $copy = (array) $value;
-//                $first = array_shift($copy);
-//                if ($type->isArray() && $this->propertyTypeAndValueTypeAreScalarAndSameType($type, $first)) {
-//                    $scalarType = new ScalarType($type->getType());
-//                    return array_map(static function($v) use ($scalarType) { return $scalarType->cast($v); }, (array) $value);
-//                }
-//
-//                if (! $type->isArray() && $this->propertyTypeAndValueTypeAreScalarAndSameType($type, $value)) {
-//                    return (new ScalarType($type->getType()))->cast($value);
-//                }
-//
-//                if (! $type->isArray() && $this->classFactoryRegistry->hasFactory($type->getType())) {
-//                    return $this->classFactoryRegistry->create($type->getType(), $value);
-//                }
-//
-//                if (class_exists($type->getType())) {
-//                    $className = $type->getType();
-//                    $instance = new $className();
-//                    $mapper->mapObject($value, $instance);
-//                    return $instance;
-//                }
-//            }
-//        }
+        if (count($property->getPropertyTypes()) > 1) {
+            foreach ($property->getPropertyTypes() as $type) {
+                if (is_array($value) && $type->isArray()) {
+                    $copy = (array) $value;
+                    $firstValue = array_shift($copy);
 
-        // No match was found lets assume the first is the right one.
+                    /* Array of scalar values */
+                    if ($this->propertyTypeAndValueTypeAreScalarAndSameType($type, $firstValue)) {
+                        $scalarType = new ScalarType($type->getType());
+                        return array_map(static function($v) use ($scalarType) { return $scalarType->cast($v); }, (array) $value);
+                    }
+
+                    // Single registered class @todo how do you know it was the correct type?
+                    if ($this->classFactoryRegistry->hasFactory($type->getType())) {
+                        return array_map(function($v) use ($type) { return $this->classFactoryRegistry->create($type->getType(), $v); }, (array) $value);
+                    }
+
+                    // Single existing class @todo how do you know it was the correct type?
+                    if (class_exists($type->getType())) {
+                        return array_map(
+                            static function($v) use ($type, $mapper) {
+                                $className = $type->getType();
+                                $instance = new $className();
+                                $mapper->mapObject($v, $instance);
+                                return $instance;
+                            },
+                            (array) $value
+                        );
+                    }
+
+                    continue;
+                }
+
+                // Single scalar value
+                if ($this->propertyTypeAndValueTypeAreScalarAndSameType($type, $value)) {
+                    return (new ScalarType($type->getType()))->cast($value);
+                }
+
+                // Single registered class @todo how do you know it was the correct type?
+                if ($this->classFactoryRegistry->hasFactory($type->getType())) {
+                    return $this->classFactoryRegistry->create($type->getType(), $value);
+                }
+
+                // Single existing class @todo how do you know it was the correct type?
+                if (class_exists($type->getType())) {
+                    $className = $type->getType();
+                    $instance = new $className();
+                    $mapper->mapObject($value, $instance);
+                    return $instance;
+                }
+            }
+        }
+
+        // No match was found (or there was only one option) lets assume the first is the right one.
         $types = $property->getPropertyTypes();
         $type = array_shift($types);
+
+        if ($type === null) {
+            // Return the value as is as there is no type info.
+            return $value;
+        }
 
         if (ScalarType::isValid($type->getType())) {
             return $this->mapToScalarValue($type->getType(), $value, $type->isArray());
@@ -138,20 +164,24 @@ class PropertyMapper
     /**
      * @param mixed $value
      */
-//    private function propertyTypeAndValueTypeAreScalarAndSameType(PropertyType $type, $value): bool
-//    {
-//        if (! is_scalar($value) || ! ScalarType::isValid($type->getType())) {
-//            return false;
-//        }
-//
-//        $valueType = gettype($value);
-//        if ($valueType === 'double') {
-//            $valueType = 'float';
-//        }
-//
-//        return $type->getType() === $valueType;
-//    }
+    private function propertyTypeAndValueTypeAreScalarAndSameType(PropertyType $type, $value): bool
+    {
+        if (! is_scalar($value) || ! ScalarType::isValid($type->getType())) {
+            return false;
+        }
 
+        $valueType = gettype($value);
+        if ($valueType === 'double') {
+            $valueType = 'float';
+        }
+
+        return $type->getType() === $valueType;
+    }
+
+    /**
+     * @param mixed $value
+     * @return string|bool|int|float|string[]|bool[]|int[]|float[]
+     */
     private function mapToScalarValue(string $type, $value, bool $asArray)
     {
         $scalar = new ScalarType($type);
@@ -163,11 +193,15 @@ class PropertyMapper
         return $scalar->cast($value);
     }
 
+    /**
+     * @param mixed $value
+     * @return object|object[]
+     */
     private function mapToObject(string $type, $value, bool $asArray, JsonMapperInterface $mapper)
     {
         if ($asArray) {
             return array_map(
-                static function($v) use ($type, $mapper) {
+                static function($v) use ($type, $mapper): object {
                     $instance = new $type();
                     $mapper->mapObject($v, $instance);
                     return $instance;
