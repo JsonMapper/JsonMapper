@@ -299,4 +299,98 @@ class PropertyMapperTest extends TestCase
 
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
     }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     * @dataProvider scalarValueDataTypes
+     * @param mixed $value
+     */
+    public function testItCanMapAScalarUnionType(string $type, $value): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('value')
+            ->addType('int', false)
+            ->addType('float', false)
+            ->addType('string', false)
+            ->addType('bool', false)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $json = (object) ['value' => (string) $value];
+        $object = new \stdClass();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals($value, $object->value);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     * @dataProvider scalarValueDataTypes
+     * @param mixed $value
+     */
+    public function testItCanMapAnArrayOfScalarUnionType(string $type, $value): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('values')
+            ->addType('int', true)
+            ->addType('float', true)
+            ->addType('string', true)
+            ->addType('bool', true)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $json = (object) ['values' => [(string) $value]];
+        $object = new \stdClass();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals([$value], $object->values);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testItCanMapAUnionOfUnixTimeStampAndDateTimeWithDateTimeObject(): void
+    {
+        $now = new \DateTime();
+        $property = PropertyBuilder::new()
+            ->setName('moment')
+            ->addType('int', true)
+            ->addType(\DateTime::class, true)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $json = (object) ['moment' => $now->format('Y-m-d\TH:i:s.uP')];
+        $object = new \stdClass();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals($now, $object->moment);
+    }
+
+    public function scalarValueDataTypes(): array
+    {
+        return [
+            'string' => ['string', 'Some string'],
+            'boolean' => ['bool', true],
+            'integer' => ['int', 1],
+            'float' => ['float', M_PI],
+        ];
+    }
 }
