@@ -315,6 +315,7 @@ class PropertyMapperTest extends TestCase
             ->setName('value')
             ->addType('int', false)
             ->addType('float', false)
+            ->addType('double', false)
             ->addType('string', false)
             ->addType('bool', false)
             ->setIsNullable(false)
@@ -440,6 +441,29 @@ class PropertyMapperTest extends TestCase
         self::assertEquals($json->users[0]->name, $object->users[0]->getName());
     }
 
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testItCanMapIfNoTypeDetailIsAvailable(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('id')
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $json = (object) ['id' => 42];
+        $object = new \stdClass();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+        $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals($json->id, $object->id);
+    }
+
     public function scalarValueDataTypes(): array
     {
         return [
@@ -447,6 +471,7 @@ class PropertyMapperTest extends TestCase
             'boolean' => ['bool', true],
             'integer' => ['int', 1],
             'float' => ['float', M_PI],
+            'double' => ['double', M_PI],
         ];
     }
 }
