@@ -97,12 +97,12 @@ class PropertyMapper
                         return array_map(static function($v) use ($scalarType) { return $scalarType->cast($v); }, (array) $value);
                     }
 
-                    // Single registered class @todo how do you know it was the correct type?
+                    // Array of registered class @todo how do you know it was the correct type?
                     if ($this->classFactoryRegistry->hasFactory($type->getType())) {
                         return array_map(function($v) use ($type) { return $this->classFactoryRegistry->create($type->getType(), $v); }, (array) $value);
                     }
 
-                    // Single existing class @todo how do you know it was the correct type?
+                    // Array of existing class @todo how do you know it was the correct type?
                     if (class_exists($type->getType())) {
                         return array_map(
                             static function($v) use ($type, $mapper) {

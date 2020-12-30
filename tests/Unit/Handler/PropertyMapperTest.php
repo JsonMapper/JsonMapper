@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace JsonMapper\Tests\Unit\Handler;
 
 use JsonMapper\Builders\PropertyBuilder;
+use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\Exception\ClassFactoryException;
 use JsonMapper\Handler\ClassFactoryRegistry;
 use JsonMapper\Handler\PropertyMapper;
+use JsonMapper\JsonMapperFactory;
 use JsonMapper\JsonMapperInterface;
+use JsonMapper\Middleware\DocBlockAnnotations;
 use JsonMapper\Tests\Implementation\ComplexObject;
+use JsonMapper\Tests\Implementation\Models\User;
 use JsonMapper\Tests\Implementation\Models\UserWithConstructor;
 use JsonMapper\Tests\Implementation\Popo;
 use JsonMapper\Tests\Implementation\PrivatePropertyWithoutSetter;
@@ -382,6 +386,58 @@ class PropertyMapperTest extends TestCase
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
 
         self::assertEquals($now, $object->moment);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testItCanMapAUnionOfCustomClasses(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('user')
+            ->addType(User::class, false)
+            ->addType(Popo::class, false)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $json = (object) ['user' => (object) ['id' => 42, 'name' => 'John Doe']];
+        $object = new \stdClass();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+        $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals($json->user->id, $object->user->getId());
+        self::assertEquals($json->user->name, $object->user->getName());
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testItCanMapAUnionOfCustomClassesAsArray(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('users')
+            ->addType(User::class, true)
+            ->addType(Popo::class, true)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $json = (object) ['users' => [0 => (object) ['id' => 42, 'name' => 'John Doe']]];
+        $object = new \stdClass();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+        $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals($json->users[0]->id, $object->users[0]->getId());
+        self::assertEquals($json->users[0]->name, $object->users[0]->getName());
     }
 
     public function scalarValueDataTypes(): array
