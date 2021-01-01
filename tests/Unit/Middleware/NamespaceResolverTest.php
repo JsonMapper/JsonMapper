@@ -8,6 +8,7 @@ use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\NamespaceResolver;
+use JsonMapper\Tests\Helpers\AssertThatPropertyTrait;
 use JsonMapper\Tests\Implementation\ComplexObject;
 use JsonMapper\Tests\Implementation\Models\User;
 use JsonMapper\Tests\Implementation\SimpleObject;
@@ -17,6 +18,8 @@ use PHPUnit\Framework\TestCase;
 
 class NamespaceResolverTest extends TestCase
 {
+    use AssertThatPropertyTrait;
+
     /**
      * @covers \JsonMapper\Middleware\NamespaceResolver
      */
@@ -26,10 +29,9 @@ class NamespaceResolverTest extends TestCase
         $object = new ComplexObject();
         $property = PropertyBuilder::new()
             ->setName('user')
-            ->setType('User')
+            ->addType('User', false)
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
-            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -38,7 +40,8 @@ class NamespaceResolverTest extends TestCase
         $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
 
         self::assertTrue($propertyMap->hasProperty('user'));
-        self::assertEquals(User::class, $propertyMap->getProperty('user')->getType());
+        $this->assertThatProperty($propertyMap->getProperty('user'))
+            ->hasType(User::class, false);
     }
 
     /**
@@ -50,10 +53,9 @@ class NamespaceResolverTest extends TestCase
         $object = new ComplexObject();
         $property = PropertyBuilder::new()
             ->setName('child')
-            ->setType('SimpleObject')
+            ->addType('SimpleObject', false)
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
-            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -62,7 +64,8 @@ class NamespaceResolverTest extends TestCase
         $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
 
         self::assertTrue($propertyMap->hasProperty('child'));
-        self::assertEquals(SimpleObject::class, $propertyMap->getProperty('child')->getType());
+        $this->assertThatProperty($propertyMap->getProperty('child'))
+            ->hasType(SimpleObject::class, false);
     }
 
     /**
@@ -74,10 +77,9 @@ class NamespaceResolverTest extends TestCase
         $object = new SimpleObject();
         $property = PropertyBuilder::new()
             ->setName('name')
-            ->setType('string')
+            ->addType('string', false)
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
-            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -86,7 +88,32 @@ class NamespaceResolverTest extends TestCase
         $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
 
         self::assertTrue($propertyMap->hasProperty('name'));
-        self::assertEquals('string', $propertyMap->getProperty('name')->getType());
+        $this->assertThatProperty($propertyMap->getProperty('name'))
+            ->hasType('string', false);
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\NamespaceResolver
+     */
+    public function testItDoesntApplyResolvingToFullyQualifiedClassName(): void
+    {
+        $middleware = new NamespaceResolver();
+        $object = new SimpleObject();
+        $property = PropertyBuilder::new()
+            ->setName('name')
+            ->addType(__CLASS__, false)
+            ->setVisibility(Visibility::PRIVATE())
+            ->setIsNullable(false)
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertTrue($propertyMap->hasProperty('name'));
+        $this->assertThatProperty($propertyMap->getProperty('name'))
+            ->hasType(__CLASS__, false);
     }
 
     /**
@@ -98,10 +125,9 @@ class NamespaceResolverTest extends TestCase
         $object = new ComplexObject();
         $property = PropertyBuilder::new()
             ->setName('user')
-            ->setType('User')
+            ->addType('User', true)
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
-            ->setIsArray(true)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -110,8 +136,8 @@ class NamespaceResolverTest extends TestCase
         $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
 
         self::assertTrue($propertyMap->hasProperty('user'));
-        self::assertEquals(User::class, $propertyMap->getProperty('user')->getType());
-        self::assertTrue($propertyMap->getProperty('user')->isArray());
+        $this->assertThatProperty($propertyMap->getProperty('user'))
+            ->hasType(User::class, true);
     }
 
     /**
@@ -123,10 +149,9 @@ class NamespaceResolverTest extends TestCase
         $object = new ComplexObject();
         $property = PropertyBuilder::new()
             ->setName('child')
-            ->setType('SimpleObject[]')
+            ->addType('SimpleObject[]', false)
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
-            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -135,6 +160,7 @@ class NamespaceResolverTest extends TestCase
         $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
 
         self::assertTrue($propertyMap->hasProperty('child'));
-        self::assertEquals(SimpleObject::class . '[]', $propertyMap->getProperty('child')->getType());
+        $this->assertThatProperty($propertyMap->getProperty('child'))
+            ->hasType(SimpleObject::class . '[]', false);
     }
 }

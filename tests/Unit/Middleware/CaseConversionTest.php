@@ -70,6 +70,53 @@ class CaseConversionTest extends TestCase
         self::assertEquals('placeholder', $json->$replacementKey);
     }
 
+    /**
+     * @covers \JsonMapper\Middleware\CaseConversion
+     */
+    public function testWillRemainUntouchedOnInvalidExtensionOfTextNotationClassForSearch(): void {
+        $extensionTextNotation = new class extends TextNotation
+        {
+            private const A = 'a';
+
+            public function __construct()
+            {
+                parent::__construct('a');
+            }
+        };
+        $middleware = new CaseConversion($extensionTextNotation, TextNotation::STUDLY_CAPS());
+        $json = (object) ['key' => 'placeholder'];
+        $object = new ObjectWrapper(new \stdClass());
+
+        $middleware->handle($json, $object, new PropertyMap(), $this->createMock(JsonMapperInterface::class));
+
+        self::assertObjectHasAttribute('key', $json);
+        self::assertEquals('placeholder', $json->key);
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\CaseConversion
+     * @dataProvider possibleTextNotationDataProvider
+     */
+    public function testWillRemainUntouchedOnInvalidExtensionOfTextNotationClassForReplacement(TextNotation $search): void {
+        $extensionTextNotation = new class extends TextNotation
+        {
+            private const A = 'a';
+
+            public function __construct()
+            {
+                parent::__construct('a');
+            }
+        };
+        $middleware = new CaseConversion($search, $extensionTextNotation);
+        $json = (object) ['key' => 'placeholder'];
+        $object = new ObjectWrapper(new \stdClass());
+
+        $middleware->handle($json, $object, new PropertyMap(), $this->createMock(JsonMapperInterface::class));
+
+        self::assertObjectHasAttribute('key', $json);
+        self::assertEquals('placeholder', $json->key);
+    }
+
     public function conversionDataProvider(): array
     {
         return [
