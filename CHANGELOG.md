@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Improve the test using PropertyAssertionChain. [PR#62](https://github.com/JsonMapper/JsonMapper/pull/62)
+- Added support for union types in JsonMapper (Breaking changes, new mayor release is needed) [PR#65](https://github.com/JsonMapper/JsonMapper/pull/65)
 
 ## [1.4.2] - 2020-10-30
 ## Fixed

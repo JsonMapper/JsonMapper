@@ -6,6 +6,7 @@ namespace JsonMapper\Tests\Helpers;
 
 use JsonMapper\Enums\Visibility;
 use JsonMapper\ValueObjects\Property;
+use JsonMapper\ValueObjects\PropertyType;
 use PHPUnit\Framework\Assert;
 
 class PropertyAssertionChain
@@ -25,16 +26,21 @@ class PropertyAssertionChain
         return $this;
     }
 
-    public function hasType(string $type): PropertyAssertionChain
+    public function hasType(string $type, bool $isArray): PropertyAssertionChain
     {
-        Assert::assertSame($type, $this->property->getType());
+        $matches = array_filter(
+            $this->property->getPropertyTypes(),
+            static function($p) use ($type, $isArray) { return $p->getType() === $type && $p->isArray() === $isArray; }
+        );
+
+        Assert::assertGreaterThanOrEqual(1, count($matches));
 
         return $this;
     }
 
-    public function hasPropertyType(string $type): PropertyAssertionChain
+    public function onlyHasType(string $type, bool $isArray): PropertyAssertionChain
     {
-        Assert::assertSame($type, $this->property->getPropertyType()->getType());
+        Assert::assertEquals([new PropertyType($type, $isArray)], $this->property->getPropertyTypes());
 
         return $this;
     }
@@ -56,20 +62,6 @@ class PropertyAssertionChain
     public function isNotNullable(): PropertyAssertionChain
     {
         Assert::assertFalse($this->property->isNullable());
-
-        return $this;
-    }
-
-    public function isArray(): PropertyAssertionChain
-    {
-        Assert::assertTrue($this->property->isArray());
-
-        return $this;
-    }
-
-    public function isNotArray(): PropertyAssertionChain
-    {
-        Assert::assertFalse($this->property->isArray());
 
         return $this;
     }

@@ -11,4 +11,8 @@ class Popo
     public array $friends;
 
     public mixed $mixedParam;
+
+    public float|int $amount;
+
+    public string|int|float|array $complexUnionWithArray;
 }

@@ -19,8 +19,9 @@ class PropertyMapTest extends TestCase
     {
         $property = new Property(
             'name',
-            new PropertyType('string', true, false),
-            Visibility::PUBLIC()
+            Visibility::PUBLIC(),
+            true,
+            new PropertyType('string', false)
         );
         $map = new PropertyMap();
         $map->addProperty($property);
@@ -47,8 +48,9 @@ class PropertyMapTest extends TestCase
     {
         $property = new Property(
             'name',
-            new PropertyType('string', true, false),
-            Visibility::PUBLIC()
+            Visibility::PUBLIC(),
+            true,
+            new PropertyType('string', false)
         );
         $map = new PropertyMap();
         $map->addProperty($property);
@@ -64,13 +66,13 @@ class PropertyMapTest extends TestCase
     public function testCanBeConvertedToJson(): void
     {
         $map = new PropertyMap();
-        $map->addProperty(new Property('id', new PropertyType('int', false, false), Visibility::PUBLIC()));
+        $map->addProperty(new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', false)));
 
         $mapAsJson = json_encode($map);
 
         self::assertIsString($mapAsJson);
         self::assertJsonStringEqualsJsonString(
-            '{"properties":{"id":{"name":"id","type":{"type":"int","isNullable":false,"isArray":false},"visibility":"public"}}}',
+            '{"properties":{"id":{"name":"id","types":[{"type":"int","isArray":false}],"visibility":"public","isNullable":false}}}',
             (string) $mapAsJson
         );
     }
@@ -81,13 +83,13 @@ class PropertyMapTest extends TestCase
     public function testCanBeConvertedToString(): void
     {
         $map = new PropertyMap();
-        $map->addProperty(new Property('id', new PropertyType('int', false, false), Visibility::PUBLIC()));
+        $map->addProperty(new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', false)));
 
         $mapAsString = $map->toString();
 
         self::assertIsString($mapAsString);
         self::assertJsonStringEqualsJsonString(
-            '{"properties":{"id":{"name":"id","type":{"type":"int","isNullable":false,"isArray":false},"visibility":"public"}}}',
+            '{"properties":{"id":{"name":"id","types":[{"type":"int","isArray":false}],"visibility":"public","isNullable":false}}}',
             (string) $mapAsString
         );
     }
@@ -98,9 +100,9 @@ class PropertyMapTest extends TestCase
     public function testCanBeMergedWithOtherPropertyMap(): void
     {
         $map = new PropertyMap();
-        $map->addProperty(new Property('id', new PropertyType('int', false, false), Visibility::PUBLIC()));
+        $map->addProperty(new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', false)));
         $other = new PropertyMap();
-        $other->addProperty(new Property('uuid', new PropertyType('string', false, false), Visibility::PUBLIC()));
+        $other->addProperty(new Property('uuid', Visibility::PUBLIC(), false, new PropertyType('string', false)));
 
         $map->merge($other);
 

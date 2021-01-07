@@ -12,14 +12,12 @@ class PropertyBuilder
 {
     /** @var string */
     private $name;
-    /** @var string */
-    private $type;
     /** @var bool */
     private $isNullable;
     /** @var Visibility */
     private $visibility;
-    /** @var bool */
-    private $isArray;
+    /** @var PropertyType[] */
+    private $types = [];
 
     private function __construct()
     {
@@ -34,8 +32,9 @@ class PropertyBuilder
     {
         return new Property(
             $this->name,
-            new PropertyType($this->type, $this->isNullable, $this->isArray),
-            $this->visibility
+            $this->visibility,
+            $this->isNullable,
+            ...$this->types
         );
     }
 
@@ -45,9 +44,15 @@ class PropertyBuilder
         return $this;
     }
 
-    public function setType(string $type): self
+    public function setTypes(PropertyType ...$types): self
     {
-        $this->type = $type;
+        $this->types = $types;
+        return $this;
+    }
+
+    public function addType(string $type, bool $isArray): self
+    {
+        $this->types[] = new PropertyType($type, $isArray);
         return $this;
     }
 
@@ -60,12 +65,6 @@ class PropertyBuilder
     public function setVisibility(Visibility $visibility): self
     {
         $this->visibility = $visibility;
-        return $this;
-    }
-
-    public function setIsArray(bool $isArray): self
-    {
-        $this->isArray = $isArray;
         return $this;
     }
 }

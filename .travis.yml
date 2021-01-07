@@ -33,6 +33,7 @@ branches:
   only:
     - master
     - develop
+    - 2.x
 
 install:
   - curl -s http://getcomposer.org/installer | php
