@@ -10,6 +10,9 @@ use JsonMapper\JsonMapperInterface;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 use Psr\SimpleCache\CacheInterface;
+use ReflectionNamedType;
+use ReflectionType;
+use ReflectionUnionType;
 
 class TypedProperties extends AbstractMiddleware
 {
@@ -42,19 +45,43 @@ class TypedProperties extends AbstractMiddleware
         foreach ($reflectionProperties as $reflectionProperty) {
             $type = $reflectionProperty->getType();
 
-            if ($type === null || ! $type instanceof \ReflectionNamedType) {
+            if ($type instanceof ReflectionNamedType) {
+                $type = $reflectionProperty->getType();
+                $isArray = $type->getName() === 'array';
+                $propertyType = $isArray ? 'mixed' : $type->getName();
+                $property = PropertyBuilder::new()
+                    ->setName($reflectionProperty->getName())
+                    ->addType($propertyType, $isArray)
+                    ->setIsNullable($type->allowsNull() || ((!$isArray) && $propertyType === 'mixed'))
+                    ->setVisibility(Visibility::fromReflectionProperty($reflectionProperty))
+                    ->build();
+                $intermediatePropertyMap->addProperty($property);
+
                 continue;
             }
 
-            $propertyType = $type->getName() !== 'array' ? $type->getName() : 'mixed';
-            $property = PropertyBuilder::new()
-                ->setName($reflectionProperty->getName())
-                ->setType($propertyType)
-                ->setIsNullable($type->allowsNull() || $propertyType === 'mixed')
-                ->setVisibility(Visibility::fromReflectionProperty($reflectionProperty))
-                ->setIsArray($type->getName() === 'array')
-                ->build();
-            $intermediatePropertyMap->addProperty($property);
+            if ($type instanceof ReflectionUnionType) {
+                $types = array_map(static function(ReflectionType $t): string { return $t->getName(); }, $type->getTypes());
+                $isArray = in_array('array', $types, true);
+
+                $builder = PropertyBuilder::new()
+                    ->setName($reflectionProperty->getName())
+                    ->setVisibility(Visibility::fromReflectionProperty($reflectionProperty))
+                    ->setIsNullable($type->allowsNull());
+
+                /* A union type that has one of its types defined as array is to complex to understand */
+                if ($isArray) {
+                    $property = $builder->addType('mixed', true)->build();
+                    $intermediatePropertyMap->addProperty($property);
+                    continue;
+                }
+
+                foreach ($types as $type) {
+                    $builder->addType($type, false);
+                }
+                $property = $builder->build();
+                $intermediatePropertyMap->addProperty($property);
+            }
         }
 
         $this->cache->set($object->getName(), $intermediatePropertyMap);

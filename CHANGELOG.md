@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2021-01-07
+### Changed
+- Improve the test using PropertyAssertionChain. [PR#62](https://github.com/JsonMapper/JsonMapper/pull/62)
+- Added support for union types in JsonMapper. [PR#65](https://github.com/JsonMapper/JsonMapper/pull/65)
+
 ## [1.4.2] - 2020-10-30
 ## Fixed
 - Fix null array support in DocBlock middleware. [PR#60](https://github.com/JsonMapper/JsonMapper/pull/60)

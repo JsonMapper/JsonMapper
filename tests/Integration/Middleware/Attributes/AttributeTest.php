@@ -21,7 +21,11 @@ class AttributeTest extends TestCase
     public function testAttributesMiddlewareDoesMapFrom(): void
     {
         $cache = new NullCache();
-        $mapper = (new JsonMapperFactory())->create(new PropertyMapper(), new Attributes(), new TypedProperties($cache));
+        $mapper = (new JsonMapperFactory())->create(
+            new PropertyMapper(),
+            new Attributes(),
+            new TypedProperties($cache)
+        );
         $object = new AttributePopo();
         $json = json_encode(['Identifier' => 42, 'UserName' => 'John Doe']);
 

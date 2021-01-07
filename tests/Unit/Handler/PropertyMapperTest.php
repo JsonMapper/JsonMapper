@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace JsonMapper\Tests\Unit\Handler;
 
 use JsonMapper\Builders\PropertyBuilder;
+use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\Exception\ClassFactoryException;
 use JsonMapper\Handler\ClassFactoryRegistry;
 use JsonMapper\Handler\PropertyMapper;
+use JsonMapper\JsonMapperFactory;
 use JsonMapper\JsonMapperInterface;
+use JsonMapper\Middleware\DocBlockAnnotations;
 use JsonMapper\Tests\Implementation\ComplexObject;
+use JsonMapper\Tests\Implementation\Models\User;
 use JsonMapper\Tests\Implementation\Models\UserWithConstructor;
 use JsonMapper\Tests\Implementation\Popo;
 use JsonMapper\Tests\Implementation\PrivatePropertyWithoutSetter;
@@ -44,10 +48,9 @@ class PropertyMapperTest extends TestCase
     {
         $fileProperty = PropertyBuilder::new()
             ->setName('file')
-            ->setType('string')
+            ->addType('string', false)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
-            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($fileProperty);
@@ -68,10 +71,9 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('createdAt')
-            ->setType(\DateTimeImmutable::class)
+            ->addType(\DateTimeImmutable::class, false)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
-            ->setIsArray(false)
             ->build();
         $now = new \DateTimeImmutable();
         $propertyMap = new PropertyMap();
@@ -93,10 +95,9 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('child')
-            ->setType(SimpleObject::class)
+            ->addType(SimpleObject::class, false)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PRIVATE())
-            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -124,8 +125,7 @@ class PropertyMapperTest extends TestCase
     {
         $fileProperty = PropertyBuilder::new()
             ->setName('ids')
-            ->setType('int')
-            ->setIsArray(true)
+            ->addType('int', true)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -148,8 +148,7 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('children')
-            ->setType(SimpleObject::class)
-            ->setIsArray(true)
+            ->addType(SimpleObject::class, true)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PRIVATE())
             ->build();
@@ -179,8 +178,7 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('notes')
-            ->setType('string')
-            ->setIsArray(true)
+            ->addType('string', true)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -204,8 +202,7 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('user')
-            ->setType(UserWithConstructor::class)
-            ->setIsArray(false)
+            ->addType(UserWithConstructor::class, false)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -237,10 +234,9 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('child')
-            ->setType(SimpleObject::class)
+            ->addType(SimpleObject::class, false)
             ->setIsNullable(true)
             ->setVisibility(Visibility::PRIVATE())
-            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -263,10 +259,9 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('child')
-            ->setType(SimpleObject::class)
+            ->addType(SimpleObject::class, false)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PRIVATE())
-            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -277,7 +272,8 @@ class PropertyMapperTest extends TestCase
         $propertyMapper = new PropertyMapper();
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage("Null provided in json where JsonMapper\Tests\Implementation\ComplexObject::child doesn't allow null value");
+        $message = "Null provided in json where " . ComplexObject::class . "::child doesn't allow null value";
+        $this->expectExceptionMessage($message);
 
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
     }
@@ -289,10 +285,9 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('number')
-            ->setType('int')
+            ->addType('int', false)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PRIVATE())
-            ->setIsArray(false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -303,8 +298,180 @@ class PropertyMapperTest extends TestCase
         $propertyMapper = new PropertyMapper();
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage("JsonMapper\Tests\Implementation\PrivatePropertyWithoutSetter::number is non-public and no setter method was found");
+        $message = PrivatePropertyWithoutSetter::class . "::number is non-public and no setter method was found";
+        $this->expectExceptionMessage($message);
 
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     * @dataProvider scalarValueDataTypes
+     * @param mixed $value
+     */
+    public function testItCanMapAScalarUnionType(string $type, $value): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('value')
+            ->addType('int', false)
+            ->addType('float', false)
+            ->addType('double', false)
+            ->addType('string', false)
+            ->addType('bool', false)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $json = (object) ['value' => (string) $value];
+        $object = new \stdClass();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals($value, $object->value);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     * @dataProvider scalarValueDataTypes
+     * @param mixed $value
+     */
+    public function testItCanMapAnArrayOfScalarUnionType(string $type, $value): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('values')
+            ->addType('int', true)
+            ->addType('float', true)
+            ->addType('string', true)
+            ->addType('bool', true)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $json = (object) ['values' => [(string) $value]];
+        $object = new \stdClass();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals([$value], $object->values);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testItCanMapAUnionOfUnixTimeStampAndDateTimeWithDateTimeObject(): void
+    {
+        $now = new \DateTime();
+        $property = PropertyBuilder::new()
+            ->setName('moment')
+            ->addType('int', true)
+            ->addType(\DateTime::class, true)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $json = (object) ['moment' => $now->format('Y-m-d\TH:i:s.uP')];
+        $object = new \stdClass();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals($now, $object->moment);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testItCanMapAUnionOfCustomClasses(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('user')
+            ->addType(User::class, false)
+            ->addType(Popo::class, false)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $json = (object) ['user' => (object) ['id' => 42, 'name' => 'John Doe']];
+        $object = new \stdClass();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+        $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals($json->user->id, $object->user->getId());
+        self::assertEquals($json->user->name, $object->user->getName());
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testItCanMapAUnionOfCustomClassesAsArray(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('users')
+            ->addType(User::class, true)
+            ->addType(Popo::class, true)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $json = (object) ['users' => [0 => (object) ['id' => 42, 'name' => 'John Doe']]];
+        $object = new \stdClass();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+        $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals($json->users[0]->id, $object->users[0]->getId());
+        self::assertEquals($json->users[0]->name, $object->users[0]->getName());
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testItCanMapIfNoTypeDetailIsAvailable(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('id')
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $json = (object) ['id' => 42];
+        $object = new \stdClass();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+        $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals($json->id, $object->id);
+    }
+
+    public function scalarValueDataTypes(): array
+    {
+        return [
+            'string' => ['string', 'Some string'],
+            'boolean' => ['bool', true],
+            'integer' => ['int', 1],
+            'float' => ['float', M_PI],
+            'double' => ['double', M_PI],
+        ];
     }
 }
