@@ -16,6 +16,9 @@ matrix:
     - php: 7.4
     - php: 7.4
       env: COMPOSER_UPDATE_FLAGS='--prefer-lowest --prefer-stable'
+    - php: 8.0
+    - php: 8.0
+      env: COMPOSER_UPDATE_FLAGS='--prefer-lowest --prefer-stable'
 
       # Ignore the platform requirements for the upcoming PHP version
     - php: nightly
@@ -33,7 +36,6 @@ branches:
   only:
     - master
     - develop
-    - 2.x
 
 install:
   - curl -s http://getcomposer.org/installer | php
