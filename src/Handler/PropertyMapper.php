@@ -67,9 +67,17 @@ class PropertyMapper
             return;
         }
 
-        $setterMethod = 'set' . ucfirst($propertyInfo->getName());
-        if (method_exists($object->getObject(), $setterMethod)) {
-            $object->getObject()->$setterMethod($value);
+        $methodName = 'set' . ucfirst($propertyInfo->getName());
+        if (method_exists($object->getObject(), $methodName)) {
+            $method = new \ReflectionMethod($object->getObject(), $methodName);
+            $parameters = $method->getParameters();
+
+            if (is_array($value) && count($parameters) === 1 && $parameters[0]->isVariadic()) {
+                $object->getObject()->$methodName(...$value);
+                return;
+            }
+
+            $object->getObject()->$methodName($value);
             return;
         }
 

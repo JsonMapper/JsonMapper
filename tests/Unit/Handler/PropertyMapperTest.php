@@ -464,6 +464,42 @@ class PropertyMapperTest extends TestCase
         self::assertEquals($json->id, $object->id);
     }
 
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testItCanMapUsingAVariadicSetterFunction(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('numbers')
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PRIVATE())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $json = (object) ['numbers' => [1, 2, 3, 4, 5]];
+        $object = new class {
+            /** @var int[] */
+            private $numbers;
+
+            public function getNumbers(): array
+            {
+                return $this->numbers;
+            }
+
+            public function setNumbers(int ...$numbers): void
+            {
+                $this->numbers = $numbers;
+            }
+        };
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+        $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals([1, 2, 3, 4, 5], $object->getNumbers());
+    }
+
     public function scalarValueDataTypes(): array
     {
         return [
