@@ -33,7 +33,7 @@ class NamespaceResolver extends AbstractMiddleware
         }
     }
 
-    private function resolveSingleType(PropertyType $type, ObjectWrapper $object, $imports): PropertyType
+    private function resolveSingleType(PropertyType $type, ObjectWrapper $object, array $imports): PropertyType
     {
         if (ScalarType::isValid($type->getType()) || ClassHelper::isBuiltin($type->getType())) {
             return $type;

@@ -115,7 +115,9 @@ class PropertyMapperTest extends TestCase
 
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
 
-        self::assertEquals(__FUNCTION__, $object->getChild()->getName());
+        $child = $object->getChild();
+        self::assertNotNull($child);
+        self::assertEquals(__FUNCTION__, $child->getName());
     }
 
     /**
