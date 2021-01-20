@@ -30,7 +30,9 @@ class PropertyAssertionChain
     {
         $matches = array_filter(
             $this->property->getPropertyTypes(),
-            static function($p) use ($type, $isArray) { return $p->getType() === $type && $p->isArray() === $isArray; }
+            static function ($p) use ($type, $isArray) {
+                return $p->getType() === $type && $p->isArray() === $isArray;
+            }
         );
 
         Assert::assertGreaterThanOrEqual(1, count($matches));

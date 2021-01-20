@@ -61,7 +61,9 @@ class TypedProperties extends AbstractMiddleware
             }
 
             if ($type instanceof ReflectionUnionType) {
-                $types = array_map(static function(ReflectionType $t): string { return $t->getName(); }, $type->getTypes());
+                $types = array_map(static function (ReflectionType $t): string {
+                    return $t->getName();
+                }, $type->getTypes());
                 $isArray = in_array('array', $types, true);
 
                 $builder = PropertyBuilder::new()

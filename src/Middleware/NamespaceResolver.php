@@ -56,5 +56,4 @@ class NamespaceResolver extends AbstractMiddleware
 
         return $type;
     }
-
 }

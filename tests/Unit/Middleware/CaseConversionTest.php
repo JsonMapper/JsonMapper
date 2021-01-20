@@ -73,7 +73,8 @@ class CaseConversionTest extends TestCase
     /**
      * @covers \JsonMapper\Middleware\CaseConversion
      */
-    public function testWillRemainUntouchedOnInvalidExtensionOfTextNotationClassForSearch(): void {
+    public function testWillRemainUntouchedOnInvalidExtensionOfTextNotationClassForSearch(): void
+    {
         $extensionTextNotation = new class extends TextNotation
         {
             private const A = 'a';
@@ -97,7 +98,8 @@ class CaseConversionTest extends TestCase
      * @covers \JsonMapper\Middleware\CaseConversion
      * @dataProvider possibleTextNotationDataProvider
      */
-    public function testWillRemainUntouchedOnInvalidExtensionOfTextNotationClassForReplacement(TextNotation $search): void {
+    public function testWillRemainUntouchedOnInvalidExtensionOfTextNotationClassForReplacement(TextNotation $search): void
+    {
         $extensionTextNotation = new class extends TextNotation
         {
             private const A = 'a';
