@@ -21,7 +21,10 @@ class ClassFactoryRegistryTest extends TestCase
         self::assertTrue($classFactoryRegistry->hasFactory(\DateTime::class));
         self::assertTrue($classFactoryRegistry->hasFactory(\DateTimeImmutable::class));
         self::assertEquals(new \DateTime('today'), $classFactoryRegistry->create(\DateTime::class, 'today'));
-        self::assertEquals(new \DateTimeImmutable('today'), $classFactoryRegistry->create(\DateTimeImmutable::class, 'today'));
+        self::assertEquals(
+            new \DateTimeImmutable('today'),
+            $classFactoryRegistry->create(\DateTimeImmutable::class, 'today')
+        );
     }
 
     /**
