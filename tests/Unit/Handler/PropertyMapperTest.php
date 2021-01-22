@@ -7,7 +7,6 @@ namespace JsonMapper\Tests\Unit\Handler;
 use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\Visibility;
-use JsonMapper\Exception\ClassFactoryException;
 use JsonMapper\Handler\ClassFactoryRegistry;
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapperFactory;
@@ -227,6 +226,71 @@ class PropertyMapperTest extends TestCase
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
 
         self::assertEquals(new UserWithConstructor(1234, 'John Doe'), $object->user);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testCanMapPropertyAsArrayWithClassFactory(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('user')
+            ->addType(UserWithConstructor::class, true)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $json = (object) ['user' => [0 => (object) ['id' => 1234, 'name' => 'John Doe'], 1 => (object) ['id' => 5678, 'name' => 'Jane Doe']]];
+        $object = new UserWithConstructorParent();
+        $wrapped = new ObjectWrapper($object);
+        $classFactoryRegistry = new ClassFactoryRegistry();
+        $classFactoryRegistry->loadNativePhpClassFactories();
+        $classFactoryRegistry->addFactory(
+            UserWithConstructor::class,
+            static function ($params) {
+                return new UserWithConstructor($params->id, $params->name);
+            }
+        );
+        $propertyMapper = new PropertyMapper($classFactoryRegistry);
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals([new UserWithConstructor(1234, 'John Doe'), new UserWithConstructor(5678, 'Jane Doe')], $object->user);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testCanMapUnionPropertyAsArrayWithClassFactory(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('user')
+            ->addType(UserWithConstructor::class, true)
+            ->addType(\DateTime::class, true)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $json = (object) ['user' => [0 => (object) ['id' => 1234, 'name' => 'John Doe'], 1 => (object) ['id' => 5678, 'name' => 'Jane Doe']]];
+        $object = new UserWithConstructorParent();
+        $wrapped = new ObjectWrapper($object);
+        $classFactoryRegistry = new ClassFactoryRegistry();
+        $classFactoryRegistry->loadNativePhpClassFactories();
+        $classFactoryRegistry->addFactory(
+            UserWithConstructor::class,
+            static function ($params) {
+                return new UserWithConstructor($params->id, $params->name);
+            }
+        );
+        $propertyMapper = new PropertyMapper($classFactoryRegistry);
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals([new UserWithConstructor(1234, 'John Doe'), new UserWithConstructor(5678, 'Jane Doe')], $object->user);
     }
 
     /**
