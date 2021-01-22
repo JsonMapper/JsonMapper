@@ -12,6 +12,9 @@ use PHPUnit\Framework\TestCase;
 
 class CaseConversionTest extends TestCase
 {
+    /**
+     * @covers \JsonMapper\Middleware\CaseConversion
+     */
     public function testCaseConversionMiddlewareDoesCaseConversion(): void
     {
         $mapper = (new JsonMapperFactory())->default();

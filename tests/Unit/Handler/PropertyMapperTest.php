@@ -42,25 +42,27 @@ class PropertyMapperTest extends TestCase
 
     /**
      * @covers \JsonMapper\Handler\PropertyMapper
+     * @dataProvider scalarValueDataTypes
+     * @param mixed $value
      */
-    public function testPublicScalarValueIsSet(): void
+    public function testPublicScalarValueIsSet(string $type, $value): void
     {
-        $fileProperty = PropertyBuilder::new()
-            ->setName('file')
-            ->addType('string', false)
+        $property = PropertyBuilder::new()
+            ->setName('value')
+            ->addType($type, false)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
         $propertyMap = new PropertyMap();
-        $propertyMap->addProperty($fileProperty);
-        $json = (object) ['file' => __FILE__];
+        $propertyMap->addProperty($property);
+        $json = (object) ['value' => $value];
         $object = new \stdClass();
         $wrapped = new ObjectWrapper($object);
         $propertyMapper = new PropertyMapper();
 
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $this->createMock(JsonMapperInterface::class));
 
-        self::assertEquals(__FILE__, $object->file);
+        self::assertEquals($value, $object->value);
     }
 
     /**
@@ -380,8 +382,8 @@ class PropertyMapperTest extends TestCase
         $property = PropertyBuilder::new()
             ->setName('value')
             ->addType('int', false)
-            ->addType('float', false)
             ->addType('double', false)
+            ->addType('float', false)
             ->addType('string', false)
             ->addType('bool', false)
             ->setIsNullable(false)
@@ -390,7 +392,7 @@ class PropertyMapperTest extends TestCase
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
-        $json = (object) ['value' => (string) $value];
+        $json = (object) ['value' => $value];
         $object = new \stdClass();
         $wrapped = new ObjectWrapper($object);
         $propertyMapper = new PropertyMapper();

@@ -12,6 +12,9 @@ use Psr\Log\Test\TestLogger;
 
 class DebuggerTest extends TestCase
 {
+    /**
+     * @covers \JsonMapper\Middleware\Debugger
+     */
     public function testDebuggerLogsDetails(): void
     {
         $mapper = (new JsonMapperFactory())->default();
