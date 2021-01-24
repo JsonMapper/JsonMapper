@@ -90,4 +90,4 @@ jobs:
     - name: Upload test coverage
       run: php vendor/bin/php-coveralls -vvv
       env:
-        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
