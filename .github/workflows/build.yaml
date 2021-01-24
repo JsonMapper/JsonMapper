@@ -86,3 +86,6 @@ jobs:
     - name: Run integration tests
       run: composer integration-tests
       continue-on-error: ${{ matrix.allow_fail }}
+
+    - name: Upload test coverage
+      run: php vendor/coveralls -vvv
