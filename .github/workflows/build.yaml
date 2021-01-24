@@ -91,6 +91,7 @@ jobs:
       run: php vendor/bin/php-coveralls -vvv
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+      continue-on-error: true
 
     - name: Dump upload
       run: cat /home/runner/work/JsonMapper/JsonMapper/build/logs/coveralls-upload.json
