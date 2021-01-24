@@ -6,7 +6,7 @@ For more information see the project website: https://jsonmapper.net/
 [![GitHub](https://img.shields.io/github/license/JsonMapper/JsonMapper)](https://choosealicense.com/licenses/mit/)
 [![Packagist Version](https://img.shields.io/packagist/v/json-mapper/json-mapper)](https://packagist.org/packages/json-mapper/json-mapper) 
 [![PHP from Packagist](https://img.shields.io/packagist/php-v/json-mapper/json-mapper)](#)
-[![Build Status](https://github.com/JsonMapper/JsonMapper/workflows/build/badge.svg)](#) 
+![Build](https://github.com/JsonMapper/JsonMapper/workflows/Build/badge.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/JsonMapper/JsonMapper/badge.svg?branch=develop)](https://coveralls.io/github/JsonMapper/JsonMapper?branch=develop)
 
 # Why use JsonMapper
