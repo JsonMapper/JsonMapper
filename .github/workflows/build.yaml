@@ -88,4 +88,4 @@ jobs:
       continue-on-error: ${{ matrix.allow_fail }}
 
     - name: Upload test coverage
-      run: php vendor/coveralls -vvv
+      run: php vendor/bin/php-coveralls -vvv
