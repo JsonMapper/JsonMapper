@@ -90,7 +90,9 @@ jobs:
     - name: Upload test coverage
       run: php vendor/bin/php-coveralls -vvv
       env:
-        COVERALLS_REPO_TOKEN: ${{ secrets.secrets.GITHUB_TOKEN }}
+        COVERALLS_REPO_TOKEN: ${{ secrets.secrets.COVERALLS_REPO_TOKEN }}
+        COVERALLS_RUN_LOCALLY=1
+
       continue-on-error: true
 
     - name: Dump upload
