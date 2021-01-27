@@ -99,4 +99,7 @@ jobs:
     steps:
       - name: Coveralls Finished
         run: |
-          curl https://coveralls.io/webhook?repo_token=${{ secrets.GITHUB_TOKEN }} -d "payload[build_num]=${{ github.sha }}&payload[status]=done"
+          curl --header "Content-Type: application/json" \
+            --request POST \
+            --data '{"repo_token":"${{ secrets.GITHUB_TOKEN }}","repo_name":"JsonMapper/JsonMapper", "payload": {"build_num": "${{ github.sha }}", "status": "done"}}' \
+            https://coveralls.io/webhook
