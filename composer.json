@@ -24,7 +24,8 @@
         "phpstan/phpstan": "^0.12.14",
         "php-coveralls/php-coveralls": "^2.4",
         "phpunit/phpunit": "^8.5 || ^9.0",
-        "guzzlehttp/guzzle": "^6.5 || ^7.0"
+        "guzzlehttp/guzzle": "^6.5 || ^7.0",
+        "phpstan/phpstan-phpunit": "^0.12.17"
     },
     "autoload": {
         "psr-4": {
