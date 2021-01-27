@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support variadic setter function. [PR#68](https://github.com/JsonMapper/JsonMapper/pull/68)
 ### Fixed
 - Include PHP 8.0 in the build matrix. [PR#70](https://github.com/JsonMapper/JsonMapper/pull/70)
+- Complete switch to GitHub Actions and remove Travis. [PR#73](https://github.com/JsonMapper/JsonMapper/pull/73)
 
 ## [2.0.0] - 2021-01-07
 ### Changed
