@@ -95,10 +95,6 @@ jobs:
         COVERALLS_FLAG_NAME: ${{ matrix.name }}
       continue-on-error: ${{ matrix.allow_fail }}
 
-    - name: Dump json file
-      run: cat /home/runner/work/JsonMapper/JsonMapper/build/logs/coveralls-upload.json
-      continue-on-error: ${{ matrix.allow_fail }}
-
   finish:
     needs: build
     runs-on: ubuntu-latest
