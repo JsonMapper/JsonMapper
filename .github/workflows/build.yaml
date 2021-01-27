@@ -97,3 +97,11 @@ jobs:
 
     - name: Dump upload
       run: cat /home/runner/work/JsonMapper/JsonMapper/build/logs/coveralls-upload.json
+
+  finish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls Finished
+        run: |
+          curl https://coveralls.io/webhook?repo_token=${{ secrets.coveralls }} -d "payload[build_num]=${{ github.sha }}&payload[status]=done"
