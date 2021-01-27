@@ -93,14 +93,10 @@ jobs:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         COVERALLS_PARALLEL: true
         COVERALLS_FLAG_NAME: ${{ matrix.name }}
-      continue-on-error: true
-
-    - name: Dump upload
-      run: cat /home/runner/work/JsonMapper/JsonMapper/build/logs/coveralls-upload.json
 
   finish:
     runs-on: ubuntu-latest
     steps:
       - name: Coveralls Finished
         run: |
-          curl https://coveralls.io/webhook?repo_token=${{ secrets.coveralls }} -d "payload[build_num]=${{ github.sha }}&payload[status]=done"
+          curl https://coveralls.io/webhook?repo_token=${{ secrets.GITHUB_TOKEN }} -d "payload[build_num]=${{ github.sha }}&payload[status]=done"
