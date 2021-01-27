@@ -93,6 +93,7 @@ jobs:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         COVERALLS_PARALLEL: true
         COVERALLS_FLAG_NAME: ${{ matrix.name }}
+      continue-on-error: ${{ matrix.allow_fail }}
 
   finish:
     runs-on: ubuntu-latest
