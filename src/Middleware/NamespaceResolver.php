@@ -33,7 +33,7 @@ class NamespaceResolver extends AbstractMiddleware
         }
     }
 
-    private function resolveSingleType(PropertyType $type, ObjectWrapper $object, $imports): PropertyType
+    private function resolveSingleType(PropertyType $type, ObjectWrapper $object, array $imports): PropertyType
     {
         if (ScalarType::isValid($type->getType()) || ClassHelper::isBuiltin($type->getType())) {
             return $type;
@@ -51,10 +51,12 @@ class NamespaceResolver extends AbstractMiddleware
         }
 
         if (!class_exists($type->getType())) {
-            return new PropertyType($object->getReflectedObject()->getNamespaceName() . '\\' . $type->getType(), $type->isArray());
+            return new PropertyType(
+                $object->getReflectedObject()->getNamespaceName() . '\\' . $type->getType(),
+                $type->isArray()
+            );
         }
 
         return $type;
     }
-
 }

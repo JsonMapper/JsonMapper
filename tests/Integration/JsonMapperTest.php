@@ -162,7 +162,9 @@ class JsonMapperTest extends TestCase
         $mapper->mapObject($json, $object);
 
         // Assert
-        self::assertSame(__METHOD__, $object->getChild()->getName());
+        $child = $object->getChild();
+        self::assertNotNull($child);
+        self::assertSame(__METHOD__, $child->getName());
     }
 
     public function testItCanMapAnObjectWithANullClassAttribute(): void
@@ -297,6 +299,7 @@ class JsonMapperTest extends TestCase
 
     /**
      * @dataProvider scalarValueDataTypes
+     * @param mixed $value
      */
     public function testItSetsTheValueAsIsForMixedType($value): void
     {
@@ -425,6 +428,34 @@ class JsonMapperTest extends TestCase
 
         // Assert
         self::assertEquals($now, $object->moment);
+    }
+
+    public function testItCanMapAnArrayUsingAVariadicSetter(): void
+    {
+        // Arrange
+        $mapper = (new JsonMapperFactory())->bestFit();
+        $object = new class {
+            /** @var Popo[] */
+            private $popos;
+
+            public function setPopos(Popo ...$popos): void
+            {
+                $this->popos = $popos;
+            }
+
+            public function getPopos(): array
+            {
+                return $this->popos;
+            }
+        };
+        $json = (object) ['popos' => [(object) ['name' => 'one'], (object) ['name' => 'two']]];
+
+        // Act
+        $mapper->mapObject($json, $object);
+
+        // Assert
+        self::assertEquals($object->getPopos()[0]->name, $json->popos[0]->name);
+        self::assertEquals($object->getPopos()[1]->name, $json->popos[1]->name);
     }
 
     public function scalarValueDataTypes(): array

@@ -11,6 +11,9 @@ use PHPUnit\Framework\TestCase;
 
 class FinalCallbackTest extends TestCase
 {
+    /**
+     * @covers \JsonMapper\Middleware\FinalCallback
+     */
     public function testCallbackIsOnlyInvokedOnceOnNestedStructure(): void
     {
         $invocationCount = 0;
@@ -27,6 +30,9 @@ class FinalCallbackTest extends TestCase
         self::assertEquals(1, $invocationCount);
     }
 
+    /**
+     * @covers \JsonMapper\Middleware\FinalCallback
+     */
     public function testCallbackIsInvokedForEveryPass(): void
     {
         $invocationCount = 0;

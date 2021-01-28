@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2021-01-28
+### Added
+- Support variadic setter function. [PR#68](https://github.com/JsonMapper/JsonMapper/pull/68)
+### Fixed
+- Include PHP 8.0 in the build matrix. [PR#70](https://github.com/JsonMapper/JsonMapper/pull/70)
+- Complete switch to GitHub Actions and remove Travis. [PR#73](https://github.com/JsonMapper/JsonMapper/pull/73)
+- Resolve code style and static analysis issues. [PR#71](https://github.com/JsonMapper/JsonMapper/pull/71)
+
 ## [2.0.0] - 2021-01-07
 ### Changed
 - Improve the test using PropertyAssertionChain. [PR#62](https://github.com/JsonMapper/JsonMapper/pull/62)

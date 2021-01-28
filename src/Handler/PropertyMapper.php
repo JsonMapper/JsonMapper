@@ -67,9 +67,17 @@ class PropertyMapper
             return;
         }
 
-        $setterMethod = 'set' . ucfirst($propertyInfo->getName());
-        if (method_exists($object->getObject(), $setterMethod)) {
-            $object->getObject()->$setterMethod($value);
+        $methodName = 'set' . ucfirst($propertyInfo->getName());
+        if (method_exists($object->getObject(), $methodName)) {
+            $method = new \ReflectionMethod($object->getObject(), $methodName);
+            $parameters = $method->getParameters();
+
+            if (is_array($value) && count($parameters) === 1 && $parameters[0]->isVariadic()) {
+                $object->getObject()->$methodName(...$value);
+                return;
+            }
+
+            $object->getObject()->$methodName($value);
             return;
         }
 
@@ -94,18 +102,22 @@ class PropertyMapper
                     /* Array of scalar values */
                     if ($this->propertyTypeAndValueTypeAreScalarAndSameType($type, $firstValue)) {
                         $scalarType = new ScalarType($type->getType());
-                        return array_map(static function($v) use ($scalarType) { return $scalarType->cast($v); }, (array) $value);
+                        return array_map(static function ($v) use ($scalarType) {
+                            return $scalarType->cast($v);
+                        }, (array) $value);
                     }
 
                     // Array of registered class @todo how do you know it was the correct type?
                     if ($this->classFactoryRegistry->hasFactory($type->getType())) {
-                        return array_map(function($v) use ($type) { return $this->classFactoryRegistry->create($type->getType(), $v); }, (array) $value);
+                        return array_map(function ($v) use ($type) {
+                            return $this->classFactoryRegistry->create($type->getType(), $v);
+                        }, (array) $value);
                     }
 
                     // Array of existing class @todo how do you know it was the correct type?
                     if (class_exists($type->getType())) {
                         return array_map(
-                            static function($v) use ($type, $mapper) {
+                            static function ($v) use ($type, $mapper) {
                                 $className = $type->getType();
                                 $instance = new $className();
                                 $mapper->mapObject($v, $instance);
@@ -153,7 +165,9 @@ class PropertyMapper
 
         if ($this->classFactoryRegistry->hasFactory($type->getType())) {
             if ($type->isArray()) {
-                return array_map(function($v) use ($type) {  return $this->classFactoryRegistry->create($type->getType(), $v); }, $value);
+                return array_map(function ($v) use ($type) {
+                    return $this->classFactoryRegistry->create($type->getType(), $v);
+                }, $value);
             }
             return $this->classFactoryRegistry->create($type->getType(), $value);
         }
@@ -187,7 +201,9 @@ class PropertyMapper
         $scalar = new ScalarType($type);
 
         if ($asArray) {
-            return array_map(function($v) use ($scalar) { return $scalar->cast($v); }, (array) $value);
+            return array_map(function ($v) use ($scalar) {
+                return $scalar->cast($v);
+            }, (array) $value);
         }
 
         return $scalar->cast($value);
@@ -201,7 +217,7 @@ class PropertyMapper
     {
         if ($asArray) {
             return array_map(
-                static function($v) use ($type, $mapper): object {
+                static function ($v) use ($type, $mapper): object {
                     $instance = new $type();
                     $mapper->mapObject($v, $instance);
                     return $instance;

@@ -12,7 +12,7 @@ class Popo
 
     public mixed $mixedParam;
 
-    public float|int $amount;
+    public float | int $amount;
 
-    public string|int|float|array $complexUnionWithArray;
+    public string | int | float | array $complexUnionWithArray;
 }

@@ -82,7 +82,7 @@ class ArrayCacheTest extends TestCase
         $cache = new ArrayCache();
 
         $this->expectException(InvalidArgumentException::class);
-        $cache->delete(new \stdClass(), null);
+        $cache->delete(new \stdClass());
     }
 
     /**

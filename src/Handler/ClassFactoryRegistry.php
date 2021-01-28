@@ -40,7 +40,7 @@ class ClassFactoryRegistry
     }
 
     /**
-     * @param $params mixed
+     * @param mixed $params
      * @return mixed
      */
     public function create(string $className, $params)

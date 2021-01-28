@@ -27,7 +27,7 @@ class AttributeTest extends TestCase
             new TypedProperties($cache)
         );
         $object = new AttributePopo();
-        $json = json_encode(['Identifier' => 42, 'UserName' => 'John Doe']);
+        $json = '{"Identifier": 42, "UserName": "John Doe"}';
 
         $mapper->mapObjectFromString($json, $object);
 
