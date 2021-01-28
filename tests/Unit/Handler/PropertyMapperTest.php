@@ -244,7 +244,10 @@ class PropertyMapperTest extends TestCase
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
-        $json = (object) ['user' => [0 => (object) ['id' => 1234, 'name' => 'John Doe'], 1 => (object) ['id' => 5678, 'name' => 'Jane Doe']]];
+        $json = (object) ['user' => [
+            0 => (object) ['id' => 1234, 'name' => 'John Doe'],
+            1 => (object) ['id' => 5678, 'name' => 'Jane Doe']
+        ]];
         $object = new UserWithConstructorParent();
         $wrapped = new ObjectWrapper($object);
         $classFactoryRegistry = new ClassFactoryRegistry();
@@ -259,7 +262,10 @@ class PropertyMapperTest extends TestCase
 
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
 
-        self::assertEquals([new UserWithConstructor(1234, 'John Doe'), new UserWithConstructor(5678, 'Jane Doe')], $object->user);
+        self::assertEquals(
+            [new UserWithConstructor(1234, 'John Doe'), new UserWithConstructor(5678, 'Jane Doe')],
+            $object->user
+        );
     }
 
     /**
@@ -277,7 +283,10 @@ class PropertyMapperTest extends TestCase
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
-        $json = (object) ['user' => [0 => (object) ['id' => 1234, 'name' => 'John Doe'], 1 => (object) ['id' => 5678, 'name' => 'Jane Doe']]];
+        $json = (object) ['user' => [
+            0 => (object) ['id' => 1234, 'name' => 'John Doe'],
+            1 => (object) ['id' => 5678, 'name' => 'Jane Doe']
+        ]];
         $object = new UserWithConstructorParent();
         $wrapped = new ObjectWrapper($object);
         $classFactoryRegistry = new ClassFactoryRegistry();
@@ -292,7 +301,10 @@ class PropertyMapperTest extends TestCase
 
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
 
-        self::assertEquals([new UserWithConstructor(1234, 'John Doe'), new UserWithConstructor(5678, 'Jane Doe')], $object->user);
+        self::assertEquals(
+            [new UserWithConstructor(1234, 'John Doe'), new UserWithConstructor(5678, 'Jane Doe')],
+            $object->user
+        );
     }
 
     /**
