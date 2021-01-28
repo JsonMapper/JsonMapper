@@ -162,7 +162,9 @@ class JsonMapperTest extends TestCase
         $mapper->mapObject($json, $object);
 
         // Assert
-        self::assertSame(__METHOD__, $object->getChild()->getName());
+        $child = $object->getChild();
+        self::assertNotNull($child);
+        self::assertSame(__METHOD__, $child->getName());
     }
 
     public function testItCanMapAnObjectWithANullClassAttribute(): void
@@ -297,6 +299,7 @@ class JsonMapperTest extends TestCase
 
     /**
      * @dataProvider scalarValueDataTypes
+     * @param mixed $value
      */
     public function testItSetsTheValueAsIsForMixedType($value): void
     {

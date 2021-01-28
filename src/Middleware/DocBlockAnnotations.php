@@ -57,7 +57,7 @@ class DocBlockAnnotations extends AbstractMiddleware
 
             $types = explode('|', $annotations->getVar());
             $nullable = in_array('null', $types, true);
-            $types = array_filter($types, static function(string $type) {
+            $types = array_filter($types, static function (string $type) {
                 return $type !== 'null';
             });
 
