@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.2.0] - 2021-02-04
 ### Added
 - Support for renaming JSON properties before mapping values onto an object [PR#75](https://github.com/JsonMapper/JsonMapper/pull/75)
 
