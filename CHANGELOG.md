@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2021-02-04
+### Added
+- Support for renaming JSON properties before mapping values onto an object [PR#75](https://github.com/JsonMapper/JsonMapper/pull/75)
+
 ## [2.1.0] - 2021-01-28
 ### Added
 - Support variadic setter function. [PR#68](https://github.com/JsonMapper/JsonMapper/pull/68)
