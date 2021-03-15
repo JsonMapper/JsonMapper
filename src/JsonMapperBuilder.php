@@ -6,12 +6,19 @@ namespace JsonMapper;
 
 use JsonMapper\Cache\ArrayCache;
 use JsonMapper\Dto\NamedMiddleware;
+use JsonMapper\Enums\TextNotation;
 use JsonMapper\Exception\BuilderException;
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\Middleware\Attributes\Attributes;
+use JsonMapper\Middleware\CaseConversion;
+use JsonMapper\Middleware\Debugger;
 use JsonMapper\Middleware\DocBlockAnnotations;
+use JsonMapper\Middleware\FinalCallback;
 use JsonMapper\Middleware\NamespaceResolver;
+use JsonMapper\Middleware\Rename\Mapping;
+use JsonMapper\Middleware\Rename\Rename;
 use JsonMapper\Middleware\TypedProperties;
+use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
 
 class JsonMapperBuilder
@@ -90,9 +97,29 @@ class JsonMapperBuilder
         return $this->withMiddleware(new TypedProperties($cache ?: clone $this->defaultCache), TypedProperties::class);
     }
 
-    public function withAttributesMiddleware(?CacheInterface $cache = null): JsonMapperBuilder
+    public function withAttributesMiddleware(): JsonMapperBuilder
     {
         return $this->withMiddleware(new Attributes(), Attributes::class);
+    }
+
+    public function withRenameMiddleware(Mapping ...$mapping): JsonMapperBuilder
+    {
+        return $this->withMiddleware(new Rename($mapping), Rename::class);
+    }
+
+    public function withCaseConversionMiddleware(TextNotation $searchSeparator, TextNotation $replacementSeparator): JsonMapperBuilder
+    {
+        return $this->withMiddleware(new CaseConversion($searchSeparator, $replacementSeparator), CaseConversion::class);
+    }
+
+    public function withDebuggerMiddleware(LoggerInterface $logger): JsonMapperBuilder
+    {
+        return $this->withMiddleware(new Debugger($logger), Debugger::class);
+    }
+
+    public function withFinalCallbackMiddleware(callable $callback, bool $onlyApplyCallBackOnTopLevel = true): JsonMapperBuilder
+    {
+        return $this->withMiddleware(new FinalCallback($callback, $onlyApplyCallBackOnTopLevel), FinalCallback::class);
     }
 
     public function withMiddleware(callable $middleware, ?string $name = null): JsonMapperBuilder
