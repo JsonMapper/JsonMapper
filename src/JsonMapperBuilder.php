@@ -104,7 +104,7 @@ class JsonMapperBuilder
 
     public function withRenameMiddleware(Mapping ...$mapping): JsonMapperBuilder
     {
-        return $this->withMiddleware(new Rename($mapping), Rename::class);
+        return $this->withMiddleware(new Rename(...$mapping), Rename::class);
     }
 
     public function withCaseConversionMiddleware(TextNotation $searchSeparator, TextNotation $replacementSeparator): JsonMapperBuilder
