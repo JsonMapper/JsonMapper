@@ -2,31 +2,25 @@
 
 declare(strict_types=1);
 
-namespace JsonMapper;
+namespace JsonMapper\Tests\Implementation;
 
-use JsonException;
 use JsonMapper\Dto\NamedMiddleware;
+use JsonMapper\JsonMapperInterface;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 
 class JsonMapper implements JsonMapperInterface
 {
     /** @var callable */
-    private $propertyMapper;
+    public $handler;
     /** @var NamedMiddleware[] */
-    private $stack = [];
+    public $stack = [];
     /** @var callable|null */
-    private $cached;
+    public $cached;
 
-    public function __construct(callable $propertyMapper = null)
+    public function setPropertyMapper(callable $handler): JsonMapperInterface
     {
-        $this->propertyMapper = $propertyMapper;
-    }
-
-    public function setPropertyMapper(callable $propertyMapper): JsonMapperInterface
-    {
-        $this->propertyMapper = $propertyMapper;
-        $this->cached = null;
+        $this->handler = $handler;
 
         return $this;
     }
@@ -154,7 +148,7 @@ class JsonMapper implements JsonMapperInterface
     private function resolve(): callable
     {
         if (!$this->cached) {
-            $prev = $this->propertyMapper;
+            $prev = $this->handler;
             foreach (array_reverse($this->stack) as $namedMiddleware) {
                 $prev = $namedMiddleware->getMiddleware()($prev);
             }
