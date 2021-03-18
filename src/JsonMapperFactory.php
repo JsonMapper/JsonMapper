@@ -9,10 +9,18 @@ use JsonMapper\Middleware\MiddlewareInterface;
 
 class JsonMapperFactory
 {
+    /** @var JsonMapperBuilder */
+    private $builder;
+
+    public function __construct(JsonMapperBuilder $builder = null)
+    {
+        $this->builder = $builder ?? JsonMapperBuilder::new();
+    }
+
     public function create(PropertyMapper $propertyMapper = null, MiddlewareInterface ...$handlers): JsonMapperInterface
     {
-        $builder = JsonMapperBuilder::new()
-            ->withPropertyMapper($propertyMapper ?? new PropertyMapper());
+        $builder = clone ($this->builder);
+        $builder->withPropertyMapper($propertyMapper ?? new PropertyMapper());
         foreach ($handlers as $handler) {
             $builder->withMiddleware($handler);
         }
@@ -22,8 +30,8 @@ class JsonMapperFactory
 
     public function default(): JsonMapperInterface
     {
-        return JsonMapperBuilder::new()
-            ->withDocBlockAnnotationsMiddleware()
+        $builder = clone ($this->builder);
+        return $builder->withDocBlockAnnotationsMiddleware()
             ->withNamespaceResolverMiddleware()
             ->build();
     }
@@ -34,8 +42,8 @@ class JsonMapperFactory
             return $this->default();
         }
 
-        return JsonMapperBuilder::new()
-            ->withDocBlockAnnotationsMiddleware()
+        $builder = clone ($this->builder);
+        return $builder->withDocBlockAnnotationsMiddleware()
             ->withTypedPropertiesMiddleware()
             ->withNamespaceResolverMiddleware()
             ->build();
