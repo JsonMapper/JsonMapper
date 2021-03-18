@@ -42,9 +42,35 @@ class JsonMapperTest extends TestCase
     /**
      * @covers \JsonMapper\JsonMapper
      */
+    public function testHandlerFromSetterIsInvokedWhenMappingObject(): void
+    {
+        $jsonMapper = new JsonMapper();
+        $jsonMapper->setPropertyMapper($this->handler);
+
+        $jsonMapper->mapObject(new \stdClass(), new \stdClass());
+
+        self::assertTrue($this->handler->isCalled());
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
     public function testHandlerFromConstructorIsInvokedWhenMappingArray(): void
     {
         $jsonMapper = new JsonMapper($this->handler);
+
+        $jsonMapper->mapArray([new \stdClass()], new \stdClass());
+
+        self::assertTrue($this->handler->isCalled());
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testHandlerFromSetterIsInvokedWhenMappingArray(): void
+    {
+        $jsonMapper = new JsonMapper();
+        $jsonMapper->setPropertyMapper($this->handler);
 
         $jsonMapper->mapArray([new \stdClass()], new \stdClass());
 

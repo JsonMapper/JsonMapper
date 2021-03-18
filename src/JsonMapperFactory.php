@@ -4,44 +4,48 @@ declare(strict_types=1);
 
 namespace JsonMapper;
 
-use JsonMapper\Cache\ArrayCache;
 use JsonMapper\Handler\PropertyMapper;
-use JsonMapper\Middleware\DocBlockAnnotations;
-use JsonMapper\Middleware\NamespaceResolver;
 use JsonMapper\Middleware\MiddlewareInterface;
-use JsonMapper\Middleware\TypedProperties;
 
 class JsonMapperFactory
 {
+    /** @var JsonMapperBuilder */
+    private $builder;
+
+    public function __construct(JsonMapperBuilder $builder = null)
+    {
+        $this->builder = $builder ?? JsonMapperBuilder::new();
+    }
+
     public function create(PropertyMapper $propertyMapper = null, MiddlewareInterface ...$handlers): JsonMapperInterface
     {
-        $mapper = new JsonMapper($propertyMapper ?? new PropertyMapper());
+        $builder = clone ($this->builder);
+        $builder->withPropertyMapper($propertyMapper ?? new PropertyMapper());
         foreach ($handlers as $handler) {
-            $mapper->push($handler);
+            $builder->withMiddleware($handler);
         }
 
-        return $mapper;
+        return $builder->build();
     }
 
     public function default(): JsonMapperInterface
     {
-        return (new JsonMapper(new PropertyMapper()))
-            ->push(new DocBlockAnnotations(new ArrayCache()))
-            ->push(new NamespaceResolver());
+        $builder = clone ($this->builder);
+        return $builder->withDocBlockAnnotationsMiddleware()
+            ->withNamespaceResolverMiddleware()
+            ->build();
     }
 
     public function bestFit(): JsonMapperInterface
     {
-        $mapper = new JsonMapper(new PropertyMapper());
-
-        $mapper->push(new DocBlockAnnotations(new ArrayCache()));
-
-        if (PHP_VERSION_ID >= 70400) {
-            $mapper->push(new TypedProperties(new ArrayCache()));
+        if (PHP_VERSION_ID <= 70400) {
+            return $this->default();
         }
 
-        $mapper->push(new NamespaceResolver());
-
-        return $mapper;
+        $builder = clone ($this->builder);
+        return $builder->withDocBlockAnnotationsMiddleware()
+            ->withTypedPropertiesMiddleware()
+            ->withNamespaceResolverMiddleware()
+            ->build();
     }
 }
