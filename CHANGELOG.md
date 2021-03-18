@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.0] - 2021-03-18
+### Added
+- JsonMapperBuilder offers a fluent interface for building a JsonMapper instance [PR#76](https://github.com/JsonMapper/JsonMapper/pull/76)
+
 ## [2.2.0] - 2021-02-04
 ### Added
 - Support for renaming JSON properties before mapping values onto an object [PR#75](https://github.com/JsonMapper/JsonMapper/pull/75)
