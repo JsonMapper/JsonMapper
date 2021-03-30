@@ -519,7 +519,6 @@ class JsonMapperTest extends TestCase
         $jane = new Php74\Popo();
         $jane->name = 'Jane Doe';
         self::assertEquals([$john, $jane], $response->data);
-
     }
 
     public function scalarValueDataTypes(): array
