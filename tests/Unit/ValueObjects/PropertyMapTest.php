@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit\ValueObjects;
 
+use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Enums\Visibility;
+use JsonMapper\Tests\Implementation\Popo;
 use JsonMapper\ValueObjects\Property;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\ValueObjects\PropertyType;
@@ -101,12 +103,25 @@ class PropertyMapTest extends TestCase
     {
         $map = new PropertyMap();
         $map->addProperty(new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', false)));
+        $map->addProperty(new Property('data', Visibility::PUBLIC(), false, new PropertyType(Popo::class, true)));
         $other = new PropertyMap();
         $other->addProperty(new Property('uuid', Visibility::PUBLIC(), false, new PropertyType('string', false)));
+        $other->addProperty(new Property('data', Visibility::PUBLIC(), false, new PropertyType('mixed', true)));
 
         $map->merge($other);
 
         self::assertTrue($map->hasProperty('id'));
         self::assertTrue($map->hasProperty('uuid'));
+        self::assertTrue($map->hasProperty('data'));
+        self::assertEquals(
+            new Property(
+                'data',
+                Visibility::PUBLIC(),
+                false,
+                new PropertyType(Popo::class, true),
+                new PropertyType('mixed', true)
+            ),
+            $map->getProperty('data')
+        );
     }
 }
