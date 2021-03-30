@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace JsonMapper\Exception;
 
-
 class BuilderException extends \Exception
 {
     public static function invalidJsonMapperClassName(string $className): self
