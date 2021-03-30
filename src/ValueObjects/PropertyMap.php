@@ -30,8 +30,22 @@ class PropertyMap implements \IteratorAggregate, \JsonSerializable
 
     public function merge(self $other): void
     {
+        /** @var Property $property */
         foreach ($other as $property) {
-            $this->addProperty($property);
+            if (! $this->hasProperty($property->getName())) {
+                $this->addProperty($property);
+                continue;
+            }
+
+            $current = $this->getProperty($property->getName());
+            $builder = $current->asBuilder();
+
+            $builder->setIsNullable($current->isNullable() || $property->isNullable());
+            foreach ($property->getPropertyTypes() as $propertyType) {
+                $builder->addType($propertyType->getType(), $propertyType->isArray());
+            }
+
+            $this->addProperty($builder->build());
         }
     }
 

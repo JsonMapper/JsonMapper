@@ -26,7 +26,7 @@ use Psr\Log\NullLogger;
 class JsonMapperBuilderTest extends TestCase
 {
     /** @covers \JsonMapper\JsonMapperBuilder */
-    public function testCanReturnFreshInstance():void
+    public function testCanReturnFreshInstance(): void
     {
         $instance = JsonMapperBuilder::new();
         $otherInstance = JsonMapperBuilder::new();
@@ -54,7 +54,7 @@ class JsonMapperBuilderTest extends TestCase
     }
 
     /** @covers \JsonMapper\JsonMapperBuilder */
-    public function testThrowsExceptionSettingJsonMapperClassNameForClassWithoutJsonMapperInterfaceImplementation(): void
+    public function testThrowsExceptionSettingJsonMapperClassNameForClassWithoutProperImplementation(): void
     {
         $this->expectException(BuilderException::class);
 
@@ -84,7 +84,7 @@ class JsonMapperBuilderTest extends TestCase
             ->withNamespaceResolverMiddleware()
             ->build();
 
-        self::assertCount(1, array_filter($instance->stack, static function(NamedMiddleware $middleware): bool {
+        self::assertCount(1, array_filter($instance->stack, static function (NamedMiddleware $middleware): bool {
             return $middleware->getMiddleware() instanceof NamespaceResolver;
         }));
     }
@@ -98,7 +98,7 @@ class JsonMapperBuilderTest extends TestCase
             ->withDocBlockAnnotationsMiddleware()
             ->build();
 
-        self::assertCount(1, array_filter($instance->stack, static function(NamedMiddleware $middleware): bool {
+        self::assertCount(1, array_filter($instance->stack, static function (NamedMiddleware $middleware): bool {
             return $middleware->getMiddleware() instanceof DocBlockAnnotations;
         }));
     }
@@ -112,7 +112,7 @@ class JsonMapperBuilderTest extends TestCase
             ->withTypedPropertiesMiddleware()
             ->build();
 
-        self::assertCount(1, array_filter($instance->stack, static function(NamedMiddleware $middleware): bool {
+        self::assertCount(1, array_filter($instance->stack, static function (NamedMiddleware $middleware): bool {
             return $middleware->getMiddleware() instanceof TypedProperties;
         }));
     }
@@ -126,7 +126,7 @@ class JsonMapperBuilderTest extends TestCase
             ->withAttributesMiddleware()
             ->build();
 
-        self::assertCount(1, array_filter($instance->stack, static function(NamedMiddleware $middleware): bool {
+        self::assertCount(1, array_filter($instance->stack, static function (NamedMiddleware $middleware): bool {
             return $middleware->getMiddleware() instanceof Attributes;
         }));
     }
@@ -140,7 +140,7 @@ class JsonMapperBuilderTest extends TestCase
             ->withRenameMiddleware(new Mapping(SimpleObject::class, 'first_name', 'name'))
             ->build();
 
-        self::assertCount(1, array_filter($instance->stack, static function(NamedMiddleware $middleware): bool {
+        self::assertCount(1, array_filter($instance->stack, static function (NamedMiddleware $middleware): bool {
             return $middleware->getMiddleware() instanceof Rename;
         }));
     }
@@ -154,7 +154,7 @@ class JsonMapperBuilderTest extends TestCase
             ->withCaseConversionMiddleware(TextNotation::UNDERSCORE(), TextNotation::CAMEL_CASE())
             ->build();
 
-        self::assertCount(1, array_filter($instance->stack, static function(NamedMiddleware $middleware): bool {
+        self::assertCount(1, array_filter($instance->stack, static function (NamedMiddleware $middleware): bool {
             return $middleware->getMiddleware() instanceof CaseConversion;
         }));
     }
@@ -168,7 +168,7 @@ class JsonMapperBuilderTest extends TestCase
             ->withDebuggerMiddleware(new NullLogger())
             ->build();
 
-        self::assertCount(1, array_filter($instance->stack, static function(NamedMiddleware $middleware): bool {
+        self::assertCount(1, array_filter($instance->stack, static function (NamedMiddleware $middleware): bool {
             return $middleware->getMiddleware() instanceof Debugger;
         }));
     }
@@ -179,10 +179,11 @@ class JsonMapperBuilderTest extends TestCase
         /** @var JsonMapper $instance */
         $instance = JsonMapperBuilder::new()
             ->withJsonMapperClassName(JsonMapper::class)
-            ->withFinalCallbackMiddleware(static function() {})
+            ->withFinalCallbackMiddleware(static function () {
+            })
             ->build();
 
-        self::assertCount(1, array_filter($instance->stack, static function(NamedMiddleware $middleware): bool {
+        self::assertCount(1, array_filter($instance->stack, static function (NamedMiddleware $middleware): bool {
             return $middleware->getMiddleware() instanceof FinalCallback;
         }));
     }
