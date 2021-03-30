@@ -498,6 +498,30 @@ class JsonMapperTest extends TestCase
         self::assertEquals([new SimpleObject('John Doe'), new SimpleObject('Jane Doe')], $object->getChildren());
     }
 
+    /**
+     * @requires PHP >= 7.4
+     */
+    public function testItCanMapArrayOfObjectWithTypeHintAndDocBlock(): void
+    {
+        // Arrange
+        $mapper = (new JsonMapperFactory())->bestFit();
+        $response = new Php74\Response();
+        $json = (object) ['data' => [(object) ['name' => 'John Doe'], (object) ['name' => 'Jane Doe']]];
+
+        // Act
+        $mapper->mapObject($json, $response);
+
+        // Assert
+        self::assertCount(2, $response->data);
+        self::assertContainsOnlyInstancesOf(Php74\Popo::class, $response->data);
+        $john = new Php74\Popo();
+        $john->name = 'John Doe';
+        $jane = new Php74\Popo();
+        $jane->name = 'Jane Doe';
+        self::assertEquals([$john, $jane], $response->data);
+
+    }
+
     public function scalarValueDataTypes(): array
     {
         return [
