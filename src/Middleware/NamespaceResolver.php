@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonMapper\Middleware;
 
+use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\ScalarType;
 use JsonMapper\Helpers\ClassHelper;
 use JsonMapper\Helpers\UseStatementHelper;
@@ -16,12 +17,12 @@ use Psr\SimpleCache\CacheInterface;
 
 class NamespaceResolver extends AbstractMiddleware
 {
-    /** @var CacheInterface */
+    /** @var CacheInterface|null */
     private $cache;
 
-    public function __construct(CacheInterface $cache)
+    public function __construct(CacheInterface $cache = null)
     {
-        $this->cache = $cache;
+        $this->cache = $cache ?? new NullCache();
     }
 
     public function handle(
