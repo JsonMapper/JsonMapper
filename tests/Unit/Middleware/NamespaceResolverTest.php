@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JsonMapper\Tests\Unit\Middleware;
 
 use JsonMapper\Builders\PropertyBuilder;
+use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\NamespaceResolver;
@@ -25,7 +26,7 @@ class NamespaceResolverTest extends TestCase
      */
     public function testItResolvesNamespacesForImportedNamespace(): void
     {
-        $middleware = new NamespaceResolver();
+        $middleware = new NamespaceResolver(new NullCache());
         $object = new ComplexObject();
         $property = PropertyBuilder::new()
             ->setName('user')
@@ -49,7 +50,7 @@ class NamespaceResolverTest extends TestCase
      */
     public function testItResolvesNamespacesWithinSameNamespace(): void
     {
-        $middleware = new NamespaceResolver();
+        $middleware = new NamespaceResolver(new NullCache());
         $object = new ComplexObject();
         $property = PropertyBuilder::new()
             ->setName('child')
@@ -73,7 +74,7 @@ class NamespaceResolverTest extends TestCase
      */
     public function testItDoesntApplyResolvingToScalarTypes(): void
     {
-        $middleware = new NamespaceResolver();
+        $middleware = new NamespaceResolver(new NullCache());
         $object = new SimpleObject();
         $property = PropertyBuilder::new()
             ->setName('name')
@@ -97,7 +98,7 @@ class NamespaceResolverTest extends TestCase
      */
     public function testItDoesntApplyResolvingToFullyQualifiedClassName(): void
     {
-        $middleware = new NamespaceResolver();
+        $middleware = new NamespaceResolver(new NullCache());
         $object = new SimpleObject();
         $property = PropertyBuilder::new()
             ->setName('name')
@@ -121,7 +122,7 @@ class NamespaceResolverTest extends TestCase
      */
     public function testItResolvesNamespacesForImportedNamespaceWithArray(): void
     {
-        $middleware = new NamespaceResolver();
+        $middleware = new NamespaceResolver(new NullCache());
         $object = new ComplexObject();
         $property = PropertyBuilder::new()
             ->setName('user')
@@ -145,7 +146,7 @@ class NamespaceResolverTest extends TestCase
      */
     public function testItResolvesNamespacesWithinSameNamespaceWithArray(): void
     {
-        $middleware = new NamespaceResolver();
+        $middleware = new NamespaceResolver(new NullCache());
         $object = new ComplexObject();
         $property = PropertyBuilder::new()
             ->setName('child')

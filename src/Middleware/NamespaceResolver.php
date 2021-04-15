@@ -12,25 +12,49 @@ use JsonMapper\ValueObjects\Property;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\ValueObjects\PropertyType;
 use JsonMapper\Wrapper\ObjectWrapper;
+use Psr\SimpleCache\CacheInterface;
 
 class NamespaceResolver extends AbstractMiddleware
 {
+    /** @var CacheInterface */
+    private $cache;
+
+    public function __construct(CacheInterface $cache)
+    {
+        $this->cache = $cache;
+    }
+
     public function handle(
         \stdClass $json,
         ObjectWrapper $object,
         PropertyMap $propertyMap,
         JsonMapperInterface $mapper
     ): void {
+        $propertyMap->merge($this->fetchPropertyMapForObject($object, $propertyMap));
+    }
+
+    private function fetchPropertyMapForObject(ObjectWrapper $object, PropertyMap $originalPropertyMap): PropertyMap
+    {
+        $cacheKey = sprintf('JsonMapper::Cache::%s::%s', __CLASS__, $object->getName());
+        if ($this->cache->has($cacheKey)) {
+            return $this->cache->get($cacheKey);
+        }
+
+        $intermediatePropertyMap = new PropertyMap();
         $imports = UseStatementHelper::getImports($object->getReflectedObject());
 
         /** @var Property $property */
-        foreach ($propertyMap as $property) {
+        foreach ($originalPropertyMap as $property) {
             $types = $property->getPropertyTypes();
             foreach ($types as $index => $type) {
                 $types[$index] = $this->resolveSingleType($type, $object, $imports);
             }
-            $propertyMap->addProperty($property->asBuilder()->setTypes(...$types)->build());
+            $intermediatePropertyMap->addProperty($property->asBuilder()->setTypes(...$types)->build());
         }
+
+        $this->cache->set($cacheKey, $intermediatePropertyMap);
+
+        return $intermediatePropertyMap;
     }
 
     private function resolveSingleType(PropertyType $type, ObjectWrapper $object, array $imports): PropertyType
