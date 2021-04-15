@@ -5,8 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.4.0] - 2021-04-15
 ### Added
-- Caching to the namespace resolved was added to improve on time and memory [PR#82](https://github.com/JsonMapper/JsonMapper/pull/82)
+- Caching to the namespace resolver was added to reduce time and memory footprint [PR#82](https://github.com/JsonMapper/JsonMapper/pull/82)
 
 ## [2.3.1] - 2021-03-30
 ### Fixed
