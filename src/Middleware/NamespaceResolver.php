@@ -36,7 +36,7 @@ class NamespaceResolver extends AbstractMiddleware
 
     private function fetchPropertyMapForObject(ObjectWrapper $object, PropertyMap $originalPropertyMap): PropertyMap
     {
-        $cacheKey = sprintf('JsonMapper::Cache::%s::%s', __CLASS__, $object->getName());
+        $cacheKey = sprintf('%s::Cache::%s', __CLASS__, $object->getName());
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
         }

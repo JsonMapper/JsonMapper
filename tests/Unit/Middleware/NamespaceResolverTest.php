@@ -15,7 +15,9 @@ use JsonMapper\Tests\Implementation\Models\User;
 use JsonMapper\Tests\Implementation\SimpleObject;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Psr\SimpleCache\CacheInterface;
 
 class NamespaceResolverTest extends TestCase
 {
@@ -163,5 +165,23 @@ class NamespaceResolverTest extends TestCase
         self::assertTrue($propertyMap->hasProperty('child'));
         $this->assertThatProperty($propertyMap->getProperty('child'))
             ->hasType(SimpleObject::class . '[]', false);
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\NamespaceResolver
+     */
+    public function testReturnsFromCacheWhenAvailable(): void
+    {
+        $propertyMap = new PropertyMap();
+        $objectWrapper = $this->createMock(ObjectWrapper::class);
+        $objectWrapper->method('getName')->willReturn(__METHOD__);
+        $objectWrapper->expects(self::never())->method('getReflectedObject');
+        $cache = $this->createMock(CacheInterface::class);
+        $cache->method('has')->with(Assert::stringContains(__METHOD__))->willReturn(true);
+        $cache->method('get')->with(Assert::stringContains(__METHOD__))->willReturn($propertyMap);
+        $middleware = new NamespaceResolver($cache);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), $objectWrapper, $propertyMap, $jsonMapper);
     }
 }
