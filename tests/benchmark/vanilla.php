@@ -1,6 +1,8 @@
 <?php
 
-# In order to get a cachegrind output file (assuming your on PHP8 with Xdebug 3.x) add the following lines to your php.ini
+# In order to get a cache grind output file (assuming your on PHP8 with Xdebug 3.x)
+# add the following lines to your php.ini:
+
 # xdebug.mode = profile;
 # xdebug.output_dir = "/Users/dannyvandersluijs/Projects/JsonMapper/build/profiles"
 
