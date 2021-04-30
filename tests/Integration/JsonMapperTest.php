@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Integration;
 
+use JsonMapper\Handler\FactoryRegistry;
+use JsonMapper\Handler\PropertyMapper;
+use JsonMapper\JsonMapperBuilder;
 use JsonMapper\JsonMapperFactory;
 use JsonMapper\Middleware\Rename\Rename;
+use JsonMapper\Tests\Implementation;
 use JsonMapper\Tests\Implementation\ComplexObject;
 use JsonMapper\Tests\Implementation\Models\User;
 use JsonMapper\Tests\Implementation\Popo;
@@ -555,6 +559,39 @@ class JsonMapperTest extends TestCase
         self::assertEquals((object) ['one' => 1, 'two' => 2], $response->properties);
     }
 
+    /**
+     * @requires PHP >= 7.4
+     * @dataProvider inheritanceScenarios
+     */
+    public function testCanMapToAnAbstractClass(object $class): void
+    {
+        $builder = new JsonMapperBuilder();
+        $inheritanceResolver = new FactoryRegistry();
+        $factory = function (\stdClass $value): object {
+            switch ($value->type) {
+                case 'square':
+                    return new Implementation\Models\Square();
+                default:
+                    throw new \Exception("Missing type {$value->type}");
+            }
+        };
+        $inheritanceResolver->addFactory(Implementation\Models\AbstractShape::class, $factory);
+        $inheritanceResolver->addFactory(Implementation\Models\IShape::class, $factory);
+
+        $mapper = $builder->withDocBlockAnnotationsMiddleware()
+            ->withTypedPropertiesMiddleware()
+            ->withNamespaceResolverMiddleware()
+            ->withPropertyMapper(new PropertyMapper(null, $inheritanceResolver))
+            ->build();
+
+        $mapper->mapObjectFromString(
+            '{"shape": {"length": 4, "width": 4, "type": "square"}}',
+            $class
+        );
+
+        self::assertEquals(16, $class->shape->getCircumference());
+    }
+
     public function scalarValueDataTypes(): array
     {
         return [
@@ -562,6 +599,18 @@ class JsonMapperTest extends TestCase
             'boolean' => [true],
             'integer' => [1],
             'float' => [M_PI],
+        ];
+    }
+
+    public function inheritanceScenarios(): array
+    {
+        return [
+            'abstract class' => [new class {
+                public Implementation\Models\AbstractShape $shape;
+            }],
+            'interface' => [new class {
+                public Implementation\Models\IShape $shape;
+            }],
         ];
     }
 }

@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace JsonMapper\Tests\Handler;
 
 use JsonMapper\Exception\ClassFactoryException;
-use JsonMapper\Handler\ClassFactoryRegistry;
+use JsonMapper\Handler\DefaultClassFactoryRegistry;
+use JsonMapper\Handler\FactoryRegistry;
 use PHPUnit\Framework\TestCase;
 
 class ClassFactoryRegistryTest extends TestCase
 {
     /**
-     * @covers \JsonMapper\Handler\ClassFactoryRegistry
+     * @covers \JsonMapper\Handler\DefaultClassFactoryRegistry
      */
-    public function testLoadNativePhpClassFactoriesAddsFactoriesForNativeClasses(): void
+    public function testDefaultClassFactoryRegistryAddsFactoriesForNativeClasses(): void
     {
-        $classFactoryRegistry = new ClassFactoryRegistry();
-        $classFactoryRegistry->loadNativePhpClassFactories();
+        $classFactoryRegistry = new DefaultClassFactoryRegistry();
 
         self::assertTrue($classFactoryRegistry->hasFactory(\DateTime::class));
         self::assertTrue($classFactoryRegistry->hasFactory(\DateTimeImmutable::class));
@@ -33,11 +33,11 @@ class ClassFactoryRegistryTest extends TestCase
     }
 
     /**
-     * @covers \JsonMapper\Handler\ClassFactoryRegistry
+     * @covers \JsonMapper\Handler\DefaultClassFactoryRegistry
      */
     public function testAddFactoryAddsFactory(): void
     {
-        $classFactoryRegistry = new ClassFactoryRegistry();
+        $classFactoryRegistry = new DefaultClassFactoryRegistry();
         $classFactoryRegistry->addFactory(__CLASS__, static function () {
         });
 
@@ -45,21 +45,21 @@ class ClassFactoryRegistryTest extends TestCase
     }
 
     /**
-     * @covers \JsonMapper\Handler\ClassFactoryRegistry
+     * @covers \JsonMapper\Handler\DefaultClassFactoryRegistry
      */
     public function testHasFactoryReturnsFalseWhenNoFactoryRegistered(): void
     {
-        $classFactoryRegistry = new ClassFactoryRegistry();
+        $classFactoryRegistry = new DefaultClassFactoryRegistry();
 
         self::assertFalse($classFactoryRegistry->hasFactory(__CLASS__));
     }
 
     /**
-     * @covers \JsonMapper\Handler\ClassFactoryRegistry
+     * @covers \JsonMapper\Handler\DefaultClassFactoryRegistry
      */
     public function testAddFactoryThrowsExceptionWhenDuplicateClassNameIsAdded(): void
     {
-        $classFactoryRegistry = new ClassFactoryRegistry();
+        $classFactoryRegistry = new DefaultClassFactoryRegistry();
         $classFactoryRegistry->addFactory(__CLASS__, static function () {
         });
 
@@ -70,11 +70,11 @@ class ClassFactoryRegistryTest extends TestCase
     }
 
     /**
-     * @covers \JsonMapper\Handler\ClassFactoryRegistry
+     * @covers \JsonMapper\Handler\DefaultClassFactoryRegistry
      */
     public function testCreateReturnsValueFromCallable(): void
     {
-        $classFactoryRegistry = new ClassFactoryRegistry();
+        $classFactoryRegistry = new DefaultClassFactoryRegistry();
         $object = new \stdClass();
         $classFactoryRegistry->addFactory(__CLASS__, static function () use ($object) {
             return $object;
@@ -84,11 +84,11 @@ class ClassFactoryRegistryTest extends TestCase
     }
 
     /**
-     * @covers \JsonMapper\Handler\ClassFactoryRegistry
+     * @covers \JsonMapper\Handler\DefaultClassFactoryRegistry
      */
     public function testCreateCanHandleLeadingSlash(): void
     {
-        $classFactoryRegistry = new ClassFactoryRegistry();
+        $classFactoryRegistry = new FactoryRegistry();
         $object = new \stdClass();
         $classFactoryRegistry->addFactory(\DateTimeImmutable::class, static function () use ($object) {
             return $object;
@@ -98,11 +98,11 @@ class ClassFactoryRegistryTest extends TestCase
     }
 
     /**
-     * @covers \JsonMapper\Handler\ClassFactoryRegistry
+     * @covers \JsonMapper\Handler\DefaultClassFactoryRegistry
      */
     public function testCreateThrowsExceptionForMissingFactory(): void
     {
-        $classFactoryRegistry = new ClassFactoryRegistry();
+        $classFactoryRegistry = new DefaultClassFactoryRegistry();
 
         $this->expectExceptionObject(ClassFactoryException::forMissingClassname(__CLASS__));
 

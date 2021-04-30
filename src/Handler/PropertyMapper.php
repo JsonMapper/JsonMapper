@@ -14,17 +14,25 @@ use JsonMapper\Wrapper\ObjectWrapper;
 
 class PropertyMapper
 {
-    /** @var ClassFactoryRegistry */
+    /** @var FactoryRegistry */
     private $classFactoryRegistry;
+    /**@var FactoryRegistry */
+    private $inheritanceResolver;
 
-    public function __construct(ClassFactoryRegistry $classFactoryRegistry = null)
-    {
+    public function __construct(
+        FactoryRegistry $classFactoryRegistry = null,
+        FactoryRegistry $inheritanceResolver = null
+    ) {
         if ($classFactoryRegistry === null) {
-            $classFactoryRegistry = new ClassFactoryRegistry();
-            $classFactoryRegistry->loadNativePhpClassFactories();
+            $classFactoryRegistry = new DefaultClassFactoryRegistry();
+        }
+
+        if ($inheritanceResolver === null) {
+            $inheritanceResolver = new FactoryRegistry();
         }
 
         $this->classFactoryRegistry = $classFactoryRegistry;
+        $this->inheritanceResolver = $inheritanceResolver;
     }
 
     public function __invoke(
@@ -142,10 +150,7 @@ class PropertyMapper
 
                 // Single existing class @todo how do you know it was the correct type?
                 if (class_exists($type->getType())) {
-                    $className = $type->getType();
-                    $instance = new $className();
-                    $mapper->mapObject($value, $instance);
-                    return $instance;
+                    return $this->mapToObject($type->getType(), $value, false, $mapper);
                 }
             }
         }
@@ -217,13 +222,23 @@ class PropertyMapper
     {
         if ($asArray) {
             return array_map(
-                static function ($v) use ($type, $mapper): object {
-                    $instance = new $type();
-                    $mapper->mapObject($v, $instance);
-                    return $instance;
+                function ($v) use ($type, $mapper): object {
+                    return $this->mapToObject($type, $v, false, $mapper);
                 },
                 (array) $value
             );
+        }
+
+        $reflectionType = new \ReflectionClass($type); // @TODO Add caching
+
+        if (!$reflectionType->isInstantiable() && !$this->inheritanceResolver->hasFactory($type)) {
+            throw new \Exception("Unable to instantiate {$type}");
+        }
+
+        if ($this->inheritanceResolver->hasFactory($type)) {
+            $instance = $this->inheritanceResolver->create($type, $value);
+            $mapper->mapObject($value, $instance);
+            return $instance;
         }
 
         $instance = new $type();

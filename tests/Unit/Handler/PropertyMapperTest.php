@@ -7,7 +7,7 @@ namespace JsonMapper\Tests\Unit\Handler;
 use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\Visibility;
-use JsonMapper\Handler\ClassFactoryRegistry;
+use JsonMapper\Handler\DefaultClassFactoryRegistry;
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapperFactory;
 use JsonMapper\JsonMapperInterface;
@@ -215,8 +215,7 @@ class PropertyMapperTest extends TestCase
         $json = (object) ['user' => (object) ['id' => 1234, 'name' => 'John Doe']];
         $object = new UserWithConstructorParent();
         $wrapped = new ObjectWrapper($object);
-        $classFactoryRegistry = new ClassFactoryRegistry();
-        $classFactoryRegistry->loadNativePhpClassFactories();
+        $classFactoryRegistry = new DefaultClassFactoryRegistry();
         $classFactoryRegistry->addFactory(
             UserWithConstructor::class,
             static function ($params) {
@@ -250,8 +249,7 @@ class PropertyMapperTest extends TestCase
         ]];
         $object = new UserWithConstructorParent();
         $wrapped = new ObjectWrapper($object);
-        $classFactoryRegistry = new ClassFactoryRegistry();
-        $classFactoryRegistry->loadNativePhpClassFactories();
+        $classFactoryRegistry = new DefaultClassFactoryRegistry();
         $classFactoryRegistry->addFactory(
             UserWithConstructor::class,
             static function ($params) {
@@ -289,8 +287,7 @@ class PropertyMapperTest extends TestCase
         ]];
         $object = new UserWithConstructorParent();
         $wrapped = new ObjectWrapper($object);
-        $classFactoryRegistry = new ClassFactoryRegistry();
-        $classFactoryRegistry->loadNativePhpClassFactories();
+        $classFactoryRegistry = new DefaultClassFactoryRegistry();
         $classFactoryRegistry->addFactory(
             UserWithConstructor::class,
             static function ($params) {
