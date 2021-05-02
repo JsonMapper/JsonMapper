@@ -602,6 +602,9 @@ class JsonMapperTest extends TestCase
         ];
     }
 
+    /**
+     * @requires PHP >= 7.4
+     */
     public function inheritanceScenarios(): array
     {
         return [
