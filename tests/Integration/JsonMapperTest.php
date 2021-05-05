@@ -560,7 +560,6 @@ class JsonMapperTest extends TestCase
     }
 
     /**
-     * @requires PHP >= 7.4
      * @dataProvider inheritanceScenarios
      */
     public function testCanMapToAnAbstractClass(object $class): void
@@ -602,18 +601,11 @@ class JsonMapperTest extends TestCase
         ];
     }
 
-    /**
-     * @requires PHP >= 7.4
-     */
     public function inheritanceScenarios(): array
     {
         return [
-            'abstract class' => [new class {
-                public Implementation\Models\AbstractShape $shape;
-            }],
-            'interface' => [new class {
-                public Implementation\Models\IShape $shape;
-            }],
+            'abstract class' => [new Implementation\Models\Wrappers\AbstractShapeWrapper()],
+            'interface' => [new Implementation\Models\Wrappers\IShapeWrapper()],
         ];
     }
 }
