@@ -578,7 +578,6 @@ class JsonMapperTest extends TestCase
         $inheritanceResolver->addFactory(Implementation\Models\IShape::class, $factory);
 
         $mapper = $builder->withDocBlockAnnotationsMiddleware()
-            ->withTypedPropertiesMiddleware()
             ->withNamespaceResolverMiddleware()
             ->withPropertyMapper(new PropertyMapper(null, $inheritanceResolver))
             ->build();
