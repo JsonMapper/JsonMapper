@@ -31,7 +31,9 @@ class NamespaceResolver extends AbstractMiddleware
         PropertyMap $propertyMap,
         JsonMapperInterface $mapper
     ): void {
-        $propertyMap->merge($this->fetchPropertyMapForObject($object, $propertyMap));
+        foreach ($this->fetchPropertyMapForObject($object, $propertyMap) as $property) {
+            $propertyMap->addProperty($property);
+        }
     }
 
     private function fetchPropertyMapForObject(ObjectWrapper $object, PropertyMap $originalPropertyMap): PropertyMap
