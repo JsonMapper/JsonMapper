@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.4.1] - 2021-05-07
+### Fixed
+- Namespace resolver merging replaces property instead of merging old and new property types [PR#86](https://github.com/JsonMapper/JsonMapper/pull/86)
+
 ## [2.4.0] - 2021-04-15
 ### Added
 - Caching to the namespace resolver was added to reduce time and memory footprint [PR#82](https://github.com/JsonMapper/JsonMapper/pull/82)

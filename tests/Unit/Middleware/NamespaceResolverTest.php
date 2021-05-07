@@ -44,7 +44,7 @@ class NamespaceResolverTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('user'));
         $this->assertThatProperty($propertyMap->getProperty('user'))
-            ->hasType(User::class, false);
+            ->onlyHasType(User::class, false);
     }
 
     /**
@@ -68,7 +68,7 @@ class NamespaceResolverTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('child'));
         $this->assertThatProperty($propertyMap->getProperty('child'))
-            ->hasType(SimpleObject::class, false);
+            ->onlyHasType(SimpleObject::class, false);
     }
 
     /**
@@ -92,7 +92,7 @@ class NamespaceResolverTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('name'));
         $this->assertThatProperty($propertyMap->getProperty('name'))
-            ->hasType('string', false);
+            ->onlyHasType('string', false);
     }
 
     /**
@@ -116,7 +116,7 @@ class NamespaceResolverTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('name'));
         $this->assertThatProperty($propertyMap->getProperty('name'))
-            ->hasType(__CLASS__, false);
+            ->onlyHasType(__CLASS__, false);
     }
 
     /**
@@ -140,7 +140,7 @@ class NamespaceResolverTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('user'));
         $this->assertThatProperty($propertyMap->getProperty('user'))
-            ->hasType(User::class, true);
+            ->onlyHasType(User::class, true);
     }
 
     /**
@@ -164,7 +164,7 @@ class NamespaceResolverTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('child'));
         $this->assertThatProperty($propertyMap->getProperty('child'))
-            ->hasType(SimpleObject::class . '[]', false);
+            ->onlyHasType(SimpleObject::class . '[]', false);
     }
 
     /**
