@@ -13,17 +13,22 @@ class ClassFactoryRegistryTest extends TestCase
     /**
      * @covers \JsonMapper\Handler\ClassFactoryRegistry
      */
-    public function testloadNativePhpClassFactoriesAddsFactoriesForNativeClasses(): void
+    public function testLoadNativePhpClassFactoriesAddsFactoriesForNativeClasses(): void
     {
         $classFactoryRegistry = new ClassFactoryRegistry();
         $classFactoryRegistry->loadNativePhpClassFactories();
 
         self::assertTrue($classFactoryRegistry->hasFactory(\DateTime::class));
         self::assertTrue($classFactoryRegistry->hasFactory(\DateTimeImmutable::class));
+        self::assertTrue($classFactoryRegistry->hasFactory(\stdClass::class));
         self::assertEquals(new \DateTime('today'), $classFactoryRegistry->create(\DateTime::class, 'today'));
         self::assertEquals(
             new \DateTimeImmutable('today'),
             $classFactoryRegistry->create(\DateTimeImmutable::class, 'today')
+        );
+        self::assertEquals(
+            (object) ['one' => 1, 'two' => 2],
+            $classFactoryRegistry->create(\stdClass::class, ['one' => 1, 'two' => 2])
         );
     }
 
