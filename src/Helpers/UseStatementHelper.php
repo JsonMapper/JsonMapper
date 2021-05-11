@@ -10,6 +10,8 @@ use PhpParser\ParserFactory;
 
 class UseStatementHelper
 {
+    private static $evaldCodeFileNameEnding = "eval()'d code";
+
     public static function getImports(\ReflectionClass $class): array
     {
         if (!$class->isUserDefined()) {
@@ -17,7 +19,7 @@ class UseStatementHelper
         }
 
         $filename = $class->getFileName();
-        if ($filename === false || substr($filename, -13) === "eval()'d code") {
+        if ($filename === false || substr($filename, -13) === self::$evaldCodeFileNameEnding) {
             throw new \RuntimeException("Class {$class->getName()} has no filename available");
         }
 
