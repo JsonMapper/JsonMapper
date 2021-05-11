@@ -11,6 +11,22 @@ class FactoryRegistry
     /** @var callable[] */
     private $factories = [];
 
+    public static function WithNativePhpClassesAdded(): self
+    {
+        $factory = new self();
+        $factory->addFactory(\DateTime::class, static function (string $value) {
+            return new \DateTime($value);
+        });
+        $factory->addFactory(\DateTimeImmutable::class, static function (string $value) {
+            return new \DateTimeImmutable($value);
+        });
+        $factory->addFactory(\stdClass::class, static function ($value) {
+            return (object) $value;
+        });
+
+        return $factory;
+    }
+
     public function addFactory(string $className, callable $factory): self
     {
         if ($this->hasFactory($className)) {

@@ -17,22 +17,22 @@ class PropertyMapper
     /** @var FactoryRegistry */
     private $classFactoryRegistry;
     /**@var FactoryRegistry */
-    private $inheritanceResolver;
+    private $nonInstantiableTypeResolver;
 
     public function __construct(
         FactoryRegistry $classFactoryRegistry = null,
-        FactoryRegistry $inheritanceResolver = null
+        FactoryRegistry $nonInstantiableTypeResolver = null
     ) {
         if ($classFactoryRegistry === null) {
-            $classFactoryRegistry = new DefaultClassFactoryRegistry();
+            $classFactoryRegistry = FactoryRegistry::WithNativePhpClassesAdded();
         }
 
-        if ($inheritanceResolver === null) {
-            $inheritanceResolver = new FactoryRegistry();
+        if ($nonInstantiableTypeResolver === null) {
+            $nonInstantiableTypeResolver = new FactoryRegistry();
         }
 
         $this->classFactoryRegistry = $classFactoryRegistry;
-        $this->inheritanceResolver = $inheritanceResolver;
+        $this->nonInstantiableTypeResolver = $nonInstantiableTypeResolver;
     }
 
     public function __invoke(
@@ -231,12 +231,12 @@ class PropertyMapper
 
         $reflectionType = new \ReflectionClass($type); // @TODO Add caching
 
-        if (!$reflectionType->isInstantiable() && !$this->inheritanceResolver->hasFactory($type)) {
+        if (!$reflectionType->isInstantiable() && !$this->nonInstantiableTypeResolver->hasFactory($type)) {
             throw new \RuntimeException("Unable to instantiate {$type}");
         }
 
-        if ($this->inheritanceResolver->hasFactory($type)) {
-            $instance = $this->inheritanceResolver->create($type, $value);
+        if ($this->nonInstantiableTypeResolver->hasFactory($type)) {
+            $instance = $this->nonInstantiableTypeResolver->create($type, $value);
             $mapper->mapObject($value, $instance);
             return $instance;
         }
