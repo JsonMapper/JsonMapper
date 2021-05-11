@@ -38,4 +38,14 @@ class UseStatementHelperTest extends TestCase
         $this->expectException(\RuntimeException::class);
         UseStatementHelper::getImports(new \ReflectionClass($this->createMock(SimpleObject::class)));
     }
+
+    /**
+     * @covers \JsonMapper\Helpers\UseStatementHelper
+     */
+    public function testGettingImportsWithBuiltinClassReturnsEmptyArray(): void
+    {
+        $imports = UseStatementHelper::getImports(new \ReflectionClass(\stdClass::class));
+
+        self::assertEquals([], $imports);
+    }
 }

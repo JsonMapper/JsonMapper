@@ -17,7 +17,7 @@ class UseStatementHelper
         }
 
         $filename = $class->getFileName();
-        if ($filename === false) {
+        if ($filename === false || substr($filename, -13) === "eval()'d code") {
             throw new \RuntimeException("Class {$class->getName()} has no filename available");
         }
 
