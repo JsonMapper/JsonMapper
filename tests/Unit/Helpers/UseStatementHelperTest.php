@@ -35,8 +35,34 @@ class UseStatementHelperTest extends TestCase
      */
     public function testGettingImportsWithFileNotReadableThrowsException(): void
     {
+        $fileName = '/some/non/readable/path';
+        $reflectionMock = $this->createMock(\ReflectionClass::class);
+        $reflectionMock->method('isUserDefined')->willReturn(true);
+        $reflectionMock->method('getFileName')->willReturn($fileName);
+
         $this->expectException(\RuntimeException::class);
-        UseStatementHelper::getImports(new \ReflectionClass($this->createMock(SimpleObject::class)));
+        $this->expectExceptionMessage("Unable to read {$fileName}");
+        UseStatementHelper::getImports($reflectionMock);
+    }
+
+    /**
+     * @covers \JsonMapper\Helpers\UseStatementHelper
+     */
+    public function testGettingImportsWithFileNotProvidingValidAstThrowsException(): void
+    {
+        $fileName = tempnam(sys_get_temp_dir(), __METHOD__);
+        $handle = fopen($fileName, 'wb');
+        fwrite($handle, "<?php some invalid php code");
+        fclose($handle);
+        $reflectionMock = $this->createMock(\ReflectionClass::class);
+        $reflectionMock->method('isUserDefined')->willReturn(true);
+        $reflectionMock->method('getFileName')->willReturn($fileName);
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage("Something went wrong when parsing {$fileName}");
+        UseStatementHelper::getImports($reflectionMock);
+
+        unlink($fileName);
     }
 
     /**

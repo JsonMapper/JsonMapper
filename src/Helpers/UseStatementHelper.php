@@ -33,10 +33,11 @@ class UseStatementHelper
         }
 
         $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
-        $ast = $parser->parse($contents);
 
-        if ($ast === null) {
-            throw new \RuntimeException("Something went wrong when parsing {$class->getFileName()}");
+        try {
+            $ast = $parser->parse($contents);
+        } catch (\Throwable $e ) {
+            throw new \RuntimeException("Something went wrong when parsing {$class->getFileName()}", 0, $e);
         }
 
         $traverser = new NodeTraverser();
