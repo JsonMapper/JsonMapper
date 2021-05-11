@@ -26,7 +26,8 @@ class UseStatementHelperTest extends TestCase
     public function testGettingImportsForReflectedClassWithoutFileThrowsException(): void
     {
         $this->expectException(\RuntimeException::class);
-        UseStatementHelper::getImports(new \ReflectionClass(new \DateTimeImmutable()));
+        eval('class ClassWithoutFile {}');
+        UseStatementHelper::getImports(new \ReflectionClass(new \ClassWithoutFile()));
     }
 
     /**

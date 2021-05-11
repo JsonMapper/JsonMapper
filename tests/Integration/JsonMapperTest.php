@@ -521,6 +521,23 @@ class JsonMapperTest extends TestCase
         self::assertEquals([$john, $jane], $response->data);
     }
 
+    public function testItCanMapCustomClassWithStdClassProperty(): void
+    {
+        // Arrange
+        $mapper = (new JsonMapperFactory())->bestFit();
+        $response = new class {
+            /** @var \stdClass */
+            public $properties;
+        };
+        $json = (object) ['properties' => (object) ['one' => 1, 'two' => 2]];
+
+        // Act
+        $mapper->mapObject($json, $response);
+
+        // Assert
+        self::assertEquals((object) ['one' => 1, 'two' => 2], $response->properties);
+    }
+
     public function scalarValueDataTypes(): array
     {
         return [

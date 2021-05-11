@@ -12,6 +12,10 @@ class UseStatementHelper
 {
     public static function getImports(\ReflectionClass $class): array
     {
+        if (!$class->isUserDefined()) {
+            return [];
+        }
+
         $filename = $class->getFileName();
         if ($filename === false) {
             throw new \RuntimeException("Class {$class->getName()} has no filename available");
