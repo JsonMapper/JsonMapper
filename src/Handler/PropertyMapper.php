@@ -232,7 +232,7 @@ class PropertyMapper
         $reflectionType = new \ReflectionClass($type); // @TODO Add caching
 
         if (!$reflectionType->isInstantiable() && !$this->inheritanceResolver->hasFactory($type)) {
-            throw new \Exception("Unable to instantiate {$type}");
+            throw new \RuntimeException("Unable to instantiate {$type}");
         }
 
         if ($this->inheritanceResolver->hasFactory($type)) {

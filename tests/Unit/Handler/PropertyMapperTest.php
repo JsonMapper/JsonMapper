@@ -8,13 +8,17 @@ use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\Handler\DefaultClassFactoryRegistry;
+use JsonMapper\Handler\FactoryRegistry;
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapperFactory;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\DocBlockAnnotations;
 use JsonMapper\Tests\Implementation\ComplexObject;
+use JsonMapper\Tests\Implementation\Models\IShape;
+use JsonMapper\Tests\Implementation\Models\Square;
 use JsonMapper\Tests\Implementation\Models\User;
 use JsonMapper\Tests\Implementation\Models\UserWithConstructor;
+use JsonMapper\Tests\Implementation\Models\Wrappers\IShapeWrapper;
 use JsonMapper\Tests\Implementation\Popo;
 use JsonMapper\Tests\Implementation\PrivatePropertyWithoutSetter;
 use JsonMapper\Tests\Implementation\SimpleObject;
@@ -575,6 +579,67 @@ class PropertyMapperTest extends TestCase
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
 
         self::assertEquals([1, 2, 3, 4, 5], $object->getNumbers());
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testItThrowsAnExceptionWhenInterfaceTypeCantBeCreated(): void
+    {
+        $json = (object) ['shape' => (object) ['type' => 'square', 'width' => 5, 'length' => 6]];
+        $object = new IShapeWrapper();
+        $wrapped = new ObjectWrapper($object);
+        $type = IShape::class;
+        $property = PropertyBuilder::new()
+            ->setName('shape')
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->addType($type, false)
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+
+        $propertyMapper = new PropertyMapper();
+        $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage("Unable to instantiate {$type}");
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testItCanMapInterfaceType(): void
+    {
+        $json = (object) ['shape' => (object) ['type' => 'square', 'width' => 5, 'length' => 6]];
+        $object = new IShapeWrapper();
+        $wrapped = new ObjectWrapper($object);
+        $type = IShape::class;
+        $property = PropertyBuilder::new()
+            ->setName('shape')
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->addType($type, false)
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $inheritanceResolver = new FactoryRegistry();
+        $inheritanceResolver->addFactory(IShape::class, function(\stdClass $data) {
+            switch ($data->type) {
+                case 'square':
+                    return new Square();
+                default:
+                    throw new \RuntimeException("Unable to create IShape with type {$data->type}");
+            }
+        });
+
+        $propertyMapper = new PropertyMapper(null, $inheritanceResolver);
+        $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals(new Square(5, 6), $object->shape);
     }
 
     public function scalarValueDataTypes(): array
