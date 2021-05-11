@@ -19,8 +19,8 @@ class ClassFactoryRegistry
         $this->addFactory(\DateTimeImmutable::class, static function (string $value) {
             return new \DateTimeImmutable($value);
         });
-        $this->addFactory(\stdClass::class, static function (\stdClass $value) {
-            return $value;
+        $this->addFactory(\stdClass::class, static function ($value) {
+            return (object) $value;
         });
 
         return $this;
