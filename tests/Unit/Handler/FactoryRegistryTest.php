@@ -2,42 +2,20 @@
 
 declare(strict_types=1);
 
-namespace JsonMapper\Tests\Handler;
+namespace JsonMapper\Tests\Unit\Handler;
 
 use JsonMapper\Exception\ClassFactoryException;
-use JsonMapper\Handler\DefaultClassFactoryRegistry;
 use JsonMapper\Handler\FactoryRegistry;
 use PHPUnit\Framework\TestCase;
 
-class ClassFactoryRegistryTest extends TestCase
+class FactoryRegistryTest extends TestCase
 {
     /**
-     * @covers \JsonMapper\Handler\DefaultClassFactoryRegistry
-     */
-    public function testDefaultClassFactoryRegistryAddsFactoriesForNativeClasses(): void
-    {
-        $classFactoryRegistry = new DefaultClassFactoryRegistry();
-
-        self::assertTrue($classFactoryRegistry->hasFactory(\DateTime::class));
-        self::assertTrue($classFactoryRegistry->hasFactory(\DateTimeImmutable::class));
-        self::assertTrue($classFactoryRegistry->hasFactory(\stdClass::class));
-        self::assertEquals(new \DateTime('today'), $classFactoryRegistry->create(\DateTime::class, 'today'));
-        self::assertEquals(
-            new \DateTimeImmutable('today'),
-            $classFactoryRegistry->create(\DateTimeImmutable::class, 'today')
-        );
-        self::assertEquals(
-            (object) ['one' => 1, 'two' => 2],
-            $classFactoryRegistry->create(\stdClass::class, ['one' => 1, 'two' => 2])
-        );
-    }
-
-    /**
-     * @covers \JsonMapper\Handler\DefaultClassFactoryRegistry
+     * @covers \JsonMapper\Handler\FactoryRegistry
      */
     public function testAddFactoryAddsFactory(): void
     {
-        $classFactoryRegistry = new DefaultClassFactoryRegistry();
+        $classFactoryRegistry = new FactoryRegistry();
         $classFactoryRegistry->addFactory(__CLASS__, static function () {
         });
 
@@ -45,21 +23,21 @@ class ClassFactoryRegistryTest extends TestCase
     }
 
     /**
-     * @covers \JsonMapper\Handler\DefaultClassFactoryRegistry
+     * @covers \JsonMapper\Handler\FactoryRegistry
      */
     public function testHasFactoryReturnsFalseWhenNoFactoryRegistered(): void
     {
-        $classFactoryRegistry = new DefaultClassFactoryRegistry();
+        $classFactoryRegistry = new FactoryRegistry();
 
         self::assertFalse($classFactoryRegistry->hasFactory(__CLASS__));
     }
 
     /**
-     * @covers \JsonMapper\Handler\DefaultClassFactoryRegistry
+     * @covers \JsonMapper\Handler\FactoryRegistry
      */
     public function testAddFactoryThrowsExceptionWhenDuplicateClassNameIsAdded(): void
     {
-        $classFactoryRegistry = new DefaultClassFactoryRegistry();
+        $classFactoryRegistry = new FactoryRegistry();
         $classFactoryRegistry->addFactory(__CLASS__, static function () {
         });
 
@@ -70,11 +48,11 @@ class ClassFactoryRegistryTest extends TestCase
     }
 
     /**
-     * @covers \JsonMapper\Handler\DefaultClassFactoryRegistry
+     * @covers \JsonMapper\Handler\FactoryRegistry
      */
     public function testCreateReturnsValueFromCallable(): void
     {
-        $classFactoryRegistry = new DefaultClassFactoryRegistry();
+        $classFactoryRegistry = new FactoryRegistry();
         $object = new \stdClass();
         $classFactoryRegistry->addFactory(__CLASS__, static function () use ($object) {
             return $object;
@@ -84,7 +62,7 @@ class ClassFactoryRegistryTest extends TestCase
     }
 
     /**
-     * @covers \JsonMapper\Handler\DefaultClassFactoryRegistry
+     * @covers \JsonMapper\Handler\FactoryRegistry
      */
     public function testCreateCanHandleLeadingSlash(): void
     {
@@ -98,11 +76,11 @@ class ClassFactoryRegistryTest extends TestCase
     }
 
     /**
-     * @covers \JsonMapper\Handler\DefaultClassFactoryRegistry
+     * @covers \JsonMapper\Handler\FactoryRegistry
      */
     public function testCreateThrowsExceptionForMissingFactory(): void
     {
-        $classFactoryRegistry = new DefaultClassFactoryRegistry();
+        $classFactoryRegistry = new FactoryRegistry();
 
         $this->expectExceptionObject(ClassFactoryException::forMissingClassname(__CLASS__));
 
