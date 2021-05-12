@@ -10,6 +10,7 @@ use JsonMapper\JsonMapperBuilder;
 use JsonMapper\Tests\Implementation\Models\AbstractShape;
 use JsonMapper\Tests\Implementation\Models\Circle;
 use JsonMapper\Tests\Implementation\Models\IShape;
+use JsonMapper\Tests\Implementation\Models\ShapeInstanceFactory;
 use JsonMapper\Tests\Implementation\Models\Square;
 use JsonMapper\Tests\Implementation\Models\Wrappers\AbstractShapeWrapper;
 use JsonMapper\Tests\Implementation\Models\Wrappers\IShapeAware;
@@ -27,19 +28,7 @@ class FeatureMappingToInterfaceAndAbstractClassTest extends TestCase
     public function testItCanMapToAnInterfaceType(IShapeAware $object, string $className): void
     {
         $interfaceResolver = new FactoryRegistry();
-        $interfaceResolver->addFactory(
-            $className,
-            function (\stdClass $data) {
-                switch ($data->type) {
-                    case 'square':
-                        return new Square();
-                    case 'circle':
-                        return new Circle();
-                    default:
-                        throw new \RuntimeException("Unable to create shape for type {$data->type}");
-                }
-            }
-        );
+        $interfaceResolver->addFactory($className, new ShapeInstanceFactory());
         $mapper = JsonMapperBuilder::new()
             ->withDocBlockAnnotationsMiddleware()
             ->withNamespaceResolverMiddleware()

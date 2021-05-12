@@ -559,37 +559,6 @@ class JsonMapperTest extends TestCase
         self::assertEquals((object) ['one' => 1, 'two' => 2], $response->properties);
     }
 
-    /**
-     * @dataProvider inheritanceScenarios
-     */
-    public function testCanMapToAnAbstractClass(object $class): void
-    {
-        $builder = new JsonMapperBuilder();
-        $inheritanceResolver = new FactoryRegistry();
-        $factory = function (\stdClass $value): object {
-            switch ($value->type) {
-                case 'square':
-                    return new Implementation\Models\Square();
-                default:
-                    throw new \Exception("Missing type {$value->type}");
-            }
-        };
-        $inheritanceResolver->addFactory(Implementation\Models\AbstractShape::class, $factory);
-        $inheritanceResolver->addFactory(Implementation\Models\IShape::class, $factory);
-
-        $mapper = $builder->withDocBlockAnnotationsMiddleware()
-            ->withNamespaceResolverMiddleware()
-            ->withPropertyMapper(new PropertyMapper(null, $inheritanceResolver))
-            ->build();
-
-        $mapper->mapObjectFromString(
-            '{"shape": {"length": 4, "width": 4, "type": "square"}}',
-            $class
-        );
-
-        self::assertEquals(16, $class->shape->getCircumference());
-    }
-
     public function scalarValueDataTypes(): array
     {
         return [
@@ -597,14 +566,6 @@ class JsonMapperTest extends TestCase
             'boolean' => [true],
             'integer' => [1],
             'float' => [M_PI],
-        ];
-    }
-
-    public function inheritanceScenarios(): array
-    {
-        return [
-            'abstract class' => [new Implementation\Models\Wrappers\AbstractShapeWrapper()],
-            'interface' => [new Implementation\Models\Wrappers\IShapeWrapper()],
         ];
     }
 }
