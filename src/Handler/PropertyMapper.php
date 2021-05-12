@@ -6,6 +6,7 @@ namespace JsonMapper\Handler;
 
 use JsonMapper\Enums\ScalarType;
 use JsonMapper\Enums\Visibility;
+use JsonMapper\Exception\ClassFactoryException;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\ValueObjects\Property;
 use JsonMapper\ValueObjects\PropertyMap;
@@ -230,18 +231,26 @@ class PropertyMapper
         }
 
         $reflectionType = new \ReflectionClass($type);
-        if (!$reflectionType->isInstantiable() && !$this->nonInstantiableTypeResolver->hasFactory($type)) {
-            throw new \RuntimeException("Unable to instantiate {$type}");
-        }
-
-        if ($this->nonInstantiableTypeResolver->hasFactory($type)) {
-            $instance = $this->nonInstantiableTypeResolver->create($type, $value);
-            $mapper->mapObject($value, $instance);
-            return $instance;
+        if (!$reflectionType->isInstantiable()) {
+            return $this->resolveUnInstantiableType($type, $value, $mapper);
         }
 
         $instance = new $type();
         $mapper->mapObject($value, $instance);
         return $instance;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    private function resolveUnInstantiableType(string $type, $value, JsonMapperInterface $mapper): object
+    {
+        try {
+            $instance = $this->nonInstantiableTypeResolver->create($type, $value);
+            $mapper->mapObject($value, $instance);
+            return $instance;
+        } catch (ClassFactoryException $e) {
+            throw new \RuntimeException("Unable to resolve un-instantiable {$type} as no factory was registered", 0, $e);
+        }
     }
 }

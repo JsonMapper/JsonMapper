@@ -16,6 +16,9 @@ use JsonMapper\Tests\Implementation\Models\Wrappers\IShapeAware;
 use JsonMapper\Tests\Implementation\Models\Wrappers\IShapeWrapper;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversNothing
+ */
 class FeatureMappingToInterfaceAndAbstractClassTest extends TestCase
 {
     /**

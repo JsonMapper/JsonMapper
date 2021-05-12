@@ -602,7 +602,7 @@ class PropertyMapperTest extends TestCase
         $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage("Unable to instantiate {$type}");
+        $this->expectExceptionMessage("Unable to resolve un-instantiable {$type} as no factory was registered");
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
     }
 
