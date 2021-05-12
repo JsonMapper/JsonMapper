@@ -36,7 +36,7 @@ class UseStatementHelper
 
         try {
             $ast = $parser->parse($contents);
-        } catch (\Throwable $e ) {
+        } catch (\Throwable $e) {
             throw new \RuntimeException("Something went wrong when parsing {$class->getFileName()}", 0, $e);
         }
 

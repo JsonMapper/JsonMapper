@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Implementation\Models;
 
-
 class Circle extends AbstractShape
 {
     public $radius;

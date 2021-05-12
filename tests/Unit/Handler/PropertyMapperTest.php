@@ -14,6 +14,7 @@ use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\DocBlockAnnotations;
 use JsonMapper\Tests\Implementation\ComplexObject;
 use JsonMapper\Tests\Implementation\Models\IShape;
+use JsonMapper\Tests\Implementation\Models\ShapeInstanceFactory;
 use JsonMapper\Tests\Implementation\Models\Square;
 use JsonMapper\Tests\Implementation\Models\User;
 use JsonMapper\Tests\Implementation\Models\UserWithConstructor;
@@ -624,14 +625,7 @@ class PropertyMapperTest extends TestCase
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
         $nonInstantiableTypeResolver = new FactoryRegistry();
-        $nonInstantiableTypeResolver->addFactory(IShape::class, function(\stdClass $data) {
-            switch ($data->type) {
-                case 'square':
-                    return new Square();
-                default:
-                    throw new \RuntimeException("Unable to create IShape with type {$data->type}");
-            }
-        });
+        $nonInstantiableTypeResolver->addFactory(IShape::class, new ShapeInstanceFactory());
 
         $propertyMapper = new PropertyMapper(null, $nonInstantiableTypeResolver);
         $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
