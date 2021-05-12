@@ -229,8 +229,7 @@ class PropertyMapper
             );
         }
 
-        $reflectionType = new \ReflectionClass($type); // @TODO Add caching
-
+        $reflectionType = new \ReflectionClass($type);
         if (!$reflectionType->isInstantiable() && !$this->nonInstantiableTypeResolver->hasFactory($type)) {
             throw new \RuntimeException("Unable to instantiate {$type}");
         }

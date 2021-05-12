@@ -6,8 +6,13 @@ namespace JsonMapper\Tests\Implementation\Models\Wrappers;
 
 use JsonMapper\Tests\Implementation\Models\IShape;
 
-class IShapeWrapper
+class IShapeWrapper implements IShapeAware
 {
     /** @var IShape */
     public $shape;
+
+    public function getShape(): IShape
+    {
+        return $this->shape;
+    }
 }
