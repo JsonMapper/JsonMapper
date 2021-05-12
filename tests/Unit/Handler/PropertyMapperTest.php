@@ -623,8 +623,8 @@ class PropertyMapperTest extends TestCase
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
-        $inheritanceResolver = new FactoryRegistry();
-        $inheritanceResolver->addFactory(IShape::class, function(\stdClass $data) {
+        $nonInstantiableTypeResolver = new FactoryRegistry();
+        $nonInstantiableTypeResolver->addFactory(IShape::class, function(\stdClass $data) {
             switch ($data->type) {
                 case 'square':
                     return new Square();
@@ -633,7 +633,7 @@ class PropertyMapperTest extends TestCase
             }
         });
 
-        $propertyMapper = new PropertyMapper(null, $inheritanceResolver);
+        $propertyMapper = new PropertyMapper(null, $nonInstantiableTypeResolver);
         $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
 
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
