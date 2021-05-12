@@ -8,7 +8,6 @@ use JsonMapper\Handler\FactoryRegistry;
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapperBuilder;
 use JsonMapper\Tests\Implementation\Models\AbstractShape;
-use JsonMapper\Tests\Implementation\Models\Circle;
 use JsonMapper\Tests\Implementation\Models\IShape;
 use JsonMapper\Tests\Implementation\Models\ShapeInstanceFactory;
 use JsonMapper\Tests\Implementation\Models\Square;
