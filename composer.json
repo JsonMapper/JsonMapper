@@ -55,7 +55,6 @@
         "docs": "https://jsonmapper.net"
     },
     "config": {
-        "lock": false,
         "sort-packages": true
     }
 }
