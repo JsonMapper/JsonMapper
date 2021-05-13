@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Map to stdClass was added to allow for generic objects [PR#89](https://github.com/JsonMapper/JsonMapper/pull/89)
 - Map interfaces and abstract classes using factories [PR#84](https://github.com/JsonMapper/JsonMapper/pull/84)
+- Suggestions where added to the composer.json file to inform about the laravel and symfony libs we have available. [PR#90](https://github.com/JsonMapper/JsonMapper/pull/90)
 
 ## [2.4.1] - 2021-05-07
 ### Fixed
