@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @coversNothing
  */
-class FeatureMappingToInterfaceAndAbstractClassTest extends TestCase
+class FeatureSupportsMappingToInterfaceAndAbstractClassTest extends TestCase
 {
     /**
      * @dataProvider nonInstantiableTypes
