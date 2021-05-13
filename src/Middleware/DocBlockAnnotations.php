@@ -91,7 +91,7 @@ class DocBlockAnnotations extends AbstractMiddleware
         return $intermediatePropertyMap;
     }
 
-    public static function parseDocBlockToAnnotationMap(string $docBlock): AnnotationMap
+    private static function parseDocBlockToAnnotationMap(string $docBlock): AnnotationMap
     {
         // Strip away the start "/**' and ending "*/"
         if (strpos($docBlock, '/**') === 0) {

@@ -17,8 +17,9 @@ class NullCacheTest extends TestCase
     {
         $cache = new NullCache();
 
-        $cache->set(__FUNCTION__, new \stdClass());
+        $result = $cache->set(__FUNCTION__, new \stdClass());
 
+        self::assertTrue($result);
         self::assertFalse($cache->has(__FUNCTION__));
         self::assertNull($cache->get(__FUNCTION__));
     }
@@ -30,8 +31,9 @@ class NullCacheTest extends TestCase
     {
         $cache = new NullCache();
 
-        $cache->delete(__FUNCTION__);
+        $result = $cache->delete(__FUNCTION__);
 
+        self::assertTrue($result);
         self::assertNull($cache->get(__FUNCTION__));
     }
 
@@ -42,8 +44,9 @@ class NullCacheTest extends TestCase
     {
         $cache = new NullCache();
 
-        $cache->clear();
+        $result = $cache->clear();
 
+        self::assertTrue($result);
         self::assertNull($cache->get(__FUNCTION__));
     }
 

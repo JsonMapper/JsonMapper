@@ -11,6 +11,18 @@ class ArrayCacheTest extends TestCase
     /**
      * @covers \JsonMapper\Cache\ArrayCache
      */
+    public function testCanStoreSingleValueCache(): void
+    {
+        $cache = new ArrayCache();
+        $value = new \stdClass();
+        $key = __FUNCTION__;
+
+        self::assertTrue($cache->set($key, $value));
+    }
+
+    /**
+     * @covers \JsonMapper\Cache\ArrayCache
+     */
     public function testCanRetrieveSingleValueStoredInCache(): void
     {
         $cache = new ArrayCache();
@@ -68,8 +80,9 @@ class ArrayCacheTest extends TestCase
         $key = __FUNCTION__;
         $cache->set($key, $value);
 
-        $cache->delete($key);
+        $result = $cache->delete($key);
 
+        self::assertTrue($result);
         self::assertFalse($cache->has($key));
         self::assertNull($cache->get($key));
     }
@@ -97,8 +110,9 @@ class ArrayCacheTest extends TestCase
         $cache->set($keyOne, $value);
         $cache->set($keyTwo, $value);
 
-        $cache->clear();
+        $result = $cache->clear();
 
+        self::assertTrue($result);
         self::assertFalse($cache->has($keyOne));
         self::assertFalse($cache->has($keyTwo));
     }
@@ -117,6 +131,20 @@ class ArrayCacheTest extends TestCase
     /**
      * @covers \JsonMapper\Cache\ArrayCache
      */
+    public function testCanStoreMultipleKeys(): void
+    {
+        $cache = new ArrayCache();
+        $value = new \stdClass();
+        $data = [__NAMESPACE__ => $value, __CLASS__ => $value, __FUNCTION__ => $value];
+
+        $result = $cache->setMultiple($data);
+
+        self::assertTrue($result);
+    }
+
+    /**
+     * @covers \JsonMapper\Cache\ArrayCache
+     */
     public function testCanRetrieveMultipleKeysFromCache(): void
     {
         $cache = new ArrayCache();
@@ -124,7 +152,7 @@ class ArrayCacheTest extends TestCase
         $data = [__NAMESPACE__ => $value, __CLASS__ => $value, __FUNCTION__ => $value];
 
         $cache->setMultiple($data);
-        $result = $cache->getMultiple([__NAMESPACE__, __CLASS__, __FUNCTION__]);
+        $result = $cache->getMultiple([__NAMESPACE__, __CLASS__, __FUNCTION__], 'some default');
 
         self::assertSame($result, [
             __NAMESPACE__ => $value,
@@ -143,8 +171,9 @@ class ArrayCacheTest extends TestCase
         $data = [__NAMESPACE__ => $value, __CLASS__ => $value, __FUNCTION__ => $value];
 
         $cache->setMultiple($data);
-        $cache->deleteMultiple([__NAMESPACE__, __CLASS__]);
+        $result = $cache->deleteMultiple([__NAMESPACE__, __CLASS__]);
 
+        self::assertTrue($result);
         self::assertFalse($cache->has(__NAMESPACE__));
         self::assertFalse($cache->has(__CLASS__));
         self::assertTrue($cache->has(__FUNCTION__));
