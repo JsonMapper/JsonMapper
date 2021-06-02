@@ -5,7 +5,7 @@ on:
     paths:
       - "**.php"
       - "phpcs.xml.dist"
-      - ".github/workflows/phpcs.yml"
+      - ".github/workflows/phpcs.yaml"
 
 jobs:
   phpcs:
