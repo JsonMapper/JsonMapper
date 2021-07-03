@@ -25,7 +25,7 @@ class PropertyMapper
         FactoryRegistry $nonInstantiableTypeResolver = null
     ) {
         if ($classFactoryRegistry === null) {
-            $classFactoryRegistry = FactoryRegistry::WithNativePhpClassesAdded();
+            $classFactoryRegistry = FactoryRegistry::withNativePhpClassesAdded();
         }
 
         if ($nonInstantiableTypeResolver === null) {
