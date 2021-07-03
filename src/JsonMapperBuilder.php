@@ -84,17 +84,17 @@ class JsonMapperBuilder
 
     public function withDocBlockAnnotationsMiddleware(?CacheInterface $cache = null): JsonMapperBuilder
     {
-        return $this->withMiddleware(new DocBlockAnnotations($cache ?: clone $this->defaultCache), DocBlockAnnotations::class);
+        return $this->withMiddleware(new DocBlockAnnotations($cache ?: $this->defaultCache), DocBlockAnnotations::class);
     }
 
     public function withNamespaceResolverMiddleware(?CacheInterface $cache = null): JsonMapperBuilder
     {
-        return $this->withMiddleware(new NamespaceResolver($cache ?: clone $this->defaultCache), NamespaceResolver::class);
+        return $this->withMiddleware(new NamespaceResolver($cache ?: $this->defaultCache), NamespaceResolver::class);
     }
 
     public function withTypedPropertiesMiddleware(?CacheInterface $cache = null): JsonMapperBuilder
     {
-        return $this->withMiddleware(new TypedProperties($cache ?: clone $this->defaultCache), TypedProperties::class);
+        return $this->withMiddleware(new TypedProperties($cache ?: $this->defaultCache), TypedProperties::class);
     }
 
     public function withAttributesMiddleware(): JsonMapperBuilder
