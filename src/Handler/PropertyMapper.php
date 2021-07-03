@@ -250,7 +250,11 @@ class PropertyMapper
             $mapper->mapObject($value, $instance);
             return $instance;
         } catch (ClassFactoryException $e) {
-            throw new \RuntimeException("Unable to resolve un-instantiable {$type} as no factory was registered", 0, $e);
+            throw new \RuntimeException(
+                "Unable to resolve un-instantiable {$type} as no factory was registered",
+                0,
+                $e
+            );
         }
     }
 }
