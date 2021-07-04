@@ -1,0 +1,948 @@
+{
+  "total": 118,
+  "result": [{
+    "categories": ["explicit"],
+    "created_at": "2020-01-05 13:42:18.823766",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "8hbrtDUcRtOKxqay1qxGpw",
+    "updated_at": "2020-01-05 13:42:18.823766",
+    "url": "https://api.chucknorris.io/jokes/8hbrtDUcRtOKxqay1qxGpw",
+    "value": "Chuck Norris falcon punched Jonah Falcon for having such a tiny dick."
+  }, {
+    "categories": ["explicit"],
+    "created_at": "2020-01-05 13:42:18.823766",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "Q2ATBb9gSp2RcoS60SWRMw",
+    "updated_at": "2020-01-05 13:42:18.823766",
+    "url": "https://api.chucknorris.io/jokes/Q2ATBb9gSp2RcoS60SWRMw",
+    "value": "Chuck Norris once punched a shark in the dick."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:19.104863",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "S8JeYXgPTCyxHlskLbC6qg",
+    "updated_at": "2020-01-05 13:42:19.104863",
+    "url": "https://api.chucknorris.io/jokes/S8JeYXgPTCyxHlskLbC6qg",
+    "value": "Chuck Norris never actually gets hit by punches and kicks, he actually is performing a fighting style where he smashes the limbs of his foes with his face."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:19.104863",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "dutb8-b3qeqvw2cszhmldq",
+    "updated_at": "2020-01-05 13:42:19.104863",
+    "url": "https://api.chucknorris.io/jokes/dutb8-b3qeqvw2cszhmldq",
+    "value": "If you work in an office with Chuck Norris, don't ask him for his three-hole-punch."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:19.104863",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "wxw3oc-rt6evdeledjufsq",
+    "updated_at": "2020-01-05 13:42:19.104863",
+    "url": "https://api.chucknorris.io/jokes/wxw3oc-rt6evdeledjufsq",
+    "value": "If you were somehow able to land a punch on Chuck Norris your entire arm would shatter upon impact. This is only in theory, since, come on, who in their right mind would try this?"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:19.324003",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "n20qoz6tswuf4-apuugeiw",
+    "updated_at": "2020-01-05 13:42:19.324003",
+    "url": "https://api.chucknorris.io/jokes/n20qoz6tswuf4-apuugeiw",
+    "value": "The crossing lights in Chuck Norris's home town say \"Die slowly\" and \"die quickly\". They each have a picture of Chuck Norris punching or kicking a pedestrian."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:19.324003",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "Zc5Oibc9RYyS2QQr9ffqIg",
+    "updated_at": "2020-01-05 13:42:19.324003",
+    "url": "https://api.chucknorris.io/jokes/Zc5Oibc9RYyS2QQr9ffqIg",
+    "value": "Chuck Norris doesn't get sick. So once, after eating some chicken infected with salmonella, he gut punched some skidrow bums until they threw-up for him."
+  }, {
+    "categories": ["history"],
+    "created_at": "2020-01-05 13:42:19.576875",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "umwzezi7siitlteg3jiyiw",
+    "updated_at": "2020-01-05 13:42:19.576875",
+    "url": "https://api.chucknorris.io/jokes/umwzezi7siitlteg3jiyiw",
+    "value": "Nagasaki never had a bomb dropped on it. Chuck Norris jumped out of a plane and punched the ground"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:19.576875",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "4AQd4hgmQYiRceifiRf_8Q",
+    "updated_at": "2020-01-05 13:42:19.576875",
+    "url": "https://api.chucknorris.io/jokes/4AQd4hgmQYiRceifiRf_8Q",
+    "value": "Chuck Norris once punched a cyclops between the eye."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:19.897976",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "aXaTVTfBROKA66hr79b-sg",
+    "updated_at": "2020-01-05 13:42:19.897976",
+    "url": "https://api.chucknorris.io/jokes/aXaTVTfBROKA66hr79b-sg",
+    "value": "A Chuck Norris punch to the back of your skull will change your forehead into a fivehead."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:19.897976",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "38ZR_pVQRnmGUv30k54ZAQ",
+    "updated_at": "2020-01-05 13:42:19.897976",
+    "url": "https://api.chucknorris.io/jokes/38ZR_pVQRnmGUv30k54ZAQ",
+    "value": "A Chuck Norris punch to the face has been directly linked to the causal affect of sleep apnea."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:19.897976",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "hce6eCOkQbGJehzgAysSzA",
+    "updated_at": "2020-01-05 13:42:19.897976",
+    "url": "https://api.chucknorris.io/jokes/hce6eCOkQbGJehzgAysSzA",
+    "value": "Chuck Norris once punched a smartass so hard he was stopped for speeding 6 blocks away."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:19.897976",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "jEKLbOrDReyzw5y22f3SmA",
+    "updated_at": "2020-01-05 13:42:19.897976",
+    "url": "https://api.chucknorris.io/jokes/jEKLbOrDReyzw5y22f3SmA",
+    "value": "Once at a college frat party, Chuck Norris copleted a 2 1/2 gainer in tuck position from a chandelier into a punch bowl."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:20.262289",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "U1BS_Ro5QeSr0vn6yQMvtw",
+    "updated_at": "2020-01-05 13:42:20.262289",
+    "url": "https://api.chucknorris.io/jokes/U1BS_Ro5QeSr0vn6yQMvtw",
+    "value": "Chuck Norris can un-spike punch."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:20.262289",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "Ro08-Qv9Q36-L55Aq6QLxQ",
+    "updated_at": "2020-01-05 13:42:20.262289",
+    "url": "https://api.chucknorris.io/jokes/Ro08-Qv9Q36-L55Aq6QLxQ",
+    "value": "A movie critic told Chuck Norris \"my dilemma is whether so watch one of your movies or watch paint dry\". Chuck told him \"my dilemma is whether to rip off your scrotum or punch you in the throat\". Chuck did both."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:20.262289",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "5FHkcS-7T3G3erW256vIvg",
+    "updated_at": "2020-01-05 13:42:20.262289",
+    "url": "https://api.chucknorris.io/jokes/5FHkcS-7T3G3erW256vIvg",
+    "value": "Chuck Norris is the only person who can punch you in the back of the face."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:20.568859",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "T_GKmHETTaq-e4HXCjf8rA",
+    "updated_at": "2020-01-05 13:42:20.568859",
+    "url": "https://api.chucknorris.io/jokes/T_GKmHETTaq-e4HXCjf8rA",
+    "value": "Chuck Norris says, 'if life gives you lemons, punch it in the nuts until it doesn't.'"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:20.568859",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "qZZjZfszSsa9Axf67Ok-tw",
+    "updated_at": "2020-01-05 13:42:20.568859",
+    "url": "https://api.chucknorris.io/jokes/qZZjZfszSsa9Axf67Ok-tw",
+    "value": "Chuck Norris is all about that roundhouse kick, bout that roundhouse kick. No punches."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:20.841843",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "9zcJlGVOSYWOeQjRMcTlFA",
+    "updated_at": "2020-01-05 13:42:20.841843",
+    "url": "https://api.chucknorris.io/jokes/9zcJlGVOSYWOeQjRMcTlFA",
+    "value": "Genesis 32:30- I have seen the face of God Chuck Norris 1:1- I punched the shit out of it"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:20.841843",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "iZY7-inETSSa_jtuyDY9qw",
+    "updated_at": "2020-01-05 13:42:20.841843",
+    "url": "https://api.chucknorris.io/jokes/iZY7-inETSSa_jtuyDY9qw",
+    "value": "Chuck Norris' uvula is the size of a punching bag."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:20.841843",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "rPQGPck-QZaIpxFszuEmWA",
+    "updated_at": "2020-01-05 13:42:20.841843",
+    "url": "https://api.chucknorris.io/jokes/rPQGPck-QZaIpxFszuEmWA",
+    "value": "Chuck Norris was annoyed by the noise coming from his neighbor's house. So he punched his neighbor in the throat and moved his house over four blocks."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:20.841843",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "ewCzrjBHSE2mmeSd-Z62bw",
+    "updated_at": "2020-01-05 13:42:20.841843",
+    "url": "https://api.chucknorris.io/jokes/ewCzrjBHSE2mmeSd-Z62bw",
+    "value": "Chuck Norris punched a gift horse in the mouth"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:21.179347",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "tK_SrYnMTz6I37gl4DqR5Q",
+    "updated_at": "2020-01-05 13:42:21.179347",
+    "url": "https://api.chucknorris.io/jokes/tK_SrYnMTz6I37gl4DqR5Q",
+    "value": "Chuck Norris' bathroom shower is equipped with with automatic Tazer guns that provide him with that calm, fresh, relaxed feeling before each new day of face punching old ladies delaying traffic in crosswalks."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:21.179347",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "CfFh3GJNSdWu3zSwUkj2gQ",
+    "updated_at": "2020-01-05 13:42:21.179347",
+    "url": "https://api.chucknorris.io/jokes/CfFh3GJNSdWu3zSwUkj2gQ",
+    "value": "This is Chuck Norris. Chuck Norris kills cyclops by punching them between the eyes. Chuck Norris kills all the bad guys without reloading. Chuck Norris is the greatest at being the greatest at everything. NO NOT attempt to be like Chuck."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:21.179347",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "DrTuSf4JSNuy6g1hZw5hmQ",
+    "updated_at": "2020-01-05 13:42:21.179347",
+    "url": "https://api.chucknorris.io/jokes/DrTuSf4JSNuy6g1hZw5hmQ",
+    "value": "Chuck Norris invented decaf coffee by punching a coffee bean."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:21.179347",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "ud1Y20ofQfqfHvS2q8-6UQ",
+    "updated_at": "2020-01-05 13:42:21.179347",
+    "url": "https://api.chucknorris.io/jokes/ud1Y20ofQfqfHvS2q8-6UQ",
+    "value": "Brian didn't survive Chuck Norris' punch- It was only a ghost who came from undeneath the table. It's hard to tell, because Brian is already white. Gee, I wonder how that happened!"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:21.455187",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "IGyCglUMS6q_42BHHeHSqQ",
+    "updated_at": "2020-01-05 13:42:21.455187",
+    "url": "https://api.chucknorris.io/jokes/IGyCglUMS6q_42BHHeHSqQ",
+    "value": "Chuck Norris uses a live elephant's scortum as a punching bag."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:21.455187",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "BDLiaARyS2-QKI-V5a4u2A",
+    "updated_at": "2020-01-05 13:42:21.455187",
+    "url": "https://api.chucknorris.io/jokes/BDLiaARyS2-QKI-V5a4u2A",
+    "value": "The only thing you can do to please Chuck Norris is to volunteer to be his personal punching bag."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:21.795084",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "ml1gVicKR-qANY7wjbVZ3g",
+    "updated_at": "2020-01-05 13:42:21.795084",
+    "url": "https://api.chucknorris.io/jokes/ml1gVicKR-qANY7wjbVZ3g",
+    "value": "When Chuck Norris was born his Dr did the customary slap on the ass. Chuck didnt appreciate this so he punched the Dr in the balls."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:21.795084",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "Aua0y7DuQty2RGqeXkLSHw",
+    "updated_at": "2020-01-05 13:42:21.795084",
+    "url": "https://api.chucknorris.io/jokes/Aua0y7DuQty2RGqeXkLSHw",
+    "value": "Just one Spinning Backfist Punch by Chuck Norris will make your liver quiver and your spleen scream."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:21.795084",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "zL5jH23zQ6mDgrNPG2S9rg",
+    "updated_at": "2020-01-05 13:42:21.795084",
+    "url": "https://api.chucknorris.io/jokes/zL5jH23zQ6mDgrNPG2S9rg",
+    "value": "Chuck Norris punched a policeman in the face. The judge later charged the officer with head butting Chuck Norris' fist."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:21.795084",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "HidFgW2FSwSJ274LLwC19g",
+    "updated_at": "2020-01-05 13:42:21.795084",
+    "url": "https://api.chucknorris.io/jokes/HidFgW2FSwSJ274LLwC19g",
+    "value": "When Chuck Norris looks up, then down, left and right, then jumps, crouches, and punches the air three times, a gatling gun appears in hands out of nowhere."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:22.089095",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "ac1M2YQiTR2q2CiBT0Zp9Q",
+    "updated_at": "2020-01-05 13:42:22.089095",
+    "url": "https://api.chucknorris.io/jokes/ac1M2YQiTR2q2CiBT0Zp9Q",
+    "value": "Chuck Norris wishes you a knuckle sandwich, and a happy throat-punch."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:22.089095",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "f7SgDzfHRvyFRhffEPiVow",
+    "updated_at": "2020-01-05 13:42:22.089095",
+    "url": "https://api.chucknorris.io/jokes/f7SgDzfHRvyFRhffEPiVow",
+    "value": "Not only does Chuck Norris beat you to the punch, he will punch you to the beat."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:22.089095",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "fVnKRU8uQ8GRpzNE4Oe3CQ",
+    "updated_at": "2020-01-05 13:42:22.089095",
+    "url": "https://api.chucknorris.io/jokes/fVnKRU8uQ8GRpzNE4Oe3CQ",
+    "value": "When somebody divides by zero Chuck Norris punches a mexican baby."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:22.701402",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "Rse6qkiBSEq7qLAj1fAWoQ",
+    "updated_at": "2020-01-05 13:42:22.701402",
+    "url": "https://api.chucknorris.io/jokes/Rse6qkiBSEq7qLAj1fAWoQ",
+    "value": "A guy at the grocery store told Chuck Norris \"I think I may just cut in front of you in this line\". Chuck told him \"I think I may just punch your nose out the back of your skull'."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:22.701402",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "KXbn81blT4mlckmmnOPwcA",
+    "updated_at": "2020-01-05 13:42:22.701402",
+    "url": "https://api.chucknorris.io/jokes/KXbn81blT4mlckmmnOPwcA",
+    "value": "Chuck Norris once punched a man in the face so hard that the man's eyeballs protruded from his asshole. This malady was diagnosed by emergency room personnel as a new medical condition known as 'Optical Rectumitis'."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:22.701402",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "jxJXSLnoR0O51I2EJwAVLg",
+    "updated_at": "2020-01-05 13:42:22.701402",
+    "url": "https://api.chucknorris.io/jokes/jxJXSLnoR0O51I2EJwAVLg",
+    "value": "Chuck Norris tracked down the most boring man in the world, punched him in the face, then ordered him to grow a beard and become an alcoholic."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:22.701402",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "ZPDYkN9cQuKQ24NMtlpb3A",
+    "updated_at": "2020-01-05 13:42:22.701402",
+    "url": "https://api.chucknorris.io/jokes/ZPDYkN9cQuKQ24NMtlpb3A",
+    "value": "Chuck Norris is so fast he can punch himself in the back the head"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:22.701402",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "Ooc6Izy_TrSXALOU5rgj3A",
+    "updated_at": "2020-01-05 13:42:22.701402",
+    "url": "https://api.chucknorris.io/jokes/Ooc6Izy_TrSXALOU5rgj3A",
+    "value": "Someone once asked Chuck Norris \"what happens when an unstoppable force meets an immovable object\" He answered the question by punching himself in the face"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:22.701402",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "IRfkpXhyTamqz3xxwdJwxg",
+    "updated_at": "2020-01-05 13:42:22.701402",
+    "url": "https://api.chucknorris.io/jokes/IRfkpXhyTamqz3xxwdJwxg",
+    "value": "Chuck Norris can punch you so hard that time moves backwards."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:22.980058",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "WM_sGN6JSoKAyX-HETvSKg",
+    "updated_at": "2020-01-05 13:42:22.980058",
+    "url": "https://api.chucknorris.io/jokes/WM_sGN6JSoKAyX-HETvSKg",
+    "value": "An office worker in Chuck Norris' National Fan Club headquarters was recently hospitalized shortly after she asked him to provider her with a 3 hole punch."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:23.240175",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "4zQi1RxHShiNHMd5BDr2Xg",
+    "updated_at": "2020-01-05 13:42:23.240175",
+    "url": "https://api.chucknorris.io/jokes/4zQi1RxHShiNHMd5BDr2Xg",
+    "value": "When Chuck Norris goes for a swim in the ocean, sharks try to punch him in the nose to avoid being attacked."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:23.240175",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "DausUbXjSvCxMp58AV5zeA",
+    "updated_at": "2020-01-05 13:42:23.240175",
+    "url": "https://api.chucknorris.io/jokes/DausUbXjSvCxMp58AV5zeA",
+    "value": "We all know that any mortal punching Chuck Norris' chin is just pressing the big red \"Please Notice and Flatten Me Now\" button hidden under his beard."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:23.484083",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "PGwTW0kmRIGKMGJCGnXA7A",
+    "updated_at": "2020-01-05 13:42:23.484083",
+    "url": "https://api.chucknorris.io/jokes/PGwTW0kmRIGKMGJCGnXA7A",
+    "value": "It wasn't the a-bomb that annihilated nagasaki and hiroshima during WWII..it was Chuck Norris jumping out of the plane and punching the ground."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:23.484083",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "GH4Tins5TdCHgbso0EV9uw",
+    "updated_at": "2020-01-05 13:42:23.484083",
+    "url": "https://api.chucknorris.io/jokes/GH4Tins5TdCHgbso0EV9uw",
+    "value": "along time ago Chuck Norris met an Asian kid also named Chuck Norris. Not pleased with there being another Chuck Norris so he punched him so hard the name on the the Asian kid's birth certificate changed to Bruce Lee."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:23.484083",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "MID-yF35RBiRRvCjssY3zQ",
+    "updated_at": "2020-01-05 13:42:23.484083",
+    "url": "https://api.chucknorris.io/jokes/MID-yF35RBiRRvCjssY3zQ",
+    "value": "A door to door salesman interrupted Chuck Norris during his steak dinner. Chuck punched him in the brain."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:23.880601",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "TAzGfQUvRImy7Oo0jf5_ew",
+    "updated_at": "2020-01-05 13:42:23.880601",
+    "url": "https://api.chucknorris.io/jokes/TAzGfQUvRImy7Oo0jf5_ew",
+    "value": "Mr. T threw a punch and Chuck Norris met his punch with a round house kick....... The result was the 80's."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:23.880601",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "NwpEq3oNQ6iTAlf_aNa-cg",
+    "updated_at": "2020-01-05 13:42:23.880601",
+    "url": "https://api.chucknorris.io/jokes/NwpEq3oNQ6iTAlf_aNa-cg",
+    "value": "Chuck Norris can punch the 'you' out of you."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:23.880601",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "vj0xoCxARX-BdVxH_NsaPQ",
+    "updated_at": "2020-01-05 13:42:23.880601",
+    "url": "https://api.chucknorris.io/jokes/vj0xoCxARX-BdVxH_NsaPQ",
+    "value": "Chuck Norris is so fast, he can run around the world and punch himself in the back of the head."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:23.880601",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "QBz3siqtRuCw-oJKg-gJPA",
+    "updated_at": "2020-01-05 13:42:23.880601",
+    "url": "https://api.chucknorris.io/jokes/QBz3siqtRuCw-oJKg-gJPA",
+    "value": "Five Finger Death Punch and Twelve Foot Ninja are rock bands named after the way Chuck Norris killed a giant ninja."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:23.880601",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "xO7rZ3aeRZ-4w0E3_sDRbw",
+    "updated_at": "2020-01-05 13:42:23.880601",
+    "url": "https://api.chucknorris.io/jokes/xO7rZ3aeRZ-4w0E3_sDRbw",
+    "value": "For a split of a nanosec I had disbelief in Chuck Norris, but quickly I noticed that this particular nanosec was splitted by his karatepunch."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:24.142371",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "BTHxrBzCRua8BriOPB5fQg",
+    "updated_at": "2020-01-05 13:42:24.142371",
+    "url": "https://api.chucknorris.io/jokes/BTHxrBzCRua8BriOPB5fQg",
+    "value": "Chuck Norris once punched a hurricane in its eye."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:24.142371",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "IQcDaIjCR2qwwxmcdxSwAg",
+    "updated_at": "2020-01-05 13:42:24.142371",
+    "url": "https://api.chucknorris.io/jokes/IQcDaIjCR2qwwxmcdxSwAg",
+    "value": "The only way to defeat Chuck Norris is to kill yourself, and beat him to the punch"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:24.142371",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "6_MNkQ-JTKq3tS-Gx4H6Cg",
+    "updated_at": "2020-01-05 13:42:24.142371",
+    "url": "https://api.chucknorris.io/jokes/6_MNkQ-JTKq3tS-Gx4H6Cg",
+    "value": "Chuck Norris went back in time and punched Moses in the face, just to prove that he could do it."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:24.40636",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "POhwv-YwTq6Tyqoh3MKEBw",
+    "updated_at": "2020-01-05 13:42:24.40636",
+    "url": "https://api.chucknorris.io/jokes/POhwv-YwTq6Tyqoh3MKEBw",
+    "value": "Chuck Norris can kill you in a punch"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:24.40636",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "8pAIBbybT5OBJfdLPcAnrg",
+    "updated_at": "2020-01-05 13:42:24.40636",
+    "url": "https://api.chucknorris.io/jokes/8pAIBbybT5OBJfdLPcAnrg",
+    "value": "Chuck Norris is so fast that he can run around the world and punch himself in the back of the head."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:24.40636",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "vXYaQi0jRl-W1_lNvxAWUA",
+    "updated_at": "2020-01-05 13:42:24.40636",
+    "url": "https://api.chucknorris.io/jokes/vXYaQi0jRl-W1_lNvxAWUA",
+    "value": "Chuck Norris was surfing and had an unfortunate encounter with a Great White Shark. It was unfortunate for the shark, as Chuck punched its teeth out and gave it a wedgie with its dorsal fin."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:25.099703",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "ahxblewqScS_FR2Xs9xrlg",
+    "updated_at": "2020-01-05 13:42:25.099703",
+    "url": "https://api.chucknorris.io/jokes/ahxblewqScS_FR2Xs9xrlg",
+    "value": "Chuck Norris always drives alone, because nobody is willing to get into a car with Chuck Norris,in case if a punch buggy were to drive by."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:25.099703",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "Qpi4rzMPSLawYXODG_0Xtw",
+    "updated_at": "2020-01-05 13:42:25.099703",
+    "url": "https://api.chucknorris.io/jokes/Qpi4rzMPSLawYXODG_0Xtw",
+    "value": "Chuck Norris once punched Warren Buffett in the face for refusing to sing the song \"Cheeseburger in Paradise\"."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:25.352697",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "K7neAnvnTn-ELAsD1EHC0g",
+    "updated_at": "2020-01-05 13:42:25.352697",
+    "url": "https://api.chucknorris.io/jokes/K7neAnvnTn-ELAsD1EHC0g",
+    "value": "Chuck Norris puts the \"punch\" in punch-line."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:25.352697",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "qTuJ5RSwTD6EJ9TQzQTz3Q",
+    "updated_at": "2020-01-05 13:42:25.352697",
+    "url": "https://api.chucknorris.io/jokes/qTuJ5RSwTD6EJ9TQzQTz3Q",
+    "value": "Chuck Norris is rolling out his own brand of breakfast cereal in June called Capt'n Chuck's Punch n Crunch."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:25.352697",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "EoAjImMfQ2OcQfY0HxoZSw",
+    "updated_at": "2020-01-05 13:42:25.352697",
+    "url": "https://api.chucknorris.io/jokes/EoAjImMfQ2OcQfY0HxoZSw",
+    "value": "Chuck Norris once punched through a titanium wall so fast his arm caught fire."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:25.628594",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "ABiECCHlRIivlpffrYwNWQ",
+    "updated_at": "2020-01-05 13:42:25.628594",
+    "url": "https://api.chucknorris.io/jokes/ABiECCHlRIivlpffrYwNWQ",
+    "value": "When Bruce Lee did the fighting scene with Chuck Norris, he had to take 500 million gallons of tranquilizer injected in his body just so Bruce Lee could even land a punch on him. He had to use all the tranquilizer in the world to feel those punches. Seriously!"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:25.628594",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "xnYSuraNQXKCY3SVyrYFLQ",
+    "updated_at": "2020-01-05 13:42:25.628594",
+    "url": "https://api.chucknorris.io/jokes/xnYSuraNQXKCY3SVyrYFLQ",
+    "value": "Chuck Norris can punch you in the face via messenger pidgeon"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:25.905626",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "1PtqH7nSS_6Z2sM9G7iK8Q",
+    "updated_at": "2020-01-05 13:42:25.905626",
+    "url": "https://api.chucknorris.io/jokes/1PtqH7nSS_6Z2sM9G7iK8Q",
+    "value": "Chuck Norris can punch you so hard you die and then start crying."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:25.905626",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "L8R5ayW0Qc6D8rcdJVtP5g",
+    "updated_at": "2020-01-05 13:42:25.905626",
+    "url": "https://api.chucknorris.io/jokes/L8R5ayW0Qc6D8rcdJVtP5g",
+    "value": "if you punch a brick wall you will never win. but if Chuck Norris punches one he wins every time!"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:26.194739",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "ztj4bULpSU6gHx2Eoldxvw",
+    "updated_at": "2020-01-05 13:42:26.194739",
+    "url": "https://api.chucknorris.io/jokes/ztj4bULpSU6gHx2Eoldxvw",
+    "value": "Chuck Norris is the only person that can punch a cyclops between the eye."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:26.194739",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "a7oe7UujT0OTYPM6dByXjw",
+    "updated_at": "2020-01-05 13:42:26.194739",
+    "url": "https://api.chucknorris.io/jokes/a7oe7UujT0OTYPM6dByXjw",
+    "value": "Chuck Norris once punched a guy so hard he regained consciousness in another zip code."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:26.194739",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "HQV_YZOPQ1qWhXBl3A7_2A",
+    "updated_at": "2020-01-05 13:42:26.194739",
+    "url": "https://api.chucknorris.io/jokes/HQV_YZOPQ1qWhXBl3A7_2A",
+    "value": "You don't question Chuck Norris, because if you do, he'll drink a liter of liquid egg, then punch your sternum so hard that you'll vomit bloody stool."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:26.194739",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "qdB9he4mRdeh-3jm5KtIRg",
+    "updated_at": "2020-01-05 13:42:26.194739",
+    "url": "https://api.chucknorris.io/jokes/qdB9he4mRdeh-3jm5KtIRg",
+    "value": "Chuck Norris doesn't laugh in the face of danger. He punches it repeatedly until it's the face of fear."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:26.194739",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "indVcVYHQPaCUkLmenKI9Q",
+    "updated_at": "2020-01-05 13:42:26.194739",
+    "url": "https://api.chucknorris.io/jokes/indVcVYHQPaCUkLmenKI9Q",
+    "value": "If Chuck Norris tried to punch himself he would deflect each blow creating an infinite loop. A paradox nobody can solve, except Chuck Norris."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:26.447675",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "SxsCy60OR9SG6lQfTny_Nw",
+    "updated_at": "2020-01-05 13:42:26.447675",
+    "url": "https://api.chucknorris.io/jokes/SxsCy60OR9SG6lQfTny_Nw",
+    "value": "Chuck Norris always looks a gift horse in the eye, then he kills it with one punch."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:26.766831",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "_g5WMNPuStWHYhx2C8wRNg",
+    "updated_at": "2020-01-05 13:42:26.766831",
+    "url": "https://api.chucknorris.io/jokes/_g5WMNPuStWHYhx2C8wRNg",
+    "value": "Chuck Norris was at a bar when a drunken guy called him a pussy. Chuck punched him so hard his kidneys shut down."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:26.766831",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "q2TDffchRcSjC8ZBcNO8PQ",
+    "updated_at": "2020-01-05 13:42:26.766831",
+    "url": "https://api.chucknorris.io/jokes/q2TDffchRcSjC8ZBcNO8PQ",
+    "value": "You will get a bloody nose even if Chuck Norris only thinks about punching you in the face."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:26.991637",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "wIiIqC18SPOlaWkBenybQQ",
+    "updated_at": "2020-01-05 13:42:26.991637",
+    "url": "https://api.chucknorris.io/jokes/wIiIqC18SPOlaWkBenybQQ",
+    "value": "Will Weston punched a women in the face. Chuck norris punched a bull dozer in the face. Who is better? you decide"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:26.991637",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "83gz_74ISPOcXaDgmvzelg",
+    "updated_at": "2020-01-05 13:42:26.991637",
+    "url": "https://api.chucknorris.io/jokes/83gz_74ISPOcXaDgmvzelg",
+    "value": "Chuck Norris knows that the world isn't flat...but with one punch, it could be."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:26.991637",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "pgwQ3MKTSgCgfp1zoeQWAg",
+    "updated_at": "2020-01-05 13:42:26.991637",
+    "url": "https://api.chucknorris.io/jokes/pgwQ3MKTSgCgfp1zoeQWAg",
+    "value": "Chuck Norris can punch you so hard that your blood will bleed."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:26.991637",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "7n-CqLwZTvK3Vs8J7Sg94A",
+    "updated_at": "2020-01-05 13:42:26.991637",
+    "url": "https://api.chucknorris.io/jokes/7n-CqLwZTvK3Vs8J7Sg94A",
+    "value": "Chuck Norris once punched Jean-Claude Van Damme in his career."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:26.991637",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "Obm-udCMTQG5rLwESe390w",
+    "updated_at": "2020-01-05 13:42:26.991637",
+    "url": "https://api.chucknorris.io/jokes/Obm-udCMTQG5rLwESe390w",
+    "value": "when life gives Chuck Norris lemons, he makes orange juice...then punches life in the fucking throat..Chuck hates lemons"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:27.496799",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "b33igJ7ITGK2VNJUh6JHZg",
+    "updated_at": "2020-01-05 13:42:27.496799",
+    "url": "https://api.chucknorris.io/jokes/b33igJ7ITGK2VNJUh6JHZg",
+    "value": "When Chuck Norris was in high school he played baseball. He did not use a bat, he just used his fist to punch the ball out of the park."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.143137",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "awCdEma4T3GgLfDimMSJFQ",
+    "updated_at": "2020-01-05 13:42:28.143137",
+    "url": "https://api.chucknorris.io/jokes/awCdEma4T3GgLfDimMSJFQ",
+    "value": "Chuck Norris is so ruthless, he will punch out any old bitch named Ruth on sight."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.143137",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "yX1Lg2dSTSCVKT1p6SIRkg",
+    "updated_at": "2020-01-05 13:42:28.143137",
+    "url": "https://api.chucknorris.io/jokes/yX1Lg2dSTSCVKT1p6SIRkg",
+    "value": "Chuck Norris can TKO King Hippo in Mike Tyson's Punch Out."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.143137",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "zJUUjrVUSd6VNZDlr5yqRg",
+    "updated_at": "2020-01-05 13:42:28.143137",
+    "url": "https://api.chucknorris.io/jokes/zJUUjrVUSd6VNZDlr5yqRg",
+    "value": "Unlike Elvis Costello, Chuck Norris was Punching The Detectives."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.143137",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "11Y5uvm9TNyUHZkhy7_zig",
+    "updated_at": "2020-01-05 13:42:28.143137",
+    "url": "https://api.chucknorris.io/jokes/11Y5uvm9TNyUHZkhy7_zig",
+    "value": "CHuck norris can kick u with his hands, and punch u with his feet."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.143137",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "LOkwmSLrR1CE8L_HRYjwjg",
+    "updated_at": "2020-01-05 13:42:28.143137",
+    "url": "https://api.chucknorris.io/jokes/LOkwmSLrR1CE8L_HRYjwjg",
+    "value": "They say lightning never strikes in the same place twice - tell that to last guy to receive a one,two punch from Chuck Norris."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.143137",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "HTdU5pF2TDqIj78XE9_KTA",
+    "updated_at": "2020-01-05 13:42:28.143137",
+    "url": "https://api.chucknorris.io/jokes/HTdU5pF2TDqIj78XE9_KTA",
+    "value": "An elderly man accidentally let his Buick roll into Chuck Norris' new Lexus. Chuck was furious and got violent. Chuck punched out the Buick."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.420821",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "56gBgT03QTaU-7YyN0tFVA",
+    "updated_at": "2020-01-05 13:42:28.420821",
+    "url": "https://api.chucknorris.io/jokes/56gBgT03QTaU-7YyN0tFVA",
+    "value": "Vin diesel got into a fight with Chuck Norris, and he kicked Chuck's ass and everyone cheered, Vin! Vin! Vin!..and Vin smiled at the adoring crowd...Vin! Vin!...but then Vin started waking up and slowly opened his eyes to find Chuck at his bed side, nudging at him, saying, Vin, Vin wake up..then Vin realized it was a dream, and Chuck Norris punched him in the fucking face."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.420821",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "bjm25cv_SA6xUEYHqSCRfw",
+    "updated_at": "2020-01-05 13:42:28.420821",
+    "url": "https://api.chucknorris.io/jokes/bjm25cv_SA6xUEYHqSCRfw",
+    "value": "If Chuck norris punched the earth it wouldnt shatter it would create a black black hole and only let the the people live that he deemed worthy"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.420821",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "R9RkMsaJR6G4c0S485kydQ",
+    "updated_at": "2020-01-05 13:42:28.420821",
+    "url": "https://api.chucknorris.io/jokes/R9RkMsaJR6G4c0S485kydQ",
+    "value": "CHUCK NORRIS AND DUX ARE THE ONLY PEOPLE TO EVER SURVIVE THE CHAMBERS GRIP / CHAMBERS LIGHTER PUNCH !!!!!!!!!!!!! OMG"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.664997",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "rwMIP6v0TcaK9iCMF1ovyQ",
+    "updated_at": "2020-01-05 13:42:28.664997",
+    "url": "https://api.chucknorris.io/jokes/rwMIP6v0TcaK9iCMF1ovyQ",
+    "value": "Chuck Norris can punch you in the eye through Google Glass."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.664997",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "IZBEsNqkSYOAg6NONfPsxg",
+    "updated_at": "2020-01-05 13:42:28.664997",
+    "url": "https://api.chucknorris.io/jokes/IZBEsNqkSYOAg6NONfPsxg",
+    "value": "the only thing that ever beats Chuck Norris to the punch is the face \"said\" punch is aimed at."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.664997",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "jRwlxEy2RGGwPirAZLx9Bw",
+    "updated_at": "2020-01-05 13:42:28.664997",
+    "url": "https://api.chucknorris.io/jokes/jRwlxEy2RGGwPirAZLx9Bw",
+    "value": "There are only three things in the world that are a sure kill. 1. Kirby's Super Inhale. 2. Captain Falcon's Falcon Punch. 3. Chuck Norris's Roundhouse Kick."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.664997",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "TUBNjlHMTuOkU9_3VzGOfQ",
+    "updated_at": "2020-01-05 13:42:28.664997",
+    "url": "https://api.chucknorris.io/jokes/TUBNjlHMTuOkU9_3VzGOfQ",
+    "value": "On NCIS, when Gibbs wants your attention he gives you a head slap. When Chuck Norris wants your attention, he gives you a skull punch."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.664997",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "dRTG4y8CT76Sv0ZFjQBPxA",
+    "updated_at": "2020-01-05 13:42:28.664997",
+    "url": "https://api.chucknorris.io/jokes/dRTG4y8CT76Sv0ZFjQBPxA",
+    "value": "Chuck Norris can block a punch with his face"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.984661",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "DFqJEXGiQ_KikrdahlvmWg",
+    "updated_at": "2020-01-05 13:42:28.984661",
+    "url": "https://api.chucknorris.io/jokes/DFqJEXGiQ_KikrdahlvmWg",
+    "value": "Q. What did Chuck Norris do with his first 50 cent piece? A. After climaxing, he punched her in the face and took back his half dollar. Nobody charges Chuck Norris for his services!"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.984661",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "rcK5Pn-qSsCd_zU7n-Xogg",
+    "updated_at": "2020-01-05 13:42:28.984661",
+    "url": "https://api.chucknorris.io/jokes/rcK5Pn-qSsCd_zU7n-Xogg",
+    "value": "Everytime you masterbate, Chuck Norris punches a Mexican baby in the face"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.984661",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "pdApwzJVSzG2OMXx6fcd_Q",
+    "updated_at": "2020-01-05 13:42:28.984661",
+    "url": "https://api.chucknorris.io/jokes/pdApwzJVSzG2OMXx6fcd_Q",
+    "value": "Chuck Norris once punched a guy so hard he turned into a gravestone."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.984661",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "Xe8PylgRRNmM8th0N8tQbA",
+    "updated_at": "2020-01-05 13:42:28.984661",
+    "url": "https://api.chucknorris.io/jokes/Xe8PylgRRNmM8th0N8tQbA",
+    "value": "Colnel Sanders actually died by eleven of Chuck Norris' kicks and punches."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:28.984661",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "XLMSq5qlQnePgOBixRd2Tw",
+    "updated_at": "2020-01-05 13:42:28.984661",
+    "url": "https://api.chucknorris.io/jokes/XLMSq5qlQnePgOBixRd2Tw",
+    "value": "A man once asked Chuck Norris, \"what happens when an unstoppable force meets and immovable object?\" Chuck Norris answered the question by punching himself in the face."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:29.296379",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "9cxTIo20TdOiGlxit3Nxrw",
+    "updated_at": "2020-01-05 13:42:29.296379",
+    "url": "https://api.chucknorris.io/jokes/9cxTIo20TdOiGlxit3Nxrw",
+    "value": "When Chuck Norris was once working at Freddy's Fazbear's Pizza, he punched the manager and roundhouse kicked Freddy Fazbear in the face."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:29.296379",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "cSc9sZg1SF2iQsxV6V1ulQ",
+    "updated_at": "2020-01-05 13:42:29.296379",
+    "url": "https://api.chucknorris.io/jokes/cSc9sZg1SF2iQsxV6V1ulQ",
+    "value": "For entertainment purposes, Chuck Norris serves rum&coke and spiked punch as refreshments at AA meetings."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:29.569033",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "2PH1IP5STIu58HuX9CfC_A",
+    "updated_at": "2020-01-05 13:42:29.569033",
+    "url": "https://api.chucknorris.io/jokes/2PH1IP5STIu58HuX9CfC_A",
+    "value": "Chuck Norris created Snooki by punching an Oompa Loompa in the face."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:29.569033",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "gEpdKu8DTx2K9IRo-BcoMQ",
+    "updated_at": "2020-01-05 13:42:29.569033",
+    "url": "https://api.chucknorris.io/jokes/gEpdKu8DTx2K9IRo-BcoMQ",
+    "value": "Women that work in an office with Chuck Norris, soon learn not ask him for his 3 hole punch."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:29.569033",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "RW6KnoVlQzOUDPIBmiMjIg",
+    "updated_at": "2020-01-05 13:42:29.569033",
+    "url": "https://api.chucknorris.io/jokes/RW6KnoVlQzOUDPIBmiMjIg",
+    "value": "There is a new Chuck Norris Visa Credit Card available. If you accrue enough Chuck Norris award points, he will personally punch the person of your choice in the face."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:29.569033",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "i6uL1pnYRU6oip-DDTBXig",
+    "updated_at": "2020-01-05 13:42:29.569033",
+    "url": "https://api.chucknorris.io/jokes/i6uL1pnYRU6oip-DDTBXig",
+    "value": "Chuck Norris is the only person on Earth to be forgiven for punching the Pope."
+  }, {
+    "categories": ["explicit"],
+    "created_at": "2020-01-05 13:42:29.855523",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "O006Gs94SiCyfRCcHlEQRA",
+    "updated_at": "2020-01-05 13:42:29.855523",
+    "url": "https://api.chucknorris.io/jokes/O006Gs94SiCyfRCcHlEQRA",
+    "value": "Chuck Norris once punched a man so hard in his mouth that the only thing that came out of the man's penis for 3 weeks was teeth"
+  }, {
+    "categories": ["explicit"],
+    "created_at": "2020-01-05 13:42:29.855523",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "jrxuVANTTaaCV0rPBYcfbA",
+    "updated_at": "2020-01-05 13:42:29.855523",
+    "url": "https://api.chucknorris.io/jokes/jrxuVANTTaaCV0rPBYcfbA",
+    "value": "-Chuck Norris is the reason NWA ran Straight Outta Compton. -Chuck Norris found what Bono was looking for. -Chuck Norris taught Pai Mei the Five Finger Death Punch. -Chuck Norris came before the chicken or the egg. -Chuck Norris once had sex on a plane. Nine months later, the Boeing had a litter of apache helicopters. -nuclear weapons are still hiding; even the H-bomb is afraid of Chuck Norris."
+  }, {
+    "categories": ["explicit"],
+    "created_at": "2020-01-05 13:42:29.855523",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "XZDOHb53SjudnuHmcc3tXQ",
+    "updated_at": "2020-01-05 13:42:29.855523",
+    "url": "https://api.chucknorris.io/jokes/XZDOHb53SjudnuHmcc3tXQ",
+    "value": "One of the main reasons there are so many mean fifth graders in the world today is because Chuck Norris stopped punching bad guys in the dick a decade ago."
+  }, {
+    "categories": ["political"],
+    "created_at": "2020-01-05 13:42:29.855523",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "hyQV9kHDSN61rRIsYwSr4Q",
+    "updated_at": "2020-01-05 13:42:29.855523",
+    "url": "https://api.chucknorris.io/jokes/hyQV9kHDSN61rRIsYwSr4Q",
+    "value": "Chuck Norris punched Barack Obama in the face. And fucked Michelle."
+  }, {
+    "categories": ["explicit"],
+    "created_at": "2020-01-05 13:42:30.177068",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "IfMaI_UxRqKVwgDehAKjJA",
+    "updated_at": "2020-01-05 13:42:30.177068",
+    "url": "https://api.chucknorris.io/jokes/IfMaI_UxRqKVwgDehAKjJA",
+    "value": "The next time you witness Chuck Norris brutally punching some asshole repeatedly in the face, if you look closely you will see little translucent '+50' numbers floating away."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:30.177068",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "mfl2aRpyS2ueDANo-giuFg",
+    "updated_at": "2020-01-05 13:42:30.177068",
+    "url": "https://api.chucknorris.io/jokes/mfl2aRpyS2ueDANo-giuFg",
+    "value": "When the master chief was punching grunts (from halo) Chuck Norris was destroying covenant carriers"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:30.177068",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "g8k9ztKGRaK9TTQpu9J1dw",
+    "updated_at": "2020-01-05 13:42:30.177068",
+    "url": "https://api.chucknorris.io/jokes/g8k9ztKGRaK9TTQpu9J1dw",
+    "value": "the americans didnt nuke japan, Chuck Norris jumped out of a plane and punched the ground"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:30.177068",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "MuY7ZDrnR1mQm6gcfLJtjw",
+    "updated_at": "2020-01-05 13:42:30.177068",
+    "url": "https://api.chucknorris.io/jokes/MuY7ZDrnR1mQm6gcfLJtjw",
+    "value": "Chuck Norris can kill two stones with one bird Chuck Norris ate a mouse an crapped out a cat 1+1=Chuck Norris Chuck Norris counted to infinite- twice Newtons' third Law states that every action has a equal and opposite reaction- this is a lie. there is no force equivalent to a Chuck Norris roundhouse kick if you need steel wool, take some of Chuck Norris' beard. Chuck Norris can cook air Chuck Norris punched a guy and he became a she Chuck Norris won the 1,000,000 dollar prize for performing telekinesis only chuck knows where amelia earhart went chuck kicked mario so hard he turned into luigi Chuck Norris got hit by a car. when the ambulance came, thhe found chuck standing up with half a car on each side of him"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:30.480041",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "Q9CXfPZfS6m20SUoTQFAfA",
+    "updated_at": "2020-01-05 13:42:30.480041",
+    "url": "https://api.chucknorris.io/jokes/Q9CXfPZfS6m20SUoTQFAfA",
+    "value": "The meteor in russia was caused by Chuck Norris punching the asteroid."
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:30.480041",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "TYO9OJcqSpKzUy3rEKIuew",
+    "updated_at": "2020-01-05 13:42:30.480041",
+    "url": "https://api.chucknorris.io/jokes/TYO9OJcqSpKzUy3rEKIuew",
+    "value": "the end of the world will be when Chuck Norris will punch himself"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:30.480041",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "Pl6TbDPXQ0iBCZJ9AjxZJQ",
+    "updated_at": "2020-01-05 13:42:30.480041",
+    "url": "https://api.chucknorris.io/jokes/Pl6TbDPXQ0iBCZJ9AjxZJQ",
+    "value": "Chuck Norris is such a beast that when he punches you in the face you fight the urge not to thank him"
+  }, {
+    "categories": [],
+    "created_at": "2020-01-05 13:42:30.730109",
+    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+    "id": "Kc5dtcjUTLKeqdYhGkSdyg",
+    "updated_at": "2020-01-05 13:42:30.730109",
+    "url": "https://api.chucknorris.io/jokes/Kc5dtcjUTLKeqdYhGkSdyg",
+    "value": "Whoever hates Chuck Norris is dead in 40 seconds. If one that hates Chuck Norris changed his/her mind then Chuck Norris will teleport to the hater and punch him/her in the back and his/her spine will crack. Don't mess with Chuck Norris"
+  }]
+}

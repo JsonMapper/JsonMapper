@@ -3,6 +3,7 @@
 /.phpunit.result.cache
 /build/
 /.idea/
+/.phpbench/
 
 # Ignore files from the gh-pages
 /node_modules/
