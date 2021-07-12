@@ -11,12 +11,14 @@ class ObjectWrapper
     /** @var \ReflectionClass */
     private $reflectedObject;
 
-    public function __construct(object $object)
+    /** @param object $object */
+    public function __construct($object)
     {
         $this->object = $object;
     }
 
-    public function getObject(): object
+    /** @return object */
+    public function getObject()
     {
         return $this->object;
     }

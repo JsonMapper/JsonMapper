@@ -89,7 +89,8 @@ class JsonMapper implements JsonMapperInterface
         return $this;
     }
 
-    public function mapObject(\stdClass $json, object $object): void
+    /** @param object $object */
+    public function mapObject(\stdClass $json, $object): void
     {
         $propertyMap = new PropertyMap();
 
@@ -97,7 +98,8 @@ class JsonMapper implements JsonMapperInterface
         $handler($json, new ObjectWrapper($object), $propertyMap, $this);
     }
 
-    public function mapArray(array $json, object $object): array
+    /** @param object $object */
+    public function mapArray(array $json, $object): array
     {
         $results = [];
         foreach ($json as $key => $value) {
@@ -108,7 +110,8 @@ class JsonMapper implements JsonMapperInterface
         return $results;
     }
 
-    public function mapObjectFromString(string $json, object $object): void
+    /** @param object $object */
+    public function mapObjectFromString(string $json, $object): void
     {
         $data = $this->decodeJsonString($json);
 
@@ -119,7 +122,8 @@ class JsonMapper implements JsonMapperInterface
         $this->mapObject($data, $object);
     }
 
-    public function mapArrayFromString(string $json, object $object): array
+    /** @param object $object */
+    public function mapArrayFromString(string $json, $object): array
     {
         $data = $this->decodeJsonString($json);
 
