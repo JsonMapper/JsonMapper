@@ -17,7 +17,7 @@ class PropertyMapper
 {
     /** @var FactoryRegistry */
     private $classFactoryRegistry;
-    /**@var FactoryRegistry */
+    /** @var FactoryRegistry */
     private $nonInstantiableTypeResolver;
 
     public function __construct(
@@ -223,7 +223,7 @@ class PropertyMapper
     {
         if ($asArray) {
             return array_map(
-                function ($v) use ($type, $mapper): object {
+                function ($v) use ($type, $mapper) {
                     return $this->mapToObject($type, $v, false, $mapper);
                 },
                 (array) $value
@@ -242,8 +242,9 @@ class PropertyMapper
 
     /**
      * @param mixed $value
+     * @return object
      */
-    private function resolveUnInstantiableType(string $type, $value, JsonMapperInterface $mapper): object
+    private function resolveUnInstantiableType(string $type, $value, JsonMapperInterface $mapper)
     {
         try {
             $instance = $this->nonInstantiableTypeResolver->create($type, $value);
