@@ -6,6 +6,7 @@ namespace JsonMapper\Tests\Implementation;
 
 use JsonException;
 use JsonMapper\Dto\NamedMiddleware;
+use JsonMapper\Exception\TypeError;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
@@ -87,6 +88,10 @@ class JsonMapper implements JsonMapperInterface
     /** @param object $object */
     public function mapObject(\stdClass $json, $object): void
     {
+        if (!is_object($object)) {
+            throw TypeError::forObjectArgument(__METHOD__, $object, 2);
+        }
+
         $propertyMap = new PropertyMap();
 
         $handler = $this->resolve();
@@ -96,6 +101,10 @@ class JsonMapper implements JsonMapperInterface
     /** @param object $object */
     public function mapArray(array $json, $object): array
     {
+        if (!is_object($object)) {
+            throw TypeError::forObjectArgument(__METHOD__, $object, 2);
+        }
+
         $results = [];
         foreach ($json as $key => $value) {
             $results[$key] = clone $object;
@@ -108,6 +117,10 @@ class JsonMapper implements JsonMapperInterface
     /** @param object $object */
     public function mapObjectFromString(string $json, $object): void
     {
+        if (!is_object($object)) {
+            throw TypeError::forObjectArgument(__METHOD__, $object, 2);
+        }
+
         $data = $this->decodeJsonString($json);
 
         if (! $data instanceof \stdClass) {
@@ -120,6 +133,10 @@ class JsonMapper implements JsonMapperInterface
     /** @param object $object */
     public function mapArrayFromString(string $json, $object): array
     {
+        if (!is_object($object)) {
+            throw TypeError::forObjectArgument(__METHOD__, $object, 2);
+        }
+
         $data = $this->decodeJsonString($json);
 
         if (! is_array($data)) {

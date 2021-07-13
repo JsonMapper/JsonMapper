@@ -17,7 +17,7 @@ class PropertyMapper
 {
     /** @var FactoryRegistry */
     private $classFactoryRegistry;
-    /**@var FactoryRegistry */
+    /** @var FactoryRegistry */
     private $nonInstantiableTypeResolver;
 
     public function __construct(
