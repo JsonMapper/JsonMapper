@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added 
+- Support PHP 7.1 [PR#97](https://github.com/JsonMapper/JsonMapper/pull/97)
 
 ## [2.5.1] - 2021-07-06
 ### Fixed
