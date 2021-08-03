@@ -38,7 +38,7 @@ class NamespaceResolver extends AbstractMiddleware
 
     private function fetchPropertyMapForObject(ObjectWrapper $object, PropertyMap $originalPropertyMap): PropertyMap
     {
-        $cacheKey = sprintf('%s::Cache::%s', __CLASS__, $object->getName());
+        $cacheKey = \sprintf('%s::Cache::%s', __CLASS__, $object->getName());
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
         }
@@ -66,15 +66,15 @@ class NamespaceResolver extends AbstractMiddleware
             return $type;
         }
 
-        $matches = array_filter(
+        $matches = \array_filter(
             $imports,
             static function (string $import) use ($type) {
-                return $type->getType() === substr($import, -1 * strlen($type->getType()));
+                return $type->getType() === \substr($import, -1 * \strlen($type->getType()));
             }
         );
 
         if (count($matches) > 0) {
-            return new PropertyType(array_shift($matches), $type->isArray());
+            return new PropertyType(\array_shift($matches), $type->isArray());
         }
 
         if (!class_exists($type->getType())) {
