@@ -14,6 +14,4 @@ class DateTime
         $this->date = $date;
         $this->time = $time;
     }
-
-
 }

@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Correctly map types for array type with reused internal classname withing same namespace [PR#103](https://github.com/JsonMapper/JsonMapper/pull/103)
 ### Changed
 - Invoke PHP native functions with fq namespace to improve speed. [PR#100](https://github.com/JsonMapper/JsonMapper/pull/100)
 
