@@ -169,6 +169,10 @@ class PropertyMapper
             return $this->mapToScalarValue($type->getType(), $value, $type->isArray());
         }
 
+        if (PHP_VERSION_ID >= 80100 && enum_exists($type->getType())) {
+            return $this->mapToEnum($type->getType(), $value, $type->isArray());
+        }
+
         if ($this->classFactoryRegistry->hasFactory($type->getType())) {
             if ($type->isArray()) {
                 return \array_map(function ($v) use ($type) {
@@ -213,6 +217,21 @@ class PropertyMapper
         }
 
         return $scalar->cast($value);
+    }
+
+    /**
+     * @param mixed $value
+     * @return UnitEnum|UnitEnum[]
+     */
+    private function mapToEnum(string $type, $value, bool $asArray)
+    {
+        if ($asArray) {
+            return \array_map(static function ($v) use ($type) {
+                return call_user_func("{$type}::from", $v);
+            }, (array) $value);
+        }
+
+        return call_user_func("{$type}::from", $value);
     }
 
     /**
