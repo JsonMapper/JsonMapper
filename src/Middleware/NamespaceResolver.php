@@ -62,7 +62,7 @@ class NamespaceResolver extends AbstractMiddleware
 
     private function resolveSingleType(PropertyType $type, ObjectWrapper $object, array $imports): PropertyType
     {
-        if (ScalarType::isValid($type->getType()) || ClassHelper::isBuiltin($type->getType())) {
+        if (ScalarType::isValid($type->getType())) {
             return $type;
         }
 
@@ -77,7 +77,7 @@ class NamespaceResolver extends AbstractMiddleware
             return new PropertyType(\array_shift($matches), $type->isArray());
         }
 
-        if (!class_exists($type->getType())) {
+        if (class_exists($object->getReflectedObject()->getNamespaceName() . '\\' . $type->getType())) {
             return new PropertyType(
                 $object->getReflectedObject()->getNamespaceName() . '\\' . $type->getType(),
                 $type->isArray()
