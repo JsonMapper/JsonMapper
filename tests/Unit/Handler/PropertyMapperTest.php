@@ -20,12 +20,14 @@ use JsonMapper\Tests\Implementation\Models\User;
 use JsonMapper\Tests\Implementation\Models\UserWithConstructor;
 use JsonMapper\Tests\Implementation\Models\Wrappers\IShapeWrapper;
 use JsonMapper\Tests\Implementation\Popo;
+use JsonMapper\Tests\Implementation\PopoPrivate;
 use JsonMapper\Tests\Implementation\PrivatePropertyWithoutSetter;
 use JsonMapper\Tests\Implementation\SimpleObject;
 use JsonMapper\Tests\Implementation\UserWithConstructorParent;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 use PHPUnit\Framework\TestCase;
+use ReflectionObject;
 
 class PropertyMapperTest extends TestCase
 {
@@ -67,6 +69,31 @@ class PropertyMapperTest extends TestCase
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $this->createMock(JsonMapperInterface::class));
 
         self::assertEquals($value, $object->value);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testVisibilityIgnoreValueIsSet(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('name')
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::IGNORE())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $json = (object) ['name' => __METHOD__];
+        $object = new PopoPrivate();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $this->createMock(JsonMapperInterface::class));
+
+        $reflectedObject = new ReflectionObject($object);
+        $reflectedProperty = $reflectedObject->getProperty('name');
+        $reflectedProperty->setAccessible(true);
+        self::assertSame(__METHOD__, $reflectedProperty->getValue($object));
     }
 
     /**
