@@ -10,12 +10,14 @@ use MyCLabs\Enum\Enum;
  * @method static Visibility PUBLIC()
  * @method static Visibility PROTECTED()
  * @method static Visibility PRIVATE()
+ * @method static Visibility IGNORE()
  */
 class Visibility extends Enum
 {
     private const PUBLIC = 'public';
     private const PROTECTED = 'protected';
     private const PRIVATE = 'private';
+    private const IGNORE = 'ignore';
 
     public static function fromReflectionProperty(\ReflectionProperty $property): self
     {

@@ -12,6 +12,7 @@ use JsonMapper\ValueObjects\Property;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\ValueObjects\PropertyType;
 use JsonMapper\Wrapper\ObjectWrapper;
+use ReflectionException;
 
 class PropertyMapper
 {
@@ -68,11 +69,19 @@ class PropertyMapper
 
     /**
      * @param mixed $value
+     * @throws ReflectionException
      */
     private function setValue(ObjectWrapper $object, Property $propertyInfo, $value): void
     {
         if ($propertyInfo->getVisibility()->equals(Visibility::PUBLIC())) {
             $object->getObject()->{$propertyInfo->getName()} = $value;
+            return;
+        }
+
+        if ($propertyInfo->getVisibility()->equals(Visibility::IGNORE())) {
+            $reflectedProperty = $object->getReflectedObject()->getProperty($propertyInfo->getName());
+            $reflectedProperty->setAccessible(true);
+            $reflectedProperty->setValue($object->getObject(), $value);
             return;
         }
 
