@@ -643,19 +643,49 @@ class PropertyMapperTest extends TestCase
     public function testItCanMapEnumType(): void
     {
         $json = (object) ['status' => 'draft'];
-        $object = new BlogPost();
+        $object = new \JsonMapper\Tests\Implementation\Php81\BlogPost();
         $wrapped = new ObjectWrapper($object);
-        $type = \JsonMapper\Tests\Implementation\Php81\Status::class;
         $property = PropertyBuilder::new()
             ->setName('status')
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
-            ->addType($type, false)
+            ->addType(\JsonMapper\Tests\Implementation\Php81\Status::class, false)
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
         $expected = new BlogPost();
         $expected->status = \JsonMapper\Tests\Implementation\Php81\Status::DRAFT;
+
+        $propertyMapper = new PropertyMapper();
+        $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals($expected, $object);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     * @requires PHP >= 8.1
+     */
+    public function testItCanMapEnumArrayType(): void
+    {
+        $json = (object) ['historicStates' => ['draft', 'published']];
+        $object = new \JsonMapper\Tests\Implementation\Php81\BlogPost();
+        $wrapped = new ObjectWrapper($object);
+        $property = PropertyBuilder::new()
+            ->setName('historicStates')
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->addType(\JsonMapper\Tests\Implementation\Php81\Status::class, true)
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $expected = new BlogPost();
+        $expected->historicStates = [
+            \JsonMapper\Tests\Implementation\Php81\Status::DRAFT,
+            \JsonMapper\Tests\Implementation\Php81\Status::PUBLISHED
+        ];
 
         $propertyMapper = new PropertyMapper();
         $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
