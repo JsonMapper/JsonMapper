@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.8.0] - 2021-10-05
+### Added
+- Support for PHP 8.1 Enum [PR#105](https://github.com/JsonMapper/JsonMapper/pull/105)
+
 ## [2.7.0] - 2021-08-31
 ### Fixed
 - Correctly map types for array type with reused internal classname withing same namespace [PR#103](https://github.com/JsonMapper/JsonMapper/pull/103)
