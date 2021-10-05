@@ -19,6 +19,7 @@ use JsonMapper\Tests\Implementation\Models\Square;
 use JsonMapper\Tests\Implementation\Models\User;
 use JsonMapper\Tests\Implementation\Models\UserWithConstructor;
 use JsonMapper\Tests\Implementation\Models\Wrappers\IShapeWrapper;
+use JsonMapper\Tests\Implementation\Php81\BlogPost;
 use JsonMapper\Tests\Implementation\Popo;
 use JsonMapper\Tests\Implementation\PrivatePropertyWithoutSetter;
 use JsonMapper\Tests\Implementation\SimpleObject;
@@ -633,6 +634,35 @@ class PropertyMapperTest extends TestCase
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
 
         self::assertEquals(new Square(5, 6), $object->shape);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     * @requires PHP >= 8.1
+     */
+    public function testItCanMapEnumType(): void
+    {
+        $json = (object) ['status' => 'draft'];
+        $object = new BlogPost();
+        $wrapped = new ObjectWrapper($object);
+        $type = \JsonMapper\Tests\Implementation\Php81\Status::class;
+        $property = PropertyBuilder::new()
+            ->setName('status')
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->addType($type, false)
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $expected = new BlogPost();
+        $expected->status = \JsonMapper\Tests\Implementation\Php81\Status::DRAFT;
+
+        $propertyMapper = new PropertyMapper();
+        $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals($expected, $object);
     }
 
     public function scalarValueDataTypes(): array
