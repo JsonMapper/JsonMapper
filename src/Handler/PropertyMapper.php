@@ -238,16 +238,21 @@ class PropertyMapper
     }
 
     /**
+     * @template T
+     * @psalm-param class-string<T> $type
      * @param mixed $value
+     * @return T
      */
-    private function mapToEnum(string $type, $value): UnitEnum
+    private function mapToEnum(string $type, $value)
     {
         return call_user_func("{$type}::from", $value);
     }
 
     /**
+     * @template T
+     * @psalm-param class-string<T> $type
      * @param mixed $value
-     * @return UnitEnum[]
+     * @return T[]
      */
     private function mapToArrayOfEnum(string $type, $value): array
     {
@@ -257,8 +262,10 @@ class PropertyMapper
     }
 
     /**
+     * @template T
+     * @psalm-param class-string<T> $type
      * @param mixed $value
-     * @return object
+     * @return T
      */
     private function mapToObject(string $type, $value, JsonMapperInterface $mapper)
     {
