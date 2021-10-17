@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonMapper\Helpers;
 
+use JsonMapper\Exception\PhpFileParseException;
 use JsonMapper\Parser\UseNodeVisitor;
 use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
@@ -25,20 +26,23 @@ class UseStatementHelper
         }
 
         if (! \is_readable($filename)) {
-            throw new \RuntimeException("Unable to read {$class->getFileName()}");
+            throw new \RuntimeException("Unable to read {$filename}");
         }
 
         $contents = \file_get_contents($filename);
         if ($contents === false) {
-            throw new \RuntimeException("Unable to read {$class->getFileName()}");
+            throw new \RuntimeException("Unable to read {$filename}");
         }
 
         $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
 
         try {
             $ast = $parser->parse($contents);
+            if (\is_null($ast)) {
+                throw new PhpFileParseException("Failed to parse {$filename}");
+            }
         } catch (\Throwable $e) {
-            throw new \RuntimeException("Something went wrong when parsing {$class->getFileName()}", 0, $e);
+            throw new PhpFileParseException("Failed to parse {$filename}");
         }
 
         $traverser = new NodeTraverser();
