@@ -29,9 +29,8 @@ class ValueMapper extends AbstractMiddleware
         JsonMapperInterface $mapper
     ): void {
         $mapFunction = $this->mapFunction;
-        $jsonArray = (array) $json;
 
-        foreach ($jsonArray as $key => $value) {
+        foreach ((array) $json as $key => $value) {
             if ($this->includeKey) {
                 $json->$key = $mapFunction($key, $value);
                 continue;

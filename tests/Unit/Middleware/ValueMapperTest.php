@@ -10,6 +10,7 @@ use JsonMapper\Tests\Implementation\Popo;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 class ValueMapperTest extends TestCase
 {
@@ -18,42 +19,31 @@ class ValueMapperTest extends TestCase
      * @dataProvider valueMapperDataProvider
      */
     public function testCanConvertObject(
-        array $arguments,
-        array $jsonObject,
-        array $resultObject
+        ValueMapper $middleware,
+        stdClass $json,
+        stdClass $expected
     ): void {
-        $middleware = new ValueMapper(...$arguments);
+        $middleware->handle($json, new ObjectWrapper(new Popo()), new PropertyMap(), $this->createMock(JsonMapperInterface::class));
 
-        $json = (object) $jsonObject;
-
-        $object = new ObjectWrapper(new Popo());
-
-        $middleware->handle($json, $object, new PropertyMap(), $this->createMock(JsonMapperInterface::class));
-
-        self::assertObjectHasAttribute('name', $json);
-        self::assertObjectHasAttribute('notes', $json);
-        self::assertEquals($resultObject['notes'], $json->notes);
-        self::assertEquals($resultObject['name'], $json->name);
+        self::assertEquals($expected, $json);
     }
 
     public function valueMapperDataProvider(): array
     {
         return [
             'php function strtoupper' => [
-                [
-                    'strtoupper',
-                ],
-                [
+                new ValueMapper('strtoupper'),
+                (object) [
                     'name' => 'test',
                     'notes' => 'this is a test'
                 ],
-                [
+                (object) [
                     'name' => 'TEST',
                     'notes' => 'THIS IS A TEST'
                 ]
             ],
             'custom function' => [
-                [
+                new ValueMapper(
                     static function ($key, $value) {
                         if ($key === 'notes') {
                             return \base64_decode($value);
@@ -62,12 +52,12 @@ class ValueMapperTest extends TestCase
                         return $value;
                     },
                     true
-                ],
-                [
+                ),
+                (object) [
                     'name' => 'test',
                     'notes' => 'c3RyaW5nIGluIGJhc2U2NA=='
                 ],
-                [
+                (object) [
                     'name' => 'test',
                     'notes' => 'string in base64'
                 ]
