@@ -66,12 +66,13 @@ class NamespaceResolver extends AbstractMiddleware
             return $type;
         }
 
-        $matches = \array_filter(
-            $imports,
-            static function (string $import) use ($type) {
-                return str_ends_with($import, '\\' . $type->getType()) || $type->getType() === $import;
+        $matches = [];
+
+        foreach ($imports as $key => $value) {
+            if (str_ends_with($key, '\\' . $type->getType()) || $type->getType() === $key) {
+                $matches[] = $value;
             }
-        );
+        }
 
         if (count($matches) > 0) {
             return new PropertyType(\array_shift($matches), $type->isArray());

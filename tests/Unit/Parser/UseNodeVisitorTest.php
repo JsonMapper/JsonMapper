@@ -30,7 +30,7 @@ class UseNodeVisitorTest extends TestCase
         $imports = $visitor->getImports();
 
         self::assertNull($result);
-        self::assertEquals($uses, $imports);
+        self::assertEquals($uses, array_values($imports));
     }
 
     /**

@@ -14,6 +14,7 @@ use JsonMapper\Middleware\DocBlockAnnotations;
 use JsonMapper\Middleware\NamespaceResolver;
 use JsonMapper\Tests\Helpers\AssertThatPropertyTrait;
 use JsonMapper\Tests\Implementation\ComplexObject;
+use JsonMapper\Tests\Implementation\Models\NamespaceAliasObject;
 use JsonMapper\Tests\Implementation\Models\NamespaceObject;
 use JsonMapper\Tests\Implementation\Models\Sub\AnotherValueHolder;
 use JsonMapper\Tests\Implementation\Models\User;
@@ -197,6 +198,36 @@ class NamespaceResolverTest extends TestCase
     public function testUseNonUseMixed(): void
     {
         $object = new NamespaceObject();
+
+        $input = [
+            'aVal' => [
+                'value' => 'loremipsum1'
+            ],
+            'bVal' => [
+                'value' => 'loremipsum2'
+            ]
+        ];
+
+        $builder = JsonMapperBuilder::new();
+        $builder->withMiddleware(new DocBlockAnnotations(new NullCache()));
+        $builder->withMiddleware(new NamespaceResolver(new NullCache()));
+
+        try {
+            $mapper = $builder->build();
+            $mapper->mapObjectFromString(json_encode($input) ?: '', $object);
+        } catch (Exception $e) {
+        }
+
+        self::assertInstanceOf(AnotherValueHolder::class, $object->bVal);
+        self::assertInstanceOf(ValueHolder::class, $object->aVal);
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\NamespaceResolver
+     */
+    public function testUseAliasMixed(): void
+    {
+        $object = new NamespaceAliasObject();
 
         $input = [
             'aVal' => [

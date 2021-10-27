@@ -17,7 +17,7 @@ class UseStatementHelperTest extends TestCase
     {
         $imports = UseStatementHelper::getImports(new \ReflectionClass($this));
 
-        self::assertEquals([UseStatementHelper::class, SimpleObject::class, TestCase::class], $imports);
+        self::assertEquals([UseStatementHelper::class, SimpleObject::class, TestCase::class], array_values($imports));
     }
 
     /**
