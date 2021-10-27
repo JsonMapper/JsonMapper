@@ -69,7 +69,7 @@ class NamespaceResolver extends AbstractMiddleware
         $matches = \array_filter(
             $imports,
             static function (string $import) use ($type) {
-                return $type->getType() === \substr($import, -1 * \strlen($type->getType()));
+                return str_ends_with($import, '\\' . $type->getType()) || $type->getType() === $import;
             }
         );
 

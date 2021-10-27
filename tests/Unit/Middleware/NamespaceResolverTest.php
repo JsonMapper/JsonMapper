@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit\Middleware;
 
+use Exception;
 use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\Visibility;
+use JsonMapper\JsonMapperBuilder;
 use JsonMapper\JsonMapperInterface;
+use JsonMapper\Middleware\DocBlockAnnotations;
 use JsonMapper\Middleware\NamespaceResolver;
 use JsonMapper\Tests\Helpers\AssertThatPropertyTrait;
 use JsonMapper\Tests\Implementation\ComplexObject;
+use JsonMapper\Tests\Implementation\Models\NamespaceObject;
+use JsonMapper\Tests\Implementation\Models\Sub\AnotherValueHolder;
 use JsonMapper\Tests\Implementation\Models\User;
+use JsonMapper\Tests\Implementation\Models\ValueHolder;
 use JsonMapper\Tests\Implementation\SimpleObject;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
@@ -183,5 +189,35 @@ class NamespaceResolverTest extends TestCase
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
 
         $middleware->handle(new \stdClass(), $objectWrapper, $propertyMap, $jsonMapper);
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\NamespaceResolver
+     */
+    public function testUseNonUseMixed(): void
+    {
+        $object = new NamespaceObject();
+
+        $input = [
+            'aVal' => [
+                'value' => 'loremipsum1'
+            ],
+            'bVal' => [
+                'value' => 'loremipsum2'
+            ]
+        ];
+
+        $builder = JsonMapperBuilder::new();
+        $builder->withMiddleware(new DocBlockAnnotations(new NullCache()));
+        $builder->withMiddleware(new NamespaceResolver(new NullCache()));
+
+        try {
+            $mapper = $builder->build();
+            $mapper->mapObjectFromString(json_encode($input) ?: '', $object);
+        } catch (Exception $e) {
+        }
+
+        self::assertInstanceOf(AnotherValueHolder::class, $object->bVal);
+        self::assertInstanceOf(ValueHolder::class, $object->aVal);
     }
 }
