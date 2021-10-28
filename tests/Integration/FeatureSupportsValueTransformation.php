@@ -6,7 +6,7 @@ namespace JsonMapper\Tests\Integration;
 
 use JsonMapper\JsonMapperBuilder;
 use JsonMapper\JsonMapperFactory;
-use JsonMapper\Middleware\ValueMapper;
+use JsonMapper\Middleware\ValueTransformation;
 use JsonMapper\Tests\Implementation\Popo;
 use PHPUnit\Framework\TestCase;
 
@@ -19,7 +19,7 @@ class FeatureSupportsValueTransformation extends TestCase
     {
         // Arrange
         $mapper = JsonMapperBuilder::new()
-            ->withMiddleware(new ValueMapper('strtolower'))
+            ->withMiddleware(new ValueTransformation('strtolower'))
             ->withDocBlockAnnotationsMiddleware()
             ->withNamespaceResolverMiddleware()
             ->build();
@@ -38,7 +38,7 @@ class FeatureSupportsValueTransformation extends TestCase
         // Arrange
         $now = new \DateTimeImmutable('2021-10-28T20:40:15+01:00');
         $mapper = JsonMapperBuilder::new()
-            ->withMiddleware(new ValueMapper(static function($key, $value) {
+            ->withMiddleware(new ValueTransformation(static function($key, $value) {
                 return $key === 'date' ? base64_decode($value) : $value;
             }, true))
             ->withDocBlockAnnotationsMiddleware()

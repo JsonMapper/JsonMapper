@@ -8,7 +8,7 @@ use JsonMapper\JsonMapperInterface;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 
-class ValueMapper extends AbstractMiddleware
+class ValueTransformation extends AbstractMiddleware
 {
     /** @var callable */
     private $mapFunction;

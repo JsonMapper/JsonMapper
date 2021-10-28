@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace JsonMapper\Tests\Unit\Middleware;
 
 use JsonMapper\JsonMapperInterface;
-use JsonMapper\Middleware\ValueMapper;
+use JsonMapper\Middleware\ValueTransformation;
 use JsonMapper\Tests\Implementation\Popo;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-class ValueMapperTest extends TestCase
+class ValueTransformationTest extends TestCase
 {
     /**
-     * @covers \JsonMapper\Middleware\ValueMapper
+     * @covers \JsonMapper\Middleware\ValueTransformation
      * @dataProvider valueMapperDataProvider
      */
     public function testCanConvertObject(
-        ValueMapper $middleware,
+        ValueTransformation $middleware,
         stdClass $json,
         stdClass $expected
     ): void {
@@ -32,7 +32,7 @@ class ValueMapperTest extends TestCase
     {
         return [
             'php function strtoupper' => [
-                new ValueMapper('strtoupper'),
+                new ValueTransformation('strtoupper'),
                 (object) [
                     'name' => 'test',
                     'notes' => 'this is a test'
@@ -43,7 +43,7 @@ class ValueMapperTest extends TestCase
                 ]
             ],
             'custom function' => [
-                new ValueMapper(
+                new ValueTransformation(
                     static function ($key, $value) {
                         if ($key === 'notes') {
                             return \base64_decode($value);
