@@ -38,7 +38,7 @@ class FeatureSupportsValueTransformation extends TestCase
         // Arrange
         $now = new \DateTimeImmutable('2021-10-28T20:40:15+01:00');
         $mapper = JsonMapperBuilder::new()
-            ->withMiddleware(new ValueTransformation(static function($key, $value) {
+            ->withMiddleware(new ValueTransformation(static function ($key, $value) {
                 return $key === 'date' ? base64_decode($value) : $value;
             }, true))
             ->withDocBlockAnnotationsMiddleware()

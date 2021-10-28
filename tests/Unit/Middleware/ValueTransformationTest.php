@@ -23,7 +23,12 @@ class ValueTransformationTest extends TestCase
         stdClass $json,
         stdClass $expected
     ): void {
-        $middleware->handle($json, new ObjectWrapper(new Popo()), new PropertyMap(), $this->createMock(JsonMapperInterface::class));
+        $middleware->handle(
+            $json,
+            new ObjectWrapper(new Popo()),
+            new PropertyMap(),
+            $this->createMock(JsonMapperInterface::class)
+        );
 
         self::assertEquals($expected, $json);
     }
