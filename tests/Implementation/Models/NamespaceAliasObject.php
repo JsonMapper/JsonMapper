@@ -7,7 +7,7 @@ use JsonMapper\Tests\Implementation\Models\Sub\AnotherValueHolder as Blub;
 class NamespaceAliasObject
 {
     /** @var ValueHolder */
-    public $aVal;
+    public $valueHolder;
     /** @var Blub */
-    public $bVal;
+    public $anotherValueHolder;
 }

@@ -195,60 +195,42 @@ class NamespaceResolverTest extends TestCase
     /**
      * @covers \JsonMapper\Middleware\NamespaceResolver
      */
-    public function testUseNonUseMixed(): void
+    public function testReturnsCorrectNamespaceWhenOtherClassHasPartialMatch(): void
     {
         $object = new NamespaceObject();
-
-        $input = [
-            'aVal' => [
-                'value' => 'loremipsum1'
-            ],
-            'bVal' => [
-                'value' => 'loremipsum2'
-            ]
+        $input = (object) [
+            'valueHolder' => (object) ['value' => 'loremipsum1'],
+            'anotherValueHolder' => (object) ['value' => 'loremipsum2']
         ];
+        $mapper = JsonMapperBuilder::new()
+            ->withMiddleware(new DocBlockAnnotations(new NullCache()))
+            ->withMiddleware(new NamespaceResolver(new NullCache()))
+            ->build();
 
-        $builder = JsonMapperBuilder::new();
-        $builder->withMiddleware(new DocBlockAnnotations(new NullCache()));
-        $builder->withMiddleware(new NamespaceResolver(new NullCache()));
+        $mapper->mapObject($input, $object);
 
-        try {
-            $mapper = $builder->build();
-            $mapper->mapObjectFromString(json_encode($input) ?: '', $object);
-        } catch (Exception $e) {
-        }
-
-        self::assertInstanceOf(AnotherValueHolder::class, $object->bVal);
-        self::assertInstanceOf(ValueHolder::class, $object->aVal);
+        self::assertInstanceOf(AnotherValueHolder::class, $object->anotherValueHolder);
+        self::assertInstanceOf(ValueHolder::class, $object->valueHolder);
     }
 
     /**
      * @covers \JsonMapper\Middleware\NamespaceResolver
      */
-    public function testUseAliasMixed(): void
+    public function testReturnsCorrectNamespaceWhenAliasProvidedForUse(): void
     {
         $object = new NamespaceAliasObject();
-
-        $input = [
-            'aVal' => [
-                'value' => 'loremipsum1'
-            ],
-            'bVal' => [
-                'value' => 'loremipsum2'
-            ]
+        $input = (object) [
+            'valueHolder' => (object) ['value' => 'loremipsum1'],
+            'anotherValueHolder' => (object) ['value' => 'loremipsum2']
         ];
+        $mapper = JsonMapperBuilder::new()
+            ->withMiddleware(new DocBlockAnnotations(new NullCache()))
+            ->withMiddleware(new NamespaceResolver(new NullCache()))
+            ->build();
 
-        $builder = JsonMapperBuilder::new();
-        $builder->withMiddleware(new DocBlockAnnotations(new NullCache()));
-        $builder->withMiddleware(new NamespaceResolver(new NullCache()));
+        $mapper->mapObject($input, $object);
 
-        try {
-            $mapper = $builder->build();
-            $mapper->mapObjectFromString(json_encode($input) ?: '', $object);
-        } catch (Exception $e) {
-        }
-
-        self::assertInstanceOf(AnotherValueHolder::class, $object->bVal);
-        self::assertInstanceOf(ValueHolder::class, $object->aVal);
+        self::assertInstanceOf(AnotherValueHolder::class, $object->anotherValueHolder);
+        self::assertInstanceOf(ValueHolder::class, $object->valueHolder);
     }
 }
