@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonMapper\Helpers;
 
+use JsonMapper\Parser\Import;
 use JsonMapper\Parser\UseNodeVisitor;
 use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
@@ -13,6 +14,7 @@ class UseStatementHelper
     /** @var string */
     private static $evaldCodeFileNameEnding = "eval()'d code";
 
+    /** @return Import */
     public static function getImports(\ReflectionClass $class): array
     {
         if (!$class->isUserDefined()) {

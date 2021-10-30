@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JsonMapper\Tests\Unit\Helpers;
 
 use JsonMapper\Helpers\UseStatementHelper;
+use JsonMapper\Parser\Import;
 use JsonMapper\Tests\Implementation\SimpleObject;
 use PHPUnit\Framework\TestCase;
 
@@ -17,7 +18,15 @@ class UseStatementHelperTest extends TestCase
     {
         $imports = UseStatementHelper::getImports(new \ReflectionClass($this));
 
-        self::assertEquals([UseStatementHelper::class, SimpleObject::class, TestCase::class], $imports);
+        self::assertEquals(
+            [
+                new Import(UseStatementHelper::class, null),
+                new Import(Import::class, null),
+                new Import(SimpleObject::class, null),
+                new Import(TestCase::class, null)
+            ],
+            $imports
+        );
     }
 
     /**
