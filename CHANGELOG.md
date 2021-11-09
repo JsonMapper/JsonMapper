@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.9.0] - 2021-11-09
+### Added
+- The value transformation middleware was added to apply a callback to the values of the json object [PR#111](https://github.com/JsonMapper/JsonMapper/pull/111) Thanks to [Philipp Dahse](https://github.com/dahse89)
+- Introduce psalm annotations [PR#110](https://github.com/JsonMapper/JsonMapper/pull/110)
+### Fixed
+- Namespace resolving was strengthened to avoid partial matches and now also includes support for using `alias` in `use` statements [PR#112](https://github.com/JsonMapper/JsonMapper/pull/112) Thanks to [Christopher Reimer](https://github.com/CReimer)
+
 ## [2.8.0] - 2021-10-05
 ### Added
 - Support for PHP 8.1 Enum [PR#105](https://github.com/JsonMapper/JsonMapper/pull/105)
