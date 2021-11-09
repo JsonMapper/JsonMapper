@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit\Helpers;
 
+use JsonMapper\Exception\PhpFileParseException;
 use JsonMapper\Helpers\UseStatementHelper;
 use JsonMapper\Parser\Import;
 use JsonMapper\Tests\Implementation\SimpleObject;
@@ -20,6 +21,7 @@ class UseStatementHelperTest extends TestCase
 
         self::assertEquals(
             [
+                new Import(PhpFileParseException::class, null),
                 new Import(UseStatementHelper::class, null),
                 new Import(Import::class, null),
                 new Import(SimpleObject::class, null),
@@ -67,8 +69,8 @@ class UseStatementHelperTest extends TestCase
         $reflectionMock->method('isUserDefined')->willReturn(true);
         $reflectionMock->method('getFileName')->willReturn($fileName);
 
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage("Something went wrong when parsing {$fileName}");
+        $this->expectException(PhpFileParseException::class);
+        $this->expectExceptionMessage("Failed to parse {$fileName}");
         UseStatementHelper::getImports($reflectionMock);
 
         unlink($fileName);

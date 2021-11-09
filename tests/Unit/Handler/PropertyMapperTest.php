@@ -7,6 +7,7 @@ namespace JsonMapper\Tests\Unit\Handler;
 use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\Visibility;
+use JsonMapper\Exception\TypeError;
 use JsonMapper\Handler\FactoryRegistry;
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapperFactory;
@@ -693,6 +694,29 @@ class PropertyMapperTest extends TestCase
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
 
         self::assertEquals($expected, $object);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testItThrowsExceptionForNonExistingClass(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('child')
+            ->addType("\Some\Non\Existing\Class", false)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PRIVATE())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $json = (object) ['child' => (object) ['name' => __FUNCTION__]];
+        $object = new ComplexObject();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+        $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
+
+        $this->expectException(TypeError::class);
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
     }
 
     public function scalarValueDataTypes(): array
