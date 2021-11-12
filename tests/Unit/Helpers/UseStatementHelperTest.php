@@ -7,7 +7,9 @@ namespace JsonMapper\Tests\Unit\Helpers;
 use JsonMapper\Exception\PhpFileParseException;
 use JsonMapper\Helpers\UseStatementHelper;
 use JsonMapper\Parser\Import;
-use JsonMapper\Tests\Implementation\SimpleObject;
+use JsonMapper\Tests\Implementation\Foo\MetaModel\Meta;
+use JsonMapper\Tests\Implementation\Foo\Model\BarModel;
+use JsonMapper\Tests\Implementation\Foo\Test;
 use PHPUnit\Framework\TestCase;
 
 class UseStatementHelperTest extends TestCase
@@ -17,15 +19,12 @@ class UseStatementHelperTest extends TestCase
      */
     public function testCanGetImports(): void
     {
-        $imports = UseStatementHelper::getImports(new \ReflectionClass($this));
+        $imports = UseStatementHelper::getImports(new \ReflectionClass(Test::class));
 
         self::assertEquals(
             [
-                new Import(PhpFileParseException::class, null),
-                new Import(UseStatementHelper::class, null),
-                new Import(Import::class, null),
-                new Import(SimpleObject::class, null),
-                new Import(TestCase::class, null)
+                new Import(BarModel::class, null),
+                new Import(Meta::class, null),
             ],
             $imports
         );

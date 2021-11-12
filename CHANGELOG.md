@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.9.1] - 2021-11-12
+### Fixed
+- Namespace resolving improved to include imports from parent classes [PR#117](https://github.com/JsonMapper/JsonMapper/pull/117) Thanks to [template-provider](https://github.com/template-provider) for reporting the issue
+
 ## [2.9.0] - 2021-11-09
 ### Added
 - The value transformation middleware was added to apply a callback to the values of the json object [PR#111](https://github.com/JsonMapper/JsonMapper/pull/111) Thanks to [Philipp Dahse](https://github.com/dahse89)
