@@ -9,6 +9,8 @@ use JsonMapper\Enums\Visibility;
 use JsonMapper\Exception\ClassFactoryException;
 use JsonMapper\Exception\TypeError;
 use JsonMapper\JsonMapperInterface;
+use JsonMapper\Helpers\IScalarCaster;
+use JsonMapper\Helpers\ScalarCaster;
 use JsonMapper\ValueObjects\Property;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\ValueObjects\PropertyType;
@@ -20,10 +22,13 @@ class PropertyMapper
     private $classFactoryRegistry;
     /** @var FactoryRegistry */
     private $nonInstantiableTypeResolver;
+    /** @var IScalarCaster */
+    private $scalarCaster;
 
     public function __construct(
         FactoryRegistry $classFactoryRegistry = null,
-        FactoryRegistry $nonInstantiableTypeResolver = null
+        FactoryRegistry $nonInstantiableTypeResolver = null,
+        IScalarCaster $casterHelper = null
     ) {
         if ($classFactoryRegistry === null) {
             $classFactoryRegistry = FactoryRegistry::withNativePhpClassesAdded();
@@ -32,9 +37,13 @@ class PropertyMapper
         if ($nonInstantiableTypeResolver === null) {
             $nonInstantiableTypeResolver = new FactoryRegistry();
         }
+        if ($casterHelper === null) {
+            $casterHelper = new ScalarCaster();
+        }
 
         $this->classFactoryRegistry = $classFactoryRegistry;
         $this->nonInstantiableTypeResolver = $nonInstantiableTypeResolver;
+        $this->scalarCaster = $casterHelper;
     }
 
     public function __invoke(
@@ -112,8 +121,8 @@ class PropertyMapper
                     /* Array of scalar values */
                     if ($this->propertyTypeAndValueTypeAreScalarAndSameType($type, $firstValue)) {
                         $scalarType = new ScalarType($type->getType());
-                        return \array_map(static function ($v) use ($scalarType) {
-                            return $scalarType->cast($v);
+                        return \array_map(function ($v) use ($scalarType) {
+                            return $this->scalarCaster->cast($scalarType, $v);
                         }, $value);
                     }
 
@@ -142,7 +151,7 @@ class PropertyMapper
 
                 // Single scalar value
                 if ($this->propertyTypeAndValueTypeAreScalarAndSameType($type, $value)) {
-                    return (new ScalarType($type->getType()))->cast($value);
+                    return $this->scalarCaster->cast(new ScalarType($type->getType()), $value);
                 }
 
                 // Single registered class @todo how do you know it was the correct type?
@@ -222,7 +231,7 @@ class PropertyMapper
     {
         $scalar = new ScalarType($type);
 
-        return $scalar->cast($value);
+        return $this->scalarCaster->cast($scalar, $value);
     }
 
     /**
@@ -232,8 +241,8 @@ class PropertyMapper
     private function mapToArrayOfScalarValue(string $type, $value): array
     {
         $scalar = new ScalarType($type);
-        return \array_map(static function ($v) use ($scalar) {
-            return $scalar->cast($v);
+        return \array_map(function ($v) use ($scalar) {
+            return $this->scalarCaster->cast($scalar, $v);
         }, (array) $value);
     }
 
