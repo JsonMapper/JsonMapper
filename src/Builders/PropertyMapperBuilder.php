@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace JsonMapper\Builders;
 
-
 use JsonMapper\Handler\FactoryRegistry;
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\Helpers\IScalarCaster;
