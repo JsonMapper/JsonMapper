@@ -15,13 +15,22 @@ class StrictScalarCaster implements IScalarCaster
         if (! is_string($value) && $scalarType->equals(ScalarType::STRING())) {
             throw new \Exception("Expected type string, type {$type} given");
         }
-        if (! is_bool($value) && ($scalarType->equals(ScalarType::BOOLEAN()) || $scalarType->equals(ScalarType::BOOL()))) {
+        if (
+            ! is_bool($value) &&
+            ($scalarType->equals(ScalarType::BOOLEAN()) || $scalarType->equals(ScalarType::BOOL()))
+        ) {
             throw new \Exception("Expected type string, type {$type} given");
         }
-        if (! is_int($value) && ($scalarType->equals(ScalarType::INTEGER()) || $scalarType->equals(ScalarType::INT()))) {
+        if (
+            ! is_int($value) &&
+            ($scalarType->equals(ScalarType::INTEGER()) || $scalarType->equals(ScalarType::INT()))
+        ) {
             throw new \Exception("Expected type string, type {$type} given");
         }
-        if (! is_float($value) && ($scalarType->equals(ScalarType::DOUBLE()) || $scalarType->equals(ScalarType::FLOAT()))) {
+        if (
+            ! is_float($value)
+            && ($scalarType->equals(ScalarType::DOUBLE()) || $scalarType->equals(ScalarType::FLOAT()))
+        ) {
             throw new \Exception("Expected type string, type {$type} given");
         }
 

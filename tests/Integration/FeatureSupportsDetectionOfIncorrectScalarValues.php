@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 class FeatureSupportsDetectionOfIncorrectScalarValues extends TestCase
 {
-    public function testItCanMapAnArrayUsingAVariadicSetter(): void
+    public function testItCanDetectAnIncorrectScalarValueFromJson(): void
     {
         $propertyMapper = PropertyMapperBuilder::new()
             ->withScalarCaster(new StrictScalarCaster())
