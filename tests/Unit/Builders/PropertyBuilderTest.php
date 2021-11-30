@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace JsonMapper\Tests\Unit\Builder;
+namespace JsonMapper\Tests\Unit\Builders;
 
 use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Enums\Visibility;
