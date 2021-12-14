@@ -198,11 +198,11 @@ class PropertyMapper
             return $this->classFactoryRegistry->create($type->getType(), $value);
         }
 
-        if ($type->isArray() && class_exists($type->getType())) {
+        if ($type->isArray() && (class_exists($type->getType()) || interface_exists($type->getType()))) {
             return $this->mapToArrayOfObjects($type->getType(), $value, $mapper);
         }
 
-        if (class_exists($type->getType())) {
+        if (class_exists($type->getType()) || interface_exists($type->getType())) {
             return $this->mapToObject($type->getType(), $value, $mapper);
         }
 

@@ -715,7 +715,8 @@ class PropertyMapperTest extends TestCase
         $propertyMapper = new PropertyMapper();
         $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
 
-        $this->expectException(TypeError::class);
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Unable to map to \Some\Non\Existing\Class');
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
     }
 
