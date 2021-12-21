@@ -198,11 +198,15 @@ class PropertyMapper
             return $this->classFactoryRegistry->create($type->getType(), $value);
         }
 
-        if ($type->isArray()) {
+        if ($type->isArray() && (class_exists($type->getType()) || interface_exists($type->getType()))) {
             return $this->mapToArrayOfObjects($type->getType(), $value, $mapper);
         }
 
-        return $this->mapToObject($type->getType(), $value, $mapper);
+        if (class_exists($type->getType()) || interface_exists($type->getType())) {
+            return $this->mapToObject($type->getType(), $value, $mapper);
+        }
+
+        throw new \Exception("Unable to map to {$type->getType()}");
     }
 
     /**
@@ -293,8 +297,10 @@ class PropertyMapper
     }
 
     /**
+     * @template T
+     * @psalm-param class-string<T> $type
      * @param mixed $value
-     * @return object[]
+     * @return array<int, T>
      */
     private function mapToArrayOfObjects(string $type, $value, JsonMapperInterface $mapper): array
     {
@@ -307,8 +313,10 @@ class PropertyMapper
     }
 
     /**
+     * @template T
+     * @psalm-param class-string<T> $type
      * @param mixed $value
-     * @return object
+     * @return T
      */
     private function resolveUnInstantiableType(string $type, $value, JsonMapperInterface $mapper)
     {
