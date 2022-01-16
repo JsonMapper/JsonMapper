@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace JsonMapper\Tests\Unit\Enums;
+namespace JsonMapper\Tests\Unit\Helpers;
 
 use JsonMapper\Enums\ScalarType;
+use JsonMapper\Helpers\ScalarCaster;
 use PHPUnit\Framework\TestCase;
 
-class ScalarTypeTest extends TestCase
+class ScalarCasterTest extends TestCase
 {
     /**
-     * @covers \JsonMapper\Enums\ScalarType
+     * @covers \JsonMapper\Helpers\ScalarCaster
      * @dataProvider castOperationDataProvider
      *
      * @param mixed $value
@@ -18,20 +19,27 @@ class ScalarTypeTest extends TestCase
      */
     public function testCastOperationReturnsTheCorrectValue($value, string $castTo, $expected): void
     {
-        self::assertEquals($expected, (new ScalarType($castTo))->cast($value));
+        $caster = new ScalarCaster();
+        self::assertEquals($expected, $caster->cast(new ScalarType($castTo), $value));
     }
 
     /**
-     * @covers \JsonMapper\Enums\ScalarType
+     * @covers \JsonMapper\Helpers\ScalarCaster
      */
     public function testCastOperationThrowsExceptionWhenCastOperationNotSupported(): void
     {
+        $caster = new ScalarCaster();
         $extension = new class ('random') extends ScalarType {
             protected const RANDOM = 'random';
+
+            public function __construct()
+            {
+                parent::__construct(self::RANDOM);
+            }
         };
 
         $this->expectException(\LogicException::class);
-        $extension->cast('');
+        $caster->cast($extension, null);
     }
 
     public function castOperationDataProvider(): array
