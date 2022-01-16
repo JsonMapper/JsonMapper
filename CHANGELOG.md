@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - All **Map** functions now return the mapped object(s) and uses [Psalm](https://psalm.dev) to assist with autocompletion. [PR#122](https://github.com/JsonMapper/JsonMapper/pull/122)
 ### Fixed
 - Replace duplicates in middleware with object wrapper calls. [PR#123](https://github.com/JsonMapper/JsonMapper/pull/123)
+- Correct code style issues. [PR#124](https://github.com/JsonMapper/JsonMapper/pull/124)
 
 ## [2.9.1] - 2021-11-12
 ### Fixed
