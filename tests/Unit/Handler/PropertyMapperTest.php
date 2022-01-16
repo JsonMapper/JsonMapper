@@ -720,6 +720,31 @@ class PropertyMapperTest extends TestCase
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
     }
 
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testItCanMapAnEmptyArrayForArrayType(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('value')
+            ->addType('string', false)
+            ->addType('string', true)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $json = (object) ['value' => []];
+        $object = new \stdClass();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+        $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals([], $object->value);
+    }
+
     public function scalarValueDataTypes(): array
     {
         return [

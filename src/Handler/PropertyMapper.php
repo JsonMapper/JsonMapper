@@ -114,6 +114,10 @@ class PropertyMapper
         // For union types, loop through and see if value is a match with the type
         if (\count($property->getPropertyTypes()) > 1) {
             foreach ($property->getPropertyTypes() as $type) {
+                if (\is_array($value) && $type->isArray() && count($value) === 0) {
+                    return [];
+                }
+
                 if (\is_array($value) && $type->isArray()) {
                     $copy = $value;
                     $firstValue = \array_shift($copy);
