@@ -8,7 +8,6 @@ use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\AbstractMiddleware;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
-use ReflectionClass;
 
 class Attributes extends AbstractMiddleware
 {

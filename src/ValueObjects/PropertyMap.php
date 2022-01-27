@@ -40,6 +40,10 @@ class PropertyMap implements \IteratorAggregate, \JsonSerializable
                 continue;
             }
 
+            if ($property == $this->getProperty($property->getName())) {
+                continue;
+            }
+
             $current = $this->getProperty($property->getName());
             $builder = $current->asBuilder();
 
