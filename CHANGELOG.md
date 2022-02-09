@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.11.0] - 2022-02-09
+### Changed
+- Merging of the property map is optimised with an early return if left side and right side are equal [PR#128](https://github.com/JsonMapper/JsonMapper/pull/128)
+### Fixed
+- Flex psr/log constraints [PR#129](https://github.com/JsonMapper/JsonMapper/pull/129)
+
 ## [2.10.0] - 2022-01-16
 ### Added
 - Support was added for strict scalar casting [PR#119](https://github.com/JsonMapper/JsonMapper/pull/119) Thanks to [template-provider](https://github.com/template-provider) for reporting the issue
@@ -13,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Replace duplicates in middleware with object wrapper calls. [PR#123](https://github.com/JsonMapper/JsonMapper/pull/123)
 - Correct code style issues. [PR#124](https://github.com/JsonMapper/JsonMapper/pull/124)
-- Return empty array for union type with an array type when value is an empty array. [PR#125](https://github.com/JsonMapper/JsonMapper/pull/125) Thanks to [template-provider](https://github.com/template-provider) for reporting the issue
+- Return empty array for union type with an array type when value is an empty array. [PR#126](https://github.com/JsonMapper/JsonMapper/pull/126) Thanks to [template-provider](https://github.com/template-provider) for reporting the issue
 
 ## [2.9.1] - 2021-11-12
 ### Fixed

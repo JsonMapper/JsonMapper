@@ -8,7 +8,7 @@ use JsonMapper\JsonMapperFactory;
 use JsonMapper\Middleware\Debugger;
 use JsonMapper\Tests\Implementation\ComplexObject;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\Test\TestLogger;
+use Psr\Log\LoggerInterface;
 
 class DebuggerTest extends TestCase
 {
@@ -18,14 +18,21 @@ class DebuggerTest extends TestCase
     public function testDebuggerLogsDetails(): void
     {
         $mapper = (new JsonMapperFactory())->default();
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())
+            ->method('debug')
+            ->with(
+                'Current state attributes passed through JsonMapper middleware',
+                $this->logicalAnd(
+                    $this->arrayHasKey('json'),
+                    $this->arrayHasKey('object'),
+                    $this->arrayHasKey('propertyMap')
+                )
+            );
         $mapper->push(new Debugger($logger));
         $json = (object) ['User' => (object) ['Name' => __METHOD__]];
         $object = new ComplexObject();
 
         $mapper->mapObject($json, $object);
-
-        self::assertCount(1, $logger->records);
-        self::assertTrue($logger->hasDebug('Current state attributes passed through JsonMapper middleware'));
     }
 }
