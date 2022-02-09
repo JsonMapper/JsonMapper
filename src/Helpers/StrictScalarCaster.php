@@ -8,6 +8,7 @@ use JsonMapper\Enums\ScalarType;
 
 class StrictScalarCaster implements IScalarCaster
 {
+    /** @param $value mixed */
     public function cast(ScalarType $scalarType, $value)
     {
         $type = gettype($value);
