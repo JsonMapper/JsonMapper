@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Merging of the property map is optimised with an early return if left side and right side are equal [PR#128](https://github.com/JsonMapper/JsonMapper/pull/128)
+### Fixed
+- Flex psr/log constraints [PR#129](https://github.com/JsonMapper/JsonMapper/pull/129)
 
 ## [2.10.0] - 2022-01-16
 ### Added
