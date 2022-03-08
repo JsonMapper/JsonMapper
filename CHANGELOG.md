@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.11.1] - 2022-03-08
+### Fixed
+- Flex myclabs/php-enum constraints [PR#132](https://github.com/JsonMapper/JsonMapper/pull/132) Thanks to [Christopher Reimer](https://github.com/CReimer) for reporting the issue
+
 ## [2.11.0] - 2022-02-09
 ### Changed
 - Merging of the property map is optimised with an early return if left side and right side are equal [PR#128](https://github.com/JsonMapper/JsonMapper/pull/128)
