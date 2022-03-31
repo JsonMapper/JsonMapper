@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit\Middleware;
 
-use Exception;
+use JsonMapper\Tests\Implementation\Bar\CustomerState;
 use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\Visibility;
@@ -14,6 +14,7 @@ use JsonMapper\Middleware\DocBlockAnnotations;
 use JsonMapper\Middleware\NamespaceResolver;
 use JsonMapper\Tests\Helpers\AssertThatPropertyTrait;
 use JsonMapper\Tests\Implementation\ComplexObject;
+use JsonMapper\Tests\Implementation\Foo\Customer;
 use JsonMapper\Tests\Implementation\Models\NamespaceAliasObject;
 use JsonMapper\Tests\Implementation\Models\NamespaceObject;
 use JsonMapper\Tests\Implementation\Models\Sub\AnotherValueHolder;
@@ -25,6 +26,7 @@ use JsonMapper\Wrapper\ObjectWrapper;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Psr\SimpleCache\CacheInterface;
+use JsonMapper\Tests\Implementation\Bar\UpdateCustomer;
 
 class NamespaceResolverTest extends TestCase
 {
@@ -232,5 +234,25 @@ class NamespaceResolverTest extends TestCase
 
         self::assertInstanceOf(AnotherValueHolder::class, $object->anotherValueHolder);
         self::assertInstanceOf(ValueHolder::class, $object->valueHolder);
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\NamespaceResolver
+     */
+    public function testReturnsCorrectNamespaceWithPropertyDefinedInParentInOtherNamespace(): void
+    {
+        $object = new Customer();
+        $input = (object) [
+            'customerState' => (object) ['description' => 'loremipsum'],
+        ];
+        $mapper = JsonMapperBuilder::new()
+            ->withMiddleware(new DocBlockAnnotations(new NullCache()))
+            ->withMiddleware(new NamespaceResolver(new NullCache()))
+            ->build();
+
+        $mapper->mapObject($input, $object);
+
+        self::assertInstanceOf(CustomerState::class, $object->customerState);
+        self::assertEquals($input->customerState->description, $object->customerState->description);
     }
 }
