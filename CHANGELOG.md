@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.12.0] - 2022-03-31
+### Fixed
+- Cannot lookup property of namespace in parent class [PR#135](https://github.com/JsonMapper/JsonMapper/pull/135) Thanks to [jg-development](https://github.com/jg-development) for reporting the issue 
+
 ## [2.11.1] - 2022-03-08
 ### Fixed
 - Flex myclabs/php-enum constraints [PR#132](https://github.com/JsonMapper/JsonMapper/pull/132) Thanks to [Christopher Reimer](https://github.com/CReimer) for reporting the issue

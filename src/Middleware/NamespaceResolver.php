@@ -83,11 +83,19 @@ class NamespaceResolver extends AbstractMiddleware
             return new PropertyType(\array_shift($matches)->getImport(), $type->isArray());
         }
 
-        if (class_exists($object->getReflectedObject()->getNamespaceName() . '\\' . $type->getType())) {
-            return new PropertyType(
-                $object->getReflectedObject()->getNamespaceName() . '\\' . $type->getType(),
-                $type->isArray()
-            );
+        $reflectedObject = $object->getReflectedObject();
+        while (true) {
+            if (class_exists($reflectedObject->getNamespaceName() . '\\' . $type->getType())) {
+                return new PropertyType(
+                    $reflectedObject->getNamespaceName() . '\\' . $type->getType(),
+                    $type->isArray()
+                );
+            }
+
+            $reflectedObject = $reflectedObject->getParentClass();
+            if (! $reflectedObject) {
+                break;
+            }
         }
 
         return $type;
