@@ -6,8 +6,8 @@ Since JsonMapper currently only is a small project (though it has great ambition
 that helps us move forward. The project could use help with any of the following subjects:
 
 * *Middleware*: Any new ideas for middleware that would be helpful for the project users are welcomed.
-* *Performance*: Mapping should be fast pointing out or resolving any bottlenecks in performace are very helpfull
-* *Documentation*: The project should have an up to date version of documentation. Any help here is apriciated.
+* *Performance*: Mapping should be fast pointing out or resolving any bottlenecks in performance are very helpful.
+* *Documentation*: The project should have an up-to-date version of documentation. Any help here is appreciated.
 
 ## Ideal pull request
 To avoid going back and forth the project `composer.json` was setup in such a way that it allows you to run 
@@ -17,5 +17,5 @@ composer unit-tests        # For running the unit tests
 composer integration-tests # For running the integration tests
 composer phpcbf            # For applying the correct code style (PSR-12) to the sources
 composer phpcs             # For scanning the sources for the correct style (PSR-12) being used
-composer phpstan           # For analysing the sources for potentional bugs
+composer phpstan           # For analysing the sources for potential bugs
 ```
