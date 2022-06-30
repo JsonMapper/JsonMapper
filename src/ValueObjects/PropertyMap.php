@@ -49,7 +49,7 @@ class PropertyMap implements \IteratorAggregate, \JsonSerializable
 
             $builder->setIsNullable($current->isNullable() || $property->isNullable());
             foreach ($property->getPropertyTypes() as $propertyType) {
-                $builder->addType($propertyType->getType(), $propertyType->isArray());
+                $builder->addType($propertyType->getType(), $propertyType->getArrayInformation());
             }
 
             $this->addProperty($builder->build());

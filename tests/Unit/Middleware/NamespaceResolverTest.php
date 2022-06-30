@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit\Middleware;
 
-use JsonMapper\Tests\Implementation\Bar\CustomerState;
 use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\Visibility;
@@ -13,6 +12,7 @@ use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\DocBlockAnnotations;
 use JsonMapper\Middleware\NamespaceResolver;
 use JsonMapper\Tests\Helpers\AssertThatPropertyTrait;
+use JsonMapper\Tests\Implementation\Bar\CustomerState;
 use JsonMapper\Tests\Implementation\ComplexObject;
 use JsonMapper\Tests\Implementation\Foo\Customer;
 use JsonMapper\Tests\Implementation\Models\NamespaceAliasObject;
@@ -21,12 +21,12 @@ use JsonMapper\Tests\Implementation\Models\Sub\AnotherValueHolder;
 use JsonMapper\Tests\Implementation\Models\User;
 use JsonMapper\Tests\Implementation\Models\ValueHolder;
 use JsonMapper\Tests\Implementation\SimpleObject;
+use JsonMapper\ValueObjects\ArrayInformation;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Psr\SimpleCache\CacheInterface;
-use JsonMapper\Tests\Implementation\Bar\UpdateCustomer;
 
 class NamespaceResolverTest extends TestCase
 {
@@ -41,7 +41,7 @@ class NamespaceResolverTest extends TestCase
         $object = new ComplexObject();
         $property = PropertyBuilder::new()
             ->setName('user')
-            ->addType('User', false)
+            ->addType('User', ArrayInformation::notAnArray())
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
             ->build();
@@ -53,7 +53,7 @@ class NamespaceResolverTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('user'));
         $this->assertThatProperty($propertyMap->getProperty('user'))
-            ->onlyHasType(User::class, false);
+            ->onlyHasType(User::class, ArrayInformation::notAnArray());
     }
 
     /**
@@ -65,7 +65,7 @@ class NamespaceResolverTest extends TestCase
         $object = new ComplexObject();
         $property = PropertyBuilder::new()
             ->setName('child')
-            ->addType('SimpleObject', false)
+            ->addType('SimpleObject', ArrayInformation::notAnArray())
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
             ->build();
@@ -77,7 +77,7 @@ class NamespaceResolverTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('child'));
         $this->assertThatProperty($propertyMap->getProperty('child'))
-            ->onlyHasType(SimpleObject::class, false);
+            ->onlyHasType(SimpleObject::class, ArrayInformation::notAnArray());
     }
 
     /**
@@ -89,7 +89,7 @@ class NamespaceResolverTest extends TestCase
         $object = new SimpleObject();
         $property = PropertyBuilder::new()
             ->setName('name')
-            ->addType('string', false)
+            ->addType('string', ArrayInformation::notAnArray())
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
             ->build();
@@ -101,7 +101,7 @@ class NamespaceResolverTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('name'));
         $this->assertThatProperty($propertyMap->getProperty('name'))
-            ->onlyHasType('string', false);
+            ->onlyHasType('string', ArrayInformation::notAnArray());
     }
 
     /**
@@ -113,7 +113,7 @@ class NamespaceResolverTest extends TestCase
         $object = new SimpleObject();
         $property = PropertyBuilder::new()
             ->setName('name')
-            ->addType(__CLASS__, false)
+            ->addType(__CLASS__, ArrayInformation::notAnArray())
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
             ->build();
@@ -125,7 +125,7 @@ class NamespaceResolverTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('name'));
         $this->assertThatProperty($propertyMap->getProperty('name'))
-            ->onlyHasType(__CLASS__, false);
+            ->onlyHasType(__CLASS__, ArrayInformation::notAnArray());
     }
 
     /**
@@ -137,7 +137,7 @@ class NamespaceResolverTest extends TestCase
         $object = new ComplexObject();
         $property = PropertyBuilder::new()
             ->setName('user')
-            ->addType('User', true)
+            ->addType('User', ArrayInformation::singleDimension())
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
             ->build();
@@ -149,7 +149,7 @@ class NamespaceResolverTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('user'));
         $this->assertThatProperty($propertyMap->getProperty('user'))
-            ->onlyHasType(User::class, true);
+            ->onlyHasType(User::class, ArrayInformation::singleDimension());
     }
 
     /**
@@ -161,7 +161,7 @@ class NamespaceResolverTest extends TestCase
         $object = new ComplexObject();
         $property = PropertyBuilder::new()
             ->setName('child')
-            ->addType('SimpleObject', true)
+            ->addType('SimpleObject', ArrayInformation::singleDimension())
             ->setVisibility(Visibility::PRIVATE())
             ->setIsNullable(false)
             ->build();
@@ -173,7 +173,7 @@ class NamespaceResolverTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('child'));
         $this->assertThatProperty($propertyMap->getProperty('child'))
-            ->onlyHasType(SimpleObject::class, true);
+            ->onlyHasType(SimpleObject::class, ArrayInformation::singleDimension());
     }
 
     /**

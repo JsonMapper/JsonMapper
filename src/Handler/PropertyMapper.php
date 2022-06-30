@@ -8,9 +8,9 @@ use JsonMapper\Enums\ScalarType;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\Exception\ClassFactoryException;
 use JsonMapper\Exception\TypeError;
-use JsonMapper\JsonMapperInterface;
 use JsonMapper\Helpers\IScalarCaster;
 use JsonMapper\Helpers\ScalarCaster;
+use JsonMapper\JsonMapperInterface;
 use JsonMapper\ValueObjects\Property;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\ValueObjects\PropertyType;
@@ -180,6 +180,9 @@ class PropertyMapper
         }
 
         if (ScalarType::isValid($type->getType())) {
+            if ($type->isMultiDimensionalArray()) {
+                return $this->recursiveMapToArrayOfScalarValue($type->getType(), $value);
+            }
             if ($type->isArray()) {
                 return $this->mapToArrayOfScalarValue($type->getType(), $value);
             }
@@ -187,6 +190,9 @@ class PropertyMapper
         }
 
         if (PHP_VERSION_ID >= 80100 && enum_exists($type->getType())) {
+            if ($type->isMultiDimensionalArray()) {
+                return $this->recursiveMapToArrayOfEnum($type->getType(), $value);
+            }
             if ($type->isArray()) {
                 return $this->mapToArrayOfEnum($type->getType(), $value);
             }
@@ -194,6 +200,7 @@ class PropertyMapper
         }
 
         if ($this->classFactoryRegistry->hasFactory($type->getType())) {
+            // Todo add support multi dimensional arrays
             if ($type->isArray()) {
                 return \array_map(function ($v) use ($type) {
                     return $this->classFactoryRegistry->create($type->getType(), $v);
@@ -203,6 +210,7 @@ class PropertyMapper
         }
 
         if ($type->isArray() && (class_exists($type->getType()) || interface_exists($type->getType()))) {
+            // Todo add support multi dimensional arrays
             return $this->mapToArrayOfObjects($type->getType(), $value, $mapper);
         }
 
@@ -254,6 +262,18 @@ class PropertyMapper
         }, (array) $value);
     }
 
+    private function recursiveMapToArrayOfScalarValue(string $type, $value): array
+    {
+        $scalar = new ScalarType($type);
+        return \array_map(function ($v) use ($type, $scalar) {
+            if (is_array($v)) {
+                return $this->recursiveMapToArrayOfScalarValue($type, $v);
+            }
+
+            return $this->scalarCaster->cast($scalar, $v);
+        }, (array) $value);
+    }
+
     /**
      * @template T
      * @psalm-param class-string<T> $type
@@ -275,6 +295,22 @@ class PropertyMapper
     {
         return \array_map(function ($val) use ($type) {
             return $this->mapToEnum($type, $val);
+        }, (array) $value);
+    }
+
+    /**
+     * @template T
+     * @psalm-param class-string<T> $type
+     * @param mixed $value
+     */
+    private function recursiveMapToArrayOfEnum(string $type, $value): array
+    {
+        return \array_map(function ($v) use ($type) {
+            if (is_array($v)) {
+                return $this->recursiveMapToArrayOfEnum($type, $v);
+            }
+
+            return $this->mapToEnum($type, $v);
         }, (array) $value);
     }
 

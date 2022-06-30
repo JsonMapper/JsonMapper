@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JsonMapper\Builders;
 
 use JsonMapper\Enums\Visibility;
+use JsonMapper\ValueObjects\ArrayInformation;
 use JsonMapper\ValueObjects\Property;
 use JsonMapper\ValueObjects\PropertyType;
 
@@ -50,9 +51,9 @@ class PropertyBuilder
         return $this;
     }
 
-    public function addType(string $type, bool $isArray): self
+    public function addType(string $type, ArrayInformation $arrayInformation): self
     {
-        $this->types[] = new PropertyType($type, $isArray);
+        $this->types[] = new PropertyType($type, $arrayInformation);
         return $this;
     }
 

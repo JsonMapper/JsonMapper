@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit\ValueObjects;
 
-use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\Tests\Implementation\Popo;
+use JsonMapper\ValueObjects\ArrayInformation;
 use JsonMapper\ValueObjects\Property;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\ValueObjects\PropertyType;
@@ -23,7 +23,7 @@ class PropertyMapTest extends TestCase
             'name',
             Visibility::PUBLIC(),
             true,
-            new PropertyType('string', false)
+            new PropertyType('string', ArrayInformation::notAnArray())
         );
         $map = new PropertyMap();
         $map->addProperty($property);
@@ -52,7 +52,7 @@ class PropertyMapTest extends TestCase
             'name',
             Visibility::PUBLIC(),
             true,
-            new PropertyType('string', false)
+            new PropertyType('string', ArrayInformation::notAnArray())
         );
         $map = new PropertyMap();
         $map->addProperty($property);
@@ -68,13 +68,13 @@ class PropertyMapTest extends TestCase
     public function testCanBeConvertedToJson(): void
     {
         $map = new PropertyMap();
-        $map->addProperty(new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', false)));
+        $map->addProperty(new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', ArrayInformation::notAnArray())));
 
         $mapAsJson = json_encode($map);
 
         self::assertIsString($mapAsJson);
         self::assertJsonStringEqualsJsonString(
-            '{"properties":{"id":{"name":"id","types":[{"type":"int","isArray":false}],"visibility":"public","isNullable":false}}}',
+            '{"properties":{"id":{"name":"id","types":[{"type":"int","isArray":false,"arrayInformation":{"isArray":false,"dimensions":0}}],"visibility":"public","isNullable":false}}}',
             (string) $mapAsJson
         );
     }
@@ -85,13 +85,13 @@ class PropertyMapTest extends TestCase
     public function testCanBeConvertedToString(): void
     {
         $map = new PropertyMap();
-        $map->addProperty(new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', false)));
+        $map->addProperty(new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', ArrayInformation::notAnArray())));
 
         $mapAsString = $map->toString();
 
         self::assertIsString($mapAsString);
         self::assertJsonStringEqualsJsonString(
-            '{"properties":{"id":{"name":"id","types":[{"type":"int","isArray":false}],"visibility":"public","isNullable":false}}}',
+            '{"properties":{"id":{"name":"id","types":[{"type":"int","isArray":false,"arrayInformation":{"isArray":false,"dimensions":0}}],"visibility":"public","isNullable":false}}}',
             (string) $mapAsString
         );
     }
@@ -102,11 +102,11 @@ class PropertyMapTest extends TestCase
     public function testCanBeMergedWithOtherPropertyMap(): void
     {
         $map = new PropertyMap();
-        $map->addProperty(new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', false)));
-        $map->addProperty(new Property('data', Visibility::PUBLIC(), false, new PropertyType(Popo::class, true)));
+        $map->addProperty(new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', ArrayInformation::notAnArray())));
+        $map->addProperty(new Property('data', Visibility::PUBLIC(), false, new PropertyType(Popo::class, ArrayInformation::singleDimension())));
         $other = new PropertyMap();
-        $other->addProperty(new Property('uuid', Visibility::PUBLIC(), false, new PropertyType('string', false)));
-        $other->addProperty(new Property('data', Visibility::PUBLIC(), false, new PropertyType('mixed', true)));
+        $other->addProperty(new Property('uuid', Visibility::PUBLIC(), false, new PropertyType('string', ArrayInformation::notAnArray())));
+        $other->addProperty(new Property('data', Visibility::PUBLIC(), false, new PropertyType('mixed', ArrayInformation::singleDimension())));
 
         $map->merge($other);
 
@@ -118,8 +118,8 @@ class PropertyMapTest extends TestCase
                 'data',
                 Visibility::PUBLIC(),
                 false,
-                new PropertyType(Popo::class, true),
-                new PropertyType('mixed', true)
+                new PropertyType(Popo::class, ArrayInformation::singleDimension()),
+                new PropertyType('mixed', ArrayInformation::singleDimension())
             ),
             $map->getProperty('data')
         );

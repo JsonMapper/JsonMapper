@@ -7,11 +7,11 @@ namespace JsonMapper\Middleware;
 use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\JsonMapperInterface;
+use JsonMapper\ValueObjects\ArrayInformation;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 use Psr\SimpleCache\CacheInterface;
 use ReflectionNamedType;
-use ReflectionType;
 use ReflectionUnionType;
 
 class TypedProperties extends AbstractMiddleware
@@ -51,7 +51,7 @@ class TypedProperties extends AbstractMiddleware
                 $propertyType = $isArray ? 'mixed' : $type->getName();
                 $property = PropertyBuilder::new()
                     ->setName($reflectionProperty->getName())
-                    ->addType($propertyType, $isArray)
+                    ->addType($propertyType, $isArray ? ArrayInformation::singleDimension() : ArrayInformation::notAnArray())
                     ->setIsNullable($type->allowsNull() || ((!$isArray) && $propertyType === 'mixed'))
                     ->setVisibility(Visibility::fromReflectionProperty($reflectionProperty))
                     ->build();
@@ -73,13 +73,13 @@ class TypedProperties extends AbstractMiddleware
 
                 /* A union type that has one of its types defined as array is to complex to understand */
                 if ($isArray) {
-                    $property = $builder->addType('mixed', true)->build();
+                    $property = $builder->addType('mixed', ArrayInformation::singleDimension())->build();
                     $intermediatePropertyMap->addProperty($property);
                     continue;
                 }
 
                 foreach ($types as $type) {
-                    $builder->addType($type, false);
+                    $builder->addType($type, ArrayInformation::notAnArray());
                 }
                 $property = $builder->build();
                 $intermediatePropertyMap->addProperty($property);

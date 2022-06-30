@@ -11,13 +11,13 @@ class PropertyType implements \JsonSerializable
 {
     /** @var string */
     private $type;
-    /** @var bool */
-    private $isArray;
+    /** @var ArrayInformation */
+    private $arrayInformation;
 
-    public function __construct(string $type, bool $isArray)
+    public function __construct(string $type, ArrayInformation $isArray)
     {
         $this->type = $type;
-        $this->isArray = $isArray;
+        $this->arrayInformation = $isArray;
     }
 
     public function getType(): string
@@ -27,14 +27,25 @@ class PropertyType implements \JsonSerializable
 
     public function isArray(): bool
     {
-        return $this->isArray;
+        return $this->arrayInformation->isArray();
+    }
+
+    public function isMultiDimensionalArray(): bool
+    {
+        return $this->arrayInformation->isMultiDimensionalArray();
+    }
+
+    public function getArrayInformation(): ArrayInformation
+    {
+        return $this->arrayInformation;
     }
 
     public function jsonSerialize(): array
     {
         return [
             'type' => $this->type,
-            'isArray' => $this->isArray,
+            'isArray' => $this->arrayInformation->isArray(),
+            'arrayInformation' => $this->arrayInformation,
         ];
     }
 }

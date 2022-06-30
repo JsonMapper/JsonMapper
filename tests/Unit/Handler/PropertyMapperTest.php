@@ -7,7 +7,6 @@ namespace JsonMapper\Tests\Unit\Handler;
 use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\Visibility;
-use JsonMapper\Exception\TypeError;
 use JsonMapper\Handler\FactoryRegistry;
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapperFactory;
@@ -25,6 +24,7 @@ use JsonMapper\Tests\Implementation\Popo;
 use JsonMapper\Tests\Implementation\PrivatePropertyWithoutSetter;
 use JsonMapper\Tests\Implementation\SimpleObject;
 use JsonMapper\Tests\Implementation\UserWithConstructorParent;
+use JsonMapper\ValueObjects\ArrayInformation;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 use PHPUnit\Framework\TestCase;
@@ -55,7 +55,7 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('value')
-            ->addType($type, false)
+            ->addType($type, ArrayInformation::notAnArray())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -78,7 +78,7 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('createdAt')
-            ->addType(\DateTimeImmutable::class, false)
+            ->addType(\DateTimeImmutable::class, ArrayInformation::notAnArray())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -102,7 +102,7 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('child')
-            ->addType(SimpleObject::class, false)
+            ->addType(SimpleObject::class, ArrayInformation::notAnArray())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PRIVATE())
             ->build();
@@ -134,7 +134,7 @@ class PropertyMapperTest extends TestCase
     {
         $fileProperty = PropertyBuilder::new()
             ->setName('ids')
-            ->addType('int', true)
+            ->addType('int', ArrayInformation::singleDimension())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -157,7 +157,7 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('children')
-            ->addType(SimpleObject::class, true)
+            ->addType(SimpleObject::class, ArrayInformation::singleDimension())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PRIVATE())
             ->build();
@@ -187,7 +187,7 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('notes')
-            ->addType('string', true)
+            ->addType('string', ArrayInformation::singleDimension())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -211,7 +211,7 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('user')
-            ->addType(UserWithConstructor::class, false)
+            ->addType(UserWithConstructor::class, ArrayInformation::notAnArray())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -242,7 +242,7 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('user')
-            ->addType(UserWithConstructor::class, true)
+            ->addType(UserWithConstructor::class, ArrayInformation::singleDimension())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -279,8 +279,8 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('user')
-            ->addType(UserWithConstructor::class, true)
-            ->addType(\DateTime::class, true)
+            ->addType(UserWithConstructor::class, ArrayInformation::singleDimension())
+            ->addType(\DateTime::class, ArrayInformation::singleDimension())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -317,7 +317,7 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('child')
-            ->addType(SimpleObject::class, false)
+            ->addType(SimpleObject::class, ArrayInformation::notAnArray())
             ->setIsNullable(true)
             ->setVisibility(Visibility::PRIVATE())
             ->build();
@@ -342,7 +342,7 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('child')
-            ->addType(SimpleObject::class, false)
+            ->addType(SimpleObject::class, ArrayInformation::notAnArray())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PRIVATE())
             ->build();
@@ -368,7 +368,7 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('number')
-            ->addType('int', false)
+            ->addType('int', ArrayInformation::notAnArray())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PRIVATE())
             ->build();
@@ -396,11 +396,11 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('value')
-            ->addType('int', false)
-            ->addType('double', false)
-            ->addType('float', false)
-            ->addType('string', false)
-            ->addType('bool', false)
+            ->addType('int', ArrayInformation::notAnArray())
+            ->addType('double', ArrayInformation::notAnArray())
+            ->addType('float', ArrayInformation::notAnArray())
+            ->addType('string', ArrayInformation::notAnArray())
+            ->addType('bool', ArrayInformation::notAnArray())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -426,10 +426,10 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('values')
-            ->addType('int', true)
-            ->addType('float', true)
-            ->addType('string', true)
-            ->addType('bool', true)
+            ->addType('int', ArrayInformation::singleDimension())
+            ->addType('float', ArrayInformation::singleDimension())
+            ->addType('string', ArrayInformation::singleDimension())
+            ->addType('bool', ArrayInformation::singleDimension())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -454,8 +454,8 @@ class PropertyMapperTest extends TestCase
         $now = new \DateTime();
         $property = PropertyBuilder::new()
             ->setName('moment')
-            ->addType('int', true)
-            ->addType(\DateTime::class, true)
+            ->addType('int', ArrayInformation::singleDimension())
+            ->addType(\DateTime::class, ArrayInformation::singleDimension())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -479,8 +479,8 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('user')
-            ->addType(User::class, false)
-            ->addType(Popo::class, false)
+            ->addType(User::class, ArrayInformation::notAnArray())
+            ->addType(Popo::class, ArrayInformation::notAnArray())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -505,8 +505,8 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('users')
-            ->addType(User::class, true)
-            ->addType(Popo::class, true)
+            ->addType(User::class, ArrayInformation::singleDimension())
+            ->addType(Popo::class, ArrayInformation::singleDimension())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -596,7 +596,7 @@ class PropertyMapperTest extends TestCase
             ->setName('shape')
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
-            ->addType($type, false)
+            ->addType($type, ArrayInformation::notAnArray())
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -622,7 +622,7 @@ class PropertyMapperTest extends TestCase
             ->setName('shape')
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
-            ->addType($type, false)
+            ->addType($type, ArrayInformation::notAnArray())
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -650,7 +650,7 @@ class PropertyMapperTest extends TestCase
             ->setName('status')
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
-            ->addType(\JsonMapper\Tests\Implementation\Php81\Status::class, false)
+            ->addType(\JsonMapper\Tests\Implementation\Php81\Status::class, ArrayInformation::notAnArray())
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -678,7 +678,7 @@ class PropertyMapperTest extends TestCase
             ->setName('historicStates')
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
-            ->addType(\JsonMapper\Tests\Implementation\Php81\Status::class, true)
+            ->addType(\JsonMapper\Tests\Implementation\Php81\Status::class, ArrayInformation::singleDimension())
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -703,7 +703,7 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('child')
-            ->addType("\Some\Non\Existing\Class", false)
+            ->addType("\Some\Non\Existing\Class", ArrayInformation::notAnArray())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PRIVATE())
             ->build();
@@ -727,8 +727,8 @@ class PropertyMapperTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('value')
-            ->addType('string', false)
-            ->addType('string', true)
+            ->addType('string', ArrayInformation::notAnArray())
+            ->addType('string', ArrayInformation::singleDimension())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();

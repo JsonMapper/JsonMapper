@@ -12,6 +12,7 @@ use JsonMapper\Tests\Helpers\AssertThatPropertyTrait;
 use JsonMapper\Tests\Implementation\Php74;
 use JsonMapper\Tests\Implementation\Php80;
 use JsonMapper\Tests\Implementation\SimpleObject;
+use JsonMapper\ValueObjects\ArrayInformation;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 use PHPUnit\Framework\Assert;
@@ -37,12 +38,12 @@ class TypedPropertiesTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('name'));
         self::assertThatProperty($propertyMap->getProperty('name'))
-            ->hasType('string', false)
+            ->hasType('string', ArrayInformation::notAnArray())
             ->hasVisibility(Visibility::PUBLIC())
             ->isNotNullable();
         self::assertTrue($propertyMap->hasProperty('friends'));
         self::assertThatProperty($propertyMap->getProperty('friends'))
-            ->hasType('mixed', true)
+            ->hasType('mixed', ArrayInformation::singleDimension())
             ->hasVisibility(Visibility::PUBLIC())
             ->isNotNullable();
     }
@@ -62,12 +63,12 @@ class TypedPropertiesTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('name'));
         self::assertThatProperty($propertyMap->getProperty('name'))
-            ->hasType('string', false)
+            ->hasType('string', ArrayInformation::notAnArray())
             ->hasVisibility(Visibility::PUBLIC())
             ->isNotNullable();
         self::assertTrue($propertyMap->hasProperty('mixedParam'));
         self::assertThatProperty($propertyMap->getProperty('mixedParam'))
-            ->hasType('mixed', false)
+            ->hasType('mixed', ArrayInformation::notAnArray())
             ->hasVisibility(Visibility::PUBLIC())
             ->isNullable();
     }
@@ -122,8 +123,8 @@ class TypedPropertiesTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('amount'));
         $this->assertThatProperty($propertyMap->getProperty('amount'))
-            ->hasType('int', false)
-            ->hasType('float', false)
+            ->hasType('int', ArrayInformation::notAnArray())
+            ->hasType('float', ArrayInformation::notAnArray())
             ->hasVisibility(Visibility::PUBLIC())
             ->isNotNullable();
     }
@@ -143,7 +144,7 @@ class TypedPropertiesTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('complexUnionWithArray'));
         $this->assertThatProperty($propertyMap->getProperty('complexUnionWithArray'))
-            ->onlyHasType('mixed', true)
+            ->onlyHasType('mixed', ArrayInformation::singleDimension())
             ->hasVisibility(Visibility::PUBLIC())
             ->isNotNullable();
     }
