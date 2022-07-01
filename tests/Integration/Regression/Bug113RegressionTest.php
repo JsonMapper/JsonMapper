@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace JsonMapper\Tests\Integration\Regression;
 
 use JsonMapper\JsonMapperFactory;
-USE JsonMapper\Tests\Implementation\Php81\Status;
+use JsonMapper\Tests\Implementation\Php81\Status;
 use PHPUnit\Framework\TestCase;
 
 class Bug113RegressionTest extends TestCase
