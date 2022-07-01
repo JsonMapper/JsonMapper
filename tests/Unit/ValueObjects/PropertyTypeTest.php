@@ -15,11 +15,11 @@ class PropertyTypeTest extends TestCase
      */
     public function testGettersReturnConstructorValues(): void
     {
-        $isArray = ArrayInformation::notAnArray();
-        $propertyType = new PropertyType('int', $isArray);
+        $arrayInformation = ArrayInformation::notAnArray();
+        $propertyType = new PropertyType('int', $arrayInformation);
 
         self::assertSame('int', $propertyType->getType());
-        self::assertEquals($isArray, $propertyType->getArrayInformation());
+        self::assertEquals($arrayInformation, $propertyType->getArrayInformation());
     }
 
     /**
@@ -42,7 +42,7 @@ class PropertyTypeTest extends TestCase
      * @covers \JsonMapper\ValueObjects\PropertyType
      * @dataProvider isArrayValueAndExpectation
      */
-    public function testIsArrayReturnsTCorrectForPossibleValues(ArrayInformation $isArray, bool $expected): void
+    public function testIsArrayReturnsCorrectForPossibleValues(ArrayInformation $isArray, bool $expected): void
     {
         $propertyType = new PropertyType('int', $isArray);
 
