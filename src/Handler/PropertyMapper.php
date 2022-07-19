@@ -165,7 +165,7 @@ class PropertyMapper
 
                 // Single existing class @todo how do you know it was the correct type?
                 if (\class_exists($type->getType())) {
-                    return $this->mapToObject($type->getType(), $value, $mapper);
+                    return $this->mapToSingleObject($type->getType(), $value, $mapper);
                 }
             }
         }
@@ -180,42 +180,19 @@ class PropertyMapper
         }
 
         if (ScalarType::isValid($type->getType())) {
-            if ($type->isMultiDimensionalArray()) {
-                return $this->recursiveMapToArrayOfScalarValue($type->getType(), $value);
-            }
-            if ($type->isArray()) {
-                return $this->mapToArrayOfScalarValue($type->getType(), $value);
-            }
-            return $this->mapToScalarValue($type->getType(), $value);
+            return $this->mapToScalarValues($type, $value);
         }
 
         if (PHP_VERSION_ID >= 80100 && enum_exists($type->getType())) {
-            if ($type->isMultiDimensionalArray()) {
-                return $this->recursiveMapToArrayOfEnum($type->getType(), $value);
-            }
-            if ($type->isArray()) {
-                return $this->mapToArrayOfEnum($type->getType(), $value);
-            }
-            return $this->mapToEnum($type->getType(), $value);
+            return $this->mapToEnum($type, $value);
         }
 
         if ($this->classFactoryRegistry->hasFactory($type->getType())) {
-            // Todo add support multi dimensional arrays
-            if ($type->isArray()) {
-                return \array_map(function ($v) use ($type) {
-                    return $this->classFactoryRegistry->create($type->getType(), $v);
-                }, $value);
-            }
-            return $this->classFactoryRegistry->create($type->getType(), $value);
+            return $this->mapToObjectsUsingFactory($type, $value);
         }
 
-        if ($type->isArray() && (class_exists($type->getType()) || interface_exists($type->getType()))) {
-            // Todo add support multi dimensional arrays
-            return $this->mapToArrayOfObjects($type->getType(), $value, $mapper);
-        }
-
-        if (class_exists($type->getType()) || interface_exists($type->getType())) {
-            return $this->mapToObject($type->getType(), $value, $mapper);
+        if ((class_exists($type->getType()) || interface_exists($type->getType()))) {
+            return $this->mapToObjects($type, $value, $mapper);
         }
 
         throw new \Exception("Unable to map to {$type->getType()}");
@@ -243,7 +220,7 @@ class PropertyMapper
      * @param mixed $value
      * @return string|bool|int|float
      */
-    private function mapToScalarValue(string $type, $value)
+    private function mapToSingleScalarValue(string $type, $value)
     {
         $scalar = new ScalarType($type);
 
@@ -252,16 +229,20 @@ class PropertyMapper
 
     /**
      * @param mixed $value
-     * @return string[]|bool[]|int[]|float[]
+     * @return array<int, string|bool|int|float|array>
      */
     private function mapToArrayOfScalarValue(string $type, $value): array
     {
         $scalar = new ScalarType($type);
-        return \array_map(function ($v) use ($scalar) {
+        return \array_map(function ($v) use ($type, $scalar) {
             return $this->scalarCaster->cast($scalar, $v);
         }, (array) $value);
     }
 
+    /**
+     * @param mixed $value
+     * @return array<int, string|bool|int|float>
+     */
     private function recursiveMapToArrayOfScalarValue(string $type, $value): array
     {
         $scalar = new ScalarType($type);
@@ -280,7 +261,7 @@ class PropertyMapper
      * @param mixed $value
      * @return T
      */
-    private function mapToEnum(string $type, $value)
+    private function mapToSingleEnum(string $type, $value)
     {
         return call_user_func("{$type}::from", $value);
     }
@@ -288,13 +269,13 @@ class PropertyMapper
     /**
      * @template T
      * @psalm-param class-string<T> $type
-     * @param mixed $value
-     * @return T[]
+     * @param mixed
+     * @return array<int, T>
      */
     private function mapToArrayOfEnum(string $type, $value): array
     {
-        return \array_map(function ($val) use ($type) {
-            return $this->mapToEnum($type, $val);
+        return \array_map(function ($v) use ($type) {
+            return $this->mapToSingleEnum($type, $v);
         }, (array) $value);
     }
 
@@ -310,7 +291,64 @@ class PropertyMapper
                 return $this->recursiveMapToArrayOfEnum($type, $v);
             }
 
-            return $this->mapToEnum($type, $v);
+            return $this->mapToSingleEnum($type, $v);
+        }, (array) $value);
+    }
+
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    private function mapToSingleObjectUsingFactory(string $type, $value)
+    {
+        return $this->classFactoryRegistry->create($type, $value);
+    }
+
+    private function mapToArrayOfObjectsUsingFactory(string $type, $value): array
+    {
+        return \array_map(function ($v) use ($type) {
+            return $this->mapToSingleObjectUsingFactory($type, $v);
+        }, (array) $value);
+    }
+
+    private function recursiveMapToArrayOfObjectsUsingFactory(string $type, $value): array
+    {
+        return \array_map(function ($v) use ($type) {
+            if (is_array($v)) {
+                return $this->recursiveMapToArrayOfObjectsUsingFactory($type, $v);
+            }
+
+            return $this->mapToSingleObjectUsingFactory($type, $v);
+        }, (array) $value);
+    }
+
+    /**
+     * @template T
+     * @psalm-param class-string<T> $type
+     * @param mixed $value
+     * @return array<int, T|array>
+     */
+    private function recursiveMapToArrayOfObjects(string $type, $value, JsonMapperInterface $mapper): array
+    {
+        return \array_map(function ($v) use ($type, $mapper) {
+            if (is_array($v)) {
+                return $this->recursiveMapToArrayOfObjects($type, $v, $mapper);
+            }
+
+            return $this->mapToSingleObject($type, $v, $mapper);
+        }, (array) $value);
+    }
+
+    /**
+     * @template T
+     * @psalm-param class-string<T> $type
+     * @param mixed $value
+     * @return array<int, T>
+     */
+    private function mapToArrayOfObjects(string $type, $value, JsonMapperInterface $mapper): array
+    {
+        return \array_map(function ($v) use ($type, $mapper) {
+            return $this->mapToSingleObject($type, $v, $mapper);
         }, (array) $value);
     }
 
@@ -320,7 +358,7 @@ class PropertyMapper
      * @param mixed $value
      * @return T
      */
-    private function mapToObject(string $type, $value, JsonMapperInterface $mapper)
+    private function mapToSingleObject(string $type, $value, JsonMapperInterface $mapper)
     {
         if (! class_exists($type) && ! interface_exists($type)) {
             throw TypeError::forArgument(__METHOD__, 'class-string', $type, 1, '$type');
@@ -334,22 +372,6 @@ class PropertyMapper
         $instance = new $type();
         $mapper->mapObject($value, $instance);
         return $instance;
-    }
-
-    /**
-     * @template T
-     * @psalm-param class-string<T> $type
-     * @param mixed $value
-     * @return array<int, T>
-     */
-    private function mapToArrayOfObjects(string $type, $value, JsonMapperInterface $mapper): array
-    {
-        return \array_map(
-            function ($val) use ($type, $mapper) {
-                return $this->mapToObject($type, $val, $mapper);
-            },
-            (array) $value
-        );
     }
 
     /**
@@ -371,5 +393,49 @@ class PropertyMapper
                 $e
             );
         }
+    }
+
+    private function mapToObjects(PropertyType $type, $value, JsonMapperInterface $mapper)
+    {
+        if ($type->isMultiDimensionalArray()) {
+            return $this->recursiveMapToArrayOfObjects($type->getType(), $value, $mapper);
+        }
+        if ($type->isArray()) {
+            return $this->mapToArrayOfObjects($type->getType(), $value, $mapper);
+        }
+        return $this->mapToSingleObject($type->getType(), $value, $mapper);
+    }
+
+    private function mapToObjectsUsingFactory(PropertyType $type, $value)
+    {
+        if ($type->isMultiDimensionalArray()) {
+            return $this->recursiveMapToArrayOfObjectsUsingFactory($type->getType(), $value);
+        }
+        if ($type->isArray()) {
+            return $this->mapToArrayOfObjectsUsingFactory($type->getType(), $value);
+        }
+        return $this->mapToSingleObjectUsingFactory($type->getType(), $value);
+    }
+
+    private function mapToEnum(PropertyType $type, $value)
+    {
+        if ($type->isMultiDimensionalArray()) {
+            return $this->recursiveMapToArrayOfEnum($type->getType(), $value);
+        }
+        if ($type->isArray()) {
+            return $this->mapToArrayOfEnum($type->getType(), $value);
+        }
+        return $this->mapToSingleEnum($type->getType(), $value);
+    }
+
+    private function mapToScalarValues(PropertyType $type, $value)
+    {
+        if ($type->isMultiDimensionalArray()) {
+            return $this->recursiveMapToArrayOfScalarValue($type->getType(), $value);
+        }
+        if ($type->isArray()) {
+            return $this->mapToArrayOfScalarValue($type->getType(), $value);
+        }
+        return $this->mapToSingleScalarValue($type->getType(), $value);
     }
 }
