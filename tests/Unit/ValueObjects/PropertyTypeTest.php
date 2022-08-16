@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace JsonMapper\Tests\ValueObjects\Unit;
+namespace JsonMapper\Tests\Unit\ValueObjects;
 
 use JsonMapper\ValueObjects\ArrayInformation;
 use JsonMapper\ValueObjects\PropertyType;
@@ -49,11 +49,31 @@ class PropertyTypeTest extends TestCase
         self::assertSame($expected, $propertyType->isArray());
     }
 
+    /**
+     * @covers \JsonMapper\ValueObjects\PropertyType
+     * @dataProvider isMultiDimensionalArrayValueAndExpectation
+     */
+    public function testIsMultiDimensionalArrayReturnsCorrectForPossibleValues(ArrayInformation $isArray, bool $expected): void
+    {
+        $propertyType = new PropertyType('int', $isArray);
+
+        self::assertSame($expected, $propertyType->isMultiDimensionalArray());
+    }
+
     public function isArrayValueAndExpectation(): array
     {
         return [
             'no' => [ArrayInformation::notAnArray(), false],
             'single dimensional' => [ArrayInformation::singleDimension(), true],
+            'multi dimensional' => [ArrayInformation::multiDimension(2), true,]
+        ];
+    }
+
+    public function isMultiDimensionalArrayValueAndExpectation(): array
+    {
+        return [
+            'no' => [ArrayInformation::notAnArray(), false],
+            'single dimensional' => [ArrayInformation::singleDimension(), false],
             'multi dimensional' => [ArrayInformation::multiDimension(2), true,]
         ];
     }

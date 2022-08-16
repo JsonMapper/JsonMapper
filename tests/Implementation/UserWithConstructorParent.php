@@ -10,4 +10,7 @@ class UserWithConstructorParent
 {
     /** @var UserWithConstructor */
     public $user;
+
+    /** @var UserWithConstructor[][] */
+    public $userHistory;
 }

@@ -10,4 +10,7 @@ class BlogPost
 
     /** @var Status[] */
     public $historicStates;
+
+    /** @var Status[][] */
+    public $historicStatesByDate;
 }

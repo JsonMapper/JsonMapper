@@ -153,6 +153,30 @@ class PropertyMapperTest extends TestCase
     /**
      * @covers \JsonMapper\Handler\PropertyMapper
      */
+    public function testPublicScalarValueMultiDimensionalArrayIsSet(): void
+    {
+        $fileProperty = PropertyBuilder::new()
+            ->setName('ids')
+            ->addType('int', ArrayInformation::multiDimension(2))
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($fileProperty);
+        $value = [1 => [2, 3], 2 => [2, 3], 3 => [2, 3]];
+        $json = (object) ['ids' => $value];
+        $object = new \stdClass();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $this->createMock(JsonMapperInterface::class));
+
+        self::assertEquals($value, $object->ids);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
     public function testPublicCustomClassArrayIsSet(): void
     {
         $property = PropertyBuilder::new()
@@ -178,6 +202,52 @@ class PropertyMapperTest extends TestCase
         $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
 
         self::assertCount(2, $object->getChildren());
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testPublicCustomClassMultidimensionalArrayIsSet(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('children')
+            ->addType(SimpleObject::class, ArrayInformation::multiDimension(2))
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $jsonMapper->expects(self::exactly(4))
+            ->method('mapObject')
+            ->with(self::isInstanceOf(\stdClass::class), self::isInstanceOf(SimpleObject::class))
+            ->willReturnCallback(static function ($json, $object) {
+                $object->setName($json->name);
+            });
+        $json = (object) ['children' => [
+            [
+                (object) ['name' => __NAMESPACE__],
+                (object) ['name' => __FUNCTION__]
+            ],
+            [
+                (object) ['name' => __NAMESPACE__],
+                (object) ['name' => __FUNCTION__]
+            ],
+        ]];
+        $object = new \stdClass();
+        $wrapped = new ObjectWrapper($object);
+        $propertyMapper = new PropertyMapper();
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertCount(2, $object->children);
+        self::assertEquals(
+            [
+                [new SimpleObject(__NAMESPACE__), new SimpleObject(__FUNCTION__)],
+                [new SimpleObject(__NAMESPACE__), new SimpleObject(__FUNCTION__)],
+            ],
+            $object->children
+        );
     }
 
     /**
@@ -269,6 +339,58 @@ class PropertyMapperTest extends TestCase
         self::assertEquals(
             [new UserWithConstructor(1234, 'John Doe'), new UserWithConstructor(5678, 'Jane Doe')],
             $object->user
+        );
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     */
+    public function testCanMapPropertyAsMultiDimensionalArrayWithClassFactory(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('userHistory')
+            ->addType(UserWithConstructor::class, ArrayInformation::multiDimension(2))
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $json = (object) ['userHistory' => [
+            '2021-02-03' => [
+                'original' => (object) ['id' => 1234, 'name' => 'John Doe'],
+                'new' => (object) ['id' => 1234, 'name' => 'Johnathan Doe'],
+            ],
+            '2022-08-16' => [
+                'original' => (object) ['id' => 1234, 'name' => 'Johnathan Doe'],
+                'new' => (object) ['id' => 1234, 'name' => 'J. Doe'],
+            ],
+        ]];
+        $object = new UserWithConstructorParent();
+        $wrapped = new ObjectWrapper($object);
+        $classFactoryRegistry = FactoryRegistry::withNativePhpClassesAdded();
+        $classFactoryRegistry->addFactory(
+            UserWithConstructor::class,
+            static function ($params) {
+                return new UserWithConstructor($params->id, $params->name);
+            }
+        );
+        $propertyMapper = new PropertyMapper($classFactoryRegistry);
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals(
+            [
+                '2021-02-03' => [
+                    'original' => new UserWithConstructor(1234, 'John Doe'),
+                    'new' => new UserWithConstructor(1234, 'Johnathan Doe'),
+                ],
+                '2022-08-16' => [
+                    'original' => new UserWithConstructor(1234, 'Johnathan Doe'),
+                    'new' => new UserWithConstructor(1234, 'J. Doe'),
+                ],
+            ],
+            $object->userHistory
         );
     }
 
@@ -686,6 +808,45 @@ class PropertyMapperTest extends TestCase
         $expected->historicStates = [
             \JsonMapper\Tests\Implementation\Php81\Status::DRAFT,
             \JsonMapper\Tests\Implementation\Php81\Status::PUBLISHED
+        ];
+
+        $propertyMapper = new PropertyMapper();
+        $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
+
+        $propertyMapper->__invoke($json, $wrapped, $propertyMap, $jsonMapper);
+
+        self::assertEquals($expected, $object);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\PropertyMapper
+     * @requires PHP >= 8.1
+     */
+    public function testItCanMapEnumMultiDimensionalArrayType(): void
+    {
+        $json = (object) ['historicStatesByDate' => [
+            '2022-08-16' => ['draft', 'published'],
+            '2022-08-22' => ['archived']
+        ]];
+        $object = new \JsonMapper\Tests\Implementation\Php81\BlogPost();
+        $wrapped = new ObjectWrapper($object);
+        $property = PropertyBuilder::new()
+            ->setName('historicStatesByDate')
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->addType(\JsonMapper\Tests\Implementation\Php81\Status::class, ArrayInformation::multiDimension(2))
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $expected = new BlogPost();
+        $expected->historicStatesByDate = [
+            '2022-08-16' => [
+                \JsonMapper\Tests\Implementation\Php81\Status::DRAFT,
+                \JsonMapper\Tests\Implementation\Php81\Status::PUBLISHED,
+            ],
+            '2022-08-22' => [
+                \JsonMapper\Tests\Implementation\Php81\Status::ARCHIVED,
+            ]
         ];
 
         $propertyMapper = new PropertyMapper();
