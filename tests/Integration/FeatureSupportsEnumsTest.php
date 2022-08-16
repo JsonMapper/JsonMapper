@@ -32,7 +32,7 @@ class FeatureSupportsEnumsTest extends TestCase
     /**
      * @requires PHP >= 8.1
      */
-    public function testItCanMapAnToAnArrayOfEnumType(): void
+    public function testItCanMapToAnArrayOfEnumType(): void
     {
         $mapper = (new JsonMapperFactory())->bestFit();
         $object = new class {
@@ -49,7 +49,7 @@ class FeatureSupportsEnumsTest extends TestCase
     /**
      * @requires PHP >= 8.1
      */
-    public function testItCanMapAnToAnMultiDimensionalArrayOfEnumType(): void
+    public function testItCanMapToAMultiDimensionalArrayOfEnumType(): void
     {
         $mapper = (new JsonMapperFactory())->bestFit();
         $object = new class {
