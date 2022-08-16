@@ -124,4 +124,28 @@ class PropertyMapTest extends TestCase
             $map->getProperty('data')
         );
     }
+
+    /**
+     * @covers \JsonMapper\ValueObjects\PropertyMap
+     */
+    public function testCanBeMergedWithOtherPropertyMapWithExactDuplicate(): void
+    {
+        $map = new PropertyMap();
+        $map->addProperty(new Property('data', Visibility::PUBLIC(), false, new PropertyType(Popo::class, ArrayInformation::singleDimension())));
+        $other = new PropertyMap();
+        $other->addProperty(new Property('data', Visibility::PUBLIC(), false, new PropertyType(Popo::class, ArrayInformation::singleDimension())));
+
+        $map->merge($other);
+
+        self::assertTrue($map->hasProperty('data'));
+        self::assertEquals(
+            new Property(
+                'data',
+                Visibility::PUBLIC(),
+                false,
+                new PropertyType(Popo::class, ArrayInformation::singleDimension())
+            ),
+            $map->getProperty('data')
+        );
+    }
 }
