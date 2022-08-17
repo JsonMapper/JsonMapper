@@ -7,6 +7,7 @@ namespace JsonMapper\Tests\Unit\Builders;
 use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\Tests\Helpers\AssertThatPropertyTrait;
+use JsonMapper\ValueObjects\ArrayInformation;
 use JsonMapper\ValueObjects\PropertyType;
 use PHPUnit\Framework\TestCase;
 
@@ -21,14 +22,14 @@ class PropertyBuilderTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('enabled')
-            ->addType('boolean', false)
+            ->addType('boolean', ArrayInformation::notAnArray())
             ->setIsNullable(true)
             ->setVisibility(Visibility::PRIVATE())
             ->build();
 
         $this->assertThatProperty($property)
             ->hasName('enabled')
-            ->hasType('boolean', false)
+            ->hasType('boolean', ArrayInformation::notAnArray())
             ->hasVisibility(Visibility::PRIVATE())
             ->isNullable();
     }
@@ -40,15 +41,18 @@ class PropertyBuilderTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('enabled')
-            ->setTypes(new PropertyType('string', true), new PropertyType('int', false))
+            ->setTypes(
+                new PropertyType('string', ArrayInformation::singleDimension()),
+                new PropertyType('int', ArrayInformation::notAnArray())
+            )
             ->setIsNullable(true)
             ->setVisibility(Visibility::PRIVATE())
             ->build();
 
         $this->assertThatProperty($property)
             ->hasName('enabled')
-            ->hasType('string', true)
-            ->hasType('int', false)
+            ->hasType('string', ArrayInformation::singleDimension())
+            ->hasType('int', ArrayInformation::notAnArray())
             ->hasVisibility(Visibility::PRIVATE())
             ->isNullable();
     }

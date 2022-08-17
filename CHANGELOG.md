@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.13.0] - 2022-08-17
+### Added
+- Support multi-dimensional array notation [PR#137](https://github.com/JsonMapper/JsonMapper/pull/137)
+### Fixed
+- Correct several typos [PR#136](https://github.com/JsonMapper/JsonMapper/pull/136) Thanks to [Pankaj Aagjal](https://github.com/aagjalpankaj) for fixing the typos
+
 ## [2.12.0] - 2022-03-31
 ### Fixed
 - Cannot lookup property of namespace in parent class [PR#135](https://github.com/JsonMapper/JsonMapper/pull/135) Thanks to [jg-development](https://github.com/jg-development) for reporting the issue 

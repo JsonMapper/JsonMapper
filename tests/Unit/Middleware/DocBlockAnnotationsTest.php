@@ -10,6 +10,7 @@ use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\DocBlockAnnotations;
 use JsonMapper\Tests\Helpers\AssertThatPropertyTrait;
 use JsonMapper\Tests\Implementation\ComplexObject;
+use JsonMapper\ValueObjects\ArrayInformation;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 use PHPUnit\Framework\Assert;
@@ -34,22 +35,22 @@ class DocBlockAnnotationsTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('child'));
         self::assertThatProperty($propertyMap->getProperty('child'))
-            ->hasType('SimpleObject', false)
+            ->hasType('SimpleObject', ArrayInformation::notAnArray())
             ->hasVisibility(Visibility::PRIVATE())
             ->isNullable();
         self::assertTrue($propertyMap->hasProperty('children'));
         self::assertThatProperty($propertyMap->getProperty('children'))
-            ->hasType('SimpleObject', true)
+            ->hasType('SimpleObject', ArrayInformation::singleDimension())
             ->hasVisibility(Visibility::PRIVATE())
             ->isNotNullable();
         self::assertTrue($propertyMap->hasProperty('user'));
         self::assertThatProperty($propertyMap->getProperty('user'))
-            ->hasType('User', false)
+            ->hasType('User', ArrayInformation::notAnArray())
             ->hasVisibility(Visibility::PRIVATE())
             ->isNotNullable();
         self::assertTrue($propertyMap->hasProperty('mixedParam'));
         self::assertThatProperty($propertyMap->getProperty('mixedParam'))
-            ->hasType('mixed', false)
+            ->hasType('mixed', ArrayInformation::notAnArray())
             ->hasVisibility(Visibility::PUBLIC())
             ->isNotNullable();
     }
@@ -145,7 +146,7 @@ class DocBlockAnnotationsTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('nullableNumber'));
         self::assertThatProperty($propertyMap->getProperty('nullableNumber'))
-            ->hasType('NullableNumber', false)
+            ->hasType('NullableNumber', ArrayInformation::notAnArray())
             ->hasVisibility(Visibility::PUBLIC())
             ->isNullable();
     }
@@ -167,7 +168,7 @@ class DocBlockAnnotationsTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('numbers'));
         self::assertThatProperty($propertyMap->getProperty('numbers'))
-            ->hasType('Number', true)
+            ->hasType('Number', ArrayInformation::singleDimension())
             ->hasVisibility(Visibility::PUBLIC())
             ->isNullable();
     }
@@ -189,7 +190,7 @@ class DocBlockAnnotationsTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('numbers'));
         self::assertThatProperty($propertyMap->getProperty('numbers'))
-            ->hasType('Number', true)
+            ->hasType('Number', ArrayInformation::singleDimension())
             ->hasVisibility(Visibility::PUBLIC())
             ->isNullable();
     }
@@ -211,8 +212,8 @@ class DocBlockAnnotationsTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('amount'));
         $this->assertThatProperty($propertyMap->getProperty('amount'))
-            ->hasType('int', false)
-            ->hasType('float', false)
+            ->hasType('int', ArrayInformation::notAnArray())
+            ->hasType('float', ArrayInformation::notAnArray())
             ->hasVisibility(Visibility::PUBLIC())
             ->isNotNullable();
     }
@@ -234,7 +235,7 @@ class DocBlockAnnotationsTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('complexUnionWithArray'));
         $this->assertThatProperty($propertyMap->getProperty('complexUnionWithArray'))
-            ->onlyHasType('mixed', true)
+            ->onlyHasType('mixed', ArrayInformation::singleDimension())
             ->hasVisibility(Visibility::PUBLIC())
             ->isNotNullable();
     }

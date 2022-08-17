@@ -10,7 +10,7 @@ For more information see the project website: https://jsonmapper.net/
 [![Coverage Status](https://coveralls.io/repos/github/JsonMapper/JsonMapper/badge.svg?branch=develop)](https://coveralls.io/github/JsonMapper/JsonMapper?branch=develop)
 
 # Why use JsonMapper
-Continuously mapping your JSON responses to your own objects becomes tedious and is error prone. Not mentioning the
+Continuously mapping your JSON responses to your own objects becomes tedious and is error-prone. Not mentioning the
 tests that needs to be written for said mapping.
 
 JsonMapper has been build with the most common usages in mind. In order to allow for those edge cases which are not 
@@ -70,8 +70,7 @@ class JsonMapper\Tests\Implementation\SimpleObject#1 (1) {
 ```  
 
 # Customizing JsonMapper
-. Writing your own 
-middleware has been made as easy as possible with an `AbstractMiddleware` that can be extended with the functionality 
+Writing your own middleware has been made as easy as possible with an `AbstractMiddleware` that can be extended with the functionality 
 you need for your project.
 
 ```php
@@ -99,7 +98,7 @@ Thanks to everyone who has contributed to JsonMapper! You can find a detailed li
 ## Sponsoring
 [![JetBrains](https://jsonmapper.net/images/jetbrains-variant-3.png?)](https://www.jetbrains.com/?from=JsonMapper)
 
-This project is sponsored by JetBrains providing a open source license to continue building on JsonMapper without cost.     
+This project is sponsored by JetBrains providing an open source license to continue building on JsonMapper without cost.     
 
 # License
 The MIT License (MIT). Please see [License File](https://github.com/JsonMapper/JsonMapper/blob/master/LICENSE) for more information.

@@ -80,7 +80,7 @@ class NamespaceResolver extends AbstractMiddleware
         );
 
         if (count($matches) > 0) {
-            return new PropertyType(\array_shift($matches)->getImport(), $type->isArray());
+            return new PropertyType(\array_shift($matches)->getImport(), $type->getArrayInformation());
         }
 
         $reflectedObject = $object->getReflectedObject();
@@ -88,7 +88,7 @@ class NamespaceResolver extends AbstractMiddleware
             if (class_exists($reflectedObject->getNamespaceName() . '\\' . $type->getType())) {
                 return new PropertyType(
                     $reflectedObject->getNamespaceName() . '\\' . $type->getType(),
-                    $type->isArray()
+                    $type->getArrayInformation()
                 );
             }
 

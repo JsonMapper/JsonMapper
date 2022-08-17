@@ -8,6 +8,7 @@ use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\ValueObjects\AnnotationMap;
+use JsonMapper\ValueObjects\ArrayInformation;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 use Psr\SimpleCache\CacheInterface;
@@ -69,18 +70,28 @@ class DocBlockAnnotations extends AbstractMiddleware
 
             /* A union type that has one of its types defined as array is to complex to understand */
             if (\in_array('array', $types, true)) {
-                $property = $builder->addType('mixed', true)->build();
+                $property = $builder->addType('mixed', ArrayInformation::singleDimension())->build();
                 $intermediatePropertyMap->addProperty($property);
                 continue;
             }
 
             foreach ($types as $type) {
                 $type = \trim($type);
-                $isArray = \substr($type, -2) === '[]';
-                if ($isArray) {
-                    $type = \substr($type, 0, -2);
+                $isAnArrayType = \substr($type, -2) === '[]';
+
+                if (! $isAnArrayType) {
+                    $builder->addType($type, ArrayInformation::notAnArray());
+                    continue;
                 }
-                $builder->addType($type, $isArray);
+
+                $initialBracketPosition = strpos($type, '[');
+                $dimensions = substr_count($type, '[]');
+
+                if ($initialBracketPosition !== false) {
+                    $type = substr($type, 0, $initialBracketPosition);
+                }
+
+                $builder->addType($type, ArrayInformation::multiDimension($dimensions));
             }
 
             $property = $builder->build();

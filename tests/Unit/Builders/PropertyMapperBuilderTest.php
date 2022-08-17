@@ -21,6 +21,7 @@ use JsonMapper\Tests\Implementation\Models\UserWithConstructor;
 use JsonMapper\Tests\Implementation\Models\Wrappers\IShapeWrapper;
 use JsonMapper\Tests\Implementation\SimpleObject;
 use JsonMapper\Tests\Implementation\UserWithConstructorParent;
+use JsonMapper\ValueObjects\ArrayInformation;
 use JsonMapper\ValueObjects\PropertyMap;
 use JsonMapper\Wrapper\ObjectWrapper;
 use PHPUnit\Framework\TestCase;
@@ -41,7 +42,7 @@ class PropertyMapperBuilderTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('user')
-            ->addType(UserWithConstructor::class, false)
+            ->addType(UserWithConstructor::class, ArrayInformation::notAnArray())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -78,7 +79,7 @@ class PropertyMapperBuilderTest extends TestCase
             ->setName('shape')
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
-            ->addType($type, false)
+            ->addType($type, ArrayInformation::notAnArray())
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
@@ -104,7 +105,7 @@ class PropertyMapperBuilderTest extends TestCase
             ->setName('name')
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
-            ->addType('string', false)
+            ->addType('string', ArrayInformation::notAnArray())
             ->build();
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);

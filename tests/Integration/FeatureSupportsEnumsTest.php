@@ -28,4 +28,38 @@ class FeatureSupportsEnumsTest extends TestCase
 
         self::assertSame(Status::DRAFT, $object->status);
     }
+
+    /**
+     * @requires PHP >= 8.1
+     */
+    public function testItCanMapToAnArrayOfEnumType(): void
+    {
+        $mapper = (new JsonMapperFactory())->bestFit();
+        $object = new class {
+            /** @var Status[] */
+            public $states;
+        };
+        $json = (object) ['states' => ['draft', 'archived']];
+
+        $mapper->mapObject($json, $object);
+
+        self::assertSame([Status::DRAFT, Status::ARCHIVED], $object->states);
+    }
+
+    /**
+     * @requires PHP >= 8.1
+     */
+    public function testItCanMapToAMultiDimensionalArrayOfEnumType(): void
+    {
+        $mapper = (new JsonMapperFactory())->bestFit();
+        $object = new class {
+            /** @var Status[][] */
+            public $states;
+        };
+        $json = (object) ['states' => [['draft', 'archived'], ['published']]];
+
+        $mapper->mapObject($json, $object);
+
+        self::assertSame([[Status::DRAFT, Status::ARCHIVED], [Status::PUBLISHED]], $object->states);
+    }
 }

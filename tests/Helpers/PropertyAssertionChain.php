@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JsonMapper\Tests\Helpers;
 
 use JsonMapper\Enums\Visibility;
+use JsonMapper\ValueObjects\ArrayInformation;
 use JsonMapper\ValueObjects\Property;
 use JsonMapper\ValueObjects\PropertyType;
 use PHPUnit\Framework\Assert;
@@ -26,12 +27,12 @@ class PropertyAssertionChain
         return $this;
     }
 
-    public function hasType(string $type, bool $isArray): PropertyAssertionChain
+    public function hasType(string $type, ArrayInformation $arrayInformation): PropertyAssertionChain
     {
         $matches = array_filter(
             $this->property->getPropertyTypes(),
-            static function ($p) use ($type, $isArray) {
-                return $p->getType() === $type && $p->isArray() === $isArray;
+            static function ($p) use ($type, $arrayInformation) {
+                return $p->getType() === $type && $p->getArrayInformation()->equals($arrayInformation);
             }
         );
 
@@ -40,7 +41,7 @@ class PropertyAssertionChain
         return $this;
     }
 
-    public function onlyHasType(string $type, bool $isArray): PropertyAssertionChain
+    public function onlyHasType(string $type, ArrayInformation $isArray): PropertyAssertionChain
     {
         Assert::assertEquals([new PropertyType($type, $isArray)], $this->property->getPropertyTypes());
 

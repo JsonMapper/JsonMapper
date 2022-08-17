@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JsonMapper\Tests\Unit\ValueObjects;
 
 use JsonMapper\Enums\Visibility;
+use JsonMapper\ValueObjects\ArrayInformation;
 use JsonMapper\ValueObjects\Property;
 use JsonMapper\ValueObjects\PropertyType;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +17,7 @@ class PropertyTest extends TestCase
      */
     public function testGettersReturnConstructorValues(): void
     {
-        $propertyType = new PropertyType('int', false);
+        $propertyType = new PropertyType('int', ArrayInformation::notAnArray());
         $property = new Property('id', Visibility::PUBLIC(), false, $propertyType);
 
         self::assertSame('id', $property->getName());
@@ -30,8 +31,8 @@ class PropertyTest extends TestCase
      */
     public function testIsUnionReturnsTrueWhenMoreThanOneType(): void
     {
-        $int = new PropertyType('int', false);
-        $float = new PropertyType('float', false);
+        $int = new PropertyType('int', ArrayInformation::notAnArray());
+        $float = new PropertyType('float', ArrayInformation::notAnArray());
         $property = new Property('id', Visibility::PUBLIC(), false, $int, $float);
 
         self::assertTrue($property->isUnion());
@@ -42,7 +43,7 @@ class PropertyTest extends TestCase
      */
     public function testIsUnionReturnsFalseWhenOneType(): void
     {
-        $int = new PropertyType('int', false);
+        $int = new PropertyType('int', ArrayInformation::notAnArray());
         $property = new Property('id', Visibility::PUBLIC(), false, $int);
 
         self::assertFalse($property->isUnion());
@@ -53,7 +54,7 @@ class PropertyTest extends TestCase
      */
     public function testPropertyCanBeConvertedToBuilderAndBack(): void
     {
-        $property = new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', false));
+        $property = new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', ArrayInformation::notAnArray()));
         $builder = $property->asBuilder();
 
         self::assertEquals($property, $builder->build());
@@ -64,13 +65,13 @@ class PropertyTest extends TestCase
      */
     public function testCanBeConvertedToJson(): void
     {
-        $property = new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', false));
+        $property = new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', ArrayInformation::notAnArray()));
 
         $propertyAsJson = json_encode($property);
 
         self::assertIsString($propertyAsJson);
         self::assertJsonStringEqualsJsonString(
-            '{"name":"id","types":[{"type":"int","isArray":false}],"visibility":"public","isNullable":false}',
+            '{"name":"id","types":[{"type":"int","isArray":false, "arrayInformation":{"isArray":false,"dimensions":0}}],"visibility":"public","isNullable":false}',
             (string) $propertyAsJson
         );
     }
