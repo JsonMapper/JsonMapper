@@ -16,6 +16,15 @@ class ValueTransformationTest extends TestCase
 {
     /**
      * @covers \JsonMapper\Middleware\ValueTransformation
+     */
+    public function testCanBeConstructed(): void {
+        $this->expectNotToPerformAssertions();
+
+        new ValueTransformation('strtoupper');
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\ValueTransformation
      * @dataProvider valueMapperDataProvider
      */
     public function testCanConvertObject(

@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Support multi-dimensional array notation [PR#137](https://github.com/JsonMapper/JsonMapper/pull/137)
 ### Fixed
 - Correct several typos [PR#136](https://github.com/JsonMapper/JsonMapper/pull/136) Thanks to [Pankaj Aagjal](https://github.com/aagjalpankaj) for fixing the typos
 
