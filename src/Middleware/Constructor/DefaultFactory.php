@@ -24,8 +24,12 @@ class DefaultFactory
     /** @var Parameter[] */
     private $parameters = [];
 
-    public function __construct(string $objectName, ReflectionMethod $reflectedConstructor, JsonMapperInterface $mapper, IScalarCaster $scalarCaster)
-    {
+    public function __construct(
+        string $objectName,
+        ReflectionMethod $reflectedConstructor,
+        JsonMapperInterface $mapper,
+        IScalarCaster $scalarCaster
+    ) {
         $this->objectName = $objectName;
         $this->mapper = $mapper;
         $this->scalarCaster = $scalarCaster;
@@ -44,14 +48,25 @@ class DefaultFactory
                     $type = substr($type, 0, -2);
                 }
                 $imports = UseStatementHelper::getImports($reflectedConstructor->getDeclaringClass());
-                $type = NamespaceHelper::resolveNamespace($type, $reflectedConstructor->getDeclaringClass()->getNamespaceName(), $imports);
+                $type = NamespaceHelper::resolveNamespace(
+                    $type,
+                    $reflectedConstructor->getDeclaringClass()->getNamespaceName(),
+                    $imports
+                );
             }
-            $this->parameters[] = new Parameter($param->getName(), $type, $param->getPosition(), $param->isDefaultValueAvailable() ? $param->getDefaultValue() : null);
+            $this->parameters[] = new Parameter(
+                $param->getName(),
+                $type,
+                $param->getPosition(),
+                $param->isDefaultValueAvailable() ? $param->getDefaultValue() : null
+            );
         }
 
         usort(
             $this->parameters,
-            static function(Parameter $left, Parameter $right) { return $left->getPosition() - $right->getPosition(); }
+            static function (Parameter $left, Parameter $right) {
+                return $left->getPosition() - $right->getPosition();
+            }
         );
     }
 
@@ -137,5 +152,4 @@ class DefaultFactory
         }
         return $annotationMap;
     }
-
 }

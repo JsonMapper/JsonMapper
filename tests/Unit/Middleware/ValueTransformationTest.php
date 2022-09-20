@@ -17,7 +17,8 @@ class ValueTransformationTest extends TestCase
     /**
      * @covers \JsonMapper\Middleware\ValueTransformation
      */
-    public function testCanBeConstructed(): void {
+    public function testCanBeConstructed(): void
+    {
         $this->expectNotToPerformAssertions();
 
         new ValueTransformation('strtoupper');

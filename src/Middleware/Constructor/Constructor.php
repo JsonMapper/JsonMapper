@@ -21,8 +21,12 @@ class Constructor extends AbstractMiddleware
         $this->factoryRegistry = $factoryRegistry;
     }
 
-    public function handle(\stdClass $json, ObjectWrapper $object, PropertyMap $propertyMap, JsonMapperInterface $mapper): void
-    {
+    public function handle(
+        \stdClass $json,
+        ObjectWrapper $object,
+        PropertyMap $propertyMap,
+        JsonMapperInterface $mapper
+    ): void {
         if ($this->factoryRegistry->hasFactory($object->getName())) {
             return;
         }
@@ -38,7 +42,8 @@ class Constructor extends AbstractMiddleware
                 $object->getName(),
                 $reflectedConstructor,
                 $mapper,
-                new ScalarCaster()) // Copy current caster ??
+                new ScalarCaster()
+            ) // Copy current caster ??
         );
     }
 }

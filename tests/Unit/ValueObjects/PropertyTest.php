@@ -54,7 +54,12 @@ class PropertyTest extends TestCase
      */
     public function testPropertyCanBeConvertedToBuilderAndBack(): void
     {
-        $property = new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', ArrayInformation::notAnArray()));
+        $property = new Property(
+            'id',
+            Visibility::PUBLIC(),
+            false,
+            new PropertyType('int', ArrayInformation::notAnArray())
+        );
         $builder = $property->asBuilder();
 
         self::assertEquals($property, $builder->build());
@@ -65,7 +70,12 @@ class PropertyTest extends TestCase
      */
     public function testCanBeConvertedToJson(): void
     {
-        $property = new Property('id', Visibility::PUBLIC(), false, new PropertyType('int', ArrayInformation::notAnArray()));
+        $property = new Property(
+            'id',
+            Visibility::PUBLIC(),
+            false,
+            new PropertyType('int', ArrayInformation::notAnArray())
+        );
 
         $propertyAsJson = json_encode($property);
 

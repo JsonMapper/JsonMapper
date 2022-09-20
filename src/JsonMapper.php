@@ -99,7 +99,7 @@ class JsonMapper implements JsonMapperInterface
         $propertyMap = new PropertyMap();
 
         $handler = $this->resolve();
-        $placeholder = new \stdClass; // @todo remove placeholder
+        $placeholder = new \stdClass(); // @todo remove placeholder
         $wrapper = new ObjectWrapper($placeholder, $class);
         $handler($json, $wrapper, $propertyMap, $this);
 
@@ -142,7 +142,7 @@ class JsonMapper implements JsonMapperInterface
         }
 
         return array_map(
-            function(\stdClass $value) use ($class) {
+            function (\stdClass $value) use ($class) {
                 return $this->mapToClass($value, $class);
             },
             $json

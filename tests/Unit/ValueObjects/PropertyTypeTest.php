@@ -53,8 +53,10 @@ class PropertyTypeTest extends TestCase
      * @covers \JsonMapper\ValueObjects\PropertyType
      * @dataProvider isMultiDimensionalArrayValueAndExpectation
      */
-    public function testIsMultiDimensionalArrayReturnsCorrectForPossibleValues(ArrayInformation $isArray, bool $expected): void
-    {
+    public function testIsMultiDimensionalArrayReturnsCorrectForPossibleValues(
+        ArrayInformation $isArray,
+        bool $expected
+    ): void {
         $propertyType = new PropertyType('int', $isArray);
 
         self::assertSame($expected, $propertyType->isMultiDimensionalArray());
