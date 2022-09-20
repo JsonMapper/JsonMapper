@@ -41,6 +41,16 @@ class AnnotationMap
         return $this->params;
     }
 
+    public function hasParam(string $paramName): bool
+    {
+        return array_key_exists($paramName, $this->params);
+    }
+
+    public function getParam(string $paramName): string
+    {
+        return $this->params[$paramName];
+    }
+
     public function hasReturn(): bool
     {
         return ! \is_null($this->return);

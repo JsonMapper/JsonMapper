@@ -10,6 +10,7 @@ use JsonMapper\Parser\Import;
 use JsonMapper\Tests\Implementation\Foo\MetaModel\Meta;
 use JsonMapper\Tests\Implementation\Foo\Model\BarModel;
 use JsonMapper\Tests\Implementation\Foo\Test;
+use JsonMapper\Tests\Integration\Namespaces\One\Example;
 use PHPUnit\Framework\TestCase;
 
 class UseStatementHelperTest extends TestCase

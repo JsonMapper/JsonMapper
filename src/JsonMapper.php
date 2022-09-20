@@ -90,6 +90,22 @@ class JsonMapper implements JsonMapperInterface
         return $this;
     }
 
+    public function mapToClass(\stdClass $json, string $class)
+    {
+        if (! \class_exists($class)) {
+            throw new \Exception(); // @todo proper exception message
+        }
+
+        $propertyMap = new PropertyMap();
+
+        $handler = $this->resolve();
+        $placeholder = new \stdClass; // @todo remove placeholder
+        $wrapper = new ObjectWrapper($placeholder, $class);
+        $handler($json, $wrapper, $propertyMap, $this);
+
+        return $wrapper->getObject();
+    }
+
     public function mapObject(\stdClass $json, $object)
     {
         if (! \is_object($object)) {
@@ -117,6 +133,34 @@ class JsonMapper implements JsonMapperInterface
         }
 
         return $results;
+    }
+
+    public function mapToClassArray(array $json, string $class): array
+    {
+        if (! \class_exists($class)) {
+            throw TypeError::forArgument(__METHOD__, 'class-string', $class, 2, '$class');
+        }
+
+        return array_map(
+            function(\stdClass $value) use ($class) {
+                return $this->mapToClass($value, $class);
+            },
+            $json
+        );
+    }
+
+    public function mapToClassFromString(string $json, string $class)
+    {
+        if (! \class_exists($class)) {
+            throw TypeError::forArgument(__METHOD__, 'class-string', $class, 2, '$class');
+        }
+
+        $data = $this->decodeJsonString($json);
+        if (! $data instanceof \stdClass) {
+            throw new \RuntimeException('Provided string is not a json encoded object');
+        }
+
+        return $this->mapToClass($data, $class);
     }
 
     public function mapObjectFromString(string $json, $object)
@@ -155,6 +199,20 @@ class JsonMapper implements JsonMapperInterface
         }
 
         return $results;
+    }
+
+    public function mapToClassArrayFromString(string $json, string $class): array
+    {
+        if (! \class_exists($class)) {
+            throw TypeError::forArgument(__METHOD__, 'class-string', $class, 2, '$class');
+        }
+
+        $data = $this->decodeJsonString($json);
+        if (! \is_array($data)) {
+            throw new \RuntimeException('Provided string is not a json encoded array');
+        }
+
+        return $this->mapToClassArray($data, $class);
     }
 
     /** @return \stdClass|\stdClass[] */

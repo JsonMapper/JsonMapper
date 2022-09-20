@@ -52,6 +52,14 @@ class PropertyMapper
         PropertyMap $propertyMap,
         JsonMapperInterface $mapper
     ): void {
+        // If the type we are mapping has a last minute factory use it.
+        if ($this->classFactoryRegistry->hasFactory($object->getName())) {
+            $result = $this->classFactoryRegistry->create($object->getName(), $json);
+
+            $object->setObject($result);
+            return;
+        }
+
         $values = (array) $json;
         foreach ($values as $key => $value) {
             if (! $propertyMap->hasProperty($key)) {
