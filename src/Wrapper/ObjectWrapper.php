@@ -15,7 +15,7 @@ class ObjectWrapper
     /** @var \ReflectionClass|null */
     private $reflectedObject;
 
-    /** @param object|null &$object */
+    /** @param object|null $object */
     /** @param class-string|null $className */
     public function __construct($object = null, ?string $className = null)
     {
