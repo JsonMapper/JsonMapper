@@ -24,7 +24,7 @@ class FeatureSupportsUnionTypesTest extends TestCase
             /** @var int|float|string|bool */
             public $value;
         };
-        $json = (object) ['value' => (string) $value];
+        $json = (object) ['value' => $value];
 
         // Act
         $mapper->mapObject($json, $object);
@@ -45,7 +45,7 @@ class FeatureSupportsUnionTypesTest extends TestCase
             /** @var int[]|float[]|string[]|bool[] */
             public $values;
         };
-        $json = (object) ['values' => [(string) $value]];
+        $json = (object) ['values' => [$value]];
 
         // Act
         $mapper->mapObject($json, $object);
