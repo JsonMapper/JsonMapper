@@ -15,18 +15,23 @@ class ObjectWrapper
     /** @var \ReflectionClass|null */
     private $reflectedObject;
 
-    /** @param object|null $object */
-    /** @param class-string|null $className */
+    /**
+     * @param object|null $object
+     * @param class-string|null $className
+     */
     public function __construct($object = null, ?string $className = null)
     {
         if (\is_null($object) && \is_null($className)) {
-            throw new \Exception(); // @todo nice exception message
+            throw new \BadFunctionCallException('Either object or className parameter must be provided, both are null');
         }
         if (! \is_null($object) && ! \is_object($object)) {
             throw TypeError::forArgument(__METHOD__, 'object', $object, 1, '$object');
         }
         if (! \is_null($className) && ! \class_exists($className)) {
-            throw new \Exception(); // @todo nice exception message
+            throw new \UnexpectedValueException(sprintf(
+                'Argument 2 ($className) must be a valid class name, %s given',
+                $className
+            ));
         }
 
         $this->object = $object;
@@ -34,9 +39,10 @@ class ObjectWrapper
     }
 
     /** @param object|null $object */
-    public function setObject($object)
+    public function setObject($object): void
     {
         $this->object = $object;
+        $this->reflectedObject = null;
     }
 
     /** @return object|null */
