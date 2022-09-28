@@ -8,10 +8,12 @@ use JsonMapper\Builders\PropertyMapperBuilder;
 use JsonMapper\Dto\NamedMiddleware;
 use JsonMapper\Enums\TextNotation;
 use JsonMapper\Exception\BuilderException;
+use JsonMapper\Handler\FactoryRegistry;
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapperBuilder;
 use JsonMapper\Middleware\Attributes\Attributes;
 use JsonMapper\Middleware\CaseConversion;
+use JsonMapper\Middleware\Constructor\Constructor;
 use JsonMapper\Middleware\Debugger;
 use JsonMapper\Middleware\DocBlockAnnotations;
 use JsonMapper\Middleware\FinalCallback;
@@ -186,6 +188,22 @@ class JsonMapperBuilderTest extends TestCase
 
         self::assertCount(1, array_filter($instance->stack, static function (NamedMiddleware $middleware): bool {
             return $middleware->getMiddleware() instanceof FinalCallback;
+        }));
+    }
+
+    /** @covers \JsonMapper\JsonMapperBuilder */
+    public function testItCanBuildWithObjectConstructorMiddleware(): void
+    {
+        $registry = new FactoryRegistry();
+        /** @var JsonMapper $instance */
+        $instance = JsonMapperBuilder::new()
+            ->withJsonMapperClassName(JsonMapper::class)
+            ->withPropertyMapper(new PropertyMapper($registry))
+            ->withObjectConstructorMiddleware($registry)
+            ->build();
+
+        self::assertCount(1, array_filter($instance->stack, static function (NamedMiddleware $middleware): bool {
+            return $middleware->getMiddleware() instanceof Constructor;
         }));
     }
 }
