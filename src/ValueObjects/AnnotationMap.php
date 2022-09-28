@@ -48,6 +48,9 @@ class AnnotationMap
 
     public function getParam(string $paramName): string
     {
+        if (!$this->hasParam($paramName)) {
+            throw new \Exception("Annotation map doesnt contain param with name $paramName");
+        }
         return $this->params[$paramName];
     }
 

@@ -15,11 +15,11 @@ class AnnotationMapTest extends TestCase
     public function testGettersReturnConstructorValues(): void
     {
         $params = ['name' => 'string', 'age' => 'int'];
-        $property = new AnnotationMap('varName', $params, 'int');
+        $annotationMap = new AnnotationMap('varName', $params, 'int');
 
-        self::assertSame('varName', $property->getVar());
-        self::assertSame($params, $property->getParams());
-        self::assertSame('int', $property->getReturn());
+        self::assertSame('varName', $annotationMap->getVar());
+        self::assertSame($params, $annotationMap->getParams());
+        self::assertSame('int', $annotationMap->getReturn());
     }
 
     /**
@@ -27,11 +27,11 @@ class AnnotationMapTest extends TestCase
      */
     public function testGettersReturnConstructorValuesWithDefaults(): void
     {
-        $property = new AnnotationMap();
+        $annotationMap = new AnnotationMap();
 
-        self::assertFalse($property->hasVar());
-        self::assertEmpty($property->getParams());
-        self::assertFalse($property->hasReturn());
+        self::assertFalse($annotationMap->hasVar());
+        self::assertEmpty($annotationMap->getParams());
+        self::assertFalse($annotationMap->hasReturn());
     }
 
     /**
@@ -39,11 +39,11 @@ class AnnotationMapTest extends TestCase
      */
     public function testGetVarThrowsErrorWhenNoVarAvailable(): void
     {
-        $property = new AnnotationMap();
+        $annotationMap = new AnnotationMap();
 
-        self::assertFalse($property->hasVar());
+        self::assertFalse($annotationMap->hasVar());
         $this->expectException(\Exception::class);
-        $property->getVar();
+        $annotationMap->getVar();
     }
 
     /**
@@ -51,10 +51,47 @@ class AnnotationMapTest extends TestCase
      */
     public function testGetReturnThrowsErrorWhenNoReturnAvailable(): void
     {
-        $property = new AnnotationMap();
+        $annotationMap = new AnnotationMap();
 
-        self::assertFalse($property->hasReturn());
+        self::assertFalse($annotationMap->hasReturn());
         $this->expectException(\Exception::class);
-        $property->getReturn();
+        $annotationMap->getReturn();
+    }
+
+    /**
+     * @covers \JsonMapper\ValueObjects\AnnotationMap
+     */
+    public function testHasParamReturnsCorrectValues(): void
+    {
+        $params = ['name' => 'string', 'age' => 'int'];
+        $annotationMap = new AnnotationMap('varName', $params, 'int');
+
+        self::assertTrue($annotationMap->hasParam('name'));
+        self::assertTrue($annotationMap->hasParam('age'));
+        self::assertFalse($annotationMap->hasParam('email'));
+    }
+
+    /**
+     * @covers \JsonMapper\ValueObjects\AnnotationMap
+     */
+    public function testGetParamReturnsParamIfAvailable(): void
+    {
+        $params = ['name' => 'string', 'age' => 'int'];
+        $annotationMap = new AnnotationMap('varName', $params, 'int');
+
+        self::assertEquals($params['name'], $annotationMap->getParam('name'));
+        self::assertEquals($params['age'], $annotationMap->getParam('age'));
+    }
+
+    /**
+     * @covers \JsonMapper\ValueObjects\AnnotationMap
+     */
+    public function testGetParamThrowsExceptionWhenParamNotAvaiable(): void
+    {
+        $params = ['name' => 'string', 'age' => 'int'];
+        $annotationMap = new AnnotationMap('varName', $params, 'int');
+
+        $this->expectException(\Exception::class);
+        $annotationMap->getParam('email');
     }
 }
