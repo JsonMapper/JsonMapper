@@ -91,7 +91,7 @@ class DefaultFactory
                 $value = $this->mapValueToArrayOfObjects($type, $value);
             }
 
-            if ((is_string($value) || is_int($value)) && enum_exists($type)) {
+            if (PHP_VERSION_ID >= 80100 && (is_string($value) || is_int($value)) && enum_exists($type)) {
                 $value = $this->mapValueToEnum($type, $value);
             }
 
