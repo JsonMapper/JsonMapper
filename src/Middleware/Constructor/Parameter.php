@@ -15,9 +15,7 @@ class Parameter
     private $type;
     /** @var int */
     private $position;
-    /**
-     * @var mixed
-     */
+    /** @var mixeds */
     private $defaultValue;
 
     /** @param mixed $defaultValue */
