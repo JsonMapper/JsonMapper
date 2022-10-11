@@ -64,4 +64,3 @@ EOD;
         self::assertFalse($result->hasReturn());
     }
 }
-

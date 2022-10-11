@@ -190,7 +190,12 @@ class ConstructorTest extends TestCase
     {
         $propertyMap = new PropertyMap();
         $docBlock = new DocBlockAnnotations(new NullCache());
-        $docBlock->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $this->createMock(JsonMapperInterface::class));
+        $docBlock->handle(
+            new \stdClass(),
+            new ObjectWrapper($object),
+            $propertyMap,
+            $this->createMock(JsonMapperInterface::class)
+        );
 
         return $propertyMap;
     }
