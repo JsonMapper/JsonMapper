@@ -12,7 +12,7 @@ class Import
     /** @var string|null */
     private $alias;
 
-    public function __construct(string $import, ?string $alias)
+    public function __construct(string $import, ?string $alias = null)
     {
         $this->import = $import;
         $this->alias = $alias;
