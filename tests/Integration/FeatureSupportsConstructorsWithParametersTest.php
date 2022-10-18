@@ -19,7 +19,6 @@ class FeatureSupportsConstructorsWithParametersTest extends TestCase
     {
         $factoryRegistry = new FactoryRegistry();
         $mapper = JsonMapperBuilder::new()
-            ->withTypedPropertiesMiddleware()
             ->withDocBlockAnnotationsMiddleware()
             ->withObjectConstructorMiddleware($factoryRegistry)
             ->withPropertyMapper(new PropertyMapper($factoryRegistry))
