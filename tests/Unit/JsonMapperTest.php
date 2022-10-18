@@ -308,4 +308,50 @@ class JsonMapperTest extends TestCase
         ));
         $jsonMapper->mapArrayFromString('', '');
     }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testMapToClassThrowsExceptionOnNonExistingClass(): void
+    {
+        $jsonMapper = new JsonMapper();
+
+        $this->expectException(\TypeError::class);
+        $jsonMapper->mapToClass(new \stdClass(), 'NonExistingClass');
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testMapToClassCallsHandler(): void
+    {
+        $jsonMapper = new JsonMapper($this->handler);
+
+        $jsonMapper->mapToClass((object) [], \stdClass::class);
+
+        self::assertTrue($this->handler->isCalled());
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testMapToClassArrayThrowsExceptionOnNonExistingClass(): void
+    {
+        $jsonMapper = new JsonMapper();
+
+        $this->expectException(\TypeError::class);
+        $jsonMapper->mapToClassArray([], 'NonExistingClass');
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testMapToClassArrayCallsHandler(): void
+    {
+        $jsonMapper = new JsonMapper($this->handler);
+
+        $jsonMapper->mapToClassArray([(object) []], \stdClass::class);
+
+        self::assertTrue($this->handler->isCalled());
+    }
 }

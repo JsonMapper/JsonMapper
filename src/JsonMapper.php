@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace JsonMapper;
 
-use JsonException;
 use JsonMapper\Dto\NamedMiddleware;
 use JsonMapper\Exception\TypeError;
 use JsonMapper\ValueObjects\PropertyMap;
@@ -93,14 +92,13 @@ class JsonMapper implements JsonMapperInterface
     public function mapToClass(\stdClass $json, string $class)
     {
         if (! \class_exists($class)) {
-            throw new \Exception(); // @todo proper exception message
+            throw TypeError::forArgument(__METHOD__, 'class-string', $class, 2, '$class');
         }
 
         $propertyMap = new PropertyMap();
 
         $handler = $this->resolve();
-        $placeholder = new \stdClass(); // @todo remove placeholder
-        $wrapper = new ObjectWrapper($placeholder, $class);
+        $wrapper = new ObjectWrapper(null, $class);
         $handler($json, $wrapper, $propertyMap, $this);
 
         return $wrapper->getObject();
