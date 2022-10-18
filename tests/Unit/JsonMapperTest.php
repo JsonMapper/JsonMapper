@@ -380,6 +380,17 @@ class JsonMapperTest extends TestCase
     /**
      * @covers \JsonMapper\JsonMapper
      */
+    public function testMapToClassFromStringWithJsonArrayThrowsException(): void
+    {
+        $jsonMapper = new JsonMapper($this->handler);
+
+        $this->expectException(\RuntimeException::class);
+        $jsonMapper->mapToClassFromString('[]', \stdClass::class);
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
     public function testMapToClassFromStringCallsHandler(): void
     {
         $jsonMapper = new JsonMapper($this->handler);
@@ -409,6 +420,17 @@ class JsonMapperTest extends TestCase
 
         $this->expectException(\JsonException::class);
         $jsonMapper->mapToClassArrayFromString('{]', \stdClass::class);
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testMapToClassArrayFromStringWithJsonObjectThrowsException(): void
+    {
+        $jsonMapper = new JsonMapper($this->handler);
+
+        $this->expectException(\RuntimeException::class);
+        $jsonMapper->mapToClassArrayFromString('{}', \stdClass::class);
     }
 
     /**
