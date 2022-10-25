@@ -45,9 +45,12 @@ class ObjectWrapper
         $this->reflectedObject = null;
     }
 
-    /** @return object|null */
+    /** @return object */
     public function getObject()
     {
+        if (\is_null($this->object)) {
+            $this->object = $this->getReflectedObject()->newInstanceWithoutConstructor();
+        }
         return $this->object;
     }
 
