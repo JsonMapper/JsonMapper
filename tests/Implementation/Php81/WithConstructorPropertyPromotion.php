@@ -11,4 +11,9 @@ class WithConstructorPropertyPromotion
         private string $value,
     ) {
     }
+
+    public function getValue(): string
+    {
+        return $this->value;
+    }
 }

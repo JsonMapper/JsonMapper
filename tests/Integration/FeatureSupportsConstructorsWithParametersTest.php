@@ -50,13 +50,13 @@ class FeatureSupportsConstructorsWithParametersTest extends TestCase
             ->build();
 
         $json = (object) [
-            'name' => 'John Doe',
+            'value' => 'John Doe',
         ];
 
         $result = $mapper->mapToClass($json, WithConstructorPropertyPromotion::class);
 
         self::assertInstanceOf(WithConstructorPropertyPromotion::class, $result);
-        self::assertEquals($json->name, $result->name);
+        self::assertEquals($json->value, $result->getValue());
     }
 
 }
