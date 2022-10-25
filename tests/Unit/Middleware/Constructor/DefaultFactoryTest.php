@@ -7,7 +7,9 @@ namespace JsonMapper\Tests\Unit\Middleware\Constructor;
 use JsonMapper\Helpers\ScalarCaster;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\Constructor\DefaultFactory;
+use JsonMapper\Tests\Implementation\Popo;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 class DefaultFactoryTest extends TestCase
 {
@@ -154,5 +156,86 @@ class DefaultFactoryTest extends TestCase
         self::assertInstanceOf(get_class($class), $result);
         self::assertEquals($first, $result->getFirst());
         self::assertEquals($second, $result->getSecond());
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\Constructor\DefaultFactory
+     */
+    public function testDefaultFactoryCanHandleObjectWithConstructorWithOneArrayParameterHintedThroughDocBlock(): void
+    {
+        $first = [random_int(0, PHP_INT_MAX), random_int(0, PHP_INT_MAX)];
+        $class = new class {
+            /** @var int[] */
+            private $first;
+
+            /**
+             * @param int[] $first
+             */
+            public function __construct($first = [])
+            {
+                $this->first = $first;
+            }
+
+            public function getFirst(): array
+            {
+                return $this->first;
+            }
+        };
+        $sut = new DefaultFactory(
+            get_class($class),
+            (new \ReflectionClass($class))->getConstructor(),
+            $this->createMock(JsonMapperInterface::class),
+            new ScalarCaster()
+        );
+
+        $result = $sut->__invoke((object) ['first' => $first]);
+
+        self::assertInstanceOf(get_class($class), $result);
+        self::assertEquals($first, $result->getFirst());
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\Constructor\DefaultFactory
+     */
+    public function testDefaultFactoryCanHandleObjectWithConstructorWithOneObjectParameter(): void
+    {
+        $name = 'Jane Doe';
+        $class = new class {
+            /** @var ?Popo */
+            private $value;
+
+            public function __construct(?Popo $value = null)
+            {
+                $this->value = $value;
+            }
+
+            public function getValue(): ?Popo
+            {
+                return $this->value;
+            }
+        };
+        $mapper = $this->createMock(JsonMapperInterface::class);
+        $mapper->method('mapToClass')
+            ->with($this->isInstanceOf(\stdClass::class), Popo::class)
+            ->willReturnCallback(function(stdClass $data) {
+                $popo = new Popo();
+                $popo->name = isset($data->name) ? $data->name : null;
+                $popo->date = isset($data->date) ? $data->date : null;
+                $popo->notes = isset($data->notes) ? $data->notes : null;
+
+                return $popo;
+            });
+        $sut = new DefaultFactory(
+            get_class($class),
+            (new \ReflectionClass($class))->getConstructor(),
+            $mapper,
+            new ScalarCaster()
+        );
+
+        $result = $sut->__invoke((object) ['value' => (object) ['name' => $name]]);
+
+        self::assertInstanceOf(get_class($class), $result);
+        self::assertInstanceOf(Popo::class, $result->getValue());
+        self::assertEquals($name, $result->getValue()->name);
     }
 }

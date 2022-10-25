@@ -84,15 +84,15 @@ class DefaultFactory
             }
 
             if ($value instanceof \stdClass && class_exists($type)) {
-                $value = $this->mapValueToObject($type, $value);
+                $value =  $this->mapper->mapToClass($value, $type);
             }
 
             if (is_array($value) && $value[0] instanceof \stdClass && class_exists($type)) {
-                $value = $this->mapValueToArrayOfObjects($type, $value);
+                $value = $this->mapper->mapToClassArray($value, $type);
             }
 
             if (PHP_VERSION_ID >= 80100 && (is_string($value) || is_int($value)) && enum_exists($type)) {
-                $value = $this->mapValueToEnum($type, $value);
+                $value = call_user_func("{$type}::from", $value);
             }
 
             if (is_scalar($value) && gettype($value) !== $parameter->getType()) {
@@ -103,44 +103,6 @@ class DefaultFactory
         }
 
         return new $this->objectName(...$values);
-    }
-
-    /**
-     * @template T of object
-     * @param class-string<T> $type
-     * @return T
-     */
-    private function mapValueToObject(string $type, \stdClass $value)
-    {
-        $reflectedClass = new \ReflectionClass($type);
-        $reflectedClass->newInstanceWithoutConstructor();
-
-        return $this->mapper->mapObject($value, $reflectedClass->newInstanceWithoutConstructor());
-    }
-
-    /**
-     * @template T of object
-     * @param class-string<T> $type
-     * @param array<int, \stdClass> $value
-     * @return array<int, T>
-     */
-    private function mapValueToArrayOfObjects(string $type, array $value): array
-    {
-        $reflectedClass = new \ReflectionClass($type);
-        $reflectedClass->newInstanceWithoutConstructor();
-
-        return $this->mapper->mapArray($value, $reflectedClass->newInstanceWithoutConstructor());
-    }
-
-    /**
-     * @template T of object
-     * @param class-string<T> $type
-     * @param int|string $value
-     * @return T
-     */
-    private function mapValueToEnum(string $type, $value)
-    {
-        return call_user_func("{$type}::from", $value);
     }
 
     private function getAnnotationMap(ReflectionMethod $reflectedConstructor): AnnotationMap
