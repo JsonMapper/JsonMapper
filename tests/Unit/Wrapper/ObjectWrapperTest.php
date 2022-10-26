@@ -61,6 +61,17 @@ class ObjectWrapperTest extends TestCase
     /**
      * @covers \JsonMapper\Wrapper\ObjectWrapper
      */
+    public function testCanFetchInstanceIfObjectNotSet(): void
+    {
+        $object = new \stdClass();
+        $wrapper = new ObjectWrapper(null, \stdClass::class);
+
+        self::assertInstanceOf(\stdClass::class, $wrapper->getObject());
+    }
+
+    /**
+     * @covers \JsonMapper\Wrapper\ObjectWrapper
+     */
     public function testWrapsOriginalClassName(): void
     {
         $wrapper = new ObjectWrapper(null, \stdClass::class);
