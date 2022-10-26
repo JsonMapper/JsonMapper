@@ -60,6 +60,29 @@ class ConstructorTest extends TestCase
     /**
      * @covers \JsonMapper\Middleware\Constructor\Constructor
      */
+    public function testItCanHandleClassTwice(): void
+    {
+        $factoryRegistry = new FactoryRegistry();
+        $middleware = new Constructor($factoryRegistry);
+        $json = (object) ['name' => 'John Doe'];
+        $object = new class {
+
+            public function __construct(int $value = 0)
+            {
+            }
+        };
+        $propertyMap = new PropertyMap();
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle($json, new ObjectWrapper($object), $propertyMap, $jsonMapper);
+        $middleware->handle($json, new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertTrue($factoryRegistry->hasFactory(get_class($object)));
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\Constructor\Constructor
+     */
     public function testItCanHandleClassWithConstructorWithChildObject(): void
     {
         $factoryRegistry = new FactoryRegistry();

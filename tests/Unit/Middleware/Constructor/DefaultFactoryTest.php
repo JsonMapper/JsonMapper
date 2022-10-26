@@ -238,4 +238,54 @@ class DefaultFactoryTest extends TestCase
         self::assertInstanceOf(Popo::class, $result->getValue());
         self::assertEquals($name, $result->getValue()->name);
     }
+
+    /**
+     * @covers \JsonMapper\Middleware\Constructor\DefaultFactory
+     */
+    public function testDefaultFactoryCanHandleObjectWithConstructorWithArrayOfObjectParameter(): void
+    {
+        $name = 'Jane Doe';
+        $class = new class {
+            /** @var Popo[] */
+            private $value;
+
+            /** @param Popo[] $value */
+            public function __construct(array $value = [])
+            {
+                $this->value = $value;
+            }
+
+            /** @return array<int, Popo> */
+            public function getValue(): array
+            {
+                return $this->value;
+            }
+        };
+        $mapper = $this->createMock(JsonMapperInterface::class);
+        $mapper->method('mapToClassArray')
+            ->with($this->isType('array'), Popo::class)
+            ->willReturnCallback(function(array $data) {
+                return array_map(function($d) {
+                    $popo = new Popo();
+                    $popo->name = isset($d->name) ? $d->name : null;
+                    $popo->date = isset($d->date) ? $d->date : null;
+                    $popo->notes = isset($d->notes) ? $d->notes : null;
+
+                    return $popo;
+                }, $data);
+            });
+        $sut = new DefaultFactory(
+            get_class($class),
+            (new \ReflectionClass($class))->getConstructor(),
+            $mapper,
+            new ScalarCaster()
+        );
+
+        $result = $sut->__invoke((object) ['value' => [(object) ['name' => $name], (object) ['name' => strrev($name)]]]);
+
+        self::assertInstanceOf(get_class($class), $result);
+        self::assertContainsOnlyInstancesOf(Popo::class, $result->getValue());
+        self::assertEquals($name, $result->getValue()[0]->name);
+        self::assertEquals(strrev($name), $result->getValue()[1]->name);
+    }
 }
