@@ -66,7 +66,6 @@ class ConstructorTest extends TestCase
         $middleware = new Constructor($factoryRegistry);
         $json = (object) ['name' => 'John Doe'];
         $object = new class {
-
             public function __construct(int $value = 0)
             {
             }

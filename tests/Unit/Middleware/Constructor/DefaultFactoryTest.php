@@ -217,7 +217,7 @@ class DefaultFactoryTest extends TestCase
         $mapper = $this->createMock(JsonMapperInterface::class);
         $mapper->method('mapToClass')
             ->with($this->isInstanceOf(\stdClass::class), Popo::class)
-            ->willReturnCallback(function(stdClass $data) {
+            ->willReturnCallback(function (stdClass $data) {
                 $popo = new Popo();
                 $popo->name = isset($data->name) ? $data->name : null;
                 $popo->date = isset($data->date) ? $data->date : null;
@@ -264,8 +264,8 @@ class DefaultFactoryTest extends TestCase
         $mapper = $this->createMock(JsonMapperInterface::class);
         $mapper->method('mapToClassArray')
             ->with($this->isType('array'), Popo::class)
-            ->willReturnCallback(function(array $data) {
-                return array_map(function($d) {
+            ->willReturnCallback(function (array $data) {
+                return array_map(function ($d) {
                     $popo = new Popo();
                     $popo->name = isset($d->name) ? $d->name : null;
                     $popo->date = isset($d->date) ? $d->date : null;
@@ -281,7 +281,11 @@ class DefaultFactoryTest extends TestCase
             new ScalarCaster()
         );
 
-        $result = $sut->__invoke((object) ['value' => [(object) ['name' => $name], (object) ['name' => strrev($name)]]]);
+        $result = $sut->__invoke(
+            (object) [
+                'value' => [(object) ['name' => $name], (object) ['name' => strrev($name)]]
+            ]
+        );
 
         self::assertInstanceOf(get_class($class), $result);
         self::assertContainsOnlyInstancesOf(Popo::class, $result->getValue());

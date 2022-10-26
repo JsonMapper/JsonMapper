@@ -58,5 +58,4 @@ class FeatureSupportsConstructorsWithParametersTest extends TestCase
         self::assertInstanceOf(WithConstructorPropertyPromotion::class, $result);
         self::assertEquals($json->value, $result->getValue());
     }
-
 }

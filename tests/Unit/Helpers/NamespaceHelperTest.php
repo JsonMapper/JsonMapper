@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit\Helpers;
 
-
 use JsonMapper\Helpers\NamespaceHelper;
 use JsonMapper\Parser\Import;
 use PHPUnit\Framework\TestCase;
@@ -70,5 +69,4 @@ class NamespaceHelperTest extends TestCase
             'mixed' => ['mixed'],
         ];
     }
-
 }
