@@ -7,6 +7,8 @@ namespace JsonMapper\Tests\Unit\Middleware\Constructor;
 use JsonMapper\Helpers\ScalarCaster;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\Constructor\DefaultFactory;
+use JsonMapper\Tests\Implementation\Php81\BlogPostWithConstructor;
+use JsonMapper\Tests\Implementation\Php81\Status;
 use JsonMapper\Tests\Implementation\Popo;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -291,5 +293,31 @@ class DefaultFactoryTest extends TestCase
         self::assertContainsOnlyInstancesOf(Popo::class, $result->getValue());
         self::assertEquals($name, $result->getValue()[0]->name);
         self::assertEquals(strrev($name), $result->getValue()[1]->name);
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\Constructor\DefaultFactory
+     * @requires PHP >= 8.1
+     */
+    public function testDefaultFactoryCanHandleObjectWithConstructorWithEnumParameter(): void
+    {
+        $name = 'Jane Doe';
+        $mapper = $this->createMock(JsonMapperInterface::class);
+
+        $sut = new DefaultFactory(
+            BlogPostWithConstructor::class,
+            (new \ReflectionClass(BlogPostWithConstructor::class))->getConstructor(),
+            $mapper,
+            new ScalarCaster()
+        );
+
+        $result = $sut->__invoke(
+            (object) [
+                'status' => 'draft'
+            ]
+        );
+
+        self::assertInstanceOf(BlogPostWithConstructor::class, $result);
+        self::assertEquals(Status::DRAFT, $result->getStatus());
     }
 }
