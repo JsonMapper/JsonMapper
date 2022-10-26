@@ -17,11 +17,19 @@ class ValueTransformationTest extends TestCase
     /**
      * @covers \JsonMapper\Middleware\ValueTransformation
      */
-    public function testCanBeConstructed(): void
+    public function testWithFunctionAsString(): void
     {
-        $this->expectNotToPerformAssertions();
+        $sut = new ValueTransformation('strtoupper');
 
-        new ValueTransformation('strtoupper');
+        $sut->handle(
+            $json = (object) [
+                'name' => 'small',
+            ],
+            new ObjectWrapper(new Popo()),
+            new PropertyMap(),
+            $this->createMock(JsonMapperInterface::class));
+
+        self::assertEquals('SMALL', $json->name);
     }
 
     /**
