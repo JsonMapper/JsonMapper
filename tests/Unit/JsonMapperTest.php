@@ -308,4 +308,140 @@ class JsonMapperTest extends TestCase
         ));
         $jsonMapper->mapArrayFromString('', '');
     }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testMapToClassThrowsExceptionOnNonExistingClass(): void
+    {
+        $jsonMapper = new JsonMapper($this->handler);
+
+        $this->expectException(\TypeError::class);
+        $jsonMapper->mapToClass(new \stdClass(), 'NonExistingClass');
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testMapToClassCallsHandler(): void
+    {
+        $jsonMapper = new JsonMapper($this->handler);
+
+        $jsonMapper->mapToClass((object) [], \stdClass::class);
+
+        self::assertTrue($this->handler->isCalled());
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testMapToClassArrayThrowsExceptionOnNonExistingClass(): void
+    {
+        $jsonMapper = new JsonMapper($this->handler);
+
+        $this->expectException(\TypeError::class);
+        $jsonMapper->mapToClassArray([], 'NonExistingClass');
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testMapToClassArrayCallsHandler(): void
+    {
+        $jsonMapper = new JsonMapper($this->handler);
+
+        $jsonMapper->mapToClassArray([(object) []], \stdClass::class);
+
+        self::assertTrue($this->handler->isCalled());
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testMapToClassFromStringThrowsExceptionOnNonExistingClass(): void
+    {
+        $jsonMapper = new JsonMapper($this->handler);
+
+        $this->expectException(\TypeError::class);
+        $jsonMapper->mapToClassFromString('', 'NonExistingClass');
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testMapToClassFromStringWithInvalidJsonThrowsException(): void
+    {
+        $jsonMapper = new JsonMapper($this->handler);
+
+        $this->expectException(\JsonException::class);
+        $jsonMapper->mapToClassFromString('{]', \stdClass::class);
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testMapToClassFromStringWithJsonArrayThrowsException(): void
+    {
+        $jsonMapper = new JsonMapper($this->handler);
+
+        $this->expectException(\RuntimeException::class);
+        $jsonMapper->mapToClassFromString('[]', \stdClass::class);
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testMapToClassFromStringCallsHandler(): void
+    {
+        $jsonMapper = new JsonMapper($this->handler);
+
+        $jsonMapper->mapToClassFromString('{}', \stdClass::class);
+
+        self::assertTrue($this->handler->isCalled());
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testMapToClassArrayFromStringThrowsExceptionOnNonExistingClass(): void
+    {
+        $jsonMapper = new JsonMapper($this->handler);
+
+        $this->expectException(\TypeError::class);
+        $jsonMapper->mapToClassArrayFromString('', 'NonExistingClass');
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testMapToClassArrayFromStringWithInvalidJsonThrowsException(): void
+    {
+        $jsonMapper = new JsonMapper($this->handler);
+
+        $this->expectException(\JsonException::class);
+        $jsonMapper->mapToClassArrayFromString('{]', \stdClass::class);
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testMapToClassArrayFromStringWithJsonObjectThrowsException(): void
+    {
+        $jsonMapper = new JsonMapper($this->handler);
+
+        $this->expectException(\RuntimeException::class);
+        $jsonMapper->mapToClassArrayFromString('{}', \stdClass::class);
+    }
+
+    /**
+     * @covers \JsonMapper\JsonMapper
+     */
+    public function testMapToClassArrayFromStringCallsHandler(): void
+    {
+        $jsonMapper = new JsonMapper($this->handler);
+
+        $jsonMapper->mapToClassArrayFromString('[{}]', \stdClass::class);
+
+        self::assertTrue($this->handler->isCalled());
+    }
 }

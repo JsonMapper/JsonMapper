@@ -29,10 +29,24 @@ interface JsonMapperInterface
 
     /**
      * @template T of object
+     * @psalm-param class-string<T> $class
+     * @return T
+     */
+    public function mapToClass(\stdClass $json, string $class);
+
+    /**
+     * @template T of object
      * @psalm-param T $object
      * @return array<int, T>
      */
     public function mapArray(array $json, $object): array;
+
+    /**
+     * @template T of object
+     * @psalm-param class-string<T> $class
+     * @return array<int, T>
+     */
+    public function mapToClassArray(array $json, string $class): array;
 
     /**
      * @template T of object
@@ -43,8 +57,22 @@ interface JsonMapperInterface
 
     /**
      * @template T of object
+     * @psalm-param class-string<T> $class
+     * @return T
+     */
+    public function mapToClassFromString(string $json, string $class);
+
+    /**
+     * @template T of object
      * @psalm-param T $object
-     *  @return array<int, T>
+     * @return array<int, T>
      */
     public function mapArrayFromString(string $json, $object): array;
+
+    /**
+     * @template T of object
+     * @psalm-param class-string<T> $class
+     * @return array<int, T>
+     */
+    public function mapToClassArrayFromString(string $json, string $class): array;
 }

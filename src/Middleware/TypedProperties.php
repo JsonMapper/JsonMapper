@@ -51,7 +51,10 @@ class TypedProperties extends AbstractMiddleware
                 $propertyType = $isArray ? 'mixed' : $type->getName();
                 $property = PropertyBuilder::new()
                     ->setName($reflectionProperty->getName())
-                    ->addType($propertyType, $isArray ? ArrayInformation::singleDimension() : ArrayInformation::notAnArray())
+                    ->addType(
+                        $propertyType,
+                        $isArray ? ArrayInformation::singleDimension() : ArrayInformation::notAnArray()
+                    )
                     ->setIsNullable($type->allowsNull() || ((!$isArray) && $propertyType === 'mixed'))
                     ->setVisibility(Visibility::fromReflectionProperty($reflectionProperty))
                     ->build();
