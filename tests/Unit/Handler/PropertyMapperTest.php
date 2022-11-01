@@ -62,7 +62,10 @@ class PropertyMapperTest extends TestCase
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
         $json = (object) ['value' => $value];
-        $object = new \stdClass();
+        $object = new class {
+            /** @var mixed */
+            public $value;
+        };
         $wrapped = new ObjectWrapper($object);
         $propertyMapper = new PropertyMapper();
 
@@ -86,7 +89,10 @@ class PropertyMapperTest extends TestCase
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
         $json = (object) ['createdAt' => $now->format('Y-m-d\TH:i:s.uP')];
-        $object = new \stdClass();
+        $object = new class {
+            /** @var \DateTimeImmutable */
+            public $createdAt;
+        };
         $wrapped = new ObjectWrapper($object);
         $propertyMapper = new PropertyMapper();
 
@@ -141,7 +147,10 @@ class PropertyMapperTest extends TestCase
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($fileProperty);
         $json = (object) ['ids' => [1, 2, 3]];
-        $object = new \stdClass();
+        $object = new class {
+            /** @var int[] */
+            public $ids;
+        };
         $wrapped = new ObjectWrapper($object);
         $propertyMapper = new PropertyMapper();
 
@@ -165,7 +174,10 @@ class PropertyMapperTest extends TestCase
         $propertyMap->addProperty($fileProperty);
         $value = [1 => [2, 3], 2 => [2, 3], 3 => [2, 3]];
         $json = (object) ['ids' => $value];
-        $object = new \stdClass();
+        $object = new class {
+            /** @var int[][] */
+            public $ids;
+        };
         $wrapped = new ObjectWrapper($object);
         $propertyMapper = new PropertyMapper();
 
@@ -234,7 +246,10 @@ class PropertyMapperTest extends TestCase
                 (object) ['name' => __FUNCTION__]
             ],
         ]];
-        $object = new \stdClass();
+        $object = new class {
+            /** @var SimpleObject[]  */
+            public $children;
+        };
         $wrapped = new ObjectWrapper($object);
         $propertyMapper = new PropertyMapper();
 
@@ -530,7 +545,10 @@ class PropertyMapperTest extends TestCase
         $propertyMap->addProperty($property);
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
         $json = (object) ['value' => $value];
-        $object = new \stdClass();
+        $object = new class {
+            /** @var int|double|float|string|bool */
+            public $value;
+        };
         $wrapped = new ObjectWrapper($object);
         $propertyMapper = new PropertyMapper();
 
@@ -558,8 +576,11 @@ class PropertyMapperTest extends TestCase
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
-        $json = (object) ['values' => [(string) $value]];
-        $object = new \stdClass();
+        $json = (object) ['values' => [$value]];
+        $object = new class {
+            /** @var int[]|float[]|string[]|bool[] */
+            public $values;
+        };
         $wrapped = new ObjectWrapper($object);
         $propertyMapper = new PropertyMapper();
 
@@ -585,7 +606,10 @@ class PropertyMapperTest extends TestCase
         $propertyMap->addProperty($property);
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
         $json = (object) ['moment' => $now->format('Y-m-d\TH:i:s.uP')];
-        $object = new \stdClass();
+        $object = new class {
+            /** @var int[]|\DateTime[] */
+            public $moment;
+        };
         $wrapped = new ObjectWrapper($object);
         $propertyMapper = new PropertyMapper();
 
@@ -609,7 +633,10 @@ class PropertyMapperTest extends TestCase
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
         $json = (object) ['user' => (object) ['id' => 42, 'name' => 'John Doe']];
-        $object = new \stdClass();
+        $object = new class {
+            /** @var User|Popo */
+            public $user;
+        };
         $wrapped = new ObjectWrapper($object);
         $propertyMapper = new PropertyMapper();
         $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
@@ -635,7 +662,10 @@ class PropertyMapperTest extends TestCase
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
         $json = (object) ['users' => [0 => (object) ['id' => 42, 'name' => 'John Doe']]];
-        $object = new \stdClass();
+        $object = new class {
+            /** @var User[]|Popo[] */
+            public $users;
+        };
         $wrapped = new ObjectWrapper($object);
         $propertyMapper = new PropertyMapper();
         $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
@@ -659,7 +689,9 @@ class PropertyMapperTest extends TestCase
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
         $json = (object) ['id' => 42];
-        $object = new \stdClass();
+        $object = new class {
+            public $id;
+        };
         $wrapped = new ObjectWrapper($object);
         $propertyMapper = new PropertyMapper();
         $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));
@@ -896,7 +928,10 @@ class PropertyMapperTest extends TestCase
         $propertyMap = new PropertyMap();
         $propertyMap->addProperty($property);
         $json = (object) ['value' => []];
-        $object = new \stdClass();
+        $object = new class {
+            /** @var string|string[] */
+            public $value;
+        };
         $wrapped = new ObjectWrapper($object);
         $propertyMapper = new PropertyMapper();
         $jsonMapper = (new JsonMapperFactory())->create($propertyMapper, new DocBlockAnnotations(new NullCache()));

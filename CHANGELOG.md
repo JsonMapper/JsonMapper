@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.14.0] - 2022-11-01
+### Added 
+- Constructor middleware; Add support for mapping to class name  [PR#141](https://github.com/JsonMapper/JsonMapper/pull/141)
+
 ## [2.13.0] - 2022-08-17
 ### Added
 - Support multi-dimensional array notation [PR#137](https://github.com/JsonMapper/JsonMapper/pull/137)
