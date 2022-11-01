@@ -8,6 +8,8 @@ use JsonMapper\Handler\FactoryRegistry;
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapperBuilder;
 use JsonMapper\Tests\Implementation\Php81\WithConstructorPropertyPromotion;
+use JsonMapper\Tests\Implementation\Php81\WithConstructorReadOnlyPropertyPromotion;
+use JsonMapper\Tests\Implementation\Php81\WrapperWithConstructorReadOnlyPropertyPromotion;
 use JsonMapper\Tests\Implementation\PopoWrapperWithConstructor;
 use PHPUnit\Framework\TestCase;
 
@@ -57,5 +59,51 @@ class FeatureSupportsConstructorsWithParametersTest extends TestCase
 
         self::assertInstanceOf(WithConstructorPropertyPromotion::class, $result);
         self::assertEquals($json->value, $result->getValue());
+    }
+
+    /**
+     * @requires PHP >= 8.1
+     */
+    public function testCanHandleCustomConstructorsWithReadonlyPropertyPromotion(): void
+    {
+        $factoryRegistry = new FactoryRegistry();
+        $mapper = JsonMapperBuilder::new()
+            ->withDocBlockAnnotationsMiddleware()
+            ->withObjectConstructorMiddleware($factoryRegistry)
+            ->withPropertyMapper(new PropertyMapper($factoryRegistry))
+            ->build();
+
+        $json = (object) [
+            'value' => 'John Doe',
+        ];
+
+        $result = $mapper->mapToClass($json, WithConstructorReadOnlyPropertyPromotion::class);
+
+        self::assertInstanceOf(WithConstructorReadOnlyPropertyPromotion::class, $result);
+        self::assertEquals($json->value, $result->value);
+    }
+
+    /**
+     * @requires PHP >= 8.1
+     */
+    public function testCanHandleCustomConstructorsWithNestedCustomConstructorReadonlyPropertyPromotion(): void
+    {
+        $factoryRegistry = new FactoryRegistry();
+        $mapper = JsonMapperBuilder::new()
+            ->withDocBlockAnnotationsMiddleware()
+            ->withObjectConstructorMiddleware($factoryRegistry)
+            ->withPropertyMapper(new PropertyMapper($factoryRegistry))
+            ->build();
+
+        $json = (object) [
+            'value' => (object) [
+                'value' => 'John Doe',
+            ],
+        ];
+
+        $result = $mapper->mapToClass($json, WrapperWithConstructorReadOnlyPropertyPromotion::class);
+
+        self::assertInstanceOf(WrapperWithConstructorReadOnlyPropertyPromotion::class, $result);
+        self::assertEquals($json->value->value, $result->value->value);
     }
 }
