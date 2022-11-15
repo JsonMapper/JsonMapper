@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JsonMapper\Middleware\Constructor;
 
 use JsonMapper\Enums\ScalarType;
+use JsonMapper\Handler\FactoryRegistry;
 use JsonMapper\Helpers\DocBlockHelper;
 use JsonMapper\Helpers\IScalarCaster;
 use JsonMapper\Helpers\NamespaceHelper;
@@ -28,11 +29,13 @@ class DefaultFactory
         string $objectName,
         ReflectionMethod $reflectedConstructor,
         JsonMapperInterface $mapper,
-        IScalarCaster $scalarCaster
+        IScalarCaster $scalarCaster,
+        FactoryRegistry $classFactoryRegistry
     ) {
         $this->objectName = $objectName;
         $this->mapper = $mapper;
         $this->scalarCaster = $scalarCaster;
+        $this->classFactoryRegistry = $classFactoryRegistry;
 
         $annotationMap = $this->getAnnotationMap($reflectedConstructor);
 
@@ -72,6 +75,7 @@ class DefaultFactory
 
     public function __invoke(\stdClass $json)
     {
+        // @todo Basically we are reproducing the logic which is inside the PropertyMapper::mapPropertyValue function
         $values = [];
 
         foreach ($this->parameters as $parameter) {
@@ -91,11 +95,15 @@ class DefaultFactory
                 $value = $this->mapper->mapToClassArray($value, $type);
             }
 
+            if ($this->classFactoryRegistry->hasFactory($type)) {
+                $value =  $this->classFactoryRegistry->create($type, $value);
+            }
+
             if (PHP_VERSION_ID >= 80100 && (is_string($value) || is_int($value)) && enum_exists($type)) {
                 $value = call_user_func("{$type}::from", $value);
             }
 
-            if (is_scalar($value) && gettype($value) !== $parameter->getType()) {
+            if (is_scalar($value) && gettype($value) !== $parameter->getType() && ScalarType::isValid($parameter->getType())) {
                 $value = $this->scalarCaster->cast(new ScalarType($parameter->getType()), $value);
             }
 

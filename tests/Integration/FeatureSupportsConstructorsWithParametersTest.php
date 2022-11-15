@@ -8,6 +8,7 @@ use JsonMapper\Handler\FactoryRegistry;
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapperBuilder;
 use JsonMapper\Tests\Implementation\Php81\WithConstructorPropertyPromotion;
+use JsonMapper\Tests\Implementation\Php81\WithConstructorReadOnlyDateTimePropertyPromotion;
 use JsonMapper\Tests\Implementation\Php81\WithConstructorReadOnlyPropertyPromotion;
 use JsonMapper\Tests\Implementation\Php81\WrapperWithConstructorReadOnlyPropertyPromotion;
 use JsonMapper\Tests\Implementation\PopoWrapperWithConstructor;
@@ -105,5 +106,27 @@ class FeatureSupportsConstructorsWithParametersTest extends TestCase
 
         self::assertInstanceOf(WrapperWithConstructorReadOnlyPropertyPromotion::class, $result);
         self::assertEquals($json->value->value, $result->value->value);
+    }
+
+    /**
+     * @requires PHP >= 8.1
+     * @throws \JsonException
+     */
+    public function testCanHandleCustomConstructorsWithReadonlyDateTimePropertyPromotion(): void
+    {
+        $factoryRegistry = FactoryRegistry::withNativePhpClassesAdded();
+        $jsonMapper = JsonMapperBuilder::new()
+            ->withDocBlockAnnotationsMiddleware()
+            ->withObjectConstructorMiddleware($factoryRegistry)
+            ->withPropertyMapper(new PropertyMapper($factoryRegistry))
+            ->build();
+        $json = (object) [
+            'date' => '1987-10-03T14:14:32+01:00',
+        ];
+
+        $result = $jsonMapper->mapToClass($json, WithConstructorReadOnlyDateTimePropertyPromotion::class);
+
+        self::assertInstanceOf(WithConstructorReadOnlyDateTimePropertyPromotion::class, $result);
+        self::assertInstanceOf(\DateTime::class, $result->date);
     }
 }
