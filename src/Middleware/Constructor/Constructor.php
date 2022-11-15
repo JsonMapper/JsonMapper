@@ -42,8 +42,9 @@ class Constructor extends AbstractMiddleware
                 $object->getName(),
                 $reflectedConstructor,
                 $mapper,
-                new ScalarCaster()
-            ) // @TODO Copy current caster ??
+                new ScalarCaster(), // @TODO Copy current caster ??
+                $this->factoryRegistry
+            )
         );
     }
 }

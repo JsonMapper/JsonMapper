@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit\Middleware\Constructor;
 
+use JsonMapper\Handler\FactoryRegistry;
 use JsonMapper\Helpers\ScalarCaster;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\Constructor\DefaultFactory;
 use JsonMapper\Tests\Implementation\Php81\BlogPostWithConstructor;
 use JsonMapper\Tests\Implementation\Php81\Status;
+use JsonMapper\Tests\Implementation\Php81\WithConstructorReadOnlyDateTimePropertyPromotion;
 use JsonMapper\Tests\Implementation\Popo;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -29,7 +31,8 @@ class DefaultFactoryTest extends TestCase
             get_class($class),
             (new \ReflectionClass($class))->getConstructor(),
             $this->createMock(JsonMapperInterface::class),
-            new ScalarCaster()
+            new ScalarCaster(),
+            new FactoryRegistry()
         );
 
         $result = $sut->__invoke(new \stdClass());
@@ -61,7 +64,8 @@ class DefaultFactoryTest extends TestCase
             get_class($class),
             (new \ReflectionClass($class))->getConstructor(),
             $this->createMock(JsonMapperInterface::class),
-            new ScalarCaster()
+            new ScalarCaster(),
+            new FactoryRegistry()
         );
 
         $result = $sut->__invoke((object) ['value' => $value]);
@@ -103,7 +107,8 @@ class DefaultFactoryTest extends TestCase
             get_class($class),
             (new \ReflectionClass($class))->getConstructor(),
             $this->createMock(JsonMapperInterface::class),
-            new ScalarCaster()
+            new ScalarCaster(),
+            new FactoryRegistry()
         );
 
         $result = $sut->__invoke((object) ['second' => $second, 'first' => $first]);
@@ -150,7 +155,8 @@ class DefaultFactoryTest extends TestCase
             get_class($class),
             (new \ReflectionClass($class))->getConstructor(),
             $this->createMock(JsonMapperInterface::class),
-            new ScalarCaster()
+            new ScalarCaster(),
+            new FactoryRegistry()
         );
 
         $result = $sut->__invoke((object) ['second' => $second, 'first' => $first]);
@@ -187,7 +193,8 @@ class DefaultFactoryTest extends TestCase
             get_class($class),
             (new \ReflectionClass($class))->getConstructor(),
             $this->createMock(JsonMapperInterface::class),
-            new ScalarCaster()
+            new ScalarCaster(),
+            new FactoryRegistry()
         );
 
         $result = $sut->__invoke((object) ['first' => $first]);
@@ -231,7 +238,8 @@ class DefaultFactoryTest extends TestCase
             get_class($class),
             (new \ReflectionClass($class))->getConstructor(),
             $mapper,
-            new ScalarCaster()
+            new ScalarCaster(),
+            new FactoryRegistry()
         );
 
         $result = $sut->__invoke((object) ['value' => (object) ['name' => $name]]);
@@ -280,7 +288,8 @@ class DefaultFactoryTest extends TestCase
             get_class($class),
             (new \ReflectionClass($class))->getConstructor(),
             $mapper,
-            new ScalarCaster()
+            new ScalarCaster(),
+            new FactoryRegistry()
         );
 
         $result = $sut->__invoke(
@@ -308,7 +317,8 @@ class DefaultFactoryTest extends TestCase
             BlogPostWithConstructor::class,
             (new \ReflectionClass(BlogPostWithConstructor::class))->getConstructor(),
             $mapper,
-            new ScalarCaster()
+            new ScalarCaster(),
+            new FactoryRegistry()
         );
 
         $result = $sut->__invoke(
@@ -319,5 +329,32 @@ class DefaultFactoryTest extends TestCase
 
         self::assertInstanceOf(BlogPostWithConstructor::class, $result);
         self::assertEquals(Status::DRAFT, $result->getStatus());
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\Constructor\DefaultFactory
+     * @requires PHP >= 8.1
+     */
+    public function testDefaultFactoryCanHandleObjectWithConstructorWithNativeTypeParameter(): void
+    {
+        $date = new \DateTimeImmutable("today");
+        $mapper = $this->createMock(JsonMapperInterface::class);
+
+        $sut = new DefaultFactory(
+            WithConstructorReadOnlyDateTimePropertyPromotion::class,
+            (new \ReflectionClass(WithConstructorReadOnlyDateTimePropertyPromotion::class))->getConstructor(),
+            $mapper,
+            new ScalarCaster(),
+            FactoryRegistry::withNativePhpClassesAdded()
+        );
+
+        $result = $sut->__invoke(
+            (object) [
+                'date' => $date->format('Y-m-d H:i:s'),
+            ]
+        );
+
+        self::assertInstanceOf(WithConstructorReadOnlyDateTimePropertyPromotion::class, $result);
+        self::assertEquals($date, $result->date);
     }
 }

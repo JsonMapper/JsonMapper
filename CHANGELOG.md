@@ -6,9 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.14.1] - 2022-11-15
+### Fixed
+- Cannot map to native php types using constructor middleware [PR#144](https://github.com/JsonMapper/JsonMapper/pull/144). Thanks to [template-provider](https://github.com/template-provider) for reporting the issue.
+
 ## [2.14.0] - 2022-11-01
 ### Added 
-- Constructor middleware; Add support for mapping to class name  [PR#141](https://github.com/JsonMapper/JsonMapper/pull/141)
+- Constructor middleware; Add support for mapping to class name [PR#141](https://github.com/JsonMapper/JsonMapper/pull/141)
 
 ## [2.13.0] - 2022-08-17
 ### Added
