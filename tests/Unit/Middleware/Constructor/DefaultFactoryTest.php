@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit\Middleware\Constructor;
 
+use JsonMapper\Handler\FactoryRegistry;
 use JsonMapper\Helpers\ScalarCaster;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\Constructor\DefaultFactory;
@@ -29,7 +30,8 @@ class DefaultFactoryTest extends TestCase
             get_class($class),
             (new \ReflectionClass($class))->getConstructor(),
             $this->createMock(JsonMapperInterface::class),
-            new ScalarCaster()
+            new ScalarCaster(),
+            new FactoryRegistry()
         );
 
         $result = $sut->__invoke(new \stdClass());
@@ -61,7 +63,8 @@ class DefaultFactoryTest extends TestCase
             get_class($class),
             (new \ReflectionClass($class))->getConstructor(),
             $this->createMock(JsonMapperInterface::class),
-            new ScalarCaster()
+            new ScalarCaster(),
+            new FactoryRegistry()
         );
 
         $result = $sut->__invoke((object) ['value' => $value]);
@@ -103,7 +106,8 @@ class DefaultFactoryTest extends TestCase
             get_class($class),
             (new \ReflectionClass($class))->getConstructor(),
             $this->createMock(JsonMapperInterface::class),
-            new ScalarCaster()
+            new ScalarCaster(),
+            new FactoryRegistry()
         );
 
         $result = $sut->__invoke((object) ['second' => $second, 'first' => $first]);
@@ -150,7 +154,8 @@ class DefaultFactoryTest extends TestCase
             get_class($class),
             (new \ReflectionClass($class))->getConstructor(),
             $this->createMock(JsonMapperInterface::class),
-            new ScalarCaster()
+            new ScalarCaster(),
+            new FactoryRegistry()
         );
 
         $result = $sut->__invoke((object) ['second' => $second, 'first' => $first]);
@@ -187,7 +192,8 @@ class DefaultFactoryTest extends TestCase
             get_class($class),
             (new \ReflectionClass($class))->getConstructor(),
             $this->createMock(JsonMapperInterface::class),
-            new ScalarCaster()
+            new ScalarCaster(),
+            new FactoryRegistry()
         );
 
         $result = $sut->__invoke((object) ['first' => $first]);
@@ -231,7 +237,8 @@ class DefaultFactoryTest extends TestCase
             get_class($class),
             (new \ReflectionClass($class))->getConstructor(),
             $mapper,
-            new ScalarCaster()
+            new ScalarCaster(),
+            new FactoryRegistry()
         );
 
         $result = $sut->__invoke((object) ['value' => (object) ['name' => $name]]);
@@ -280,7 +287,8 @@ class DefaultFactoryTest extends TestCase
             get_class($class),
             (new \ReflectionClass($class))->getConstructor(),
             $mapper,
-            new ScalarCaster()
+            new ScalarCaster(),
+            new FactoryRegistry()
         );
 
         $result = $sut->__invoke(
@@ -308,7 +316,8 @@ class DefaultFactoryTest extends TestCase
             BlogPostWithConstructor::class,
             (new \ReflectionClass(BlogPostWithConstructor::class))->getConstructor(),
             $mapper,
-            new ScalarCaster()
+            new ScalarCaster(),
+            new FactoryRegistry()
         );
 
         $result = $sut->__invoke(
