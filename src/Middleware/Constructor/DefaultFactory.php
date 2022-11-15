@@ -87,6 +87,10 @@ class DefaultFactory
                 $value = $json->$name;
             }
 
+            if ($this->classFactoryRegistry->hasFactory($type)) {
+                $value =  $this->classFactoryRegistry->create($type, $value);
+            }
+
             if ($value instanceof \stdClass && class_exists($type)) {
                 $value =  $this->mapper->mapToClass($value, $type);
             }
@@ -95,9 +99,6 @@ class DefaultFactory
                 $value = $this->mapper->mapToClassArray($value, $type);
             }
 
-            if ($this->classFactoryRegistry->hasFactory($type)) {
-                $value =  $this->classFactoryRegistry->create($type, $value);
-            }
 
             if (PHP_VERSION_ID >= 80100 && (is_string($value) || is_int($value)) && enum_exists($type)) {
                 $value = call_user_func("{$type}::from", $value);
