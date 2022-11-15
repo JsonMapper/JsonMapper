@@ -127,6 +127,6 @@ class FeatureSupportsConstructorsWithParametersTest extends TestCase
         $result = $jsonMapper->mapToClass($json, WithConstructorReadOnlyDateTimePropertyPromotion::class);
 
         self::assertInstanceOf(WithConstructorReadOnlyDateTimePropertyPromotion::class, $result);
-        self::assertInstanceOf(\DateTime::class, $result->date);
+        self::assertInstanceOf(\DateTimeImmutable::class, $result->date);
     }
 }
