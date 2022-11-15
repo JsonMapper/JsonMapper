@@ -10,6 +10,7 @@ use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\Constructor\DefaultFactory;
 use JsonMapper\Tests\Implementation\Php81\BlogPostWithConstructor;
 use JsonMapper\Tests\Implementation\Php81\Status;
+use JsonMapper\Tests\Implementation\Php81\WithConstructorReadOnlyDateTimePropertyPromotion;
 use JsonMapper\Tests\Implementation\Popo;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -328,5 +329,32 @@ class DefaultFactoryTest extends TestCase
 
         self::assertInstanceOf(BlogPostWithConstructor::class, $result);
         self::assertEquals(Status::DRAFT, $result->getStatus());
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\Constructor\DefaultFactory
+     * @requires PHP >= 8.1
+     */
+    public function testDefaultFactoryCanHandleObjectWithConstructorWithNativeTypeParameter(): void
+    {
+        $date = new \DateTimeImmutable("today");
+        $mapper = $this->createMock(JsonMapperInterface::class);
+
+        $sut = new DefaultFactory(
+            WithConstructorReadOnlyDateTimePropertyPromotion::class,
+            (new \ReflectionClass(WithConstructorReadOnlyDateTimePropertyPromotion::class))->getConstructor(),
+            $mapper,
+            new ScalarCaster(),
+            FactoryRegistry::withNativePhpClassesAdded()
+        );
+
+        $result = $sut->__invoke(
+            (object) [
+                'date' => $date->format('Y-m-d H:i:s'),
+            ]
+        );
+
+        self::assertInstanceOf(WithConstructorReadOnlyDateTimePropertyPromotion::class, $result);
+        self::assertEquals($date, $result->date);
     }
 }
