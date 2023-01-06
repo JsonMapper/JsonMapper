@@ -9,7 +9,9 @@ use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapperBuilder;
 use JsonMapper\Tests\Implementation\Php81\WithConstructorPropertyPromotion;
 use JsonMapper\Tests\Implementation\Php81\WithConstructorReadOnlyDateTimePropertyPromotion;
+use JsonMapper\Tests\Implementation\Php81\WithConstructorReadOnlyPropertyCollection;
 use JsonMapper\Tests\Implementation\Php81\WithConstructorReadOnlyPropertyPromotion;
+use JsonMapper\Tests\Implementation\Php81\WithConstructorReadOnlyPropertySimple;
 use JsonMapper\Tests\Implementation\Php81\WrapperWithConstructorReadOnlyPropertyPromotion;
 use JsonMapper\Tests\Implementation\PopoWrapperWithConstructor;
 use PHPUnit\Framework\TestCase;
@@ -110,7 +112,6 @@ class FeatureSupportsConstructorsWithParametersTest extends TestCase
 
     /**
      * @requires PHP >= 8.1
-     * @throws \JsonException
      */
     public function testCanHandleCustomConstructorsWithReadonlyDateTimePropertyPromotion(): void
     {
@@ -128,5 +129,28 @@ class FeatureSupportsConstructorsWithParametersTest extends TestCase
 
         self::assertInstanceOf(WithConstructorReadOnlyDateTimePropertyPromotion::class, $result);
         self::assertInstanceOf(\DateTimeImmutable::class, $result->date);
+    }
+
+    /**
+     * @requires PHP >= 8.1
+     */
+    public function testCanHandleCustomConstructorsWithEmptyArray(): void
+    {
+        $factoryRegistry = new FactoryRegistry();
+        $mapper = JsonMapperBuilder::new()
+            ->withDocBlockAnnotationsMiddleware()
+            ->withObjectConstructorMiddleware($factoryRegistry)
+            ->withPropertyMapper(new PropertyMapper($factoryRegistry))
+            ->build();
+
+        $json = (object) [
+            'simples' => [],
+        ];
+
+        $result = $mapper->mapToClass($json, WithConstructorReadOnlyPropertyCollection::class);
+
+        self::assertInstanceOf(WithConstructorReadOnlyPropertyCollection::class, $result);
+        self::assertIsArray($result->simples);
+        self::assertEmpty($result->simples);
     }
 }
