@@ -153,4 +153,29 @@ class FeatureSupportsConstructorsWithParametersTest extends TestCase
         self::assertIsArray($result->simples);
         self::assertEmpty($result->simples);
     }
+
+    /**
+     * @requires PHP >= 8.1
+     */
+    public function testCanHandleCustomConstructorsWithArray(): void
+    {
+        $factoryRegistry = new FactoryRegistry();
+        $mapper = JsonMapperBuilder::new()
+            ->withDocBlockAnnotationsMiddleware()
+            ->withObjectConstructorMiddleware($factoryRegistry)
+            ->withPropertyMapper(new PropertyMapper($factoryRegistry))
+            ->build();
+
+        $status = 5;
+        $json = (object) [
+            'simples' => [(object) ['status' => $status]],
+        ];
+
+        $result = $mapper->mapToClass($json, WithConstructorReadOnlyPropertyCollection::class);
+
+        self::assertInstanceOf(WithConstructorReadOnlyPropertyCollection::class, $result);
+        self::assertIsArray($result->simples);
+        self::assertInstanceOf(WithConstructorReadOnlyPropertySimple::class, $result->simples[0]);
+        self::assertEquals($status, $result->simples[0]->status);
+    }
 }
