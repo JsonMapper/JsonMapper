@@ -95,7 +95,7 @@ class DefaultFactory
                 $value =  $this->mapper->mapToClass($value, $type);
             }
 
-            if (is_array($value) && $value[0] instanceof \stdClass && class_exists($type)) {
+            if (is_array($value) && !empty($value) && $value[0] instanceof \stdClass && class_exists($type)) {
                 $value = $this->mapper->mapToClassArray($value, $type);
             }
 
