@@ -10,20 +10,18 @@ use JsonMapper\ValueObjects;
 use JsonMapper\Wrapper\ObjectWrapper;
 use PHPUnit\Framework\TestCase;
 use JsonMapper\Middleware;
+use JsonMapper\Middleware as MiddlewareUsingAnAlias;
 
 class Bug140RegressionTest extends TestCase
 {
     /**
      * @test
      * @coversNothing
+     * @dataProvider classDataProvider
+     * @param object $class
      */
-    public function namespaceResolvingIsAbleToResolveWhenUsingPartialUseCombinedWithNestedNamespaceInPHPdoc(): void
+    public function namespaceResolvingIsAbleToResolveWhenUsingPartialUseCombinedWithNestedNamespaceInPhpDoc($class): void
     {
-        $class = new class {
-            /** @var Middleware\Attributes\MapFrom */
-            public $maps;
-        };
-
         $json = (object) ['maps' => (object) ['source' => 'the moon']];
         $wrapper = new ObjectWrapper($class);
         $propertyMap = new ValueObjects\PropertyMap();
@@ -43,5 +41,23 @@ class Bug140RegressionTest extends TestCase
             ],
             $propertyMap->getProperty('maps')->getPropertyTypes()
         );
+    }
+
+    public function classDataProvider()
+    {
+        return [
+            'without alias' => [
+                new class {
+                    /** @var Middleware\Attributes\MapFrom */
+                    public $maps;
+                }
+            ],
+            'with alias' => [
+                new class {
+                    /** @var MiddlewareUsingAnAlias\Attributes\MapFrom */
+                    public $maps;
+                }
+            ],
+        ];
     }
 }

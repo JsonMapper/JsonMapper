@@ -87,13 +87,14 @@ class NamespaceResolver extends AbstractMiddleware
         if (count($matches) > 0) {
             $match =\array_shift($matches);
             if ($match->hasAlias()) {
-                $fullyQualifiedType = $match->getImport();
+                $strippedType = \substr($type->getType(), strlen($nameSpacedFirstChunk));
+                $fullyQualifiedType = $match->getImport() . '\\' . $strippedType;
             } else {
                 $strippedMatch = \substr($match->getImport(), 0, -strlen($nameSpacedFirstChunk));
                 $fullyQualifiedType = $strippedMatch . '\\' . $type->getType();
             }
 
-            return new PropertyType($fullyQualifiedType, $type->getArrayInformation());
+            return new PropertyType(rtrim($fullyQualifiedType, '\\'), $type->getArrayInformation());
         }
 
         $reflectedObject = $object->getReflectedObject();
