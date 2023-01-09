@@ -67,20 +67,33 @@ class NamespaceResolver extends AbstractMiddleware
             return $type;
         }
 
+        $pos = strpos($type->getType(), '\\');
+        if ($pos === false) {
+            $pos = strlen($type->getType());
+        }
+        $nameSpacedFirstChunk = '\\' . substr($type->getType(), 0, $pos);
+
         $matches = \array_filter(
             $imports,
-            static function (Import $import) use ($type) {
-                $nameSpacedType = "\\{$type->getType()}";
-                if ($import->hasAlias() && $import->getAlias() === $type->getType()) {
+            static function (Import $import) use ($nameSpacedFirstChunk) {
+                if ($import->hasAlias() && '\\' . $import->getAlias() === $nameSpacedFirstChunk) {
                     return true;
                 }
 
-                return $nameSpacedType === \substr($import->getImport(), -strlen($nameSpacedType));
+                return $nameSpacedFirstChunk === \substr($import->getImport(), -strlen($nameSpacedFirstChunk));
             }
         );
 
         if (count($matches) > 0) {
-            return new PropertyType(\array_shift($matches)->getImport(), $type->getArrayInformation());
+            $match =\array_shift($matches);
+            if ($match->hasAlias()) {
+                $fullyQualifiedType = $match->getImport();
+            } else {
+                $strippedMatch = \substr($match->getImport(), 0, -strlen($nameSpacedFirstChunk));
+                $fullyQualifiedType = $strippedMatch . '\\' . $type->getType();
+            }
+
+            return new PropertyType($fullyQualifiedType, $type->getArrayInformation());
         }
 
         $reflectedObject = $object->getReflectedObject();
