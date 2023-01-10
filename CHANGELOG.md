@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.14.3] - 2023-01-10
+### Fixed
+- Namespace resolving is unable to resolve when using partial use combined with nested namespace in PHPdoc [PR#150](https://github.com/JsonMapper/JsonMapper/pull/150).
+
 ## [2.14.2] - 2023-01-07
 ### Added
 - Add PHP 8.2 to build matrix [PR#149](https://github.com/JsonMapper/JsonMapper/pull/149).
