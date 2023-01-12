@@ -146,7 +146,7 @@ class PropertyMapper
                     }
 
                     // Array of existing class @todo how do you know it was the correct type?
-                    if (\class_exists($type->getType())) {
+                    if (\class_exists($type->getType()) && (PHP_VERSION_ID <= 80100 || !enum_exists($type->getType()))) {
                         return \array_map(
                             static function ($v) use ($type, $mapper) {
                                 $className = $type->getType();

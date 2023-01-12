@@ -49,6 +49,23 @@ class FeatureSupportsEnumsTest extends TestCase
     /**
      * @requires PHP >= 8.1
      */
+    public function testItCanMapToAnArrayOfEnumTypeWithArrayTypeHint(): void
+    {
+        $mapper = (new JsonMapperFactory())->bestFit();
+        $object = new class {
+            /** @var Status[] */
+            public array $states;
+        };
+        $json = (object) ['states' => ['draft', 'archived']];
+
+        $mapper->mapObject($json, $object);
+
+        self::assertSame([Status::DRAFT, Status::ARCHIVED], $object->states);
+    }
+
+    /**
+     * @requires PHP >= 8.1
+     */
     public function testItCanMapToAMultiDimensionalArrayOfEnumType(): void
     {
         $mapper = (new JsonMapperFactory())->bestFit();
