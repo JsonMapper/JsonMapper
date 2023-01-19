@@ -85,7 +85,7 @@ class NamespaceResolver extends AbstractMiddleware
         );
 
         if (count($matches) > 0) {
-            $match =\array_shift($matches);
+            $match = \array_shift($matches);
             if ($match->hasAlias()) {
                 $strippedType = \substr($type->getType(), strlen($nameSpacedFirstChunk));
                 $fullyQualifiedType = $match->getImport() . '\\' . $strippedType;
