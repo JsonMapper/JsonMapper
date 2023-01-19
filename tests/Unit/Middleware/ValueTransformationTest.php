@@ -27,7 +27,8 @@ class ValueTransformationTest extends TestCase
             ],
             new ObjectWrapper(new Popo()),
             new PropertyMap(),
-            $this->createMock(JsonMapperInterface::class));
+            $this->createMock(JsonMapperInterface::class)
+        );
 
         self::assertEquals('SMALL', $json->name);
     }
