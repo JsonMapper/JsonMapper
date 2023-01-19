@@ -138,6 +138,10 @@ class PropertyMapper
                         }, $value);
                     }
 
+                    if (PHP_VERSION_ID >= 80100 && enum_exists($type->getType())) {
+                        return $this->mapToEnum($type, $value);
+                    }
+
                     // Array of registered class @todo how do you know it was the correct type?
                     if ($this->classFactoryRegistry->hasFactory($type->getType())) {
                         return \array_map(function ($v) use ($type) {
@@ -146,7 +150,7 @@ class PropertyMapper
                     }
 
                     // Array of existing class @todo how do you know it was the correct type?
-                    if (\class_exists($type->getType()) && (PHP_VERSION_ID <= 80100 || !enum_exists($type->getType()))) {
+                    if (\class_exists($type->getType())) {
                         return \array_map(
                             static function ($v) use ($type, $mapper) {
                                 $className = $type->getType();
@@ -164,6 +168,10 @@ class PropertyMapper
                 // Single scalar value
                 if ($this->propertyTypeAndValueTypeAreScalarAndSameType($type, $value)) {
                     return $this->scalarCaster->cast(new ScalarType($type->getType()), $value);
+                }
+
+                if (PHP_VERSION_ID >= 80100 && enum_exists($type->getType())) {
+                    return $this->mapToEnum($type, $value);
                 }
 
                 // Single registered class @todo how do you know it was the correct type?
@@ -277,7 +285,7 @@ class PropertyMapper
     /**
      * @template T
      * @psalm-param class-string<T> $type
-     * @param mixed
+     * @param $value mixed
      * @return array<int, T>
      */
     private function mapToArrayOfEnum(string $type, $value): array
