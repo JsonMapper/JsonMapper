@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace JsonMapper\Tests\Integration;
 
 use JsonMapper\JsonMapperFactory;
-use JsonMapper\Tests\Implementation\Php81\BlogPost;
-use JsonMapper\Tests\Implementation\Php81\Status;
+use JsonMapper\Tests\Implementation\Php81;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,12 +20,12 @@ class FeatureSupportsEnumsTest extends TestCase
     {
         // Arrange
         $mapper = (new JsonMapperFactory())->bestFit();
-        $object = new BlogPost();
+        $object = new Php81\BlogPost();
         $json = (object) ['status' => 'draft'];
 
         $mapper->mapObject($json, $object);
 
-        self::assertSame(Status::DRAFT, $object->status);
+        self::assertSame(Php81\Status::DRAFT, $object->status);
     }
 
     /**
@@ -36,14 +35,14 @@ class FeatureSupportsEnumsTest extends TestCase
     {
         $mapper = (new JsonMapperFactory())->bestFit();
         $object = new class {
-            /** @var Status[] */
+            /** @var Php81\Status[] */
             public $states;
         };
         $json = (object) ['states' => ['draft', 'archived']];
 
         $mapper->mapObject($json, $object);
 
-        self::assertSame([Status::DRAFT, Status::ARCHIVED], $object->states);
+        self::assertSame([Php81\Status::DRAFT, Php81\Status::ARCHIVED], $object->states);
     }
 
     /**
@@ -52,15 +51,11 @@ class FeatureSupportsEnumsTest extends TestCase
     public function testItCanMapToAnArrayOfEnumTypeWithArrayTypeHint(): void
     {
         $mapper = (new JsonMapperFactory())->bestFit();
-        $object = new class {
-            /** @var Status[] */
-            public array $states;
-        };
         $json = (object) ['states' => ['draft', 'archived']];
 
-        $mapper->mapObject($json, $object);
+        $object = $mapper->mapToClass($json, Php81\GroupOfStatuses::class);
 
-        self::assertSame([Status::DRAFT, Status::ARCHIVED], $object->states);
+        self::assertSame([Php81\Status::DRAFT, Php81\Status::ARCHIVED], $object->states);
     }
 
     /**
@@ -70,13 +65,13 @@ class FeatureSupportsEnumsTest extends TestCase
     {
         $mapper = (new JsonMapperFactory())->bestFit();
         $object = new class {
-            /** @var Status[][] */
+            /** @var Php81\Status[][] */
             public $states;
         };
         $json = (object) ['states' => [['draft', 'archived'], ['published']]];
 
         $mapper->mapObject($json, $object);
 
-        self::assertSame([[Status::DRAFT, Status::ARCHIVED], [Status::PUBLISHED]], $object->states);
+        self::assertSame([[Php81\Status::DRAFT, Php81\Status::ARCHIVED], [Php81\Status::PUBLISHED]], $object->states);
     }
 }
