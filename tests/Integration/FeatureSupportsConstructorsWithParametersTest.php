@@ -7,6 +7,7 @@ namespace JsonMapper\Tests\Integration;
 use JsonMapper\Handler\FactoryRegistry;
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapperBuilder;
+use JsonMapper\Tests\Implementation\Php81\Foo\FooCollection;
 use JsonMapper\Tests\Implementation\Php81\WithConstructorPropertyPromotion;
 use JsonMapper\Tests\Implementation\Php81\WithConstructorReadOnlyDateTimePropertyPromotion;
 use JsonMapper\Tests\Implementation\Php81\WithConstructorReadOnlyPropertyCollection;
@@ -177,5 +178,28 @@ class FeatureSupportsConstructorsWithParametersTest extends TestCase
         self::assertIsArray($result->simples);
         self::assertInstanceOf(WithConstructorReadOnlyPropertySimple::class, $result->simples[0]);
         self::assertEquals($status, $result->simples[0]->status);
+    }
+
+    /**
+     * @requires PHP >= 8.1
+     */
+    public function testHandleCollectionMapping(): void
+    {
+        $factoryRegistry = FactoryRegistry::withNativePhpClassesAdded();
+        $propertyMapper = new PropertyMapper($factoryRegistry);
+        $jsonMapper = JsonMapperBuilder::new()
+            ->withDocBlockAnnotationsMiddleware()
+            ->withObjectConstructorMiddleware($factoryRegistry)
+            ->withPropertyMapper($propertyMapper)
+            ->build();
+
+        $json = (object) ['items' => [
+            (object) ['name' => 'foo', 'orders' => [(object) ['name' => 'bar']]],
+            (object) ['name' => 'foo', 'orders' => [(object) ['name' => 'bar']]],
+        ]];
+
+        $result = $jsonMapper->mapToClass($json, FooCollection::class);
+
+        static::assertInstanceOf(FooCollection::class, $result);
     }
 }

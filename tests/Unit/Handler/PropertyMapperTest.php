@@ -116,10 +116,13 @@ class PropertyMapperTest extends TestCase
         $propertyMap->addProperty($property);
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
         $jsonMapper->expects(self::once())
-            ->method('mapObject')
-            ->with((object) ['name' => __FUNCTION__], self::isInstanceOf(SimpleObject::class))
-            ->willReturnCallback(static function (\stdClass $json, SimpleObject $object) {
+            ->method('mapToClass')
+            ->with((object) ['name' => __FUNCTION__], SimpleObject::class)
+            ->willReturnCallback(static function (\stdClass $json, string $className) {
+                $object = new $className();
                 $object->setName($json->name);
+
+                return $object;
             });
         $json = (object) ['child' => (object) ['name' => __FUNCTION__]];
         $object = new ComplexObject();
@@ -201,10 +204,13 @@ class PropertyMapperTest extends TestCase
         $propertyMap->addProperty($property);
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
         $jsonMapper->expects(self::exactly(2))
-            ->method('mapObject')
-            ->with((object) ['name' => __FUNCTION__], self::isInstanceOf(SimpleObject::class))
-            ->willReturnCallback(static function (\stdClass $json, SimpleObject $object) {
+            ->method('mapToClass')
+            ->with((object) ['name' => __FUNCTION__], SimpleObject::class)
+            ->willReturnCallback(static function (\stdClass $json, string $className) {
+                $object = new $className();
                 $object->setName($json->name);
+
+                return $object;
             });
         $json = (object) ['children' => [(object) ['name' => __FUNCTION__], (object) ['name' => __FUNCTION__]]];
         $object = new ComplexObject();
@@ -231,10 +237,13 @@ class PropertyMapperTest extends TestCase
         $propertyMap->addProperty($property);
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
         $jsonMapper->expects(self::exactly(4))
-            ->method('mapObject')
-            ->with(self::isInstanceOf(\stdClass::class), self::isInstanceOf(SimpleObject::class))
-            ->willReturnCallback(static function ($json, $object) {
+            ->method('mapToClass')
+            ->with(self::isInstanceOf(\stdClass::class), SimpleObject::class)
+            ->willReturnCallback(static function ($json, string $className) {
+                $object = new $className();
                 $object->setName($json->name);
+
+                return $object;
             });
         $json = (object) ['children' => [
             [
