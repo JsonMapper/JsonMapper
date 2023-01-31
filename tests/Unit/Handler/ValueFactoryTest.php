@@ -22,6 +22,7 @@ use JsonMapper\Tests\Implementation\Models\User;
 use JsonMapper\Tests\Implementation\Models\UserWithConstructor;
 use JsonMapper\Tests\Implementation\Models\Wrappers\IShapeWrapper;
 use JsonMapper\Tests\Implementation\Php81\BlogPost;
+use JsonMapper\Tests\Implementation\Php81\Status;
 use JsonMapper\Tests\Implementation\Popo;
 use JsonMapper\Tests\Implementation\PrivatePropertyWithoutSetter;
 use JsonMapper\Tests\Implementation\SimpleObject;
@@ -100,6 +101,31 @@ class ValueFactoryTest extends TestCase
         self::assertEquals($value, $buildValue);
     }
 
+    /**
+     * @covers \JsonMapper\Handler\ValueFactory
+     * @requires PHP >= 8.1
+     * @dataProvider arrayInformationDataProvider
+     */
+    public function testItCanMapEnumPropertyWithSingleType(ArrayInformation $arrayInformation): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('value')
+            ->addType(Status::class, $arrayInformation)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $valueFactory = new ValueFactory(new ScalarCaster(), new FactoryRegistry(), new FactoryRegistry());
+        $value = $this->wrapValueWithArrayInformation('archived', $arrayInformation);
+
+        $buildValue = $valueFactory->build($jsonMapper, $property, $value);
+
+        self::assertEquals($this->wrapValueWithArrayInformation(Status::from('archived'), $arrayInformation), $buildValue);
+    }
+
+
     public function scalarValueDataTypes(): array
     {
         return [
@@ -121,5 +147,26 @@ class ValueFactoryTest extends TestCase
         }
 
         return $values;
+    }
+
+    public function arrayInformationDataProvider(): array
+    {
+        return [
+            'not an array' => [ArrayInformation::notAnArray()],
+            'one dimensional array' => [ArrayInformation::singleDimension()],
+            'two dimensional array' => [ArrayInformation::multiDimension(2)],
+        ];
+    }
+
+    private function wrapValueWithArrayInformation($value, ArrayInformation $arrayInformation)
+    {
+        if ($arrayInformation->equals(ArrayInformation::singleDimension())) {
+            return [$value];
+        }
+        if ($arrayInformation->equals(ArrayInformation::multiDimension(2))) {
+            return [[$value]];
+        }
+
+        return $value;
     }
 }
