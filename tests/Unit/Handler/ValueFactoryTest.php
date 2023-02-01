@@ -194,6 +194,79 @@ class ValueFactoryTest extends TestCase
         );
     }
 
+    /**
+     * @covers \JsonMapper\Handler\ValueFactory
+     * @dataProvider arrayInformationDataProvider
+     */
+    public function testItCanMapArrayOfScalarValuesForUnionType(ArrayInformation $arrayInformation): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('value')
+            ->addType('mixed', $arrayInformation)
+            ->addType('int', $arrayInformation)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $valueFactory = new ValueFactory(new ScalarCaster(), new FactoryRegistry(), new FactoryRegistry());
+        $value = $this->wrapValueWithArrayInformation((string) random_int(PHP_INT_MIN, PHP_INT_MAX), $arrayInformation);
+
+        $buildValue = $valueFactory->build($jsonMapper, $property, $value);
+
+        self::assertEquals($value, $buildValue);
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\ValueFactory
+     * @requires PHP >= 8.1
+     * @dataProvider arrayInformationDataProvider
+     */
+    public function testItCanMapArrayOfEnumValuesForUnionType(ArrayInformation $arrayInformation): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('value')
+            ->addType(Status::class, $arrayInformation)
+            ->addType('int', $arrayInformation)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $valueFactory = new ValueFactory(new ScalarCaster(), new FactoryRegistry(), new FactoryRegistry());
+        $value = $this->wrapValueWithArrayInformation('archived', $arrayInformation);
+
+        $buildValue = $valueFactory->build($jsonMapper, $property, $value);
+
+        self::assertEquals(
+            $this->wrapValueWithArrayInformation(Status::from('archived'), $arrayInformation),
+            $buildValue
+        );
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\ValueFactory
+     */
+    public function testItThrowsExceptionForNonExistingClass(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('value')
+            ->addType('\A\B\C\D\E\F', ArrayInformation::notAnArray())
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $valueFactory = new ValueFactory(new ScalarCaster(), new FactoryRegistry(), new FactoryRegistry());
+        $value = $this->wrapValueWithArrayInformation((object) [], ArrayInformation::notAnArray());
+
+        $this->expectException(\Exception::class);
+        $valueFactory->build($jsonMapper, $property, $value);
+    }
+
     public function scalarValueDataTypes(): array
     {
         return [
