@@ -83,8 +83,11 @@ class ValueFactoryTest extends TestCase
      * @dataProvider combinationsOfScalarValueDataTypeAndArrayInformation
      * @param mixed $value
      */
-    public function testItCanMapScalarPropertyWithSingleType(string $type, $value, ArrayInformation $arrayInformation): void
-    {
+    public function testItCanMapScalarPropertyWithSingleType(
+        string $type,
+        $value,
+        ArrayInformation $arrayInformation
+    ): void {
         $property = PropertyBuilder::new()
             ->setName('value')
             ->addType($type, $arrayInformation)
@@ -122,9 +125,74 @@ class ValueFactoryTest extends TestCase
 
         $buildValue = $valueFactory->build($jsonMapper, $property, $value);
 
-        self::assertEquals($this->wrapValueWithArrayInformation(Status::from('archived'), $arrayInformation), $buildValue);
+        self::assertEquals(
+            $this->wrapValueWithArrayInformation(Status::from('archived'), $arrayInformation),
+            $buildValue
+        );
     }
 
+    /**
+     * @covers \JsonMapper\Handler\ValueFactory
+     * @dataProvider arrayInformationDataProvider
+     */
+    public function testItCanMapWithClassFactoryHavingAvailableFactoryForASingleType(
+        ArrayInformation $arrayInformation
+    ): void {
+        $property = PropertyBuilder::new()
+            ->setName('value')
+            ->addType(\DateTimeImmutable::class, $arrayInformation)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $valueFactory = new ValueFactory(
+            new ScalarCaster(),
+            FactoryRegistry::withNativePhpClassesAdded(),
+            new FactoryRegistry()
+        );
+        $value = $this->wrapValueWithArrayInformation('2000-01-01T00:00:00', $arrayInformation);
+
+        $buildValue = $valueFactory->build($jsonMapper, $property, $value);
+
+        self::assertEquals(
+            $this->wrapValueWithArrayInformation(new \DateTimeImmutable('2000-01-01T00:00:00'), $arrayInformation),
+            $buildValue
+        );
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\ValueFactory
+     * @dataProvider arrayInformationDataProvider
+     */
+    public function testItCanMapToAnObjectUsingMapperForASingleType(ArrayInformation $arrayInformation): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('value')
+            ->addType(SimpleObject::class, $arrayInformation)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $valueFactory = new ValueFactory(new ScalarCaster(), new FactoryRegistry(), new FactoryRegistry());
+        $value = $this->wrapValueWithArrayInformation((object) ['name' => 'John Doe'], $arrayInformation);
+        $jsonMapper->expects($this->once())
+            ->method('mapToClass')
+            ->with($this->isInstanceOf(\stdClass::class), SimpleObject::class)
+            ->willReturnCallback(function ($data) {
+                return new SimpleObject($data->name);
+            });
+
+        $buildValue = $valueFactory->build($jsonMapper, $property, $value);
+
+        self::assertEquals(
+            $this->wrapValueWithArrayInformation(new SimpleObject('John Doe'), $arrayInformation),
+            $buildValue
+        );
+    }
 
     public function scalarValueDataTypes(): array
     {
@@ -141,9 +209,21 @@ class ValueFactoryTest extends TestCase
     {
         $values = [];
         foreach ($this->scalarValueDataTypes() as $key => [$type, $value]) {
-            $values[$key . ' as single type'] = [$type, $value, ArrayInformation::notAnArray()];
-            $values[$key . ' as single dimension array'] = [$type, [$value, $value], ArrayInformation::singleDimension()];
-            $values[$key . ' as multi dimension array'] = [$type, [[$value], [$value]], ArrayInformation::multiDimension(2)];
+            $values[$key . ' as single type'] = [
+                $type,
+                $value,
+                ArrayInformation::notAnArray()
+            ];
+            $values[$key . ' as single dimension array'] = [
+                $type,
+                [$value, $value],
+                ArrayInformation::singleDimension()
+            ];
+            $values[$key . ' as multi dimension array'] = [
+                $type,
+                [[$value], [$value]],
+                ArrayInformation::multiDimension(2)
+            ];
         }
 
         return $values;
