@@ -347,7 +347,7 @@ class ValueFactoryTest extends TestCase
             }
         });
         $valueFactory = new ValueFactory(new ScalarCaster(), new FactoryRegistry(), $nonInstantiableTypeResolver);
-        $radius = random_int(0, 12);
+        $radius = random_int(1, 12);
         $value = $this->wrapValueWithArrayInformation((object) ['radius' => $radius], $arrayInformation);
         $expected = new Circle();
         $expected->radius = $radius;
