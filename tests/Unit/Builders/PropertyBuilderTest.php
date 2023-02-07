@@ -56,4 +56,25 @@ class PropertyBuilderTest extends TestCase
             ->hasVisibility(Visibility::PRIVATE())
             ->isNullable();
     }
+
+    /**
+     * @covers \JsonMapper\Builders\PropertyBuilder
+     */
+    public function testHasAnyTypeReturnFalseWhenNoTypeIsSet(): void
+    {
+        $builder = PropertyBuilder::new();
+
+        self::assertFalse($builder->hasAnyType());
+    }
+
+    /**
+     * @covers \JsonMapper\Builders\PropertyBuilder
+     */
+    public function testHasAnyTypeReturnFalseWhenATypeIsSet(): void
+    {
+        $builder = PropertyBuilder::new()
+            ->addType('mixed', ArrayInformation::notAnArray());
+
+        self::assertTrue($builder->hasAnyType());
+    }
 }

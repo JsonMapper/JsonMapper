@@ -272,17 +272,15 @@ class DefaultFactoryTest extends TestCase
             }
         };
         $mapper = $this->createMock(JsonMapperInterface::class);
-        $mapper->method('mapToClassArray')
-            ->with($this->isType('array'), Popo::class)
-            ->willReturnCallback(function (array $data) {
-                return array_map(function ($d) {
-                    $popo = new Popo();
-                    $popo->name = isset($d->name) ? $d->name : null;
-                    $popo->date = isset($d->date) ? $d->date : null;
-                    $popo->notes = isset($d->notes) ? $d->notes : null;
+        $mapper->method('mapToClass')
+            ->with($this->isInstanceOf(\stdClass::class), Popo::class)
+            ->willReturnCallback(function (stdClass $data) {
+                $popo = new Popo();
+                $popo->name = $data->name ?? null;
+                $popo->date = $data->date ?? null;
+                $popo->notes = $data->notes ?? null;
 
-                    return $popo;
-                }, $data);
+                return $popo;
             });
         $sut = new DefaultFactory(
             get_class($class),
