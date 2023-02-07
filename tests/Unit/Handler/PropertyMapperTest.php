@@ -606,8 +606,8 @@ class PropertyMapperTest extends TestCase
         $now = new \DateTime();
         $property = PropertyBuilder::new()
             ->setName('moment')
-            ->addType('int', ArrayInformation::singleDimension())
-            ->addType(\DateTime::class, ArrayInformation::singleDimension())
+            ->addType('int', ArrayInformation::notAnArray())
+            ->addType(\DateTime::class, ArrayInformation::notAnArray())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -616,7 +616,7 @@ class PropertyMapperTest extends TestCase
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
         $json = (object) ['moment' => $now->format('Y-m-d\TH:i:s.uP')];
         $object = new class {
-            /** @var int[]|\DateTime[] */
+            /** @var int|\DateTime */
             public $moment;
         };
         $wrapped = new ObjectWrapper($object);
