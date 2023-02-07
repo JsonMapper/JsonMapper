@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace JsonMapper\Middleware\Constructor;
 
-use JsonMapper\Enums\ScalarType;
+use JsonMapper\Builders\PropertyBuilder;
+use JsonMapper\Enums\Visibility;
 use JsonMapper\Handler\FactoryRegistry;
+use JsonMapper\Handler\ValueFactory;
 use JsonMapper\Helpers\DocBlockHelper;
 use JsonMapper\Helpers\IScalarCaster;
 use JsonMapper\Helpers\NamespaceHelper;
 use JsonMapper\Helpers\UseStatementHelper;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\ValueObjects\AnnotationMap;
+use JsonMapper\ValueObjects\ArrayInformation;
+use JsonMapper\ValueObjects\PropertyMap;
 use ReflectionMethod;
 
 class DefaultFactory
@@ -20,95 +24,106 @@ class DefaultFactory
     private $objectName;
     /** @var JsonMapperInterface */
     private $mapper;
-    /** @var IScalarCaster */
-    private $scalarCaster;
-    /** @var Parameter[] */
-    private $parameters = [];
+    /** @var PropertyMap */
+    private $propertyMap;
+    /** @var ValueFactory */
+    private $valueFactory;
+    /** @var array<int, string> */
+    private $parameterMap = [];
+    /** @var array<string, mixed> */
+    private $parameterDefaults = [];
 
     public function __construct(
         string $objectName,
         ReflectionMethod $reflectedConstructor,
         JsonMapperInterface $mapper,
         IScalarCaster $scalarCaster,
-        FactoryRegistry $classFactoryRegistry
+        FactoryRegistry $classFactoryRegistry,
+        FactoryRegistry $nonInstantiableTypeResolver = null
     ) {
         $this->objectName = $objectName;
         $this->mapper = $mapper;
-        $this->scalarCaster = $scalarCaster;
-        $this->classFactoryRegistry = $classFactoryRegistry;
+        if ($nonInstantiableTypeResolver === null) {
+            $nonInstantiableTypeResolver = new FactoryRegistry();
+        }
+        $this->propertyMap = new PropertyMap();
+        $this->valueFactory = new ValueFactory($scalarCaster, $classFactoryRegistry, $nonInstantiableTypeResolver);
 
         $annotationMap = $this->getAnnotationMap($reflectedConstructor);
+        $imports = UseStatementHelper::getImports($reflectedConstructor->getDeclaringClass());
 
         foreach ($reflectedConstructor->getParameters() as $param) {
+            $builder = PropertyBuilder::new()
+                ->setName($param->getName())
+                ->setVisibility(Visibility::PUBLIC())
+                ->setIsNullable($param->allowsNull());
+
             $type = 'mixed';
             $reflectedType = $param->getType();
             if (! \is_null($reflectedType)) {
                 $type = $reflectedType->getName();
+                if ($type === 'array') {
+                    $builder->addType('mixed', ArrayInformation::singleDimension());
+                } else {
+                    $builder->addType($type, ArrayInformation::notAnArray());
+                }
             }
+
             if ($annotationMap->hasParam($param->getName())) {
                 $type = $annotationMap->getParam($param->getName());
-                if (substr($type, -2) === '[]') {
-                    $type = substr($type, 0, -2);
+                $types = \explode('|', $type);
+                $types = \array_filter($types, static function (string $type) {
+                    return $type !== 'null';
+                });
+
+                foreach ($types as $type) {
+                    $type = \trim($type);
+                    $isAnArrayType = \substr($type, -2) === '[]';
+
+                    if (! $isAnArrayType) {
+                        $builder->addType($type, ArrayInformation::notAnArray());
+                        continue;
+                    }
+
+                    $initialBracketPosition = strpos($type, '[');
+                    $dimensions = substr_count($type, '[]');
+
+                    if ($initialBracketPosition !== false) {
+                        $type = substr($type, 0, $initialBracketPosition);
+                    }
+
+                    $type = NamespaceHelper::resolveNamespace(
+                        $type,
+                        $reflectedConstructor->getDeclaringClass()->getNamespaceName(),
+                        $imports
+                    );
+
+                    $builder->addType($type, ArrayInformation::multiDimension($dimensions));
                 }
-                $imports = UseStatementHelper::getImports($reflectedConstructor->getDeclaringClass());
-                $type = NamespaceHelper::resolveNamespace(
-                    $type,
-                    $reflectedConstructor->getDeclaringClass()->getNamespaceName(),
-                    $imports
-                );
             }
-            $this->parameters[] = new Parameter(
-                $param->getName(),
-                $type,
-                $param->getPosition(),
-                $param->isDefaultValueAvailable() ? $param->getDefaultValue() : null
-            );
+
+            if (!$builder->hasAnyType()) {
+                $builder->addType('mixed', ArrayInformation::notAnArray());
+            }
+
+            $this->propertyMap->addProperty($builder->build());
+            $this->parameterMap[$param->getPosition()] = $param->getName();
+            $this->parameterDefaults[$param->getName()] = $param->isDefaultValueAvailable() ? $param->getDefaultValue() : null;
         }
 
-        usort(
-            $this->parameters,
-            static function (Parameter $left, Parameter $right) {
-                return $left->getPosition() - $right->getPosition();
-            }
-        );
+        ksort($this->parameterMap);
     }
 
     public function __invoke(\stdClass $json)
     {
-        // @todo Basically we are reproducing the logic which is inside the PropertyMapper::mapPropertyValue function
         $values = [];
 
-        foreach ($this->parameters as $parameter) {
-            $type = $parameter->getType();
-            $name = $parameter->getName();
-            $value = $parameter->getDefaultValue();
-
-            if (isset($json->$name)) {
-                $value = $json->$name;
-            }
-
-            if ($this->classFactoryRegistry->hasFactory($type)) {
-                $value =  $this->classFactoryRegistry->create($type, $value);
-            }
-
-            if ($value instanceof \stdClass && class_exists($type)) {
-                $value =  $this->mapper->mapToClass($value, $type);
-            }
-
-            if (is_array($value) && !empty($value) && $value[0] instanceof \stdClass && class_exists($type)) {
-                $value = $this->mapper->mapToClassArray($value, $type);
-            }
-
-
-            if (PHP_VERSION_ID >= 80100 && (is_string($value) || is_int($value)) && enum_exists($type)) {
-                $value = call_user_func("{$type}::from", $value);
-            }
-
-            if (is_scalar($value) && gettype($value) !== $parameter->getType() && ScalarType::isValid($parameter->getType())) {
-                $value = $this->scalarCaster->cast(new ScalarType($parameter->getType()), $value);
-            }
-
-            $values[$parameter->getPosition()] = $value;
+        foreach ($this->parameterMap as $position => $name) {
+            $values[$position] = $this->valueFactory->build(
+                $this->mapper,
+                $this->propertyMap->getProperty($name),
+                $json->$name ?? $this->parameterDefaults[$name]
+            );
         }
 
         return new $this->objectName(...$values);

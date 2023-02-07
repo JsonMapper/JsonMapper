@@ -68,4 +68,9 @@ class PropertyBuilder
         $this->visibility = $visibility;
         return $this;
     }
+
+    public function hasAnyType(): bool
+    {
+        return count($this->types) !== 0;
+    }
 }
