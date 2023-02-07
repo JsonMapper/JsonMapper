@@ -62,19 +62,12 @@ class ValueFactory
 
                     // Array of registered class @todo how do you know it was the correct type?
                     if ($this->classFactoryRegistry->hasFactory($type->getType())) {
-                        return \array_map(function ($v) use ($type) {
-                            return $this->classFactoryRegistry->create($type->getType(), $v);
-                        }, $value);
+                        return $this->mapToObjectsUsingFactory($type, $value);
                     }
 
                     // Array of existing class @todo how do you know it was the correct type?
-                    if (\class_exists($type->getType())) {
-                        return \array_map(
-                            static function ($v) use ($type, $mapper) {
-                                return $mapper->mapToClass($v, $type->getType());
-                            },
-                            $value
-                        );
+                    if ((class_exists($type->getType()) || interface_exists($type->getType()))) {
+                        return $this->mapToObjects($type, $value, $mapper);
                     }
 
                     continue;
@@ -82,7 +75,7 @@ class ValueFactory
 
                 // If the type we are mapping has a last minute factory use it.
                 if ($this->classFactoryRegistry->hasFactory($type->getType())) {
-                    return $this->classFactoryRegistry->create($type->getType(), $value);
+                    return $this->mapToObjectsUsingFactory($type, $value);
                 }
 
                 // Single scalar value
@@ -92,11 +85,6 @@ class ValueFactory
 
                 if (PHP_VERSION_ID >= 80100 && enum_exists($type->getType())) {
                     return $this->mapToEnum($type, $value);
-                }
-
-                // Single registered class @todo how do you know it was the correct type?
-                if ($this->classFactoryRegistry->hasFactory($type->getType())) {
-                    return $this->classFactoryRegistry->create($type->getType(), $value);
                 }
 
                 // Single existing class @todo how do you know it was the correct type?

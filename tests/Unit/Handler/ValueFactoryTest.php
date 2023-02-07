@@ -15,11 +15,13 @@ use JsonMapper\JsonMapperFactory;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\DocBlockAnnotations;
 use JsonMapper\Tests\Implementation\ComplexObject;
+use JsonMapper\Tests\Implementation\Models\Circle as Circle;
 use JsonMapper\Tests\Implementation\Models\IShape;
 use JsonMapper\Tests\Implementation\Models\ShapeInstanceFactory;
 use JsonMapper\Tests\Implementation\Models\Square;
 use JsonMapper\Tests\Implementation\Models\User;
 use JsonMapper\Tests\Implementation\Models\UserWithConstructor;
+use JsonMapper\Tests\Implementation\Models\Wrappers\IShapeAware;
 use JsonMapper\Tests\Implementation\Models\Wrappers\IShapeWrapper;
 use JsonMapper\Tests\Implementation\Php81\BlogPost;
 use JsonMapper\Tests\Implementation\Php81\Status;
@@ -41,7 +43,7 @@ class ValueFactoryTest extends TestCase
     {
         $property = PropertyBuilder::new()
             ->setName('value')
-            ->addType('int', ArrayInformation::singleDimension())
+            ->addType('integer', ArrayInformation::singleDimension())
             ->addType('string', ArrayInformation::singleDimension())
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
@@ -203,7 +205,7 @@ class ValueFactoryTest extends TestCase
         $property = PropertyBuilder::new()
             ->setName('value')
             ->addType('mixed', $arrayInformation)
-            ->addType('int', $arrayInformation)
+            ->addType('float', $arrayInformation)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -211,7 +213,7 @@ class ValueFactoryTest extends TestCase
         $propertyMap->addProperty($property);
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
         $valueFactory = new ValueFactory(new ScalarCaster(), new FactoryRegistry(), new FactoryRegistry());
-        $value = $this->wrapValueWithArrayInformation((string) random_int(PHP_INT_MIN, PHP_INT_MAX), $arrayInformation);
+        $value = $this->wrapValueWithArrayInformation(mt_rand() / mt_getrandmax(), $arrayInformation);
 
         $buildValue = $valueFactory->build($jsonMapper, $property, $value);
 
@@ -228,7 +230,7 @@ class ValueFactoryTest extends TestCase
         $property = PropertyBuilder::new()
             ->setName('value')
             ->addType(Status::class, $arrayInformation)
-            ->addType('int', $arrayInformation)
+            ->addType('integer', $arrayInformation)
             ->setIsNullable(false)
             ->setVisibility(Visibility::PUBLIC())
             ->build();
@@ -242,6 +244,155 @@ class ValueFactoryTest extends TestCase
 
         self::assertEquals(
             $this->wrapValueWithArrayInformation(Status::from('archived'), $arrayInformation),
+            $buildValue
+        );
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\ValueFactory
+     * @dataProvider arrayInformationDataProvider
+     */
+    public function testItCanMapArrayWithClassFactoryHavingAvailableFactoryForUnionTYpe(
+        ArrayInformation $arrayInformation
+    ): void {
+        $property = PropertyBuilder::new()
+            ->setName('value')
+            ->addType('integer', $arrayInformation)
+            ->addType(\DateTimeImmutable::class, $arrayInformation)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $valueFactory = new ValueFactory(
+            new ScalarCaster(),
+            FactoryRegistry::withNativePhpClassesAdded(),
+            new FactoryRegistry()
+        );
+        $value = $this->wrapValueWithArrayInformation('2000-01-01T00:00:00', $arrayInformation);
+
+        $buildValue = $valueFactory->build($jsonMapper, $property, $value);
+
+        self::assertEquals(
+            $this->wrapValueWithArrayInformation(new \DateTimeImmutable('2000-01-01T00:00:00'), $arrayInformation),
+            $buildValue
+        );
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\ValueFactory
+     * @dataProvider arrayInformationDataProvider
+     */
+    public function testItCanMapArrayWithMapperForUnionType(
+        ArrayInformation $arrayInformation
+    ): void {
+        $property = PropertyBuilder::new()
+            ->setName('value')
+            ->addType('integer', $arrayInformation)
+            ->addType(Popo::class, $arrayInformation)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $jsonMapper->method('mapToClass')
+            ->with(self::isInstanceOf(\stdClass::class), Popo::class)
+            ->willReturnCallback(function (\stdClass $data, string $className) {
+                $popo = new Popo();
+                $popo->name = $data->name;
+
+                return $popo;
+            });
+        $valueFactory = new ValueFactory(new ScalarCaster(), new FactoryRegistry(), new FactoryRegistry());
+        $expected = new Popo();
+        $expected->name = 'Jane Doe';
+        $value = $this->wrapValueWithArrayInformation((object) ['name' => $expected->name], $arrayInformation);
+
+        $buildValue = $valueFactory->build($jsonMapper, $property, $value);
+
+        self::assertEquals(
+            $this->wrapValueWithArrayInformation($expected, $arrayInformation),
+            $buildValue
+        );
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\ValueFactory
+     * @dataProvider arrayInformationDataProvider
+     */
+    public function testItCanMapUnInstantiableTypeForSingleType(
+        ArrayInformation $arrayInformation
+    ): void {
+        $property = PropertyBuilder::new()
+            ->setName('value')
+            ->addType(IShape::class, $arrayInformation)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $jsonMapper->method('mapObject')
+            ->with(self::isInstanceOf(\stdClass::class), self::isInstanceOf(Circle::class))
+            ->willReturnCallback(function (\stdClass $data, Circle $object) {
+                $object->radius = $data->radius;
+                return $object;
+            });
+        $nonInstantiableTypeResolver = new FactoryRegistry();
+        $nonInstantiableTypeResolver->addFactory(IShape::class, function (\stdClass $data) {
+            if ($data->radius) {
+                return new Circle();
+            }
+        });
+        $valueFactory = new ValueFactory(new ScalarCaster(), new FactoryRegistry(), $nonInstantiableTypeResolver);
+        $radius = random_int(0, 12);
+        $value = $this->wrapValueWithArrayInformation((object) ['radius' => $radius], $arrayInformation);
+        $expected = new Circle();
+        $expected->radius = $radius;
+
+        $buildValue = $valueFactory->build($jsonMapper, $property, $value);
+
+        self::assertEquals(
+            $this->wrapValueWithArrayInformation($expected, $arrayInformation),
+            $buildValue
+        );
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\ValueFactory
+     * @dataProvider arrayInformationDataProvider
+     */
+    public function testItCanMapArrayWithMapperForSingleType(
+        ArrayInformation $arrayInformation
+    ): void {
+        $property = PropertyBuilder::new()
+            ->setName('value')
+            ->addType(Popo::class, $arrayInformation)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $jsonMapper->method('mapToClass')
+            ->with(self::isInstanceOf(\stdClass::class), Popo::class)
+            ->willReturnCallback(function (\stdClass $data, string $className) {
+                $popo = new Popo();
+                $popo->name = $data->name;
+
+                return $popo;
+            });
+        $valueFactory = new ValueFactory(new ScalarCaster(), new FactoryRegistry(), new FactoryRegistry());
+        $expected = new Popo();
+        $expected->name = 'Jane Doe';
+        $value = $this->wrapValueWithArrayInformation((object) ['name' => $expected->name], $arrayInformation);
+
+        $buildValue = $valueFactory->build($jsonMapper, $property, $value);
+
+        self::assertEquals(
+            $this->wrapValueWithArrayInformation($expected, $arrayInformation),
             $buildValue
         );
     }
