@@ -328,10 +328,6 @@ class ValueFactory
      */
     private function mapToSingleObject(string $type, $value, JsonMapperInterface $mapper)
     {
-        if (! class_exists($type) && ! interface_exists($type)) {
-            throw TypeError::forArgument(__METHOD__, 'class-string', $type, 1, '$type');
-        }
-
         $reflectionType = new \ReflectionClass($type);
         if (!$reflectionType->isInstantiable()) {
             return $this->resolveUnInstantiableType($type, $value, $mapper);

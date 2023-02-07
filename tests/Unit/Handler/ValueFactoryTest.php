@@ -7,6 +7,7 @@ namespace JsonMapper\Tests\Unit\Handler;
 use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\Visibility;
+use JsonMapper\Exception\ClassFactoryException;
 use JsonMapper\Handler\FactoryRegistry;
 use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\Handler\ValueFactory;
@@ -358,6 +359,34 @@ class ValueFactoryTest extends TestCase
             $this->wrapValueWithArrayInformation($expected, $arrayInformation),
             $buildValue
         );
+    }
+
+    /**
+     * @covers \JsonMapper\Handler\ValueFactory
+     * @dataProvider arrayInformationDataProvider
+     */
+    public function testThrowsExceptionForUnInstantiableTypeForSingleTypeThatCanNotBeResolved(
+        ArrayInformation $arrayInformation
+    ): void {
+        $property = PropertyBuilder::new()
+            ->setName('value')
+            ->addType(IShape::class, $arrayInformation)
+            ->setIsNullable(false)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $propertyMap = new PropertyMap();
+        $propertyMap->addProperty($property);
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $nonInstantiableTypeResolver = new FactoryRegistry();
+        $nonInstantiableTypeResolver->addFactory(IShape::class, function () {
+            throw new ClassFactoryException();
+        });
+        $valueFactory = new ValueFactory(new ScalarCaster(), new FactoryRegistry(), $nonInstantiableTypeResolver);
+
+        $value = $this->wrapValueWithArrayInformation((object) ['radius' => random_int(1, 12)], $arrayInformation);
+
+        $this->expectException(\RuntimeException::class);
+        $valueFactory->build($jsonMapper, $property, $value);
     }
 
     /**
