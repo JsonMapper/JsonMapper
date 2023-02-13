@@ -9,6 +9,7 @@ use JsonMapper\Enums\Visibility;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\TypedProperties;
 use JsonMapper\Tests\Helpers\AssertThatPropertyTrait;
+use JsonMapper\Tests\Helpers\CacheKeyHelper;
 use JsonMapper\Tests\Implementation\Php74;
 use JsonMapper\Tests\Implementation\Php80;
 use JsonMapper\Tests\Implementation\SimpleObject;
@@ -100,8 +101,12 @@ class TypedPropertiesTest extends TestCase
         $objectWrapper->method('getName')->willReturn(__METHOD__);
         $objectWrapper->expects(self::never())->method('getReflectedObject');
         $cache = $this->createMock(CacheInterface::class);
-        $cache->method('has')->with(Assert::stringContains(__METHOD__))->willReturn(true);
-        $cache->method('get')->with(Assert::stringContains(__METHOD__))->willReturn($propertyMap);
+        $cache->method('has')
+            ->with(Assert::stringContains(CacheKeyHelper::sanatize(__METHOD__)))
+            ->willReturn(true);
+        $cache->method('get')
+            ->with(Assert::stringContains(CacheKeyHelper::sanatize(__METHOD__)))
+            ->willReturn($propertyMap);
         $middleware = new TypedProperties($cache);
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
 

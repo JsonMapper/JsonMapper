@@ -9,6 +9,7 @@ use JsonMapper\Enums\Visibility;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\DocBlockAnnotations;
 use JsonMapper\Tests\Helpers\AssertThatPropertyTrait;
+use JsonMapper\Tests\Helpers\CacheKeyHelper;
 use JsonMapper\Tests\Implementation\ComplexObject;
 use JsonMapper\ValueObjects\ArrayInformation;
 use JsonMapper\ValueObjects\PropertyMap;
@@ -121,8 +122,12 @@ class DocBlockAnnotationsTest extends TestCase
         $objectWrapper->method('getName')->willReturn(__METHOD__);
         $objectWrapper->expects(self::never())->method('getReflectedObject');
         $cache = $this->createMock(CacheInterface::class);
-        $cache->method('has')->with(Assert::stringContains(__METHOD__))->willReturn(true);
-        $cache->method('get')->with(Assert::stringContains(__METHOD__))->willReturn($propertyMap);
+        $cache->method('has')
+            ->with(Assert::stringContains(CacheKeyHelper::sanatize(__METHOD__)))
+            ->willReturn(true);
+        $cache->method('get')
+            ->with(Assert::stringContains(CacheKeyHelper::sanatize(__METHOD__)))
+            ->willReturn($propertyMap);
         $middleware = new DocBlockAnnotations($cache);
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
 
