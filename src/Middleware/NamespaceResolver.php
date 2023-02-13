@@ -38,7 +38,11 @@ class NamespaceResolver extends AbstractMiddleware
 
     private function fetchPropertyMapForObject(ObjectWrapper $object, PropertyMap $originalPropertyMap): PropertyMap
     {
-        $cacheKey = \sprintf('%s::Cache::%s', __CLASS__, $object->getName());
+        $cacheKey = \sprintf(
+            '%sCache%s',
+            str_replace(['{', '}', '(', ')', '/', '\\', '@', ':' ], '', __CLASS__),
+            str_replace(['{', '}', '(', ')', '/', '\\', '@', ':' ], '', $object->getName())
+        );
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
         }

@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Make it compatible with Laravel 9 [PR#156](https://github.com/JsonMapper/JsonMapper/pull/156). Thanks to [MarcelGDC](https://github.com/MarcelGDC) for reporting the issue.
 
 ## [2.15.0] - 2023-02-07
 ### Fixed

@@ -12,6 +12,7 @@ use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\DocBlockAnnotations;
 use JsonMapper\Middleware\NamespaceResolver;
 use JsonMapper\Tests\Helpers\AssertThatPropertyTrait;
+use JsonMapper\Tests\Helpers\CacheKeyHelper;
 use JsonMapper\Tests\Implementation\Bar\CustomerState;
 use JsonMapper\Tests\Implementation\ComplexObject;
 use JsonMapper\Tests\Implementation\Foo\Customer;
@@ -186,8 +187,12 @@ class NamespaceResolverTest extends TestCase
         $objectWrapper->method('getName')->willReturn(__METHOD__);
         $objectWrapper->expects(self::never())->method('getReflectedObject');
         $cache = $this->createMock(CacheInterface::class);
-        $cache->method('has')->with(Assert::stringContains(__METHOD__))->willReturn(true);
-        $cache->method('get')->with(Assert::stringContains(__METHOD__))->willReturn($propertyMap);
+        $cache->method('has')
+            ->with(Assert::stringContains(CacheKeyHelper::sanatize(__METHOD__)))
+            ->willReturn(true);
+        $cache->method('get')
+            ->with(Assert::stringContains(CacheKeyHelper::sanatize(__METHOD__)))
+            ->willReturn($propertyMap);
         $middleware = new NamespaceResolver($cache);
         $jsonMapper = $this->createMock(JsonMapperInterface::class);
 
