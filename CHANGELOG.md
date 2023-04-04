@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Fix null value reaching native php class factories [PR#159](https://github.com/JsonMapper/JsonMapper/pull/159). Thanks to [template-provider](https://github.com/template-provider) for reporting the issue.
 
 ## [2.16.0] - 2023-02-13
 ### Fixed
