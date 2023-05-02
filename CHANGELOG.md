@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Allow vimeo/psalm 5.0 as dev dependency
+- Allow recursive traversal in CaseConversion middleware [PR#160](https://github.com/JsonMapper/JsonMapper/pull/160)
 ### Fixed
 - Fix null value reaching native php class factories [PR#159](https://github.com/JsonMapper/JsonMapper/pull/159). Thanks to [template-provider](https://github.com/template-provider) for reporting the issue.
 
