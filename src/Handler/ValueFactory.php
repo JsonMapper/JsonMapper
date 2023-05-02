@@ -94,6 +94,9 @@ class ValueFactory
             }
         }
 
+        if (\is_null($value) && $property->isNullable()) {
+            return null;
+        }
         // No match was found (or there was only one option) lets assume the first is the right one.
         $types = $property->getPropertyTypes();
         $type = \array_shift($types);
