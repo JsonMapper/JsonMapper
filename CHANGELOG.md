@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.18.0] - 2023-05-12
+### Fixed 
+- Support private properties from parent class in DocBlockAnnotations and TypedProperties [PR#161](https://github.com/JsonMapper/JsonMapper/pull/161)
+
 ## [2.17.0] - 2023-05-02
 ### Changed
 - Allow vimeo/psalm 5.0 as dev dependency
