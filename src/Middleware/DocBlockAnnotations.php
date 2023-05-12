@@ -45,10 +45,8 @@ class DocBlockAnnotations extends AbstractMiddleware
             return $this->cache->get($cacheKey);
         }
 
-        $properties = $object->getReflectedObject()->getProperties();
         $intermediatePropertyMap = new PropertyMap();
-
-        foreach ($properties as $property) {
+        foreach ($this->getObjectPropertiesIncludingParents($object) as $property) {
             $name = $property->getName();
             $docBlock = $property->getDocComment();
             if ($docBlock === false) {
@@ -128,5 +126,16 @@ class DocBlockAnnotations extends AbstractMiddleware
         }
 
         return new AnnotationMap($var ?: null, [], null);
+    }
+
+    /** @return \ReflectionProperty[] */
+    public function getObjectPropertiesIncludingParents(ObjectWrapper $object): array
+    {
+        $properties = [];
+        $reflectionClass = $object->getReflectedObject();
+        do {
+            $properties = array_merge($properties, $reflectionClass->getProperties());
+        } while ($reflectionClass = $reflectionClass->getParentClass());
+        return $properties;
     }
 }

@@ -44,10 +44,9 @@ class TypedProperties extends AbstractMiddleware
             return $this->cache->get($cacheKey);
         }
 
-        $reflectionProperties = $object->getReflectedObject()->getProperties();
         $intermediatePropertyMap = new PropertyMap();
 
-        foreach ($reflectionProperties as $reflectionProperty) {
+        foreach ($this->getObjectPropertiesIncludingParents($object) as $reflectionProperty) {
             $type = $reflectionProperty->getType();
 
             if ($type instanceof ReflectionNamedType) {
@@ -96,5 +95,16 @@ class TypedProperties extends AbstractMiddleware
         $this->cache->set($cacheKey, $intermediatePropertyMap);
 
         return $intermediatePropertyMap;
+    }
+
+    /** @return \ReflectionProperty[] */
+    public function getObjectPropertiesIncludingParents(ObjectWrapper $object): array
+    {
+        $properties = [];
+        $reflectionClass = $object->getReflectedObject();
+        do {
+            $properties = array_merge($properties, $reflectionClass->getProperties());
+        } while ($reflectionClass = $reflectionClass->getParentClass());
+        return $properties;
     }
 }
