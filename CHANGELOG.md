@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
-- Fix constructor not being called on nested array of objects [PR#162](https://github.com/JsonMapper/JsonMapper/pull/163). Thanks to [o15a3d4l11s2](https://github.com/o15a3d4l11s2) for reporting the issue.
+- Fix constructor not being called on nested array of objects [PR#164](https://github.com/JsonMapper/JsonMapper/pull/164). Thanks to [o15a3d4l11s2](https://github.com/o15a3d4l11s2) for reporting the issue.
+- Avoid integer keys being replaced in CaseConversion middleware [PR#166](https://github.com/JsonMapper/JsonMapper/pull/166)
 
 ## [2.18.0] - 2023-05-12
 ### Fixed 

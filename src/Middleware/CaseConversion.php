@@ -56,6 +56,9 @@ class CaseConversion extends AbstractMiddleware
 
         $keys = \array_keys((array) $json);
         foreach ($keys as $key) {
+            if (is_int($key)) {
+                break;
+            }
             $replacementKey = $this->getReplacementKey($key);
 
             if ($replacementKey === $key) {
