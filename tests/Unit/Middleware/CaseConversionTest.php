@@ -181,6 +181,20 @@ class CaseConversionTest extends TestCase
         );
     }
 
+    /**
+     * @covers \JsonMapper\Middleware\CaseConversion
+     */
+    public function testWillRemainUntouchedForIntegerKey(): void
+    {
+        $middleware = new CaseConversion(TextNotation::STUDLY_CAPS(), TextNotation::CAMEL_CASE());
+        $json = (object) [1 => 'placeholder'];
+        $object = new ObjectWrapper(new \stdClass());
+
+        $middleware->handle($json, $object, new PropertyMap(), $this->createMock(JsonMapperInterface::class));
+
+        self::assertEquals((object) [1 => 'placeholder'], $json);
+    }
+
     public function conversionDataProvider(): array
     {
         return [
