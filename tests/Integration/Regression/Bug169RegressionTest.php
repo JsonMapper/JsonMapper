@@ -6,6 +6,7 @@ namespace JsonMapper\Tests\Integration\Regression;
 
 use JsonMapper\Handler\FactoryRegistry;
 use JsonMapper\JsonMapperBuilder;
+use JsonMapper\Tests\Implementation\Php80\PopoWithConstructAndDocblock;
 use JsonMapper\Tests\Implementation\Popo;
 use PHPUnit\Framework\TestCase;
 
@@ -26,21 +27,13 @@ class Bug169RegressionTest extends TestCase
             ->withObjectConstructorMiddleware($factoryRegistry)
             ->build();
 
-        $target = new class ([]) {
-            public function __construct(
-                /** @var Popo[] $popo */
-                public array $popo
-            ) {
-                // Intentionally left empty.
-            }
-        };
         $json = json_encode((object)['popo' => [
             (object) ['name' => 'John Doe'],
         ]]);
 
-        $result = $mapper->mapToClassFromString($json, get_class($target));
+        $result = $mapper->mapToClassFromString($json, PopoWithConstructAndDocblock::class);
 
-        self::assertInstanceOf(get_class($target), $result);
+        self::assertInstanceOf(PopoWithConstructAndDocblock::class, $result);
         self::assertArrayHasKey(0, $result->popo);
         self::assertInstanceOf(Popo::class, $result->popo[0]);
         self::assertSame('John Doe', $result->popo[0]->name);
