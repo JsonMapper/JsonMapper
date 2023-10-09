@@ -57,6 +57,12 @@ class PropertyBuilder
         return $this;
     }
 
+    public function addTypes(PropertyType ...$types): self
+    {
+        $this->types = array_merge($this->types, $types);
+        return $this;
+    }
+
     public function setIsNullable(bool $isNullable): self
     {
         $this->isNullable = $isNullable;
