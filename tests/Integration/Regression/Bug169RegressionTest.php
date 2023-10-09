@@ -7,7 +7,7 @@ namespace JsonMapper\Tests\Integration\Regression;
 use JsonMapper\Handler\FactoryRegistry;
 use JsonMapper\JsonMapperBuilder;
 use JsonMapper\Tests\Implementation\Php80\PopoWithConstructAndDocblock;
-use JsonMapper\Tests\Implementation\Popo;
+use JsonMapper\Tests\Implementation\Php80\Popo;
 use PHPUnit\Framework\TestCase;
 
 class Bug169RegressionTest extends TestCase
