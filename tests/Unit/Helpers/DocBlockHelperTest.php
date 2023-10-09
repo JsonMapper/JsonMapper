@@ -33,6 +33,24 @@ EOD;
     /**
      * @covers \JsonMapper\Helpers\DocBlockHelper
      */
+    public function testCanParseVarAnnotationBlockWithNullableType(): void
+    {
+        $docBlock = <<<EOD
+/**
+ * @var ?bool \$isEnabled 
+ */
+EOD;
+        $result = DocBlockHelper::parseDocBlockToAnnotationMap($docBlock);
+
+        self::assertTrue($result->hasVar());
+        self::assertEquals('?bool', $result->getVar());
+        self::assertFalse($result->hasReturn());
+        self::assertEmpty($result->getParams());
+    }
+
+    /**
+     * @covers \JsonMapper\Helpers\DocBlockHelper
+     */
     public function testCanParseParamsAnnotationBlock(): void
     {
         $docBlock = <<<EOD
