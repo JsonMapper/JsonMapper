@@ -26,12 +26,11 @@ class Bug169RegressionTest extends TestCase
             ->withObjectConstructorMiddleware($factoryRegistry)
             ->build();
 
-        $target = new class([]) {
+        $target = new class ([]) {
             public function __construct(
                 /** @var Popo[] $popo */
                 public array $popo
-            )
-            {
+            ) {
                 // Intentionally left empty.
             }
         };
@@ -47,4 +46,3 @@ class Bug169RegressionTest extends TestCase
         self::assertSame('John Doe', $result->popo[0]->name);
     }
 }
-
