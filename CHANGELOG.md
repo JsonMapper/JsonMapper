@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.20.0] - 2023-10-09
+### Fixed
+- Support public properties comments when using Constructor middleware [PR#171](https://github.com/JsonMapper/JsonMapper/pull/171)
+
 ## [2.19.0] - 2023-06-06
 ### Fixed
 - Fix constructor not being called on nested array of objects [PR#164](https://github.com/JsonMapper/JsonMapper/pull/164). Thanks to [o15a3d4l11s2](https://github.com/o15a3d4l11s2) for reporting the issue.

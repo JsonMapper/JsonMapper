@@ -77,4 +77,26 @@ class PropertyBuilderTest extends TestCase
 
         self::assertTrue($builder->hasAnyType());
     }
+
+    /**
+     * @covers \JsonMapper\Builders\PropertyBuilder
+     */
+    public function testCanAddMultipleTypes(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('test')
+            ->setVisibility(Visibility::PRIVATE())
+            ->setIsNullable(false)
+            ->addTypes(
+                new PropertyType('int', ArrayInformation::notAnArray()),
+                new PropertyType('string', ArrayInformation::notAnArray())
+            )->addTypes(
+                new PropertyType('float', ArrayInformation::notAnArray())
+            )->build();
+
+        $this->assertThatProperty($property)
+            ->hasType('int', ArrayInformation::notAnArray())
+            ->hasType('string', ArrayInformation::notAnArray())
+            ->hasType('float', ArrayInformation::notAnArray());
+    }
 }
