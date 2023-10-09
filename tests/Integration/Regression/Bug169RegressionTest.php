@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JsonMapper\Tests\Integration\Regression;
 
 use JsonMapper\Handler\FactoryRegistry;
+use JsonMapper\Handler\PropertyMapper;
 use JsonMapper\JsonMapperBuilder;
 use JsonMapper\Tests\Implementation\Php80\PopoWithConstructAndDocblock;
 use JsonMapper\Tests\Implementation\Php80\Popo;
@@ -17,10 +18,11 @@ class Bug169RegressionTest extends TestCase
      * @coversNothing
      * @requires PHP >= 8.0
      */
-    public function canHandleVarNotationOnPublicProperty()
+    public function canHandleVarNotationOnPublicProperty(): void
     {
         $factoryRegistry = new FactoryRegistry();
         $mapper = JsonMapperBuilder::new()
+            ->withPropertyMapper(new PropertyMapper($factoryRegistry))
             ->withDocBlockAnnotationsMiddleware()
             ->withTypedPropertiesMiddleware()
             ->withNamespaceResolverMiddleware()
