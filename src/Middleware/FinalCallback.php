@@ -35,8 +35,11 @@ class FinalCallback implements MiddlewareInterface
             $handler
         ) {
             self::$nestingLevel++;
-            $handler($json, $object, $map, $mapper);
-            self::$nestingLevel--;
+			try {
+				$handler($json, $object, $map, $mapper);
+			} finally {
+				self::$nestingLevel--;
+			}
 
             if (! $this->onlyApplyCallBackOnTopLevel || self::$nestingLevel === 0) {
                 \call_user_func($this->callback, $json, $object, $map, $mapper);
