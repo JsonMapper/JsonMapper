@@ -6,7 +6,7 @@ For more information see the project website: https://jsonmapper.net/
 [![GitHub](https://img.shields.io/github/license/JsonMapper/JsonMapper)](https://choosealicense.com/licenses/mit/)
 [![Packagist Version](https://img.shields.io/packagist/v/json-mapper/json-mapper)](https://packagist.org/packages/json-mapper/json-mapper) 
 [![PHP from Packagist](https://img.shields.io/packagist/php-v/json-mapper/json-mapper)](#)
-![Build](https://github.com/JsonMapper/JsonMapper/workflows/Build/badge.svg?branch=master)
+![Build](https://github.com/JsonMapper/JsonMapper/workflows/Build/badge.svg?branch=main)
 [![Coverage Status](https://coveralls.io/repos/github/JsonMapper/JsonMapper/badge.svg?branch=develop)](https://coveralls.io/github/JsonMapper/JsonMapper?branch=develop)
 
 # Why use JsonMapper
@@ -90,7 +90,7 @@ $mapper->push(new class extends JsonMapper\Middleware\AbstractMiddleware {
 ```
 
 # Contributing
-Please refer to [CONTRIBUTING.md](https://github.com/JsonMapper/JsonMapper/blob/master/CONTRIBUTING.md) for information on how to contribute to JsonMapper.
+Please refer to [CONTRIBUTING.md](https://github.com/JsonMapper/JsonMapper/blob/main/CONTRIBUTING.md) for information on how to contribute to JsonMapper.
 
 ## List of Contributors
 Thanks to everyone who has contributed to JsonMapper! You can find a detailed list of contributors of JsonMapper on [GitHub](https://github.com/JsonMapper/JsonMapper/graphs/contributors).
@@ -101,4 +101,4 @@ Thanks to everyone who has contributed to JsonMapper! You can find a detailed li
 This project is sponsored by JetBrains providing an open source license to continue building on JsonMapper without cost.     
 
 # License
-The MIT License (MIT). Please see [License File](https://github.com/JsonMapper/JsonMapper/blob/master/LICENSE) for more information.
+The MIT License (MIT). Please see [License File](https://github.com/JsonMapper/JsonMapper/blob/main/LICENSE) for more information.
