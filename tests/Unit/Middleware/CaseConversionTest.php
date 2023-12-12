@@ -119,6 +119,82 @@ class CaseConversionTest extends TestCase
         self::assertEquals('placeholder', $json->key);
     }
 
+    /**
+     * @covers \JsonMapper\Middleware\CaseConversion
+     */
+    public function testWillRecursivelyApplyCaseConversionWhenApplied(): void
+    {
+        $middleware = new CaseConversion(TextNotation::STUDLY_CAPS(), TextNotation::CAMEL_CASE(), true);
+        $json = (object) [
+            'One' => 1,
+            'Object' => (object) ['TwentyOne' => 21],
+            'Array' => [
+                (object) ['FirstName' => 'Jane', 'LastName' => 'Doe'],
+                (object) ['FirstName' => 'John', 'LastName' => 'Doe'],
+            ]
+        ];
+        $object = new ObjectWrapper(null, \stdClass::class);
+
+        $middleware->handle($json, $object, new PropertyMap(), $this->createMock(JsonMapperInterface::class));
+
+        self::assertEquals(
+            (object) [
+                'one' => 1,
+                'object' => (object) ['twentyOne' => 21],
+                'array' => [
+                    (object) ['firstName' => 'Jane', 'lastName' => 'Doe'],
+                    (object) ['firstName' => 'John', 'lastName' => 'Doe'],
+                ]
+            ],
+            $json
+        );
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\CaseConversion
+     */
+    public function testWillNotRecursivelyApplyCaseConversionWhenNotApplied(): void
+    {
+        $middleware = new CaseConversion(TextNotation::STUDLY_CAPS(), TextNotation::CAMEL_CASE(), false);
+        $json = (object) [
+            'One' => 1,
+            'Object' => (object) ['TwentyOne' => 21],
+            'Array' => [
+                (object) ['FirstName' => 'Jane', 'LastName' => 'Doe'],
+                (object) ['FirstName' => 'John', 'LastName' => 'Doe'],
+            ]
+        ];
+        $object = new ObjectWrapper(null, \stdClass::class);
+
+        $middleware->handle($json, $object, new PropertyMap(), $this->createMock(JsonMapperInterface::class));
+
+        self::assertEquals(
+            (object) [
+                'one' => 1,
+                'object' => (object) ['TwentyOne' => 21],
+                'array' => [
+                    (object) ['FirstName' => 'Jane', 'LastName' => 'Doe'],
+                    (object) ['FirstName' => 'John', 'LastName' => 'Doe'],
+                ]
+            ],
+            $json
+        );
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\CaseConversion
+     */
+    public function testWillRemainUntouchedForIntegerKey(): void
+    {
+        $middleware = new CaseConversion(TextNotation::STUDLY_CAPS(), TextNotation::CAMEL_CASE());
+        $json = (object) [1 => 'placeholder'];
+        $object = new ObjectWrapper(new \stdClass());
+
+        $middleware->handle($json, $object, new PropertyMap(), $this->createMock(JsonMapperInterface::class));
+
+        self::assertEquals((object) [1 => 'placeholder'], $json);
+    }
+
     public function conversionDataProvider(): array
     {
         return [

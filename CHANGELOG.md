@@ -6,6 +6,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.21.0] - 2023-12-12
+### Fixed
+- Corrected master for main in workflows and docs [PR#174](https://github.com/JsonMapper/JsonMapper/pull/174)
+- Fix FinalCallback not called after a previous exception [PR#173](https://github.com/JsonMapper/JsonMapper/pull/173). Thanks to [hyde1](https://github.com/hyde1) for creating the PR.
+
+
+## [2.20.0] - 2023-10-09
+### Fixed
+- Support public properties comments when using Constructor middleware [PR#171](https://github.com/JsonMapper/JsonMapper/pull/171)
+
+## [2.19.0] - 2023-06-06
+### Fixed
+- Fix constructor not being called on nested array of objects [PR#164](https://github.com/JsonMapper/JsonMapper/pull/164). Thanks to [o15a3d4l11s2](https://github.com/o15a3d4l11s2) for reporting the issue.
+- Avoid integer keys being replaced in CaseConversion middleware [PR#166](https://github.com/JsonMapper/JsonMapper/pull/166)
+
+## [2.18.0] - 2023-05-12
+### Fixed 
+- Support private properties from parent class in DocBlockAnnotations and TypedProperties [PR#161](https://github.com/JsonMapper/JsonMapper/pull/161)
+
+## [2.17.0] - 2023-05-02
+### Changed
+- Allow vimeo/psalm 5.0 as dev dependency
+- Allow recursive traversal in CaseConversion middleware [PR#160](https://github.com/JsonMapper/JsonMapper/pull/160)
+### Fixed
+- Fix null value reaching native php class factories [PR#159](https://github.com/JsonMapper/JsonMapper/pull/159). Thanks to [template-provider](https://github.com/template-provider) for reporting the issue.
+
 ## [2.16.0] - 2023-02-13
 ### Fixed
 - Make it compatible with Laravel 9 [PR#156](https://github.com/JsonMapper/JsonMapper/pull/156). Thanks to [MarcelGDC](https://github.com/MarcelGDC) for reporting the issue.

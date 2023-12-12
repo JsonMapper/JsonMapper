@@ -15,11 +15,17 @@ class CaseConversion extends AbstractMiddleware
     private $searchSeparator;
     /** @var TextNotation */
     private $replacementSeparator;
+    /** @var bool */
+    private $applyRecursive;
 
-    public function __construct(TextNotation $searchSeparator, TextNotation $replacementSeparator)
-    {
+    public function __construct(
+        TextNotation $searchSeparator,
+        TextNotation $replacementSeparator,
+        bool $applyRecursive = false
+    ) {
         $this->searchSeparator = $searchSeparator;
         $this->replacementSeparator = $replacementSeparator;
+        $this->applyRecursive = $applyRecursive;
     }
 
     public function handle(
@@ -32,16 +38,40 @@ class CaseConversion extends AbstractMiddleware
             return;
         }
 
+        $this->replace($json);
+    }
+
+    /** @param \stdClass|array $json */
+    private function replace($json): void
+    {
+        if (is_array($json)) {
+            array_walk(
+                $json,
+                function ($value) {
+                    $this->replace($value);
+                }
+            );
+            return;
+        }
+
         $keys = \array_keys((array) $json);
         foreach ($keys as $key) {
+            if (is_int($key)) {
+                break;
+            }
             $replacementKey = $this->getReplacementKey($key);
 
             if ($replacementKey === $key) {
                 continue;
             }
 
-            $json->$replacementKey = $json->$key;
+            $value = $json->$key;
+            $json->$replacementKey = $value;
             unset($json->$key);
+
+            if ($this->applyRecursive && (is_array($value) || $value instanceof \stdClass)) {
+                $this->replace($value);
+            }
         }
     }
 

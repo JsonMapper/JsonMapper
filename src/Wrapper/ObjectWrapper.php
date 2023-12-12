@@ -49,8 +49,14 @@ class ObjectWrapper
     public function getObject()
     {
         if (\is_null($this->object)) {
-            $this->object = $this->getReflectedObject()->newInstanceWithoutConstructor();
+            $constructor = $this->getReflectedObject()->getConstructor();
+            if (\is_null($constructor) || $constructor->getNumberOfParameters() === 0) {
+                $this->object = $this->getReflectedObject()->newInstance();
+            } else {
+                $this->object = $this->getReflectedObject()->newInstanceWithoutConstructor();
+            }
         }
+
         return $this->object;
     }
 

@@ -13,9 +13,11 @@ use JsonMapper\Helpers\IScalarCaster;
 use JsonMapper\Helpers\NamespaceHelper;
 use JsonMapper\Helpers\UseStatementHelper;
 use JsonMapper\JsonMapperInterface;
+use JsonMapper\Parser\Import;
 use JsonMapper\ValueObjects\AnnotationMap;
 use JsonMapper\ValueObjects\ArrayInformation;
 use JsonMapper\ValueObjects\PropertyMap;
+use JsonMapper\ValueObjects\PropertyType;
 use ReflectionMethod;
 
 class DefaultFactory
@@ -41,6 +43,7 @@ class DefaultFactory
         FactoryRegistry $classFactoryRegistry,
         FactoryRegistry $nonInstantiableTypeResolver = null
     ) {
+        $reflectedClass = $reflectedConstructor->getDeclaringClass();
         $this->objectName = $objectName;
         $this->mapper = $mapper;
         if ($nonInstantiableTypeResolver === null) {
@@ -60,6 +63,7 @@ class DefaultFactory
 
             $type = 'mixed';
             $reflectedType = $param->getType();
+
             if (! \is_null($reflectedType)) {
                 $type = $reflectedType->getName();
                 if ($type === 'array') {
@@ -70,35 +74,17 @@ class DefaultFactory
             }
 
             if ($annotationMap->hasParam($param->getName())) {
-                $type = $annotationMap->getParam($param->getName());
-                $types = \explode('|', $type);
-                $types = \array_filter($types, static function (string $type) {
-                    return $type !== 'null';
-                });
+                $types = $this->deriveTypesFromDocBlockType($annotationMap->getParam($param->getName()), $reflectedClass, $imports);
+                $builder->addTypes(...$types);
+            }
 
-                foreach ($types as $type) {
-                    $type = \trim($type);
-                    $isAnArrayType = \substr($type, -2) === '[]';
+            if ($reflectedClass->hasProperty($param->getName())) {
+                $docComment = $reflectedClass->getProperty($param->getName())->getDocComment();
+                if ($docComment !== false) {
+                    $annotationMap = DocBlockHelper::parseDocBlockToAnnotationMap($docComment);
+                    $types = $this->deriveTypesFromDocBlockType($annotationMap->getVar(), $reflectedClass, $imports);
 
-                    if (! $isAnArrayType) {
-                        $builder->addType($type, ArrayInformation::notAnArray());
-                        continue;
-                    }
-
-                    $initialBracketPosition = strpos($type, '[');
-                    $dimensions = substr_count($type, '[]');
-
-                    if ($initialBracketPosition !== false) {
-                        $type = substr($type, 0, $initialBracketPosition);
-                    }
-
-                    $type = NamespaceHelper::resolveNamespace(
-                        $type,
-                        $reflectedConstructor->getDeclaringClass()->getNamespaceName(),
-                        $imports
-                    );
-
-                    $builder->addType($type, ArrayInformation::multiDimension($dimensions));
+                    $builder->addTypes(...$types);
                 }
             }
 
@@ -137,5 +123,51 @@ class DefaultFactory
             $annotationMap = DocBlockHelper::parseDocBlockToAnnotationMap($docBlock);
         }
         return $annotationMap;
+    }
+
+    /**
+     * @param Import[] $imports
+     * @return PropertyType[]
+     */
+    private function deriveTypesFromDocBlockType(string $docBlockType, \ReflectionClass $class, array $imports): array
+    {
+        $types = [];
+
+        if (strpos($docBlockType, '?') === 0) {
+            $docBlockType = \substr($docBlockType, 1);
+        }
+
+        $docBlockTypes = \explode('|', $docBlockType);
+        $docBlockTypes = \array_filter($docBlockTypes, static function (string $docBlockType) {
+            return $docBlockType !== 'null';
+        });
+
+        foreach ($docBlockTypes as $dt) {
+            $dt = \trim($dt);
+            $isAnArrayType = \substr($dt, -2) === '[]';
+
+            if (! $isAnArrayType) {
+                $type = NamespaceHelper::resolveNamespace($dt, $class->getNamespaceName(), $imports);
+                $types[] = new PropertyType($type, ArrayInformation::notAnArray());
+                continue;
+            }
+
+            $initialBracketPosition = strpos($dt, '[');
+            $dimensions = substr_count($dt, '[]');
+
+            if ($initialBracketPosition !== false) {
+                $type = substr($dt, 0, $initialBracketPosition);
+            }
+
+            $type = NamespaceHelper::resolveNamespace(
+                $type,
+                $class->getNamespaceName(),
+                $imports
+            );
+
+            $types[] = new PropertyType($type, ArrayInformation::multiDimension($dimensions));
+        }
+
+        return $types;
     }
 }
