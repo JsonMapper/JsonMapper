@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Include PHP 8.3 in build matrix [PR#178](https://github.com/JsonMapper/JsonMapper/pull/178)
 ### Changed
 - Tweak pull request template [PR#179](https://github.com/JsonMapper/JsonMapper/pull/179)
+- Update badges [PR#181](https://github.com/JsonMapper/JsonMapper/pull/181)
 ### Removed
 - Remove dependabot [PR#177](https://github.com/JsonMapper/JsonMapper/pull/177)
 - Remove dependabot workflow [PR#180](https://github.com/JsonMapper/JsonMapper/pull/180)
