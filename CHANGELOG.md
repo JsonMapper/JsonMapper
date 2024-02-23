@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tweak pull request template [PR#179](https://github.com/JsonMapper/JsonMapper/pull/179)
 ### Removed
 - Remove dependabot [PR#177](https://github.com/JsonMapper/JsonMapper/pull/177)
+- Remove dependabot workflow [PR#180](https://github.com/JsonMapper/JsonMapper/pull/180)
 
 ## [2.21.0] - 2023-12-12
 ### Fixed
