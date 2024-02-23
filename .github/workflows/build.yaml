@@ -67,6 +67,15 @@ jobs:
             composer_update_flags: '--prefer-lowest --prefer-stable'
             php_ini: 'xdebug.coverage_enable=On'
             name: 'PHP 8.2 with lowest stable deps'
+          - php: 8.3
+            allow_fail: false
+            php_ini: 'xdebug.coverage_enable=On'
+            name: 'PHP 8.3 with latest deps'
+          - php: 8.3
+            allow_fail: false
+            composer_update_flags: '--prefer-lowest --prefer-stable'
+            php_ini: 'xdebug.coverage_enable=On'
+            name: 'PHP 8.3 with lowest stable deps'
 
     runs-on: ubuntu-latest
 
