@@ -4,9 +4,10 @@ JsonMapper is a PHP library that allows you to map a JSON response to your PHP o
 For more information see the project website: https://jsonmapper.net/
 
 [![GitHub](https://img.shields.io/github/license/JsonMapper/JsonMapper)](https://choosealicense.com/licenses/mit/)
-[![Packagist Version](https://img.shields.io/packagist/v/json-mapper/json-mapper)](https://packagist.org/packages/json-mapper/json-mapper) 
+[![Packagist Version](https://img.shields.io/packagist/v/json-mapper/json-mapper)](https://packagist.org/packages/json-mapper/json-mapper)
+![Packagist Downloads](https://img.shields.io/packagist/dm/json-mapper/json-mapper)
 [![PHP from Packagist](https://img.shields.io/packagist/php-v/json-mapper/json-mapper)](#)
-![Build](https://github.com/JsonMapper/JsonMapper/workflows/Build/badge.svg?branch=main)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/JsonMapper/JsonMapper/build.yaml)
 [![Coverage Status](https://coveralls.io/repos/github/JsonMapper/JsonMapper/badge.svg?branch=develop)](https://coveralls.io/github/JsonMapper/JsonMapper?branch=develop)
 
 # Why use JsonMapper
