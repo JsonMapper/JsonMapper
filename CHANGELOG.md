@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.22.1] - 2024-05-04
+### Changed
+- Add compatibility with symfony/cache:^7.0 [PR#184](https://github.com/JsonMapper/JsonMapper/pull/184)
+
 ## [2.22.0] - 2024-03-05
 ### Added
 - Include PHP 8.3 in build matrix [PR#178](https://github.com/JsonMapper/JsonMapper/pull/178)
