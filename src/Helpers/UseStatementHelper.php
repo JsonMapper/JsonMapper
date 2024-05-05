@@ -49,7 +49,9 @@ class UseStatementHelper
             throw new \RuntimeException("Unable to read {$filename}");
         }
 
-        $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
+        $parser = method_exists(ParserFactory::class, 'createForNewestSupportedVersion')
+          ? (new ParserFactory())->createForNewestSupportedVersion()
+          : (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
 
         try {
             $ast = $parser->parse($contents);
