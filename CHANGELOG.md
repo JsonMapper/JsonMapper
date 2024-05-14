@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.22.2] - 2024-05-14
+### Changed
+- Added support for nikic/php-parser:^5.0 [PR#185](https://github.com/JsonMapper/JsonMapper/pull/185)
+### Fixed
+- Resolve Nodejs16 deprecations warnings [PR#186](https://github.com/JsonMapper/JsonMapper/pull/186)
+
 ## [2.22.1] - 2024-05-04
 ### Changed
 - Add compatibility with symfony/cache:^7.0 [PR#184](https://github.com/JsonMapper/JsonMapper/pull/184)
