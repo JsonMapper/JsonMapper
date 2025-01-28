@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added support for nikic/php-parser:^5.0 [PR#185](https://github.com/JsonMapper/JsonMapper/pull/185)
 ### Fixed
 - Resolve Nodejs16 deprecations warnings [PR#186](https://github.com/JsonMapper/JsonMapper/pull/186)
+- Add dark mode logo [PR#188](https://github.com/JsonMapper/JsonMapper/pull/188)
 
 ## [2.22.1] - 2024-05-04
 ### Changed
