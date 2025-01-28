@@ -1,4 +1,8 @@
-![Logo](https://jsonmapper.net/images/jsonmapper.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://jsonmapper.net/images/jsonmapper-light.png">
+  <img alt="JsonMapper logo" src="https://jsonmapper.net/images/jsonmapper.png">
+</picture>
+
 ---
 JsonMapper is a PHP library that allows you to map a JSON response to your PHP objects that are either annotated using doc blocks or use typed properties.
 For more information see the project website: https://jsonmapper.net/
