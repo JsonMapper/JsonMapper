@@ -11,7 +11,7 @@ class Square extends AbstractShape
     /** @var int */
     public $length;
 
-    public function __construct(int $width = null, int $length = null)
+    public function __construct(?int $width = null, ?int $length = null)
     {
         $this->width = $width;
         $this->length = $length;

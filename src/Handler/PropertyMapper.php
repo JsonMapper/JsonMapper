@@ -24,9 +24,9 @@ class PropertyMapper
     private $valueFactory;
 
     public function __construct(
-        FactoryRegistry $classFactoryRegistry = null,
-        FactoryRegistry $nonInstantiableTypeResolver = null,
-        IScalarCaster $casterHelper = null
+        ?FactoryRegistry $classFactoryRegistry = null,
+        ?FactoryRegistry $nonInstantiableTypeResolver = null,
+        ?IScalarCaster $casterHelper = null
     ) {
         if ($classFactoryRegistry === null) {
             $classFactoryRegistry = FactoryRegistry::withNativePhpClassesAdded();

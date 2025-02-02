@@ -18,7 +18,7 @@ class JsonMapper implements JsonMapperInterface
     /** @var callable|null */
     private $cached;
 
-    public function __construct(callable $propertyMapper = null)
+    public function __construct(?callable $propertyMapper = null)
     {
         $this->propertyMapper = $propertyMapper;
     }
