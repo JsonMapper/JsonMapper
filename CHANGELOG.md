@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Fix implicit null deprecations [PR#189](https://github.com/JsonMapper/JsonMapper/pull/189)
 
 ## [2.22.2] - 2024-05-14
 ### Changed

@@ -41,7 +41,7 @@ class DefaultFactory
         JsonMapperInterface $mapper,
         IScalarCaster $scalarCaster,
         FactoryRegistry $classFactoryRegistry,
-        FactoryRegistry $nonInstantiableTypeResolver = null
+        ?FactoryRegistry $nonInstantiableTypeResolver = null
     ) {
         $reflectedClass = $reflectedConstructor->getDeclaringClass();
         $this->objectName = $objectName;

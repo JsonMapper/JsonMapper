@@ -20,7 +20,7 @@ class NamespaceResolver extends AbstractMiddleware
     /** @var CacheInterface */
     private $cache;
 
-    public function __construct(CacheInterface $cache = null)
+    public function __construct(?CacheInterface $cache = null)
     {
         $this->cache = $cache ?? new NullCache();
     }
