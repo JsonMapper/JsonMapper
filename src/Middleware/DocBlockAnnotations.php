@@ -15,7 +15,7 @@ use Psr\SimpleCache\CacheInterface;
 
 class DocBlockAnnotations extends AbstractMiddleware
 {
-    private const DOC_BLOCK_REGEX = '/@(?P<name>[A-Za-z_-]+)[ \t]+(?P<value>[\w\[\]\\\\|<>, ]*).*$/m';
+    private const DOC_BLOCK_REGEX = '/@(?P<name>[A-Za-z_-]+)[ \t]+(?P<value>(?:[\w\[\]\\\\|<>]+(?:,\s*)?)*).*$/m';
 
     /** @var CacheInterface */
     private $cache;
