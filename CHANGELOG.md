@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.23.0] - 2025-04-08
+### Added
+- Include PHP 8.4 in build matrix [PR#187](https://github.com/JsonMapper/JsonMapper/pull/187)
+- Add support for list<T> and array<TKey, TValue> from DocBlocks [PR#193](https://github.com/JsonMapper/JsonMapper/pull/193)
+
 ## [2.22.3] - 2025-02-03
 ### Fixed
 - Fix implicit null deprecations [PR#189](https://github.com/JsonMapper/JsonMapper/pull/189)

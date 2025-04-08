@@ -15,7 +15,7 @@ use Psr\SimpleCache\CacheInterface;
 
 class DocBlockAnnotations extends AbstractMiddleware
 {
-    private const DOC_BLOCK_REGEX = '/@(?P<name>[A-Za-z_-]+)[ \t]+(?P<value>[\w\[\]\\\\|]*).*$/m';
+    private const DOC_BLOCK_REGEX = '/@(?P<name>[A-Za-z_-]+)[ \t]+(?P<value>(?:[\w\[\]\\\\|<>]+(?:,\s*)?)*).*$/m';
 
     /** @var CacheInterface */
     private $cache;
@@ -79,21 +79,15 @@ class DocBlockAnnotations extends AbstractMiddleware
 
             foreach ($types as $type) {
                 $type = \trim($type);
-                $isAnArrayType = \substr($type, -2) === '[]';
+                $isAnArrayType = $this->isArrayType($type);
 
                 if (! $isAnArrayType) {
                     $builder->addType($type, ArrayInformation::notAnArray());
                     continue;
                 }
 
-                $initialBracketPosition = strpos($type, '[');
-                $dimensions = substr_count($type, '[]');
-
-                if ($initialBracketPosition !== false) {
-                    $type = substr($type, 0, $initialBracketPosition);
-                }
-
-                $builder->addType($type, ArrayInformation::multiDimension($dimensions));
+                $arrayInformation = $this->determineArrayInformation($type);
+                $builder->addType($type, $arrayInformation);
             }
 
             $property = $builder->build();
@@ -105,7 +99,7 @@ class DocBlockAnnotations extends AbstractMiddleware
         return $intermediatePropertyMap;
     }
 
-    public static function parseDocBlockToAnnotationMap(string $docBlock): AnnotationMap
+    private static function parseDocBlockToAnnotationMap(string $docBlock): AnnotationMap
     {
         // Strip away the start "/**' and ending "*/"
         if (strpos($docBlock, '/**') === 0) {
@@ -129,7 +123,7 @@ class DocBlockAnnotations extends AbstractMiddleware
     }
 
     /** @return \ReflectionProperty[] */
-    public function getObjectPropertiesIncludingParents(ObjectWrapper $object): array
+    private function getObjectPropertiesIncludingParents(ObjectWrapper $object): array
     {
         $properties = [];
         $reflectionClass = $object->getReflectedObject();
@@ -137,5 +131,48 @@ class DocBlockAnnotations extends AbstractMiddleware
             $properties = array_merge($properties, $reflectionClass->getProperties());
         } while ($reflectionClass = $reflectionClass->getParentClass());
         return $properties;
+    }
+
+    private function isArrayType(string $type): bool
+    {
+        return \substr($type, -2) === '[]'
+            || \strpos($type, 'list<') === 0
+            || \strpos($type, 'array<') === 0;
+    }
+
+    private function determineArrayInformation(string &$type): ArrayInformation
+    {
+        $levels = 0;
+        while (true) {
+            if (substr($type, -2) === '[]') {
+                $levels++;
+                $type = \substr($type, 0, -2);
+
+                continue;
+            }
+
+            if (strpos($type, 'list<') === 0) {
+                $levels++;
+                $type = \substr($type, 5, -1);
+
+                continue;
+            }
+
+            if (strpos($type, 'array<') === 0) {
+                $levels++;
+                $offset = 6;
+                $commaPosition = strpos($type, ',');
+                if (is_int($commaPosition)) {
+                    $offset = $commaPosition + 1;
+                }
+                $type = \trim(\substr($type, $offset, -1));
+
+                continue;
+            }
+
+            break;
+        }
+
+        return $levels === 0 ? ArrayInformation::notAnArray() : ArrayInformation::multiDimension($levels);
     }
 }

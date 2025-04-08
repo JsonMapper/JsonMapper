@@ -244,4 +244,48 @@ class DocBlockAnnotationsTest extends TestCase
             ->hasVisibility(Visibility::PUBLIC())
             ->isNotNullable();
     }
+
+    /**
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations
+     */
+    public function testTypeIsCorrectlyCalculatedForList(): void
+    {
+        $middleware = new DocBlockAnnotations(new NullCache());
+        $object = new class {
+            /** @var list<int> */
+            public $listOfNumbers;
+        };
+        $propertyMap = new PropertyMap();
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertTrue($propertyMap->hasProperty('listOfNumbers'));
+        $this->assertThatProperty($propertyMap->getProperty('listOfNumbers'))
+            ->onlyHasType('int', ArrayInformation::singleDimension())
+            ->hasVisibility(Visibility::PUBLIC())
+            ->isNotNullable();
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\DocBlockAnnotations
+     */
+    public function testTypeIsCorrectlyCalculatedForArrayLtGt(): void
+    {
+        $middleware = new DocBlockAnnotations(new NullCache());
+        $object = new class {
+            /** @var array<int, string> */
+            public $listOfWords;
+        };
+        $propertyMap = new PropertyMap();
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+
+        $middleware->handle(new \stdClass(), new ObjectWrapper($object), $propertyMap, $jsonMapper);
+
+        self::assertTrue($propertyMap->hasProperty('listOfWords'));
+        $this->assertThatProperty($propertyMap->getProperty('listOfWords'))
+            ->onlyHasType('string', ArrayInformation::singleDimension())
+            ->hasVisibility(Visibility::PUBLIC())
+            ->isNotNullable();
+    }
 }
