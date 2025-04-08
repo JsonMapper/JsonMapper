@@ -355,4 +355,110 @@ class DefaultFactoryTest extends TestCase
         self::assertInstanceOf(WithConstructorReadOnlyDateTimePropertyPromotion::class, $result);
         self::assertEquals($date, $result->date);
     }
+
+    /**
+     * @covers \JsonMapper\Middleware\Constructor\DefaultFactory
+     */
+    public function testDefaultFactoryCanHandleObjectWithConstructorWithArrayLtGtOfObjectParameter(): void
+    {
+        $name = 'Jane Doe';
+        $class = new class {
+            /** @var array<int, Popo> */
+            private $value;
+
+            /** @param array<int, Popo> $value */
+            public function __construct(array $value = [])
+            {
+                $this->value = $value;
+            }
+
+            /** @return array<int, Popo> */
+            public function getValue(): array
+            {
+                return $this->value;
+            }
+        };
+        $mapper = $this->createMock(JsonMapperInterface::class);
+        $mapper->method('mapToClass')
+            ->with($this->isInstanceOf(\stdClass::class), Popo::class)
+            ->willReturnCallback(function (stdClass $data) {
+                $popo = new Popo();
+                $popo->name = $data->name ?? null;
+                $popo->date = $data->date ?? null;
+                $popo->notes = $data->notes ?? null;
+
+                return $popo;
+            });
+        $sut = new DefaultFactory(
+            get_class($class),
+            (new \ReflectionClass($class))->getConstructor(),
+            $mapper,
+            new ScalarCaster(),
+            new FactoryRegistry()
+        );
+
+        $result = $sut->__invoke(
+            (object) [
+                'value' => [(object) ['name' => $name], (object) ['name' => strrev($name)]]
+            ]
+        );
+
+        self::assertInstanceOf(get_class($class), $result);
+        self::assertContainsOnlyInstancesOf(Popo::class, $result->getValue());
+        self::assertEquals($name, $result->getValue()[0]->name);
+        self::assertEquals(strrev($name), $result->getValue()[1]->name);
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\Constructor\DefaultFactory
+     */
+    public function testDefaultFactoryCanHandleObjectWithConstructorWithListOfObjectParameter(): void
+    {
+        $name = 'Jane Doe';
+        $class = new class {
+            /** @var list<Popo> */
+            private $value;
+
+            /** @param list<Popo> $value */
+            public function __construct(array $value = [])
+            {
+                $this->value = $value;
+            }
+
+            /** @return list<Popo> */
+            public function getValue(): array
+            {
+                return $this->value;
+            }
+        };
+        $mapper = $this->createMock(JsonMapperInterface::class);
+        $mapper->method('mapToClass')
+            ->with($this->isInstanceOf(\stdClass::class), Popo::class)
+            ->willReturnCallback(function (stdClass $data) {
+                $popo = new Popo();
+                $popo->name = $data->name ?? null;
+                $popo->date = $data->date ?? null;
+                $popo->notes = $data->notes ?? null;
+
+                return $popo;
+            });
+        $sut = new DefaultFactory(
+            get_class($class),
+            (new \ReflectionClass($class))->getConstructor(),
+            $mapper,
+            new ScalarCaster(),
+            new FactoryRegistry()
+        );
+
+        $result = $sut->__invoke(
+            (object) [
+                'value' => [(object) ['name' => $name], (object) ['name' => strrev($name)]]
+            ]
+        );
+
+        self::assertInstanceOf(get_class($class), $result);
+        self::assertContainsOnlyInstancesOf(Popo::class, $result->getValue());
+        self::assertEquals($name, $result->getValue()[0]->name);
+        self::assertEquals(strrev($name), $result->getValue()[1]->name);
+    }
 }

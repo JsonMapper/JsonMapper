@@ -8,7 +8,7 @@ use JsonMapper\ValueObjects\AnnotationMap;
 
 class DocBlockHelper
 {
-    private const PATTERN = '/@(?P<annotation>[A-Za-z_-]+)[ \t]+(?P<type>\??[\w\[\]\\\\|]*)[ \t]?\$?(?P<name>[\w\[\]\\\\|]*)/m';
+    private const PATTERN = '/@(?P<annotation>[A-Za-z_-]+)[ \t]+(?P<type>\??(?:[\w\[\]\\\\|<>]+(?:,\s*)?)*)[ \t]*\$?(?P<name>[\w\[\]\\\\|]*)/m';
 
     public static function parseDocBlockToAnnotationMap(string $docBlock): AnnotationMap
     {
