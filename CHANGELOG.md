@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.24.0] - 2025-04-08
+### Added
+- Add support list and array<TKey, TValue> in constructor middleware [PR#194](https://github.com/JsonMapper/JsonMapper/pull/194)
+
 ## [2.23.0] - 2025-04-08
 ### Added
 - Include PHP 8.4 in build matrix [PR#187](https://github.com/JsonMapper/JsonMapper/pull/187)

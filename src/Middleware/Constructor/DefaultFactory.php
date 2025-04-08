@@ -144,7 +144,7 @@ class DefaultFactory
 
         foreach ($docBlockTypes as $dt) {
             $dt = \trim($dt);
-            $isAnArrayType = \substr($dt, -2) === '[]';
+            $isAnArrayType = $this->isArrayType($dt);
 
             if (! $isAnArrayType) {
                 $type = NamespaceHelper::resolveNamespace($dt, $class->getNamespaceName(), $imports);
@@ -152,22 +152,60 @@ class DefaultFactory
                 continue;
             }
 
-            $initialBracketPosition = strpos($dt, '[');
-            $dimensions = substr_count($dt, '[]');
-
-            if ($initialBracketPosition !== false) {
-                $type = substr($dt, 0, $initialBracketPosition);
-            }
+            $arrayInformation = $this->determineArrayInformation($dt);
 
             $type = NamespaceHelper::resolveNamespace(
-                $type,
+                $dt,
                 $class->getNamespaceName(),
                 $imports
             );
 
-            $types[] = new PropertyType($type, ArrayInformation::multiDimension($dimensions));
+            $types[] = new PropertyType($type, $arrayInformation);
         }
 
         return $types;
+    }
+
+    private function isArrayType(string $type): bool
+    {
+        return \substr($type, -2) === '[]'
+            || \strpos($type, 'list<') === 0
+            || \strpos($type, 'array<') === 0;
+    }
+
+    private function determineArrayInformation(string &$type): ArrayInformation
+    {
+        $levels = 0;
+        while (true) {
+            if (substr($type, -2) === '[]') {
+                $levels++;
+                $type = \substr($type, 0, -2);
+
+                continue;
+            }
+
+            if (strpos($type, 'list<') === 0) {
+                $levels++;
+                $type = \substr($type, 5, -1);
+
+                continue;
+            }
+
+            if (strpos($type, 'array<') === 0) {
+                $levels++;
+                $offset = 6;
+                $commaPosition = strpos($type, ',');
+                if (is_int($commaPosition)) {
+                    $offset = $commaPosition + 1;
+                }
+                $type = \trim(\substr($type, $offset, -1));
+
+                continue;
+            }
+
+            break;
+        }
+
+        return $levels === 0 ? ArrayInformation::notAnArray() : ArrayInformation::multiDimension($levels);
     }
 }
