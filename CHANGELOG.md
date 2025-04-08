@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.24.0] - 2025-04-08
 ### Added
 - Add support list and array<TKey, TValue> in constructor middleware [PR#194](https://github.com/JsonMapper/JsonMapper/pull/194)
 
