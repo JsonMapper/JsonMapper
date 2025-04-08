@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.23.0] - 2025-04-08
 ### Added
 - Include PHP 8.4 in build matrix [PR#187](https://github.com/JsonMapper/JsonMapper/pull/187)
 - Add support for list<T> and array<TKey, TValue> from DocBlocks [PR#193](https://github.com/JsonMapper/JsonMapper/pull/193)
