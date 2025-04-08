@@ -14,7 +14,9 @@ use JsonMapper\Tests\Implementation\ComplexObject;
 use JsonMapper\Tests\Implementation\Php81\BlogPostWithConstructor;
 use JsonMapper\Tests\Implementation\Php81\Status;
 use JsonMapper\Tests\Implementation\Popo;
+use JsonMapper\Tests\Implementation\PopoArrayLtGt;
 use JsonMapper\Tests\Implementation\PopoContainer;
+use JsonMapper\Tests\Implementation\PopoList;
 use JsonMapper\Tests\Implementation\PopoWrapperWithConstructor;
 use JsonMapper\Tests\Implementation\SimpleObject;
 use JsonMapper\ValueObjects\PropertyMap;
@@ -206,6 +208,54 @@ class ConstructorTest extends TestCase
 
         self::assertTrue($factoryRegistry->hasFactory(get_class($object)));
         self::assertEquals($object, $factoryRegistry->create(get_class($object), $json));
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\Constructor\Constructor
+     */
+    public function testItCanHandleClassWithConstructorWithArrayLtGt(): void
+    {
+        $factoryRegistry = new FactoryRegistry();
+        $middleware = new Constructor($factoryRegistry);
+        $json = (object) ['items' => [(object) ['name' => 'Jane Doe'], (object) ['name' => 'John Doe']]];
+
+        $object = new PopoArrayLtGt([]);
+        $propertyMap = $this->getPropertyMapFor($object);
+        $jsonMapper = JsonMapperBuilder::new()->withDocBlockAnnotationsMiddleware()->build();
+        $popoOne = new Popo();
+        $popoOne->name = $json->items[0]->name;
+        $popoTwo = new Popo();
+        $popoTwo->name = $json->items[1]->name;
+        $expected = new PopoArrayLtGt([$popoOne, $popoTwo]);
+
+        $middleware->handle($json, new ObjectWrapper($expected), $propertyMap, $jsonMapper);
+
+        self::assertTrue($factoryRegistry->hasFactory(get_class($object)));
+        self::assertEquals($expected, $factoryRegistry->create(get_class($object), $json));
+    }
+
+    /**
+     * @covers \JsonMapper\Middleware\Constructor\Constructor
+     */
+    public function testItCanHandleClassWithConstructorWithList(): void
+    {
+        $factoryRegistry = new FactoryRegistry();
+        $middleware = new Constructor($factoryRegistry);
+        $json = (object) ['items' => [(object) ['name' => 'Jane Doe'], (object) ['name' => 'John Doe']]];
+
+        $object = new PopoList([]);
+        $propertyMap = $this->getPropertyMapFor($object);
+        $jsonMapper = JsonMapperBuilder::new()->withDocBlockAnnotationsMiddleware()->build();
+        $popoOne = new Popo();
+        $popoOne->name = $json->items[0]->name;
+        $popoTwo = new Popo();
+        $popoTwo->name = $json->items[1]->name;
+        $expected = new PopoList([$popoOne, $popoTwo]);
+
+        $middleware->handle($json, new ObjectWrapper($expected), $propertyMap, $jsonMapper);
+
+        self::assertTrue($factoryRegistry->hasFactory(get_class($object)));
+        self::assertEquals($expected, $factoryRegistry->create(get_class($object), $json));
     }
 
     private function getPropertyMapFor($object): PropertyMap
