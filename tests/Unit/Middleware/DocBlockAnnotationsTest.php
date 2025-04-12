@@ -6,6 +6,7 @@ namespace JsonMapper\Tests\Unit\Middleware;
 
 use JsonMapper\Cache\NullCache;
 use JsonMapper\Enums\Visibility;
+use JsonMapper\JsonMapperFactory;
 use JsonMapper\JsonMapperInterface;
 use JsonMapper\Middleware\DocBlockAnnotations;
 use JsonMapper\Tests\Helpers\AssertThatPropertyTrait;
@@ -287,5 +288,29 @@ class DocBlockAnnotationsTest extends TestCase
             ->onlyHasType('string', ArrayInformation::singleDimension())
             ->hasVisibility(Visibility::PUBLIC())
             ->isNotNullable();
+    }
+
+    public function testItCanMapAnObjectWithAComplexArrayShapeAnnotation(): void
+    {
+        $mapper = (new JsonMapperFactory())->bestFit();
+
+        $json = (object) [
+            'complexArray' => [
+                'autoload' => [
+                    'files' => ['bootstrap.php'],
+                    'psr-4' => [
+                        ['JsonMapper\\' => 'src'],
+                    ],
+                ],
+            ],
+        ];
+
+        try {
+            $mapper->mapToClass($json, ComplexObject::class);
+        } catch (\Exception $e) {
+            $this->fail($e->getMessage());
+        }
+
+        $this->assertTrue(true);
     }
 }
