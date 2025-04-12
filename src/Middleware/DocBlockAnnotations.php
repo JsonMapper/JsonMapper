@@ -26,6 +26,13 @@ class DocBlockAnnotations extends AbstractMiddleware
 						\\\
 						\|					# Pipe for union types
 						<>					# Angle brackets for array and class generics
+						{}					# Curly braces for array shapes
+						,					# Comma as array shape key value separator
+						\?					# Question mark for nullable types and optional keys
+						:					# Colon for array shape type separator
+						\s					# Space as valid aesthetic character
+						\"					# Double quote necessary for some key names
+						\-					# Hyphen as valid character in array key name
 					]+
 					(?:,\s*)?
 					)*
