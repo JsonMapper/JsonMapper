@@ -29,10 +29,11 @@ interface JsonMapperInterface
 
     /**
      * @template T of object
+     * @param \stdClass|array<string, mixed> $json
      * @psalm-param class-string<T> $class
      * @return T
      */
-    public function mapToClass(\stdClass $json, string $class);
+    public function mapToClass($json, string $class);
 
     /**
      * @template T of object
