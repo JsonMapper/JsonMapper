@@ -290,6 +290,10 @@ class DocBlockAnnotationsTest extends TestCase
             ->isNotNullable();
     }
 
+    /**
+     * @see ComplexObject::$complexDocBlock
+     * @covers ::parseDocBlockToAnnotationMap
+     */
     public function testItCanMapAnObjectWithAComplexArrayShapeAnnotation(): void
     {
         $mapper = (new JsonMapperFactory())->bestFit();
