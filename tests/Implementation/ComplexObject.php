@@ -17,8 +17,8 @@ class ComplexObject
     /** @var mixed  */
     public $mixedParam;
 
-    /** @var array<string, array{files?:array<string>,classmap?:array<string>,"psr-4":array<string|array<string>>}>|array{} */
-    public $complexArray;
+    /** @var array<string, array{files?:array<string>,classmap?:array<string>,"psr-4":array<string|array<string>>}>|array{} $complexDocBlock */
+    public $complexDocBlock;
 
     public function getChild(): ?SimpleObject
     {
