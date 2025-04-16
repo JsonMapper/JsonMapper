@@ -141,15 +141,6 @@ class DocBlockAnnotations extends AbstractMiddleware
                 }
             }
         }
-        $debug = null;
-                return $carry . trim(explode('#', $item)[0]);
-            },
-            ''
-        );
-
-        if ($debug !== $var) {
-            throw new \RuntimeException('Regexes do not match');
-        }
 
         return new AnnotationMap($var ?: null, [], null);
     }
