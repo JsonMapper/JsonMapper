@@ -15,7 +15,30 @@ use Psr\SimpleCache\CacheInterface;
 
 class DocBlockAnnotations extends AbstractMiddleware
 {
-    private const DOC_BLOCK_REGEX = '/@(?P<name>[A-Za-z_-]+)[ \t]+(?P<value>(?:[\w\[\]\\\\|<>]+(?:,\s*)?)*).*$/m';
+    private const DOC_BLOCK_REGEX = "
+				/	
+				@(?P<name>[A-Za-z_-]+)					# Capture the annotation type as name, allowing alphabetic characters, underscore and dash, e.g. @var
+				[\s\t]+							# Followed by at least one space or tab
+				(?P<value>						# Capture the following as value
+					(?:
+						[
+							\w				# Any word character letters digits or underscores
+							\[\]				# Array brackets
+							\\\				# Backslash for namespace separator
+							\|				# Pipe for union types
+							,				# Comma as array shape key value separator
+							\?				# Question mark for nullable types and optional keys
+							:				# Colon for array shape type separator
+							\"				# Double quote necessary for some key names
+							\-				# Hyphen as valid character in array key name
+						]+
+						(?:\{(?:[^}{]+|(?R))*+\})*		# Anything between balanced curly braces
+						(?:\<(?:[^><]+|(?R))*+\>)*		# Anything between balanced angle brackets
+					)
+				)
+				[\s\t]*							# Sometimes followed by spaces or tabs
+				.*$							# Match the rest of the line 0 to many characters
+				/mx"; // m: treat as multi-line string, x: ignore whitespace in pattern.
 
     /** @var CacheInterface */
     private $cache;
