@@ -74,7 +74,7 @@ class DefaultFactory
             }
 
             if ($annotationMap->hasParam($param->getName())) {
-                $types = $this->deriveTypesFromDocBlockType($annotationMap->getParam($param->getName()), $reflectedClass, $imports);
+                $types = DocBlockHelper::deriveTypesFromDocBlockType($annotationMap->getParam($param->getName()), $reflectedClass, $imports);
                 $builder->addTypes(...$types);
             }
 
@@ -82,7 +82,7 @@ class DefaultFactory
                 $docComment = $reflectedClass->getProperty($param->getName())->getDocComment();
                 if ($docComment !== false) {
                     $annotationMap = DocBlockHelper::parseDocBlockToAnnotationMap($docComment);
-                    $types = $this->deriveTypesFromDocBlockType($annotationMap->getVar(), $reflectedClass, $imports);
+                    $types = DocBlockHelper::deriveTypesFromDocBlockType($annotationMap->getVar(), $reflectedClass, $imports);
 
                     $builder->addTypes(...$types);
                 }
@@ -123,89 +123,5 @@ class DefaultFactory
             $annotationMap = DocBlockHelper::parseDocBlockToAnnotationMap($docBlock);
         }
         return $annotationMap;
-    }
-
-    /**
-     * @param Import[] $imports
-     * @return PropertyType[]
-     */
-    private function deriveTypesFromDocBlockType(string $docBlockType, \ReflectionClass $class, array $imports): array
-    {
-        $types = [];
-
-        if (strpos($docBlockType, '?') === 0) {
-            $docBlockType = \substr($docBlockType, 1);
-        }
-
-        $docBlockTypes = \explode('|', $docBlockType);
-        $docBlockTypes = \array_filter($docBlockTypes, static function (string $docBlockType) {
-            return $docBlockType !== 'null';
-        });
-
-        foreach ($docBlockTypes as $dt) {
-            $dt = \trim($dt);
-            $isAnArrayType = $this->isArrayType($dt);
-
-            if (! $isAnArrayType) {
-                $type = NamespaceHelper::resolveNamespace($dt, $class->getNamespaceName(), $imports);
-                $types[] = new PropertyType($type, ArrayInformation::notAnArray());
-                continue;
-            }
-
-            $arrayInformation = $this->determineArrayInformation($dt);
-
-            $type = NamespaceHelper::resolveNamespace(
-                $dt,
-                $class->getNamespaceName(),
-                $imports
-            );
-
-            $types[] = new PropertyType($type, $arrayInformation);
-        }
-
-        return $types;
-    }
-
-    private function isArrayType(string $type): bool
-    {
-        return \substr($type, -2) === '[]'
-            || \strpos($type, 'list<') === 0
-            || \strpos($type, 'array<') === 0;
-    }
-
-    private function determineArrayInformation(string &$type): ArrayInformation
-    {
-        $levels = 0;
-        while (true) {
-            if (substr($type, -2) === '[]') {
-                $levels++;
-                $type = \substr($type, 0, -2);
-
-                continue;
-            }
-
-            if (strpos($type, 'list<') === 0) {
-                $levels++;
-                $type = \substr($type, 5, -1);
-
-                continue;
-            }
-
-            if (strpos($type, 'array<') === 0) {
-                $levels++;
-                $offset = 6;
-                $commaPosition = strpos($type, ',');
-                if (is_int($commaPosition)) {
-                    $offset = $commaPosition + 1;
-                }
-                $type = \trim(\substr($type, $offset, -1));
-
-                continue;
-            }
-
-            break;
-        }
-
-        return $levels === 0 ? ArrayInformation::notAnArray() : ArrayInformation::multiDimension($levels);
     }
 }
