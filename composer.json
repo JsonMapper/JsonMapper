@@ -12,7 +12,7 @@
     "license": "MIT",
     "minimum-stability": "stable",
     "require": {
-        "php": "^7.1 || ^8.0",
+        "php": "^7.4 || ^8.0",
         "ext-json": "*",
         "myclabs/php-enum": "^1.7",
         "nikic/php-parser": "^4.13 || ^5.0",
