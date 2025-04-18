@@ -38,10 +38,6 @@ class JsonMapperFactory
 
     public function bestFit(): JsonMapperInterface
     {
-        if (PHP_VERSION_ID <= 70400) {
-            return $this->default();
-        }
-
         $builder = clone ($this->builder);
         return $builder->withDocBlockAnnotationsMiddleware()
             ->withTypedPropertiesMiddleware()
