@@ -79,4 +79,9 @@ class PropertyBuilder
     {
         return count($this->types) !== 0;
     }
+
+    public function getTypes(): array
+    {
+        return $this->types;
+    }
 }
