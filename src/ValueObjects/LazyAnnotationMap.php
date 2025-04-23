@@ -9,6 +9,7 @@ use JsonMapper\Parser\Import;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\PseudoType;
+use phpDocumentor\Reflection\PseudoTypes;
 use phpDocumentor\Reflection\PseudoTypes\List_;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types;
@@ -70,7 +71,7 @@ class LazyAnnotationMap
             $type = $type->getActualType();
         }
         // Unpack pseudo type
-        if ($type instanceof PseudoType && ! $type instanceof List_) {
+        if ($type instanceof PseudoType && ! $type instanceof PseudoTypes\List_) {
             $type = $type->underlyingType();
         }
         if ($type instanceof Types\Compound) {
@@ -91,7 +92,8 @@ class LazyAnnotationMap
                 case Types\Object_::class:
                 case Types\Mixed_::class:
                 case Types\Array_::class:
-                case List_::class:
+                case PseudoTypes\List_::class:
+                case PseudoTypes\ArrayShape::class:
                     $builder->addType($this->mapDocBlockTypeClassToPropertyType($type), $this->mapDoCBlockTypeToArrayDimension($type));
                     break;
                 default:
@@ -170,8 +172,10 @@ class LazyAnnotationMap
             case Types\Object_::class:
                 return ltrim($type->__toString(), '\\');
             case Types\Array_::class:
-            case List_::class:
+            case PseudoTypes\List_::class:
                 return $this->mapDocBlockTypeClassToPropertyType($type->getValueType());
+            case PseudoTypes\ArrayShape::class:
+                return $this->mapDocBlockTypeClassToPropertyType($type->underlyingType());
             default:
                 throw new \RuntimeException('Unexpected type ' . get_class($type));
         }
