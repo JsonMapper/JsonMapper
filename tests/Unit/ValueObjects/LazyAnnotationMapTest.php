@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace JsonMapper\Tests\Unit\ValueObjects;
 
-
 use JsonMapper\Enums\Visibility;
 use JsonMapper\ValueObjects\ArrayInformation;
 use JsonMapper\ValueObjects\LazyAnnotationMap;
