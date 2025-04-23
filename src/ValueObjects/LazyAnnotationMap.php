@@ -10,7 +10,6 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\PseudoType;
 use phpDocumentor\Reflection\PseudoTypes;
-use phpDocumentor\Reflection\PseudoTypes\List_;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types;
 use phpDocumentor\Reflection\Types\Context;
@@ -18,6 +17,7 @@ use phpDocumentor\Reflection\Types\Context;
 class LazyAnnotationMap
 {
     private string $input;
+    /** @var Import[] */
     private array $imports;
     private ?DocBlock $docBlock = null;
     private string $namespace;
