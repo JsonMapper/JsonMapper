@@ -19,5 +19,4 @@ class NullCacheTest extends TestCase
 
         self:self::assertInstanceOf(CacheInterface::class, $sut);
     }
-
 }

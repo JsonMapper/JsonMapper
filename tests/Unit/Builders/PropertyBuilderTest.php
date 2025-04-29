@@ -99,4 +99,31 @@ class PropertyBuilderTest extends TestCase
             ->hasType('string', ArrayInformation::notAnArray())
             ->hasType('float', ArrayInformation::notAnArray());
     }
+
+    /**
+     * @covers \JsonMapper\Builders\PropertyBuilder
+     */
+    public function testCanGetTypesFromBuilder(): void
+    {
+        $builder = PropertyBuilder::new()
+            ->addTypes(
+                new PropertyType('int', ArrayInformation::notAnArray()),
+                new PropertyType('string', ArrayInformation::notAnArray())
+            )->addTypes(
+                new PropertyType('float', ArrayInformation::notAnArray())
+            );
+
+        $result = $builder->getTypes();
+
+        self::assertEquals(
+            [
+                new PropertyType('int', ArrayInformation::notAnArray()),
+                new PropertyType('string', ArrayInformation::notAnArray()),
+                new PropertyType('float', ArrayInformation::notAnArray()),
+            ],
+            $result
+        );
+    }
+
+
 }

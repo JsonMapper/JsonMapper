@@ -216,16 +216,7 @@ class JsonMapper implements JsonMapperInterface
     /** @return \stdClass|\stdClass[] */
     private function decodeJsonString(string $json)
     {
-        if (PHP_VERSION_ID >= 70300) {
-            $data = \json_decode($json, false, 512, JSON_THROW_ON_ERROR);
-        } else {
-            $data = \json_decode($json, false);
-            if (\json_last_error() !== JSON_ERROR_NONE) {
-                throw new \JsonException(json_last_error_msg(), \json_last_error());
-            }
-        }
-
-        return $data;
+        return \json_decode($json, false, 512, JSON_THROW_ON_ERROR);
     }
 
     private function resolve(): callable
