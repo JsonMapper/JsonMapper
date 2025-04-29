@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.25.0] - 2025-04-29
 ### Fixed
 - Replace docblock type parsing with reflection docblock library. [PR#199](https://github.com/JsonMapper/JsonMapper/pull/199)
 ### Removed
