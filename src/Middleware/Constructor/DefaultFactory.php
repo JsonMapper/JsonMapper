@@ -8,16 +8,12 @@ use JsonMapper\Builders\PropertyBuilder;
 use JsonMapper\Enums\Visibility;
 use JsonMapper\Handler\FactoryRegistry;
 use JsonMapper\Handler\ValueFactory;
-use JsonMapper\Helpers\DocBlockHelper;
 use JsonMapper\Helpers\IScalarCaster;
-use JsonMapper\Helpers\NamespaceHelper;
 use JsonMapper\Helpers\UseStatementHelper;
 use JsonMapper\JsonMapperInterface;
-use JsonMapper\Parser\Import;
-use JsonMapper\ValueObjects\AnnotationMap;
 use JsonMapper\ValueObjects\ArrayInformation;
+use JsonMapper\ValueObjects\LazyAnnotationMap;
 use JsonMapper\ValueObjects\PropertyMap;
-use JsonMapper\ValueObjects\PropertyType;
 use ReflectionMethod;
 
 class DefaultFactory
@@ -52,18 +48,28 @@ class DefaultFactory
         $this->propertyMap = new PropertyMap();
         $this->valueFactory = new ValueFactory($scalarCaster, $classFactoryRegistry, $nonInstantiableTypeResolver);
 
-        $annotationMap = $this->getAnnotationMap($reflectedConstructor);
-        $imports = UseStatementHelper::getImports($reflectedConstructor->getDeclaringClass());
+        $imports = UseStatementHelper::getImports($reflectedConstructor->getDeclaringClass()); // @todo imports in annotations
+        $constructorDocBlock = $reflectedConstructor->getDocComment();
+        $constructorAnnotations = null;
+        if (is_string($constructorDocBlock) && !empty($constructorDocBlock)) {
+            $constructorAnnotations = new LazyAnnotationMap(
+                $constructorDocBlock,
+                $reflectedClass->getNamespaceName(),
+                $imports
+            );
+        }
 
         foreach ($reflectedConstructor->getParameters() as $param) {
-            $builder = PropertyBuilder::new()
-                ->setName($param->getName())
-                ->setVisibility(Visibility::PUBLIC())
-                ->setIsNullable($param->allowsNull());
+            $builder = PropertyBuilder::new();
+            if (!\is_null($constructorAnnotations) && $constructorAnnotations->hasParam($param->getName())) {
+                $builder = $constructorAnnotations->tagToPropertyBuilder('param', $param->getName());
+            }
 
-            $type = 'mixed';
+            $builder->setName($param->getName())
+                ->setVisibility(Visibility::PUBLIC());
+
             $reflectedType = $param->getType();
-
+            $builder->setIsNullable(is_null($reflectedType));
             if (! \is_null($reflectedType)) {
                 $type = $reflectedType->getName();
                 if ($type === 'array') {
@@ -71,20 +77,19 @@ class DefaultFactory
                 } else {
                     $builder->addType($type, ArrayInformation::notAnArray());
                 }
-            }
 
-            if ($annotationMap->hasParam($param->getName())) {
-                $types = DocBlockHelper::deriveTypesFromDocBlockType($annotationMap->getParam($param->getName()), $reflectedClass, $imports);
-                $builder->addTypes(...$types);
+                $builder->setIsNullable($reflectedType->allowsNull());
             }
 
             if ($reflectedClass->hasProperty($param->getName())) {
-                $docComment = $reflectedClass->getProperty($param->getName())->getDocComment();
-                if ($docComment !== false) {
-                    $annotationMap = DocBlockHelper::parseDocBlockToAnnotationMap($docComment);
-                    $types = DocBlockHelper::deriveTypesFromDocBlockType($annotationMap->getVar(), $reflectedClass, $imports);
-
-                    $builder->addTypes(...$types);
+                $propertyDocComment = $reflectedClass->getProperty($param->getName())->getDocComment();
+                if (is_string($propertyDocComment) && !empty($propertyDocComment)) {
+                    $propertyAnnotations = new LazyAnnotationMap(
+                        $propertyDocComment,
+                        $reflectedClass->getNamespaceName(),
+                        $imports
+                    );
+                    $builder->addTypes(...$propertyAnnotations->tagToPropertyBuilder('var')->getTypes());
                 }
             }
 
@@ -113,15 +118,5 @@ class DefaultFactory
         }
 
         return new $this->objectName(...$values);
-    }
-
-    private function getAnnotationMap(ReflectionMethod $reflectedConstructor): AnnotationMap
-    {
-        $docBlock = $reflectedConstructor->getDocComment();
-        $annotationMap = new AnnotationMap();
-        if ($docBlock) {
-            $annotationMap = DocBlockHelper::parseDocBlockToAnnotationMap($docBlock);
-        }
-        return $annotationMap;
     }
 }

@@ -240,7 +240,7 @@ class DocBlockAnnotationsTest extends TestCase
 
         self::assertTrue($propertyMap->hasProperty('complexUnionWithArray'));
         $this->assertThatProperty($propertyMap->getProperty('complexUnionWithArray'))
-            ->onlyHasType('mixed', ArrayInformation::singleDimension())
+            ->hasType('mixed', ArrayInformation::singleDimension())
             ->hasVisibility(Visibility::PUBLIC())
             ->isNotNullable();
     }

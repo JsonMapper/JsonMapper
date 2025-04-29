@@ -29,9 +29,9 @@ class CaseConversionTest extends TestCase
 
         $middleware->handle($json, $object, new PropertyMap(), $this->createMock(JsonMapperInterface::class));
 
-        self::assertObjectHasAttribute($replacementKey, $json);
+        self::assertObjectHasProperty($replacementKey, $json);
         self::assertEquals('placeholder', $json->$replacementKey);
-        self::assertObjectNotHasAttribute($original, $json);
+        self::assertObjectNotHasProperty($original, $json);
     }
 
     /**
@@ -47,7 +47,7 @@ class CaseConversionTest extends TestCase
 
         $middleware->handle($json, $object, new PropertyMap(), $this->createMock(JsonMapperInterface::class));
 
-        self::assertObjectHasAttribute($key, $json);
+        self::assertObjectHasProperty($key, $json);
     }
 
     /**
@@ -66,7 +66,7 @@ class CaseConversionTest extends TestCase
 
         $middleware->handle($json, $object, new PropertyMap(), $this->createMock(JsonMapperInterface::class));
 
-        self::assertObjectHasAttribute($replacementKey, $json);
+        self::assertObjectHasProperty($replacementKey, $json);
         self::assertEquals('placeholder', $json->$replacementKey);
     }
 
@@ -90,7 +90,7 @@ class CaseConversionTest extends TestCase
 
         $middleware->handle($json, $object, new PropertyMap(), $this->createMock(JsonMapperInterface::class));
 
-        self::assertObjectHasAttribute('key', $json);
+        self::assertObjectHasProperty('key', $json);
         self::assertEquals('placeholder', $json->key);
     }
 
@@ -115,7 +115,7 @@ class CaseConversionTest extends TestCase
 
         $middleware->handle($json, $object, new PropertyMap(), $this->createMock(JsonMapperInterface::class));
 
-        self::assertObjectHasAttribute('key', $json);
+        self::assertObjectHasProperty('key', $json);
         self::assertEquals('placeholder', $json->key);
     }
 
