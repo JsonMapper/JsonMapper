@@ -89,12 +89,19 @@ class JsonMapper implements JsonMapperInterface
         return $this;
     }
 
-    public function mapToClass(\stdClass $json, string $class)
+    public function mapToClass($json, string $class)
     {
+        if (!$json instanceof \stdClass && (\is_array($json) && array_is_list($json))) {
+            throw TypeError::forArgument(__METHOD__, '\stdClass|array<string, mixed>', $json, 1, '$json');
+        }
+
         if (! \class_exists($class)) {
             throw TypeError::forArgument(__METHOD__, 'class-string', $class, 2, '$class');
         }
 
+        if (is_array($json)) {
+            $json = (object) $json;
+        }
         $propertyMap = new PropertyMap();
 
         $handler = $this->resolve();
