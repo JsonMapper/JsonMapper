@@ -37,6 +37,10 @@ class ValueFactory
      */
     public function build(JsonMapperInterface $mapper, Property $property, $value)
     {
+        if (\is_null($value) && $property->isNullable()) {
+            return null;
+        }
+
         // For union types, loop through and see if value is a match with the type
         if (\count($property->getPropertyTypes()) > 1) {
             foreach ($property->getPropertyTypes() as $type) {
@@ -94,9 +98,6 @@ class ValueFactory
             }
         }
 
-        if (\is_null($value) && $property->isNullable()) {
-            return null;
-        }
         // No match was found (or there was only one option) lets assume the first is the right one.
         $types = $property->getPropertyTypes();
         $type = \array_shift($types);
