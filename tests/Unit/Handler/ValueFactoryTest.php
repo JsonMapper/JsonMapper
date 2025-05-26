@@ -466,6 +466,25 @@ class ValueFactoryTest extends TestCase
         $this->assertNull($valueFactory->build($jsonMapper, $property, null));
     }
 
+    /**
+     * @covers \JsonMapper\Handler\ValueFactory
+     */
+    public function testItCanMapToNullableClassFromUnionProperty(): void
+    {
+        $property = PropertyBuilder::new()
+            ->setName('value')
+            ->addType(\DateTimeImmutable::class, ArrayInformation::notAnArray())
+            ->addType(\DateTime::class, ArrayInformation::notAnArray())
+            ->setIsNullable(true)
+            ->setVisibility(Visibility::PUBLIC())
+            ->build();
+        $jsonMapper = $this->createMock(JsonMapperInterface::class);
+        $valueFactory = new ValueFactory(new ScalarCaster(), new FactoryRegistry(), new FactoryRegistry());
+
+        $this->assertNull($valueFactory->build($jsonMapper, $property, null));
+    }
+
+
     public function scalarValueDataTypes(): array
     {
         return [
