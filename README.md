@@ -16,9 +16,9 @@ For more information see the project website: https://jsonmapper.net/
 
 # Why use JsonMapper
 Continuously mapping your JSON responses to your own objects becomes tedious and is error-prone. Not mentioning the
-tests that needs to be written for said mapping.
+tests that need to be written for said mapping.
 
-JsonMapper has been build with the most common usages in mind. In order to allow for those edge cases which are not 
+JsonMapper has been built with the most common usages in mind. To allow for those edge cases which are not 
 supported by default, it can easily be extended as its core has been designed using middleware.
 
 JsonMapper supports the following features
@@ -36,7 +36,7 @@ $ composer require json-mapper/json-mapper
 ```
 The example shown above assumes that `composer` is on your `$PATH`.
 
-# How do I use JsonMapper
+# How to use JsonMapper
 Given the following class definition
 ```php
 namespace JsonMapper\Tests\Implementation;
@@ -98,12 +98,12 @@ $mapper->push(new class extends JsonMapper\Middleware\AbstractMiddleware {
 Please refer to [CONTRIBUTING.md](https://github.com/JsonMapper/JsonMapper/blob/main/CONTRIBUTING.md) for information on how to contribute to JsonMapper.
 
 ## List of Contributors
-Thanks to everyone who has contributed to JsonMapper! You can find a detailed list of contributors of JsonMapper on [GitHub](https://github.com/JsonMapper/JsonMapper/graphs/contributors).
+Thanks to everyone who has contributed to JsonMapper! You can find a detailed list of people that contributed to JsonMapper on [GitHub](https://github.com/JsonMapper/JsonMapper/graphs/contributors).
 
 ## Sponsoring
-[![JetBrains](https://jsonmapper.net/images/jetbrains-variant-3.png?)](https://www.jetbrains.com/?from=JsonMapper)
+[![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSource)
 
-This project is sponsored by JetBrains providing an open source license to continue building on JsonMapper without cost.     
+This project is sponsored by JetBrains providing a license for PhpStorm to continue building on JsonMapper.     
 
 # License
 The MIT License (MIT). Please see [License File](https://github.com/JsonMapper/JsonMapper/blob/main/LICENSE) for more information.
