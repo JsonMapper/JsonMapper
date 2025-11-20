@@ -6,7 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
-- Update JetNBrains logo [PR#203](https://github.com/JsonMapper/JsonMapper/pull/203)
+- Update JetBrains logo [PR#203](https://github.com/JsonMapper/JsonMapper/pull/203)
+- Include PHP 8.5 in build matrix [PR#204](https://github.com/JsonMapper/JsonMapper/pull/204)
+
+
 ### Fixed
 - Fix incorrect namespace resolving when using partial use [PR#212](https://github.com/JsonMapper/JsonMapper/pull/212)
 
