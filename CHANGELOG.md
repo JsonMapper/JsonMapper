@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update JetBrains logo [PR#203](https://github.com/JsonMapper/JsonMapper/pull/203)
 - Include PHP 8.5 in build matrix [PR#204](https://github.com/JsonMapper/JsonMapper/pull/204)
 - Raise myclabs/php-enum and phpunit/phpunit version constraints; Drop vimeo/psalm [PR#207](https://github.com/JsonMapper/JsonMapper/pull/207)
+- Add `.gitattributes` file to omit development files from releases
 
 ## [2.25.1] - 2025-05-26
 ### Fixed
