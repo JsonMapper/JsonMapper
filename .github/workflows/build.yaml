@@ -19,8 +19,12 @@ jobs:
             allow_fail: false
             composer_update_flags: '--prefer-lowest --prefer-stable'
             name: 'PHP 7.4 with lowest stable deps'
+          # On PHP 8.0 the newest installable symfony/cache is 5.4 (6.0 is blocked by the
+          # advisory for CVE-2026-45073, 6.4+ requires PHP 8.1), and symfony/cache 5.4
+          # refuses to run with psr/simple-cache 3.0. Hold psr/simple-cache at 2.x here.
           - php: 8.0
             allow_fail: false
+            composer_update_flags: '--with psr/simple-cache:^2.0'
             php_ini: 'xdebug.coverage_enable=On'
             name: 'PHP 8.0 with latest deps'
           - php: 8.0
@@ -77,7 +81,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: Validate composer.json and composer.lock
       run: composer validate
