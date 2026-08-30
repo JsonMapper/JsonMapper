@@ -62,11 +62,10 @@ class User
 Combined with the following JsonMapper code as part of your application
 ```php
 $mapper = (new \JsonMapper\JsonMapperFactory())->default();
-$object = new User();
 
-$mapper->mapObject(json_decode('{ "name": "John Doe" }'), $object);
+$user = $mapper->mapToClassFromString('{ "name": "John Doe" }', User::class);
 
-echo $object->getName(); // "John Doe"
+echo $user->getName(); // "John Doe"
 ```
 The property is private, so JsonMapper fills it through `setName()`. A non-public property with no
 matching setter raises a `RuntimeException`, so your model keeps its encapsulation either way.
@@ -76,13 +75,13 @@ Writing your own middleware has been made as easy as possible with an `AbstractM
 you need for your project.
 
 ```php
-$mapper = (new JsonMapper\JsonMapperFactory())->bestFit();
-$mapper->push(new class extends JsonMapper\Middleware\AbstractMiddleware {
+$mapper = (new \JsonMapper\JsonMapperFactory())->bestFit();
+$mapper->push(new class extends \JsonMapper\Middleware\AbstractMiddleware {
     public function handle(
         \stdClass $json,
-        JsonMapper\Wrapper\ObjectWrapper $object,
-        JsonMapper\ValueObjects\PropertyMap $map,
-        JsonMapper\JsonMapperInterface $mapper
+        \JsonMapper\Wrapper\ObjectWrapper $object,
+        \JsonMapper\ValueObjects\PropertyMap $map,
+        \JsonMapper\JsonMapperInterface $mapper
     ): void {
         /* Custom logic here */
     }
