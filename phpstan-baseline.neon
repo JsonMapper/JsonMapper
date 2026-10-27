@@ -1,0 +1,1045 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Offset ''file'' might not exist on array\{function\: string, line\?\: int, file\?\: string, class\?\: class\-string, type\?\: ''\-\>''\|''\:\:'', args\?\: list\<mixed\>, object\?\: object\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/Exception/TypeError.php
+
+		-
+			message: '#^Offset ''line'' might not exist on array\{function\: string, line\?\: int, file\?\: string, class\?\: class\-string, type\?\: ''\-\>''\|''\:\:'', args\?\: list\<mixed\>, object\?\: object\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/Exception/TypeError.php
+
+		-
+			message: '#^Parameter \#1 \$object of method JsonMapper\\Wrapper\\ObjectWrapper\:\:setObject\(\) expects object\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/PropertyMapper.php
+
+		-
+			message: '#^Anonymous function has an unused use \$type\.$#'
+			identifier: closure.unusedUse
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Handler\\ValueFactory\:\:mapToArrayOfEnum\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Handler\\ValueFactory\:\:mapToArrayOfEnum\(\) should return array\<int, T\> but returns array\<T\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Handler\\ValueFactory\:\:mapToArrayOfObjects\(\) should return array\<int, T\> but returns array\<T\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Handler\\ValueFactory\:\:mapToArrayOfObjectsUsingFactory\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Handler\\ValueFactory\:\:mapToArrayOfScalarValue\(\) should return array\<int, array\|bool\|float\|int\|string\> but returns array\<bool\|float\|int\|string\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Handler\\ValueFactory\:\:mapToEnum\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Handler\\ValueFactory\:\:mapToEnum\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Handler\\ValueFactory\:\:mapToObjects\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Handler\\ValueFactory\:\:mapToObjects\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Handler\\ValueFactory\:\:mapToObjectsUsingFactory\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Handler\\ValueFactory\:\:mapToObjectsUsingFactory\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Handler\\ValueFactory\:\:mapToScalarValues\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Handler\\ValueFactory\:\:mapToScalarValues\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Handler\\ValueFactory\:\:mapToSingleObject\(\) should return T but returns object\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Handler\\ValueFactory\:\:recursiveMapToArrayOfObjects\(\) should return array\<int, array\|T\> but returns array\<array\<int, array\|T\>\|T\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Handler\\ValueFactory\:\:recursiveMapToArrayOfObjectsUsingFactory\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Handler\\ValueFactory\:\:recursiveMapToArrayOfScalarValue\(\) should return array\<int, bool\|float\|int\|string\> but returns array\<array\<int, bool\|float\|int\|string\>\|bool\|float\|int\|string\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Parameter \#1 \$callback of function call_user_func expects callable\(\)\: mixed, non\-falsy\-string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Parameter \#1 \$json of method JsonMapper\\JsonMapperInterface\:\:mapObject\(\) expects stdClass, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Parameter \#1 \$json of method JsonMapper\\JsonMapperInterface\:\:mapToClass\(\) expects stdClass, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Parameter \#1 \$objectOrClass of class ReflectionClass constructor expects class\-string\<T of object\>\|T of object, class\-string\<T\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Parameter \#1 \$type of method JsonMapper\\Handler\\ValueFactory\:\:mapToArrayOfEnum\(\) expects class\-string\<mixed\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Parameter \#1 \$type of method JsonMapper\\Handler\\ValueFactory\:\:mapToArrayOfObjects\(\) expects class\-string\<mixed\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Parameter \#1 \$type of method JsonMapper\\Handler\\ValueFactory\:\:mapToSingleEnum\(\) expects class\-string\<mixed\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Parameter \#1 \$type of method JsonMapper\\Handler\\ValueFactory\:\:mapToSingleObject\(\) expects class\-string\<mixed\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Parameter \#1 \$type of method JsonMapper\\Handler\\ValueFactory\:\:recursiveMapToArrayOfEnum\(\) expects class\-string\<mixed\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Parameter \#1 \$type of method JsonMapper\\Handler\\ValueFactory\:\:recursiveMapToArrayOfObjects\(\) expects class\-string\<mixed\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Parameter \#2 \$class of method JsonMapper\\JsonMapperInterface\:\:mapToClass\(\) expects class\-string\<object\>, class\-string\<T\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Parameter \#2 \$object of method JsonMapper\\JsonMapperInterface\:\:mapObject\(\) expects object, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Unable to resolve the template type T in call to method JsonMapper\\Handler\\ValueFactory\:\:mapToArrayOfEnum\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Unable to resolve the template type T in call to method JsonMapper\\Handler\\ValueFactory\:\:mapToArrayOfObjects\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Unable to resolve the template type T in call to method JsonMapper\\Handler\\ValueFactory\:\:mapToSingleEnum\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Unable to resolve the template type T in call to method JsonMapper\\Handler\\ValueFactory\:\:mapToSingleObject\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Unable to resolve the template type T in call to method JsonMapper\\Handler\\ValueFactory\:\:recursiveMapToArrayOfObjects\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Unable to resolve the template type T in call to method JsonMapper\\JsonMapperInterface\:\:mapObject\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Unable to resolve the template type T in call to method JsonMapper\\JsonMapperInterface\:\:mapToClass\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Handler/ValueFactory.php
+
+		-
+			message: '#^Parameter \#1 \$objectOrClass of class ReflectionClass constructor contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 2
+			path: src/Helpers/ClassHelper.php
+
+		-
+			message: '#^Method JsonMapper\\Helpers\\IScalarCaster\:\:cast\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Helpers/IScalarCaster.php
+
+		-
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
+			count: 1
+			path: src/Helpers/NamespaceHelper.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between string\|null and \*NEVER\* will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: src/Helpers/NamespaceHelper.php
+
+		-
+			message: '#^Cannot cast mixed to float\.$#'
+			identifier: cast.double
+			count: 1
+			path: src/Helpers/ScalarCaster.php
+
+		-
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
+			count: 1
+			path: src/Helpers/ScalarCaster.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: src/Helpers/ScalarCaster.php
+
+		-
+			message: '#^Method JsonMapper\\Helpers\\ScalarCaster\:\:cast\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Helpers/ScalarCaster.php
+
+		-
+			message: '#^Method JsonMapper\\Helpers\\ScalarCaster\:\:cast\(\) should return bool\|float\|int\|string but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Helpers/ScalarCaster.php
+
+		-
+			message: '#^Part \$scalarType\-\>getValue\(\) \(mixed\) of encapsed string cannot be cast to string\.$#'
+			identifier: encapsedStringPart.nonString
+			count: 1
+			path: src/Helpers/ScalarCaster.php
+
+		-
+			message: '#^Method JsonMapper\\Helpers\\StrictScalarCaster\:\:cast\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Helpers/StrictScalarCaster.php
+
+		-
+			message: '#^Method JsonMapper\\Helpers\\StrictScalarCaster\:\:cast\(\) should return bool\|float\|int\|string but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Helpers/StrictScalarCaster.php
+
+		-
+			message: '#^Cannot call method parse\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Helpers/UseStatementHelper.php
+
+		-
+			message: '#^Parameter \#1 \$nodes of method PhpParser\\NodeTraverser\:\:traverse\(\) expects array\<PhpParser\\Node\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Helpers/UseStatementHelper.php
+
+		-
+			message: '#^Method JsonMapper\\JsonMapper\:\:decodeJsonString\(\) should return array\<stdClass\>\|stdClass but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/JsonMapper.php
+
+		-
+			message: '#^Method JsonMapper\\JsonMapper\:\:mapArray\(\) should return array\<int, T of object\> but returns array\<T of object\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/JsonMapper.php
+
+		-
+			message: '#^Method JsonMapper\\JsonMapper\:\:mapArrayFromString\(\) should return array\<int, T of object\> but returns array\<T of object\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/JsonMapper.php
+
+		-
+			message: '#^Method JsonMapper\\JsonMapper\:\:mapToClass\(\) should return T of object but returns object\.$#'
+			identifier: return.type
+			count: 1
+			path: src/JsonMapper.php
+
+		-
+			message: '#^Method JsonMapper\\JsonMapper\:\:mapToClassArray\(\) should return array\<int, T of object\> but returns array\<T of object\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/JsonMapper.php
+
+		-
+			message: '#^Method JsonMapper\\JsonMapper\:\:resolve\(\) should return callable\(\)\: mixed but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/JsonMapper.php
+
+		-
+			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(mixed\)\: mixed\)\|null, Closure\(stdClass\)\: T given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonMapper.php
+
+		-
+			message: '#^Parameter \#1 \$json of method JsonMapper\\JsonMapper\:\:mapObject\(\) expects stdClass, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/JsonMapper.php
+
+		-
+			message: '#^Property JsonMapper\\JsonMapper\:\:\$cached \(\(callable\(\)\: mixed\)\|null\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/JsonMapper.php
+
+		-
+			message: '#^Parameter \#1 \$json of method JsonMapper\\Middleware\\CaseConversion\:\:replace\(\) expects array\|stdClass, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Middleware/CaseConversion.php
+
+		-
+			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Middleware/Constructor/DefaultFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Middleware\\Constructor\\DefaultFactory\:\:__invoke\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Middleware/Constructor/DefaultFactory.php
+
+		-
+			message: '#^Parameter \#1 \$type of method JsonMapper\\Builders\\PropertyBuilder\:\:addType\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Middleware/Constructor/DefaultFactory.php
+
+		-
+			message: '#^Parameter \#1 \.\.\.\$types of method JsonMapper\\Builders\\PropertyBuilder\:\:addTypes\(\) expects JsonMapper\\ValueObjects\\PropertyType, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Middleware/Constructor/DefaultFactory.php
+
+		-
+			message: '#^Method JsonMapper\\Middleware\\DocBlockAnnotations\:\:fetchPropertyMapForObject\(\) should return JsonMapper\\ValueObjects\\PropertyMap but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Middleware/DocBlockAnnotations.php
+
+		-
+			message: '#^Method JsonMapper\\Middleware\\NamespaceResolver\:\:fetchPropertyMapForObject\(\) should return JsonMapper\\ValueObjects\\PropertyMap but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Middleware/NamespaceResolver.php
+
+		-
+			message: '#^Parameter \#1 \$property of method JsonMapper\\ValueObjects\\PropertyMap\:\:addProperty\(\) expects JsonMapper\\ValueObjects\\Property, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Middleware/NamespaceResolver.php
+
+		-
+			message: '#^Method JsonMapper\\Middleware\\TypedProperties\:\:fetchPropertyMapForObject\(\) should return JsonMapper\\ValueObjects\\PropertyMap but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Middleware/TypedProperties.php
+
+		-
+			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(ReflectionIntersectionType\|ReflectionNamedType\)\: mixed\)\|null, Closure\(ReflectionNamedType\)\: string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Middleware/TypedProperties.php
+
+		-
+			message: '#^Cannot call method getTagsWithTypeByName\(\) on phpDocumentor\\Reflection\\DocBlock\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/ValueObjects/LazyAnnotationMap.php
+
+		-
+			message: '#^Method JsonMapper\\Wrapper\\ObjectWrapper\:\:getClassName\(\) should return class\-string\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Wrapper/ObjectWrapper.php
+
+		-
+			message: '#^Method JsonMapper\\Wrapper\\ObjectWrapper\:\:getObject\(\) should return object but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Wrapper/ObjectWrapper.php
+
+		-
+			message: '#^PHPDoc tag @var has invalid value \(class\-string\?\)\: Unexpected token "\?", expected TOKEN_HORIZONTAL_WS at offset 21 on line 1$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Wrapper/ObjectWrapper.php
+
+		-
+			message: '#^PHPDoc tag @var has invalid value \(object\?\)\: Unexpected token "\?", expected TOKEN_HORIZONTAL_WS at offset 15 on line 1$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Wrapper/ObjectWrapper.php
+
+		-
+			message: '#^Parameter \#1 \$objectOrClass of class ReflectionClass constructor expects class\-string\<T of object\>\|T of object, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Wrapper/ObjectWrapper.php
+
+		-
+			message: '#^Property JsonMapper\\Wrapper\\ObjectWrapper\:\:\$className has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: src/Wrapper/ObjectWrapper.php
+
+		-
+			message: '#^Property JsonMapper\\Wrapper\\ObjectWrapper\:\:\$object has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: src/Wrapper/ObjectWrapper.php
+
+		-
+			message: '#^Property JsonMapper\\Tests\\Implementation\\ComplexObject\:\:\$children \(array\<JsonMapper\\Tests\\Implementation\\SimpleObject\>\) does not accept array\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: tests/Implementation/ComplexObject.php
+
+		-
+			message: '#^Method JsonMapper\\Tests\\Implementation\\DatePopoWithConstructor\:\:getDate\(\) should return DateTimeImmutable\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/Implementation/DatePopoWithConstructor.php
+
+		-
+			message: '#^Property JsonMapper\\Tests\\Implementation\\DatePopoWithConstructor\:\:\$date has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Implementation/DatePopoWithConstructor.php
+
+		-
+			message: '#^Comparison operation "\>\=" between int\<70400, 80699\> and 70300 is always true\.$#'
+			identifier: greaterOrEqual.alwaysTrue
+			count: 1
+			path: tests/Implementation/JsonMapper.php
+
+		-
+			message: '#^Method JsonMapper\\Tests\\Implementation\\JsonMapper\:\:decodeJsonString\(\) should return array\<stdClass\>\|stdClass but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/Implementation/JsonMapper.php
+
+		-
+			message: '#^Method JsonMapper\\Tests\\Implementation\\JsonMapper\:\:mapArray\(\) should return array\<int, T of object\> but returns array\<object\>\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/Implementation/JsonMapper.php
+
+		-
+			message: '#^Method JsonMapper\\Tests\\Implementation\\JsonMapper\:\:mapArrayFromString\(\) should return array\<int, T of object\> but returns array\<object\>\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/Implementation/JsonMapper.php
+
+		-
+			message: '#^Method JsonMapper\\Tests\\Implementation\\JsonMapper\:\:mapToClass\(\) should return T of object but returns object\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/Implementation/JsonMapper.php
+
+		-
+			message: '#^Method JsonMapper\\Tests\\Implementation\\JsonMapper\:\:mapToClassArray\(\) should return array\<int, T of object\> but returns array\<T of object\>\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/Implementation/JsonMapper.php
+
+		-
+			message: '#^Method JsonMapper\\Tests\\Implementation\\JsonMapper\:\:resolve\(\) should return callable\(\)\: mixed but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/Implementation/JsonMapper.php
+
+		-
+			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(mixed\)\: mixed\)\|null, Closure\(stdClass\)\: T given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Implementation/JsonMapper.php
+
+		-
+			message: '#^Parameter \#1 \$json of method JsonMapper\\Tests\\Implementation\\JsonMapper\:\:mapObject\(\) expects stdClass, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Implementation/JsonMapper.php
+
+		-
+			message: '#^Property JsonMapper\\Tests\\Implementation\\JsonMapper\:\:\$cached \(\(callable\(\)\: mixed\)\|null\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: tests/Implementation/JsonMapper.php
+
+		-
+			message: '#^Return type \(void\) of method JsonMapper\\Tests\\Implementation\\JsonMapper\:\:mapObject\(\) should be compatible with return type \(object\) of method JsonMapper\\JsonMapperInterface\:\:mapObject\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: tests/Implementation/JsonMapper.php
+
+		-
+			message: '#^Return type \(void\) of method JsonMapper\\Tests\\Implementation\\JsonMapper\:\:mapObjectFromString\(\) should be compatible with return type \(object\) of method JsonMapper\\JsonMapperInterface\:\:mapObjectFromString\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: tests/Implementation/JsonMapper.php
+
+		-
+			message: '#^Binary operation "\*" between 2 and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: tests/Implementation/Models/Circle.php
+
+		-
+			message: '#^Property JsonMapper\\Tests\\Implementation\\Models\\Circle\:\:\$radius has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Implementation/Models/Circle.php
+
+		-
+			message: '#^Part \$data\-\>type \(mixed\) of encapsed string cannot be cast to string\.$#'
+			identifier: encapsedStringPart.nonString
+			count: 1
+			path: tests/Implementation/Models/ShapeInstanceFactory.php
+
+		-
+			message: '#^Property JsonMapper\\Tests\\Implementation\\Models\\Square\:\:\$length \(int\) does not accept int\|null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: tests/Implementation/Models/Square.php
+
+		-
+			message: '#^Property JsonMapper\\Tests\\Implementation\\Models\\Square\:\:\$width \(int\) does not accept int\|null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: tests/Implementation/Models/Square.php
+
+		-
+			message: '#^PHPDoc tag @var for property JsonMapper\\Tests\\Implementation\\Php74\\Response\:\:\$data with type array\<JsonMapper\\Tests\\Implementation\\Php74\\Popo\>\|null is not subtype of native type array\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: tests/Implementation/Php74/Response.php
+
+		-
+			message: '#^Property JsonMapper\\Tests\\Implementation\\PrivatePropertyWithoutSetter\:\:\$number is unused\.$#'
+			identifier: property.unused
+			count: 1
+			path: tests/Implementation/PrivatePropertyWithoutSetter.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''DateTimeImmutable'' and DateTimeImmutable will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: tests/Integration/FeatureSupportsConstructorsWithParametersTest.php
+
+		-
+			message: '#^Parameter \#1 \$json of method JsonMapper\\JsonMapperInterface\:\:mapToClassFromString\(\) expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 2
+			path: tests/Integration/FeatureSupportsMappingToArrayTypesTest.php
+
+		-
+			message: '#^Access to an undefined property JsonMapper\\Tests\\Implementation\\Models\\Wrappers\\IShapeAware\:\:\$shape\.$#'
+			identifier: property.notFound
+			count: 1
+			path: tests/Integration/FeatureSupportsMappingToInterfaceAndAbstractClassTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertNotNull\(\) with JsonMapper\\Tests\\Implementation\\Php74\\Popo will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: tests/Integration/FeatureSupportsNamespacesTest.php
+
+		-
+			message: '#^Parameter \#1 \$string of function base64_decode expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Integration/FeatureSupportsValueTransformationTest.php
+
+		-
+			message: '#^Cannot access property \$name on mixed\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: tests/Integration/FeatureSupportsVariadicSetterTest.php
+
+		-
+			message: '#^Cannot access property \$type on JsonMapper\\Tests\\Implementation\\Foo\\MetaModel\\Meta\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/Integration/Regression/Bug116RegressionTest.php
+
+		-
+			message: '#^Method JsonMapper\\Tests\\Integration\\Regression\\Bug140RegressionTest\:\:classDataProvider\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/Integration/Regression/Bug140RegressionTest.php
+
+		-
+			message: '#^Method JsonMapper\\Tests\\Integration\\Regression\\Bug162RegressionTest\:\:testConstructorIsCalledWhenAvailable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/Integration/Regression/Bug162RegressionTest.php
+
+		-
+			message: '#^Parameter \#1 \$json of method JsonMapper\\JsonMapperInterface\:\:mapToClassFromString\(\) expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Integration/Regression/Bug169RegressionTest.php
+
+		-
+			message: '#^Property class@anonymous/tests/Integration/Regression/Bug195RegressionTest\.php\:31\:\:\$overrideAutoload \(array\<string, array\{files\?\: array\<string\>, classmap\?\: array\<string\>, psr\-4\: array\<array\<string\>\|string\>\}\>\) does not accept array\{files\: array\{''file1'', ''file2''\}, classmap\: null, psr\-4\: array\{''one'', ''two''\}\}\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: tests/Integration/Regression/Bug195RegressionTest.php
+
+		-
+			message: '#^Cannot access property \$id on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/Unit/Builders/PropertyMapperBuilderTest.php
+
+		-
+			message: '#^Cannot access property \$name on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/Unit/Builders/PropertyMapperBuilderTest.php
+
+		-
+			message: '#^Parameter \#1 \$id of class JsonMapper\\Tests\\Implementation\\Models\\UserWithConstructor constructor expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/Builders/PropertyMapperBuilderTest.php
+
+		-
+			message: '#^Parameter \#2 \$name of class JsonMapper\\Tests\\Implementation\\Models\\UserWithConstructor constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/Builders/PropertyMapperBuilderTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Psr\\\\SimpleCache\\\\CacheInterface'' and JsonMapper\\Cache\\ArrayCache will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: tests/Unit/Cache/ArrayCacheTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Psr\\\\SimpleCache\\\\CacheInterface'' and JsonMapper\\Cache\\NullCache will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: tests/Unit/Cache/NullCacheTest.php
+
+		-
+			message: '#^Property class@anonymous/tests/Unit/Enums/VisibilityTest\.php\:54\:\:\$id is unused\.$#'
+			identifier: property.unused
+			count: 1
+			path: tests/Unit/Enums/VisibilityTest.php
+
+		-
+			message: '#^Method JsonMapper\\Tests\\Unit\\Exception\\TypeErrorTest\:\:createTypeError\(\) has parameter \$argument with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Unit/Exception/TypeErrorTest.php
+
+		-
+			message: '#^Call to an undefined method JsonMapper\\Tests\\Implementation\\Models\\User\|JsonMapper\\Tests\\Implementation\\Popo\:\:getId\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: tests/Unit/Handler/PropertyMapperTest.php
+
+		-
+			message: '#^Call to an undefined method JsonMapper\\Tests\\Implementation\\Models\\User\|JsonMapper\\Tests\\Implementation\\Popo\:\:getName\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: tests/Unit/Handler/PropertyMapperTest.php
+
+		-
+			message: '#^Call to an undefined method object\:\:setName\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: tests/Unit/Handler/PropertyMapperTest.php
+
+		-
+			message: '#^Cannot access property \$id on mixed\.$#'
+			identifier: property.nonObject
+			count: 4
+			path: tests/Unit/Handler/PropertyMapperTest.php
+
+		-
+			message: '#^Cannot access property \$name on mixed\.$#'
+			identifier: property.nonObject
+			count: 5
+			path: tests/Unit/Handler/PropertyMapperTest.php
+
+		-
+			message: '#^Parameter \#1 \$id of class JsonMapper\\Tests\\Implementation\\Models\\UserWithConstructor constructor expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 4
+			path: tests/Unit/Handler/PropertyMapperTest.php
+
+		-
+			message: '#^Parameter \#2 \$name of class JsonMapper\\Tests\\Implementation\\Models\\UserWithConstructor constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 4
+			path: tests/Unit/Handler/PropertyMapperTest.php
+
+		-
+			message: '#^Property class@anonymous/tests/Unit/Handler/PropertyMapperTest\.php\:701\:\:\$id has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Unit/Handler/PropertyMapperTest.php
+
+		-
+			message: '#^Cannot access property \$name on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/Unit/Handler/ValueFactoryTest.php
+
+		-
+			message: '#^Cannot use array destructuring on mixed\.$#'
+			identifier: offsetAccess.nonArray
+			count: 1
+			path: tests/Unit/Handler/ValueFactoryTest.php
+
+		-
+			message: '#^Method JsonMapper\\Tests\\Unit\\Handler\\ValueFactoryTest\:\:wrapValueWithArrayInformation\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/Unit/Handler/ValueFactoryTest.php
+
+		-
+			message: '#^Method JsonMapper\\Tests\\Unit\\Handler\\ValueFactoryTest\:\:wrapValueWithArrayInformation\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Unit/Handler/ValueFactoryTest.php
+
+		-
+			message: '#^Parameter \#1 \$name of class JsonMapper\\Tests\\Implementation\\SimpleObject constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/Handler/ValueFactoryTest.php
+
+		-
+			message: '#^Property JsonMapper\\Tests\\Implementation\\Popo\:\:\$name \(string\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 2
+			path: tests/Unit/Handler/ValueFactoryTest.php
+
+		-
+			message: '#^Parameter \#1 \$type of static method JsonMapper\\Helpers\\ClassHelper\:\:isBuiltin\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/Helpers/ClassHelperTest.php
+
+		-
+			message: '#^Parameter \#1 \$type of static method JsonMapper\\Helpers\\ClassHelper\:\:isCustom\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/Helpers/ClassHelperTest.php
+
+		-
+			message: '#^Class JsonMapper\\Enums\\ScalarType@anonymous/tests/Unit/Helpers/ScalarCasterTest\.php\:32 constructor invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: tests/Unit/Helpers/ScalarCasterTest.php
+
+		-
+			message: '#^Method JsonMapper\\Enums\\ScalarType@anonymous/tests/Unit/Helpers/ScalarCasterTest\.php\:32\:\:__construct\(\) overrides method MyCLabs\\Enum\\Enum\<mixed\>\:\:__construct\(\) but misses parameter \#1 \$value\.$#'
+			identifier: parameter.missing
+			count: 1
+			path: tests/Unit/Helpers/ScalarCasterTest.php
+
+		-
+			message: '#^Instantiated class ClassWithoutFile not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: tests/Unit/Helpers/UseStatementHelperTest.php
+
+		-
+			message: '#^Parameter \#1 \$stream of function fclose expects resource, resource\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/Helpers/UseStatementHelperTest.php
+
+		-
+			message: '#^Parameter \#1 \$stream of function fwrite expects resource, resource\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/Helpers/UseStatementHelperTest.php
+
+		-
+			message: '#^Parameter \#1 \$jsonMapperClassName of method JsonMapper\\JsonMapperBuilder\<JsonMapper\\JsonMapperInterface\>\:\:withJsonMapperClassName\(\) expects class\-string\<JsonMapper\\JsonMapperInterface\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/JsonMapperBuilderTest.php
+
+		-
+			message: '#^Parameter \#2 \$class of method JsonMapper\\JsonMapper\:\:mapToClass\(\) expects class\-string\<NonExistingClass\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/JsonMapperTest.php
+
+		-
+			message: '#^Parameter \#2 \$class of method JsonMapper\\JsonMapper\:\:mapToClassArray\(\) expects class\-string\<NonExistingClass\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/JsonMapperTest.php
+
+		-
+			message: '#^Parameter \#2 \$class of method JsonMapper\\JsonMapper\:\:mapToClassArrayFromString\(\) expects class\-string\<NonExistingClass\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/JsonMapperTest.php
+
+		-
+			message: '#^Parameter \#2 \$class of method JsonMapper\\JsonMapper\:\:mapToClassFromString\(\) expects class\-string\<NonExistingClass\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/JsonMapperTest.php
+
+		-
+			message: '#^Parameter \#2 \$object of method JsonMapper\\JsonMapper\:\:mapArray\(\) expects T of object, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/JsonMapperTest.php
+
+		-
+			message: '#^Parameter \#2 \$object of method JsonMapper\\JsonMapper\:\:mapArrayFromString\(\) expects T of object, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/JsonMapperTest.php
+
+		-
+			message: '#^Parameter \#2 \$object of method JsonMapper\\JsonMapper\:\:mapObject\(\) expects T of object, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/JsonMapperTest.php
+
+		-
+			message: '#^Parameter \#2 \$object of method JsonMapper\\JsonMapper\:\:mapObjectFromString\(\) expects T of object, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/JsonMapperTest.php
+
+		-
+			message: '#^Constant JsonMapper\\Enums\\TextNotation@anonymous/tests/Unit/Middleware/CaseConversionTest\.php\:103\:\:A is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: tests/Unit/Middleware/CaseConversionTest.php
+
+		-
+			message: '#^Constant JsonMapper\\Enums\\TextNotation@anonymous/tests/Unit/Middleware/CaseConversionTest\.php\:78\:\:A is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: tests/Unit/Middleware/CaseConversionTest.php
+
+		-
+			message: '#^Method JsonMapper\\Enums\\TextNotation@anonymous/tests/Unit/Middleware/CaseConversionTest\.php\:103\:\:__construct\(\) overrides method MyCLabs\\Enum\\Enum\<mixed\>\:\:__construct\(\) but misses parameter \#1 \$value\.$#'
+			identifier: parameter.missing
+			count: 1
+			path: tests/Unit/Middleware/CaseConversionTest.php
+
+		-
+			message: '#^Method JsonMapper\\Enums\\TextNotation@anonymous/tests/Unit/Middleware/CaseConversionTest\.php\:78\:\:__construct\(\) overrides method MyCLabs\\Enum\\Enum\<mixed\>\:\:__construct\(\) but misses parameter \#1 \$value\.$#'
+			identifier: parameter.missing
+			count: 1
+			path: tests/Unit/Middleware/CaseConversionTest.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: tests/Unit/Middleware/Constructor/ConstructorTest.php
+
+		-
+			message: '#^Constructor of an anonymous class has an unused parameter \$value\.$#'
+			identifier: constructor.unusedParameter
+			count: 1
+			path: tests/Unit/Middleware/Constructor/ConstructorTest.php
+
+		-
+			message: '#^Method JsonMapper\\Tests\\Unit\\Middleware\\Constructor\\ConstructorTest\:\:getPropertyMapFor\(\) has parameter \$object with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Unit/Middleware/Constructor/ConstructorTest.php
+
+		-
+			message: '#^Method class@anonymous/tests/Unit/Middleware/Constructor/ConstructorTest\.php\:191\:\:__construct\(\) has parameter \$name with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Unit/Middleware/Constructor/ConstructorTest.php
+
+		-
+			message: '#^Parameter \#1 \$object of class JsonMapper\\Wrapper\\ObjectWrapper constructor expects object\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/Middleware/Constructor/ConstructorTest.php
+
+		-
+			message: '#^Method class@anonymous/tests/Unit/Middleware/Constructor/DefaultFactoryTest\.php\:258\:\:getValue\(\) should return array\<int, JsonMapper\\Tests\\Implementation\\Popo\> but returns array\<JsonMapper\\Tests\\Implementation\\Popo\>\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/Unit/Middleware/Constructor/DefaultFactoryTest.php
+
+		-
+			message: '#^Parameter \#2 \$reflectedConstructor of class JsonMapper\\Middleware\\Constructor\\DefaultFactory constructor expects ReflectionMethod, ReflectionMethod\|null given\.$#'
+			identifier: argument.type
+			count: 11
+			path: tests/Unit/Middleware/Constructor/DefaultFactoryTest.php
+
+		-
+			message: '#^Property JsonMapper\\Tests\\Implementation\\Popo\:\:\$date \(DateTimeImmutable\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 4
+			path: tests/Unit/Middleware/Constructor/DefaultFactoryTest.php
+
+		-
+			message: '#^Property JsonMapper\\Tests\\Implementation\\Popo\:\:\$name \(string\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 4
+			path: tests/Unit/Middleware/Constructor/DefaultFactoryTest.php
+
+		-
+			message: '#^Property JsonMapper\\Tests\\Implementation\\Popo\:\:\$notes \(array\<string\>\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 4
+			path: tests/Unit/Middleware/Constructor/DefaultFactoryTest.php
+
+		-
+			message: '#^PHPDoc tag @var has invalid value \(\)\: Unexpected token "\*/", expected type at offset 9 on line 1$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: tests/Unit/Middleware/DocBlockAnnotationsTest.php
+
+		-
+			message: '#^Property class@anonymous/tests/Unit/Middleware/DocBlockAnnotationsTest\.php\:102\:\:\$number has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Unit/Middleware/DocBlockAnnotationsTest.php
+
+		-
+			message: '#^Property class@anonymous/tests/Unit/Middleware/DocBlockAnnotationsTest\.php\:143\:\:\$nullableNumber has unknown class JsonMapper\\Tests\\Unit\\Middleware\\NullableNumber as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: tests/Unit/Middleware/DocBlockAnnotationsTest.php
+
+		-
+			message: '#^Property class@anonymous/tests/Unit/Middleware/DocBlockAnnotationsTest\.php\:65\:\:\$number has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Unit/Middleware/DocBlockAnnotationsTest.php
+
+		-
+			message: '#^Property class@anonymous/tests/Unit/Middleware/DocBlockAnnotationsTest\.php\:83\:\:\$number has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Unit/Middleware/DocBlockAnnotationsTest.php
+
+		-
+			message: '#^Parameter \#1 \$string of function base64_decode expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/Middleware/ValueTransformationTest.php
+
+		-
+			message: '#^Parameter \#1 \$object of class JsonMapper\\Wrapper\\ObjectWrapper constructor expects object\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/Wrapper/ObjectWrapperTest.php
+
+		-
+			message: '#^Parameter \#2 \$className of class JsonMapper\\Wrapper\\ObjectWrapper constructor expects class\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/Wrapper/ObjectWrapperTest.php

@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Update PHPStan to 2.x, run it in CI and record the existing errors in a baseline [PR#222](https://github.com/JsonMapper/JsonMapper/pull/222)
+
 ### Removed
 - Remove the benchmarks, as phpbench was never a declared dependency and requires PHP 8.1+ [PR#221](https://github.com/JsonMapper/JsonMapper/pull/221)
 - Remove the leftover psalm composer script and configuration [PR#220](https://github.com/JsonMapper/JsonMapper/pull/220)

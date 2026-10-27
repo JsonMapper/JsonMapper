@@ -1,11 +1,30 @@
 parameters:
   level: max
-  checkMissingIterableValueType: false
-  checkGenericClassInNonGenericObjectType: false
   treatPhpDocTypesAsCertain: false
+  excludePaths:
+    # Fixtures that are only loaded on PHP 8.0+ / 8.1+, see the @requires annotations in the tests.
+    # PHPStan cannot ignore the "only supported on PHP 8.x" errors for these, so only exclude them from analysis.
+    analyse:
+      - tests/Implementation/Php80/*
+      - tests/Implementation/Php81/*
+  ignoreErrors:
+    - identifier: missingType.iterableValue
+    - identifier: missingType.generics
+    # myclabs/php-enum constants are only accessed through magic static calls, e.g. Visibility::PUBLIC()
+    -
+      identifier: classConstant.unused
+      path: src/Enums/*
+    # Supports both nikic/php-parser 4.x and 5.x, only one branch exists in the installed version
+    -
+      identifiers:
+        - function.alreadyNarrowedType
+        - classConstant.notFound
+        - method.notFound
+      path: src/Helpers/UseStatementHelper.php
   paths:
     - src
     - tests
 includes:
+  - phpstan-baseline.neon
   - vendor/phpstan/phpstan-phpunit/extension.neon
   - vendor/phpstan/phpstan-phpunit/rules.neon

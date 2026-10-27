@@ -1,0 +1,28 @@
+name: "Static analysis"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v7
+
+    # phpstan-baseline.neon was generated on PHP 8.4, keep this in sync when regenerating it
+    - name: Setup PHP 8.4
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.4
+        coverage: none
+
+    - name: Install dependencies
+      run: composer install
+
+    - name: Run PHPStan
+      run: composer phpstan -- --no-progress
