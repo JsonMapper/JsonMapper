@@ -5,8 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Update JetBrains logo [PR#203](https://github.com/JsonMapper/JsonMapper/pull/203)
+- Include PHP 8.5 in build matrix [PR#204](https://github.com/JsonMapper/JsonMapper/pull/204)
+- Remove redundant symfony/polyfill-php73 dependency [PR#206](https://github.com/JsonMapper/JsonMapper/pull/206)
+- Raise myclabs/php-enum and phpunit/phpunit version constraints; Drop vimeo/psalm [PR#207](https://github.com/JsonMapper/JsonMapper/pull/207)
+- Add `.gitattributes` file to omit development files from releases [PR#208](https://github.com/JsonMapper/JsonMapper/pull/208)
+- Fix the PHP 8.0 build by holding psr/simple-cache at 2.x, and update actions/checkout to v7 [PR#213](https://github.com/JsonMapper/JsonMapper/pull/213)
+- docs: Refresh the README feature list and examples [PR#212](https://github.com/JsonMapper/JsonMapper/pull/212)
+- Drop the develop branch; main is the only long-lived branch [Issue#211](https://github.com/JsonMapper/JsonMapper/issues/211)
+
 ### Fixed
 - Recursive case conversion skipped nested values of keys that are not renamed [#216](https://github.com/JsonMapper/JsonMapper/issues/216)
+- Fix incorrect namespace resolving when using partial use [PR#212](https://github.com/JsonMapper/JsonMapper/pull/212)
 
 ## [2.25.1] - 2025-05-26
 ### Fixed

@@ -1,6 +1,5 @@
 | Q             | A                                                                                  |
 |---------------|------------------------------------------------------------------------------------|
-| Branch?       | develop for features / main for bug fixes <!-- see below -->                       |
 | Bug fix?      | yes/no                                                                             |
 | New feature?  | yes/no                                                                             |
 | Deprecations? | yes/no                                                                             |
@@ -15,7 +14,7 @@ This will help reviewers and should be a good start for the documentation.
 
 Additionally:
  - Always add tests and ensure they pass.
- - Features and deprecations must be submitted against the latest develop branch.
+ - All pull requests must be submitted against the main branch.
  - For new features, provide some code snippets to help understand usage.
  - Never break backward compatibility
 -->
