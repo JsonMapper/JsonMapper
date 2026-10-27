@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @coversNothing
  */
-class FeatureSupportsMappingToParentPrivateProperties extends TestCase
+class FeatureSupportsMappingToParentPrivatePropertiesTest extends TestCase
 {
     public function testItCanMapAnObjectUsingPrivatePropertiesInTheParentClassUsingDocBlocks(): void
     {
