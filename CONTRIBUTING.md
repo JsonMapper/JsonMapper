@@ -19,3 +19,7 @@ composer phpcbf            # For applying the correct code style (PSR-12) to the
 composer phpcs             # For scanning the sources for the correct style (PSR-12) being used
 composer phpstan           # For analysing the sources for potential bugs
 ```
+
+## Branching and releases
+`main` is the only long-lived branch in this project. Create your branch from `main` and open your pull request
+against `main`. Releases are tagged directly on `main`.
