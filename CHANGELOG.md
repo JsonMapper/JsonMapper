@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
-- Update PHPStan to 2.x, run it in CI and record the existing errors in a baseline
+- Update PHPStan to 2.x, run it in CI and record the existing errors in a baseline [PR#222](https://github.com/JsonMapper/JsonMapper/pull/222)
 
 ### Removed
 - Remove the benchmarks, as phpbench was never a declared dependency and requires PHP 8.1+ [PR#221](https://github.com/JsonMapper/JsonMapper/pull/221)
