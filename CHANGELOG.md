@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Drop the develop branch; main is the only long-lived branch [Issue#211](https://github.com/JsonMapper/JsonMapper/issues/211)
 
 ### Fixed
+- Recursive case conversion skipped nested values of keys that are not renamed [#216](https://github.com/JsonMapper/JsonMapper/issues/216)
 - Fix incorrect namespace resolving when using partial use [PR#212](https://github.com/JsonMapper/JsonMapper/pull/212)
 
 ## [2.25.1] - 2025-05-26
