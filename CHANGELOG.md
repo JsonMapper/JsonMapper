@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Removed
+- Remove the benchmarks, as phpbench was never a declared dependency and requires PHP 8.1+
 - Remove the leftover psalm composer script and configuration [PR#220](https://github.com/JsonMapper/JsonMapper/pull/220)
 
 ### Fixed
