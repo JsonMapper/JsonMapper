@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
+- Replace the unmaintained `thenabeel/action-phpcs` action with a `composer phpcs` run on the whole codebase, annotated via cs2pr, and fix the existing code style violations [PR#223](https://github.com/JsonMapper/JsonMapper/pull/223)
 - Update PHPStan to 2.x, run it in CI and record the existing errors in a baseline [PR#222](https://github.com/JsonMapper/JsonMapper/pull/222)
 
 ### Removed

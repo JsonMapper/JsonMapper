@@ -124,6 +124,4 @@ class PropertyBuilderTest extends TestCase
             $result
         );
     }
-
-
 }

@@ -267,7 +267,8 @@ class JsonMapperTest extends TestCase
 
         $this->expectException(\TypeError::class);
         $this->expectExceptionMessage(sprintf(
-            '%s::mapObjectFromString(): Argument #2 ($object) must be of type object, string given, called in %s on line %d',
+            '%s::mapObjectFromString(): Argument #2 ($object) must be of type object, string given, '
+                . 'called in %s on line %d',
             get_class($jsonMapper),
             __FILE__,
             __LINE__ + 2
@@ -301,7 +302,8 @@ class JsonMapperTest extends TestCase
 
         $this->expectException(\TypeError::class);
         $this->expectExceptionMessage(sprintf(
-            '%s::mapArrayFromString(): Argument #2 ($object) must be of type object, string given, called in %s on line %d',
+            '%s::mapArrayFromString(): Argument #2 ($object) must be of type object, string given, '
+                . 'called in %s on line %d',
             get_class($jsonMapper),
             __FILE__,
             __LINE__ + 2

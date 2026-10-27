@@ -20,8 +20,9 @@ class Bug140RegressionTest extends TestCase
      * @dataProvider classDataProvider
      * @param object $class
      */
-    public function namespaceResolvingIsAbleToResolveWhenUsingPartialUseCombinedWithNestedNamespaceInPhpDoc($class): void
-    {
+    public function namespaceResolvingIsAbleToResolveWhenUsingPartialUseCombinedWithNestedNamespaceInPhpDoc(
+        $class
+    ): void {
         $json = (object) ['maps' => (object) ['source' => 'the moon']];
         $wrapper = new ObjectWrapper($class);
         $propertyMap = new ValueObjects\PropertyMap();

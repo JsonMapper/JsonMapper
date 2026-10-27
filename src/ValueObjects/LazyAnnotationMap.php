@@ -94,7 +94,10 @@ class LazyAnnotationMap
                 case Types\Array_::class:
                 case PseudoTypes\List_::class:
                 case PseudoTypes\ArrayShape::class:
-                    $builder->addType($this->mapDocBlockTypeClassToPropertyType($type), $this->mapDoCBlockTypeToArrayDimension($type));
+                    $builder->addType(
+                        $this->mapDocBlockTypeClassToPropertyType($type),
+                        $this->mapDoCBlockTypeToArrayDimension($type)
+                    );
                     break;
                 default:
                     throw new \RuntimeException('Unexpected type ' . get_class($type));
@@ -137,8 +140,10 @@ class LazyAnnotationMap
         );
     }
 
-    private function getFirstTagByNameAndVariableName(string $name, ?string $variableName = null): ?DocBlock\Tags\TagWithType
-    {
+    private function getFirstTagByNameAndVariableName(
+        string $name,
+        ?string $variableName = null
+    ): ?DocBlock\Tags\TagWithType {
         $tags = $this->docBlock->getTagsWithTypeByName($name);
 
         if (\is_null($variableName)) {
