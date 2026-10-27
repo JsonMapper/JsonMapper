@@ -22,13 +22,17 @@ JsonMapper has been built with the most common usages in mind. To allow for thos
 supported by default, it can easily be extended as its core has been designed using middleware.
 
 JsonMapper supports the following features
- * Case conversion
- * Debugging
- * DocBlock annotations
- * Final callback
- * Namespace resolving
- * PHP 7.4 Types properties
-  
+ * [DocBlock annotations](https://jsonmapper.net/docs/doc-block-annotations) and [typed properties](https://jsonmapper.net/docs/typed-properties)
+ * [Namespace resolving](https://jsonmapper.net/docs/namespace-resolver), so your models can stay organised the way you want them
+ * [Custom constructors](https://jsonmapper.net/docs/constructor), including readonly properties and classes on PHP 8.1+
+ * Enums on PHP 8.1+
+ * Mapping from names that do not match your model, through [PHP attributes](https://jsonmapper.net/docs/attributes), an explicit [rename](https://jsonmapper.net/docs/rename) mapping, or [case conversion](https://jsonmapper.net/docs/case-conversion)
+ * [Value transformation](https://jsonmapper.net/docs/value-transformation) through a callback
+ * [Interfaces](https://jsonmapper.net/docs/interfaces) and [abstract classes](https://jsonmapper.net/docs/abstracts), through factories you register
+ * [Strict scalar casting](https://jsonmapper.net/docs/casting-values), which throws rather than coercing a mismatched type
+ * [A final callback](https://jsonmapper.net/docs/final-callback) once an object is filled, and [debug logging](https://jsonmapper.net/docs/debugging) of the mapping as it happens
+ * First-party [Laravel](https://jsonmapper.net/docs/laravel-usage) and [Symfony](https://jsonmapper.net/docs/symfony-usage) integrations, plus mapping straight onto [Eloquent models](https://jsonmapper.net/docs/laravel-eloquent)
+
 # Installing JsonMapper
 The installation of JsonMapper can easily be done with [Composer](https://getcomposer.org)
 ```bash
@@ -39,9 +43,7 @@ The example shown above assumes that `composer` is on your `$PATH`.
 # How to use JsonMapper
 Given the following class definition
 ```php
-namespace JsonMapper\Tests\Implementation;
-
-class SimpleObject
+class User
 {
     /** @var string */
     private $name;
@@ -60,34 +62,26 @@ class SimpleObject
 Combined with the following JsonMapper code as part of your application
 ```php
 $mapper = (new \JsonMapper\JsonMapperFactory())->default();
-$object = new \JsonMapper\Tests\Implementation\SimpleObject();
 
-$mapper->mapObject(json_decode('{ "name": "John Doe" }'), $object);
+$user = $mapper->mapToClassFromString('{ "name": "John Doe" }', User::class);
 
-var_dump($object);
+echo $user->getName(); // "John Doe"
 ```
-The above example will output:
-```text
-class JsonMapper\Tests\Implementation\SimpleObject#1 (1) {
-  private $name =>
-  string(8) "John Doe"
-}
-```  
+The property is private, so JsonMapper fills it through `setName()`. A non-public property with no
+matching setter raises a `RuntimeException`, so your model keeps its encapsulation either way.
 
 # Customizing JsonMapper
 Writing your own middleware has been made as easy as possible with an `AbstractMiddleware` that can be extended with the functionality 
 you need for your project.
 
 ```php
-use JsonMapper;
-
-$mapper = (new JsonMapper\JsonMapperFactory())->bestFit();
-$mapper->push(new class extends JsonMapper\Middleware\AbstractMiddleware {
+$mapper = (new \JsonMapper\JsonMapperFactory())->bestFit();
+$mapper->push(new class extends \JsonMapper\Middleware\AbstractMiddleware {
     public function handle(
         \stdClass $json,
-        JsonMapper\Wrapper\ObjectWrapper $object,
-        JsonMapper\ValueObjects\PropertyMap $map,
-        JsonMapper\JsonMapperInterface $mapper
+        \JsonMapper\Wrapper\ObjectWrapper $object,
+        \JsonMapper\ValueObjects\PropertyMap $map,
+        \JsonMapper\JsonMapperInterface $mapper
     ): void {
         /* Custom logic here */
     }
