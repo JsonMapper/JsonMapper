@@ -59,19 +59,20 @@ class CaseConversion extends AbstractMiddleware
             if (is_int($key)) {
                 break;
             }
+            $value = $json->$key;
+
+            if ($this->applyRecursive && (is_array($value) || $value instanceof \stdClass)) {
+                $this->replace($value);
+            }
+
             $replacementKey = $this->getReplacementKey($key);
 
             if ($replacementKey === $key) {
                 continue;
             }
 
-            $value = $json->$key;
             $json->$replacementKey = $value;
             unset($json->$key);
-
-            if ($this->applyRecursive && (is_array($value) || $value instanceof \stdClass)) {
-                $this->replace($value);
-            }
         }
     }
 

@@ -131,7 +131,9 @@ class CaseConversionTest extends TestCase
             'Array' => [
                 (object) ['FirstName' => 'Jane', 'LastName' => 'Doe'],
                 (object) ['FirstName' => 'John', 'LastName' => 'Doe'],
-            ]
+            ],
+            'unchanged' => (object) ['TwentyTwo' => 22],
+            'unchangedArray' => [(object) ['FirstName' => 'Jane']]
         ];
         $object = new ObjectWrapper(null, \stdClass::class);
 
@@ -144,7 +146,9 @@ class CaseConversionTest extends TestCase
                 'array' => [
                     (object) ['firstName' => 'Jane', 'lastName' => 'Doe'],
                     (object) ['firstName' => 'John', 'lastName' => 'Doe'],
-                ]
+                ],
+                'unchanged' => (object) ['twentyTwo' => 22],
+                'unchangedArray' => [(object) ['firstName' => 'Jane']]
             ],
             $json
         );
