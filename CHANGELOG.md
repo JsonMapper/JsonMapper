@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Removed
-- Remove the leftover psalm composer script and configuration
+- Remove the leftover psalm composer script and configuration [PR#220](https://github.com/JsonMapper/JsonMapper/pull/220)
 
 ### Fixed
 - Rename four integration tests to end in `Test.php` so PHPUnit picks them up [PR#219](https://github.com/JsonMapper/JsonMapper/pull/219)
