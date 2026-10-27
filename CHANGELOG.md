@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.26.0] - 2026-10-27
 ### Changed
 - Update JetBrains logo [PR#203](https://github.com/JsonMapper/JsonMapper/pull/203)
 - Include PHP 8.5 in build matrix [PR#204](https://github.com/JsonMapper/JsonMapper/pull/204)
