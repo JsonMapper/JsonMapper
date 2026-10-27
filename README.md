@@ -12,7 +12,7 @@ For more information see the project website: https://jsonmapper.net/
 ![Packagist Downloads](https://img.shields.io/packagist/dm/json-mapper/json-mapper)
 [![PHP from Packagist](https://img.shields.io/packagist/php-v/json-mapper/json-mapper)](#)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/JsonMapper/JsonMapper/build.yaml)
-[![Coverage Status](https://coveralls.io/repos/github/JsonMapper/JsonMapper/badge.svg?branch=develop)](https://coveralls.io/github/JsonMapper/JsonMapper?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/JsonMapper/JsonMapper/badge.svg?branch=main)](https://coveralls.io/github/JsonMapper/JsonMapper?branch=main)
 
 # Why use JsonMapper
 Continuously mapping your JSON responses to your own objects becomes tedious and is error-prone. Not mentioning the
