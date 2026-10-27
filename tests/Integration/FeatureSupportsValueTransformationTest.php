@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @coversNothing
  */
-class FeatureSupportsValueTransformation extends TestCase
+class FeatureSupportsValueTransformationTest extends TestCase
 {
     public function testItCanTransformValuesWithStringCallable(): void
     {

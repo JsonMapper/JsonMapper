@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @coversNothing
  */
-class FeatureSupportsMappingToStdClass extends TestCase
+class FeatureSupportsMappingToStdClassTest extends TestCase
 {
     public function testItCanMapCustomClassWithStdClassProperty(): void
     {

@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @coversNothing
  */
-class FeatureSupportsDetectionOfIncorrectScalarValues extends TestCase
+class FeatureSupportsDetectionOfIncorrectScalarValuesTest extends TestCase
 {
     public function testItCanDetectAnIncorrectScalarValueFromJson(): void
     {
