@@ -17,8 +17,10 @@ class JsonMapperFactory
         $this->builder = $builder ?? JsonMapperBuilder::new();
     }
 
-    public function create(?PropertyMapper $propertyMapper = null, MiddlewareInterface ...$handlers): JsonMapperInterface
-    {
+    public function create(
+        ?PropertyMapper $propertyMapper = null,
+        MiddlewareInterface ...$handlers
+    ): JsonMapperInterface {
         $builder = clone ($this->builder);
         $builder->withPropertyMapper($propertyMapper ?? new PropertyMapper());
         foreach ($handlers as $handler) {

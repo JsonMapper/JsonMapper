@@ -4,27 +4,28 @@ on:
   pull_request:
     paths:
       - "**.php"
+      - "composer.json"
       - "phpcs.xml.dist"
       - ".github/workflows/phpcs.yaml"
 
 jobs:
   phpcs:
+    name: PHP_CodeSniffer
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0 # important!
+    - uses: actions/checkout@v7
 
-      # we may use whatever way to install phpcs, just specify the path on the next step
-      # however, curl seems to be the fastest
-      - name: Install PHP_CodeSniffer
-        run: |
-          curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
-          php phpcs.phar --version
+    - name: Setup PHP 8.4
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.4
+        coverage: none
+        tools: cs2pr
 
-      - uses: thenabeel/action-phpcs@v8
-        with:
-          files: "**.php" # you may customize glob as needed
-          phpcs_path: php phpcs.phar
-          standard: phpcs.xml.dist
-          fail_on_warnings: false
+    - name: Install dependencies
+      run: composer install --no-interaction --no-progress
+
+    # cs2pr turns the checkstyle report into inline annotations on the pull request
+    - name: Run PHP_CodeSniffer
+      run: composer phpcs -- -q --report=checkstyle | cs2pr

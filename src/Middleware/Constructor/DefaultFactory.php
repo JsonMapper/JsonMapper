@@ -48,7 +48,8 @@ class DefaultFactory
         $this->propertyMap = new PropertyMap();
         $this->valueFactory = new ValueFactory($scalarCaster, $classFactoryRegistry, $nonInstantiableTypeResolver);
 
-        $imports = UseStatementHelper::getImports($reflectedConstructor->getDeclaringClass()); // @todo imports in annotations
+        // @todo imports in annotations
+        $imports = UseStatementHelper::getImports($reflectedConstructor->getDeclaringClass());
         $constructorDocBlock = $reflectedConstructor->getDocComment();
         $constructorAnnotations = null;
         if (is_string($constructorDocBlock) && !empty($constructorDocBlock)) {
@@ -99,7 +100,9 @@ class DefaultFactory
 
             $this->propertyMap->addProperty($builder->build());
             $this->parameterMap[$param->getPosition()] = $param->getName();
-            $this->parameterDefaults[$param->getName()] = $param->isDefaultValueAvailable() ? $param->getDefaultValue() : null;
+            $this->parameterDefaults[$param->getName()] = $param->isDefaultValueAvailable()
+                ? $param->getDefaultValue()
+                : null;
         }
 
         ksort($this->parameterMap);

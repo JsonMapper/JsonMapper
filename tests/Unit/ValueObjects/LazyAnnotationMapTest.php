@@ -72,8 +72,13 @@ class LazyAnnotationMapTest extends TestCase
      *
      * @param array<Import> $imports
      */
-    public function testCorrectlyParsesInput(string $input, array $imports, string $tagName, ?string $variableName, Property $expected): void
-    {
+    public function testCorrectlyParsesInput(
+        string $input,
+        array $imports,
+        string $tagName,
+        ?string $variableName,
+        Property $expected
+    ): void {
         $map = new LazyAnnotationMap($input, __NAMESPACE__, $imports);
 
         $property = $map->tagToPropertyBuilder($tagName, $variableName)
@@ -119,7 +124,12 @@ class LazyAnnotationMapTest extends TestCase
             'imports' => [],
             'tagName' => 'var',
             'variableName' => null,
-            new Property('', Visibility::PUBLIC(), false, new PropertyType('string', ArrayInformation::singleDimension()))
+            new Property(
+                '',
+                Visibility::PUBLIC(),
+                false,
+                new PropertyType('string', ArrayInformation::singleDimension())
+            )
         ];
         yield 'Nullable string' => [
             'input' => '/** @var ?string */',
@@ -140,7 +150,13 @@ class LazyAnnotationMapTest extends TestCase
             'imports' => [],
             'tagName' => 'var',
             'variableName' => null,
-            new Property('', Visibility::PUBLIC(), false, new PropertyType('string', ArrayInformation::notAnArray()), new PropertyType('int', ArrayInformation::notAnArray()))
+            new Property(
+                '',
+                Visibility::PUBLIC(),
+                false,
+                new PropertyType('string', ArrayInformation::notAnArray()),
+                new PropertyType('int', ArrayInformation::notAnArray())
+            )
         ];
         yield 'Simple int null union' => [
             'input' => '/** @var int|null */',
