@@ -445,6 +445,12 @@ parameters:
 			path: src/ValueObjects/LazyAnnotationMap.php
 
 		-
+			message: '#^Possibly invalid array key type string\|null\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 1
+			path: src/ValueObjects/LazyAnnotationMap.php
+
+		-
 			message: '#^Method JsonMapper\\Wrapper\\ObjectWrapper\:\:getClassName\(\) should return class\-string\|null but returns mixed\.$#'
 			identifier: return.type
 			count: 1
