@@ -14,11 +14,11 @@ jobs:
     steps:
     - uses: actions/checkout@v7
 
-    # phpstan-baseline.neon was generated on PHP 8.4, keep this in sync when regenerating it
-    - name: Setup PHP 8.4
+    # phpstan-baseline.neon was generated on PHP 8.5, keep this in sync when regenerating it
+    - name: Setup PHP 8.5
       uses: shivammathur/setup-php@v2
       with:
-        php-version: 8.4
+        php-version: 8.5
         coverage: none
 
     - name: Install dependencies
